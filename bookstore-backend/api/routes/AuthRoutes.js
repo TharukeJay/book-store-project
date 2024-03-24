@@ -1,7 +1,7 @@
 import { logger } from "../utils/logger.js";
 import { authenticateToken } from "../utils/index.js";
 import express from "express";
-import {loginUser, registerUser} from "../controller/AuthController.js";
+import {loginUser, registerAdminUser, registerUser} from "../controller/AuthController.js";
 
 const router = express.Router();
 
@@ -16,6 +16,7 @@ const adminSuperAdminAndDeveloper = authenticateToken([
     "admin",
 ]);
 
+router.post("/register-admin", logger, registerAdminUser);
 router.post("/register", logger, registerUser);
 router.post("/login", logger, loginUser);
 
