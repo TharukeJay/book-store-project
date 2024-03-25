@@ -2,7 +2,7 @@ import React,  { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
-
+import '../../styles/forgotpassword.css';
 
 const ForgetPasswordPage = () => {
   const [formData, setFormData] = useState({
@@ -26,11 +26,12 @@ const ForgetPasswordPage = () => {
   };
   return (
     <>
-      <Form className='main-outer' onSubmit={handleSubmit}>
+    <div className='fw-main-outer'>
+      <Form className='form-controler' onSubmit={handleSubmit}>
         <h1> Find your account</h1>
         <br /><hr /><br />
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Enter your email / mobile number</Form.Label>
+          <Form.Label className='form-lable'>Enter your email / mobile number</Form.Label>
           <Form.Control 
             name='username' 
             type="text" 
@@ -46,6 +47,7 @@ const ForgetPasswordPage = () => {
           Continue
         </Button>
       </Form>
+    </div>
     </>
   )
 }

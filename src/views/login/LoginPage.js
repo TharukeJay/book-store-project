@@ -28,11 +28,12 @@ const LoginPage = () => {
   };
   return (
     <>
-      <Form className='main-outer' onSubmit={handleSubmit}>
+    <div className='login-main-outer'>
+      <Form className='form-controler' onSubmit={handleSubmit}>
         <h1> Login Here</h1>
         <br /><hr /><br />
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
+          <Form.Label className='form-lable'>Email address</Form.Label>
           <Form.Control 
             name='username' 
             type="email" 
@@ -44,7 +45,7 @@ const LoginPage = () => {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
+          <Form.Label className='form-lable'>Password</Form.Label>
           <Form.Control 
             name='password' 
             type="password" 
@@ -64,6 +65,8 @@ const LoginPage = () => {
           Register
         </Button> */}
       </Form>
+    </div>
+
     </>
   )
 }
