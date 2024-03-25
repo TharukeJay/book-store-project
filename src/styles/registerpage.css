@@ -1,0 +1,26 @@
+.main-outer{
+    max-width: 600px;
+    min-width: 375px;
+    margin: 0 auto;
+    height: auto;
+    margin-top: 100px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1{
+    text-align: center;
+}
+p{
+    text-align: center;
+}
+.register-button-style{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid rgb(177, 228, 21);
+    border-radius: 10px;
+    width: 90%;
+    margin-left: 5%;
+}
