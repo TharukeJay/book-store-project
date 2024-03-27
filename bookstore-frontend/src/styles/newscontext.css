@@ -1,0 +1,99 @@
+.news-context-outer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+p{
+    color: black;
+}
+.row{
+    border: 1px solid red;
+}
+.work-container{
+    width: 100%;
+    display: flex;
+}
+.project-container{
+    width: 100%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding-bottom: 3rem;
+}
+.project-card{
+    background-color: black;
+    margin-left: 5px;
+    width: 330px !important;
+}
+.project-card:hover{
+    background-color: black;
+    margin-left: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+.project-card img{
+    width:100%;
+    height: 450px;
+}
+.project-title{
+    color: white;
+    padding: 1rem 0;
+}
+.pro-details p{
+    padding-bottom: 1rem;
+    font-size: 1.1rem;
+    text-align: justify;
+}
+.pro-btns{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.source{
+    width: auto;
+    margin-left: -20px;
+    background-color: yellow;
+    color: black;
+}
+
+ @media screen and (max-width:767px) {
+    .project-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .project-card{
+        width: 100%;
+    }
+    .work-container{
+        margin-top: -20px;
+    }
+    .work-container-outer{
+        width: 100%;
+        margin-top: -200px;
+    }
+}
+@media screen and (min-width:767px) and (max-width:1139px) {
+    .project-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .project-card{
+        width: 100%;
+    }
+} 
+@media screen and (min-width:1140px) {
+    .project-container{
+        width: 100%;
+    }
+    .work-container{
+        width: 100%;
+    }
+    .project-card{
+        width: 100%;
+    }
+}
