@@ -110,7 +110,7 @@ export const registerAdminUser = async (req, res) => {
                     email: email,
                 },
                 process.env.JWT_KEY,
-                {expiresIn: "1h"}
+                {expiresIn: "24h"}
             );
 
             // Generate a refresh token
@@ -177,6 +177,13 @@ export const loginUser = async (req, res) => {
     const { email, password } = req.body;
     const username = email;
     const userCollectionRef = readLankaFirebaseAppData.readLankaDB.collection("users")
+    if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+    }
+
+    if (!req.body.password) {
+        return res.status(400).json({ error: 'Password is required' });
+    }
 
     try {
         const snapshot = await userCollectionRef.where("email", "==", email).get()

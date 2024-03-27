@@ -1,4 +1,3 @@
-import async from "node:async";
 import jwt from "jsonwebtoken";
 
 export const CheckAuth = async (req, res, next) => {
