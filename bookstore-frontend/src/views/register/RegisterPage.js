@@ -19,14 +19,36 @@ const RegisterPage = () => {
     setFormData({...formData, [name]: value });
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log(formData);
+  //   try {
+  //   const response = await axios.post('www.readlanka.lk/api/auth/register', formData);
+  //   console.log('Form data submitted successfully:', response.data);
+  //   } catch (error) {
+  //   console.error('Error submitting form data:', error);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     try {
-    const response = await axios.post('www.readlanka.lk/api/auth/register', formData);
-    console.log('Form data submitted successfully:', response.data);
+      const response = await fetch('/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({formData}),
+      });
+      if (response.ok) {
+        // Handle successful signup
+        console.log('User signed up successfully');
+      } else {
+        const data = await response.json();
+        console.error(data.message);
+      }
     } catch (error) {
-    console.error('Error submitting form data:', error);
+      console.error('Error signing up:', error);
     }
   };
 

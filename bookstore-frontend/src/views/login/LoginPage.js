@@ -10,6 +10,7 @@ const LoginPage = () => {
     username: "",
     password:"" ,
   });
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,11 +22,15 @@ const LoginPage = () => {
     console.log(formData);
     try {
     const response = await axios.post('www.readlanka.lk/api/auth/login', formData);
+    setLoggedIn(true);
     console.log('Form data submitted successfully:', response.data);
     } catch (error) {
     console.error('Error submitting form data:', error);
     }
   };
+  if (loggedIn) {
+    return <Redirect to="/" />;
+  }
   return (
     <>
     <div className='login-main-outer'>
