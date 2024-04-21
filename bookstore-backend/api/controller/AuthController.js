@@ -20,6 +20,7 @@ export const registerUser = async (req, res) => {
         username: email,
         password: hashedPass,
         createdAt: Date.now(),
+        isAdmin: false,
         userRoles: [ "ADMIN", "USER" ],
     };
 
