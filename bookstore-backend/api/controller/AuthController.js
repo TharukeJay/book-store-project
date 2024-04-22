@@ -7,52 +7,142 @@ import {
 } from "../utils/index.js";
 import { generateRefreshToken, generateToken } from "../utils/token.js";
 import  { readLankaFirebaseAppData } from "../utils/firebaseInit.js"
+import { v4 as uuidv4 } from 'uuid';
 
 // Register new user
 export const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(req.body.password, salt);
     // req.body.password = hashedPass;
-    const { username, email } = req.body;
+    const { email } = req.body;
 
-    const userData = {
-        email: email,
-        username: email,
-        password: hashedPass,
-        createdAt: Date.now(),
-        userRoles: [ "ADMIN", "USER" ],
-    };
+    if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+    }
+
+    if (!req.body.password) {
+        return res.status(400).json({ error: 'Password is required' });
+    }
 
     try {
         // checking if username is taken
+        const userCollectionRef = readLankaFirebaseAppData.readLankaDB.collection("users")
+        console.log("querySnapshot email =====> ", email)
 
+        const snapshot = await userCollectionRef.where("email", "==", email).get()
+        if(snapshot.empty) {
+            console.log("====> Snapshot =====> email does not exist")
 
-        // checking if email is taken
+            // Generate a UUID for the user ID
+            const userId = uuidv4();
 
-        // Generate the initial access token
-        const token = jwt.sign(
-            {
-                username: email,
+            // Generate the initial access token
+            const token = jwt.sign(
+                {
+                    userId: userId,
+                    email: email,
+                },
+                process.env.JWT_KEY,
+                {expiresIn: "1h"}
+            );
+
+            // Generate a refresh token
+            const refreshToken = generateRefreshToken(
+                email
+            );
+
+            // Associate the refresh token with the user
+            // newUser.refreshToken = refreshToken;
+
+            const userData = {
+                userId: userId,
                 email: email,
-            },
-            process.env.JWT_KEY,
-            { expiresIn: "1h" }
-        );
+                password: hashedPass,
+                createdAt: Date.now(),
+                userRoles: [ "USER" ],
+            };
 
-        // Generate a refresh token
-        const refreshToken = generateRefreshToken(
-            email
-        );
+            // Save the user
+            const savedUser = readLankaFirebaseAppData.readLankaDB.collection("users").doc(userId).set(userData)
 
-        // Associate the refresh token with the user
-        // newUser.refreshToken = refreshToken;
+            return res.status(200).json({user: userData, token});
+        } else {
+            console.log("====> Snapshot =====> email exist")
+            return res.json({ exists: true });
+        }
 
-        // Save the user
-        await readLankaFirebaseAppData.readLankaDB.collection("users").doc().set(userData)
 
-        res.status(200).json({ user: userData, token });
+
     } catch (error) {
-        res.status(500).json({ message: error.message });
+       return res.status(500).json({ message: error.message });
+    }
+};
+
+export const registerAdminUser = async (req, res) => {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPass = await bcrypt.hash(req.body.password, salt);
+    const { email } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+    }
+
+    if (!req.body.password) {
+        return res.status(400).json({ error: 'Password is required' });
+    }
+
+    try {
+        // checking if username is taken
+        const userCollectionRef = readLankaFirebaseAppData.readLankaDB.collection("users")
+        console.log("querySnapshot email =====> ", email)
+
+        const snapshot = await userCollectionRef.where("email", "==", email).get()
+        if(snapshot.empty) {
+            console.log("====> Snapshot =====> email does not exist")
+
+            // Generate a UUID for the user ID
+            const userId = uuidv4();
+
+            // Generate the initial access token
+            const token = jwt.sign(
+                {
+                    userId: userId,
+                    email: email,
+                },
+                process.env.JWT_KEY,
+                {expiresIn: "24h"}
+            );
+
+            // Generate a refresh token
+            const refreshToken = generateRefreshToken(
+                email
+            );
+
+            // Associate the refresh token with the user
+            // newUser.refreshToken = refreshToken;
+
+            const userData = {
+                userId: userId,
+                email: email,
+                password: hashedPass,
+                createdAt: Date.now(),
+                isAdmin: false,
+                userRoles: [ "ADMIN","USER" ],
+            };
+
+            // Save the user
+            const savedUser = readLankaFirebaseAppData.readLankaDB.collection("users").doc(userId).set(userData)
+
+            return res.status(200).json({user: userData, token});
+        } else {
+            console.log("====> Snapshot =====> email exist")
+            return res.json({ exists: true });
+        }
+
+
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
     }
 };
 
@@ -86,15 +176,55 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
     const username = email;
+    const userCollectionRef = readLankaFirebaseAppData.readLankaDB.collection("users")
+    if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+    }
+
+    if (!req.body.password) {
+        return res.status(400).json({ error: 'Password is required' });
+    }
 
     try {
+        const snapshot = await userCollectionRef.where("email", "==", email).get()
+        let userData;
+        snapshot.forEach(result => {
+            console.log("userdata =====> ", result.data());
+            userData = result.data()
+
+        })
+
+        const validity = await bcrypt.compare(password, userData.password);
+        if (!validity) {
+            return res.status(400).json("Wrong password");
+        } else {
+            var userId = userData.userId
+
+            const token = jwt.sign(
+                {
+                    userId: userData.userId,
+                    email: email,
+                },
+                process.env.JWT_KEY,
+                {expiresIn: "24h"}
+                // { expiresIn: "1m" }
+            );
+
+            // Generate a refresh token
+            // const refreshToken = generateRefreshToken(
+            //     user.username,
+            //     user._id,
+            //     user.email
+            // );
 
 
-        console.log("user");
+            // Emit new user login
+           return res.status(200).json({userId, token});
 
+        }
 
     } catch (err) {
-        res.status(500).json(err);
+       return  res.status(500).json(err);
     }
 };
 
