@@ -8,6 +8,7 @@ import {
 import { generateRefreshToken, generateToken } from "../utils/token.js";
 import  { readLankaFirebaseAppData } from "../utils/firebaseInit.js"
 import { v4 as uuidv4 } from 'uuid';
+import {sendPasswordResetEmail} from "../utils/resetPasswordLink.js";
 
 // Register new user
 export const registerUser = async (req, res) => {
@@ -229,26 +230,38 @@ export const loginUser = async (req, res) => {
 };
 
 export const requestForPasswordResetLink = async (req, res) => {
+
+    const userCollectionRef = readLankaFirebaseAppData.readLankaDB.collection("users")
     const { email } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+    }
+
     try {
+
         // Find the user by email
-
-
+        const snapshot = await userCollectionRef.where("email", "==", email).get()
+        let userData;
+        snapshot.forEach(result => {
+            console.log("userdata =====> ", result.data());
+            userData = result.data()
+        })
 
         // Generate a reset token and set its expiration date
-        // const token = generateToken(user.username, user._id, user.email);
+        const token = generateToken(userData.userId, userData.email);
         const expirationDate = new Date(Date.now() + 3600000); // Token expires in 1 hour
 
         // Save the token and expiration date in the UserModel
 
         // Create the reset link with the token
-        const resetLink = `${process.env.DOMAIN_URL}/reset-password/}`;
+        const resetLink = `${process.env.DOMAIN_URL}/reset-password/${token}`;
 
         console.log(resetLink);
 
         // TODO
         // Send the password reset email to the user
-        // await sendPasswordResetEmail(user.email, resetLink, 60);
+        await sendPasswordResetEmail(userData.email, resetLink, 60);
 
         res.status(200).json({
             message: "Password reset link sent successfully",
