@@ -1,99 +1,90 @@
-.news-context-outer{
+.gallery-container{
     width: 100%;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-p{
-    color: black;
+.news-list{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap:50px; 
 }
-.row{
+.news-list img{
     border: 1px solid red;
+    border-radius: 8px;
+    padding:10px;
 }
-.work-container{
-    width: 100%;
-    display: flex;
+.photo-item:hover{
+    opacity: 60%;
+    transition: all 0.1s;
 }
-.project-container{
-    width: 100%;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    padding-bottom: 3rem;
-}
-.project-card{
-    background-color: black;
-    margin-left: 5px;
-    width: 330px !important;
-}
-.project-card:hover{
-    background-color: black;
-    margin-left: 10px;
-    border: 1px solid white;
-    border-radius: 5px;
-}
-.project-card img{
-    width:100%;
-    height: 450px;
-}
-.project-title{
-    color: white;
-    padding: 1rem 0;
-}
-.pro-details p{
-    padding-bottom: 1rem;
-    font-size: 1.1rem;
-    text-align: justify;
-}
-.pro-btns{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.source{
-    width: auto;
-    margin-left: -20px;
-    background-color: yellow;
-    color: black;
+/* Phones: less than 768px */
+@media (max-width: 767px) {
+    .photo-item{
+        width: 150px;  /* slightly less than 50% to account for gaps */
+        height: auto;  /* maintain aspect ratio */
+    }
 }
 
- @media screen and (max-width:767px) {
-    .project-container{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
-    .project-card{
-        width: 100%;
-    }
-    .work-container{
-        margin-top: -20px;
-    }
-    .work-container-outer{
-        width: 100%;
-        margin-top: -200px;
+/* Tablets: from 768px to 1024px */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .photo-item{
+        width: 200px;  /* slightly less than one-third to account for gaps */
+        height: auto;  /* maintain aspect ratio */
     }
 }
-@media screen and (min-width:767px) and (max-width:1139px) {
-    .project-container{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
-    .project-card{
-        width: 100%;
-    }
-} 
-@media screen and (min-width:1140px) {
-    .project-container{
-        width: 100%;
-    }
-    .work-container{
-        width: 100%;
-    }
-    .project-card{
-        width: 100%;
+
+/* Desktop and larger devices */
+@media (min-width: 1024px) {
+    .news-list img{
+        width: 250px !important; /* fixed width */
+        height: 250px;  /* fixed height */
     }
 }
+
+
+
+/* View novel outer */
+.view-news-outer{
+    width: 100%;
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.left-news-outer{
+    width: 30%;
+    height: 650px;
+}
+.right-desc-outer{
+    width: 50%;
+    margin-left: 4%;
+    height: 650px;
+}
+.button-outer{
+    margin-left: 40%;
+    align-items: center;
+}
+
+/* Phones: less than 768px */
+@media (max-width: 767px) {
+    .left-news-outer, .right-desc-outer {
+        width: 100%;  /* Each section takes full width */
+        margin-left: 0;  /* Remove margin from right-desc-outer */
+        height: auto;  /* Optional: Adjust height as needed */
+    }
+    .button-outer{
+        margin-left: 20%;
+    }
+    /* .left-photo-outer{
+        width: 25%;
+        height: 650px;
+    } */
+}
+
