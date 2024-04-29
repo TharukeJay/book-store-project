@@ -26,7 +26,7 @@ const RegisterPage = () => {
     }
     // const API_URL = 'http://localhost:3000/api';
       try {
-        const response = await fetch('/api/register', {
+        const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
