@@ -1,5 +1,5 @@
 import React ,  { useState } from 'react'
-import axios from 'axios';
+// import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import '../../styles/registerpage.css'
@@ -24,9 +24,9 @@ const RegisterPage = () => {
       console.error('Passwords do not match');
       return;
     }
-    const API_URL = 'http://localhost:3000/api';
+    // const API_URL = 'http://localhost:3000/api';
       try {
-        const response = await fetch('http://localhost:3001/api/register', {
+        const response = await fetch('/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,28 +44,6 @@ const RegisterPage = () => {
       console.error('Error signing up:', error);
     }
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await fetch('/signup', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({formData}),
-  //     });
-  //     if (response.ok) {
-  //       // Handle successful signup
-  //       console.log('User signed up successfully');
-  //     } else {
-  //       const data = await response.json();
-  //       console.error(data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error signing up:', error);
-  //   }
-  // };
 
   return (
     <>

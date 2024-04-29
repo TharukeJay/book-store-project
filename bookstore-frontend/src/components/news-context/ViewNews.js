@@ -1,8 +1,5 @@
 import React from 'react'
 import '../../styles/newscontext.css'
-import { FacebookShareButton } from 'react-share'
-import { FacebookIcon } from 'react-share'
-import { Container } from 'react-bootstrap'
 
 const ViewNews = () => {
   return (
