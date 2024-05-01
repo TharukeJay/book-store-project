@@ -7,8 +7,8 @@ function SideNavbar() {
         <div style={{ width: '250px', background: '#f8f9fa', height: '100vh' }}>
             <Nav defaultActiveKey="/home" className="flex-column p-3">
                 <Nav.Link as={Link} to="/home">Upload</Nav.Link>
-                <Nav.Link as={Link} to="/about">About</Nav.Link>
-                <Nav.Link as={Link} to="/contact">Contact</Nav.Link>
+                <Nav.Link as={Link} to="/about">News Upload</Nav.Link>
+                <Nav.Link as={Link} to="/contact">Analytics</Nav.Link>
                 <Nav.Link as={Link} to="/admin">Admin Panel</Nav.Link>
             </Nav>
         </div>
