@@ -19,18 +19,27 @@ const LoginPage = () => {
     e.preventDefault();
     console.log(formData);
 
-    const API_URL = 'http://localhost:3001/api';
-
     try {
-      const response = await fetch('${API_URL}/login', {
+      const response = await fetch('http://localhost:3001/api/auth/login', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
           },
           body: JSON.stringify(formData)
       });
-      const data = await response.json();
-      console.error(data.message);
+      if (response.ok) {
+        console.log('User login successfully');
+
+        const data = await response.json();
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.userId);
+        window.location.href="/"
+
+      } else {
+        const data = await response.json();
+        console.error(data.message);
+        alert('Wrong password or email')
+      }
     } catch (error) {
         console.error('Error:', error);
     }
