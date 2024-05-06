@@ -42,7 +42,7 @@ function Home() {
             <div style={{ display: 'flex' }}>
                 <SideNavbar />
                 <div style={{ marginLeft: '20px' }}>
-                    <h2>CREATE CATEGORY</h2>
+                    <h2>CREATE AUTHOR</h2>
                     <Button variant="primary" size="sm">
                         Add New
                     </Button>
@@ -65,7 +65,7 @@ function Home() {
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" >
-                            {/*<Button variant="secondary" onClick={() => removeBannerImages()}>*/}
+                                {/*<Button variant="secondary" onClick={() => removeBannerImages()}>*/}
                                 Close
                             </Button>
                             <Button variant="primary">
@@ -80,7 +80,7 @@ function Home() {
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>CATEGORY NAME</th>
+                            <th>AUTHOR NAME</th>
                             <th>ACTION</th>
                         </tr>
                         </thead>

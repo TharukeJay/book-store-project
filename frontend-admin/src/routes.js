@@ -12,7 +12,8 @@ const routes = [
     { path: "/signup", name: "SignUp", element: SignUp, exact: true },
     { path: "/home", name: "Home", element: Home, exact: true },
 
-    { path: '/list/createCategory', name: 'CreateCategory', element: CreateCategory },
+    { path: "/createCategory", name: 'CreateCategory', element: CreateCategory },
+    // { path: "/createCategory", name: 'CreateCategory', element: CreateCategory },
 
 ];
 export default routes;
