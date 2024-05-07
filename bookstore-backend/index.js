@@ -7,6 +7,8 @@ import cookieParser from  'cookie-parser';
 
 
 import authRoutes from "./api/routes/AuthRoutes.js";
+import categoryRoutes from "./api/routes/CategoryRoutes.js";
+
 
 // Load environment variables from .env file
 dotenv.config();
@@ -29,4 +31,5 @@ server.listen(process.env.PORT, () => {
 dotenv.config();
 
 app.use("/api/auth", authRoutes);
+app.use("/api/category", categoryRoutes);
 
