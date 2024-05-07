@@ -1,13 +1,9 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import {
-    generateTempPasword,
-    updateLastSeen,
-    verifyToken,
-} from "../utils/index.js";
-import { generateRefreshToken, generateToken } from "../utils/token.js";
-import  { readLankaFirebaseAppData } from "../utils/firebaseInit.js"
-import { v4 as uuidv4 } from 'uuid';
+import {verifyToken,} from "../utils/index.js";
+import {generateRefreshToken, generateToken} from "../utils/token.js";
+import {readLankaFirebaseAppData} from "../utils/firebaseInit.js"
+import {v4 as uuidv4} from 'uuid';
 import {sendPasswordResetEmail} from "../utils/resetPasswordLink.js";
 
 // Register new user
@@ -253,6 +249,14 @@ export const requestForPasswordResetLink = async (req, res) => {
         const expirationDate = new Date(Date.now() + 3600000); // Token expires in 1 hour
 
         // Save the token and expiration date in the UserModel
+        const userDataForSave = {
+            resetPasswordToken: token,
+            resetPasswordTokenExpiration: expirationDate,
+        };
+
+        // Save the user
+        await readLankaFirebaseAppData.readLankaDB.collection("users").doc(userData.userId).set(userDataForSave, {merge: true})
+
 
         // Create the reset link with the token
         const resetLink = `${process.env.DOMAIN_URL}/reset-password/${token}`;
@@ -273,46 +277,67 @@ export const requestForPasswordResetLink = async (req, res) => {
     }
 };
 
-// export const handlePasswordResetConfirm = async (req, res) => {
-//     const { token } = req.params;
-//     const { newPassword } = req.body;
-//
-//     try {
-//         // Find the user by the reset token
-//         const user = await UserModel.findOne({
-//             resetPasswordToken: token,
-//             resetPasswordTokenExpiration: { $gt: new Date() },
-//         });
-//
-//         // TODO - future enhancements
-//         // decode the resetPasswordToken and compare the data from it with the user object
-//
-//         if (!user) {
-//             return res
-//                 .status(404)
-//                 .json({ error: "Invalid or expired token", success: false });
-//         }
-//
-//         // Generate a new hashed password
-//         const salt = await bcrypt.genSalt(10);
-//         // const saltRounds = 10; // Adjust the number of salt rounds based on your requirements
-//         const newHashedPassword = await bcrypt.hash(newPassword, salt);
-//         // Update the user's password
-//         user.password = newHashedPassword;
-//         // Reset the token fields
-//         user.resetPasswordToken = null;
-//         user.resetPasswordTokenExpiration = null;
-//         // Save the updated user
-//         await user.save();
-//
-//         res
-//             .status(200)
-//             .json({ message: "Password reset successful", success: true });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: "Internal server error", success: false });
-//     }
-// };
+export const handlePasswordResetConfirm = async (req, res) => {
+    const userCollectionRef = readLankaFirebaseAppData.readLankaDB.collection("users")
+    const { token } = req.params;
+    const { newPassword } = req.body;
+
+    try {
+
+        // Find the user by the reset token
+        const snapshot = await userCollectionRef.orderBy("resetPasswordToken").get()
+        // const snapshot = await userCollectionRef.where("email", "==", "tharuke15jaya@gmail.com").get() .where("resetPasswordToken", "==", token)
+        // console.log("token ====> ", snapshot)
+        let userData = [];
+        let userDataResult;
+        snapshot.forEach(result => {
+
+            userData.push(result.data())
+            // if(userDataResult["resetPasswordToken"].toString() === token.toString()) {
+            //
+            //     console.log("userDataall ====> ", userData)
+            //     console.log("token ====> ", token)
+            // }
+        })
+
+        // TODO - future enhancements
+        // decode the resetPasswordToken and compare the data from it with the user object
+
+        console.log("user data indexed [1] ====> ", userData)
+        const i = userData.findIndex(e => e.resetPasswordToken === token)
+        console.log("index number ====>", i)
+        userDataResult = userData[i]
+        console.log("user data indexed ====> ", userDataResult)
+
+
+        if (userDataResult.resetPasswordToken.toString() !== token) {
+            console.log("resetPasswordToken ====> ", userDataResult.resetPasswordToken)
+            console.log("resetPasswordToken ====> ", token)
+            return res
+                .status(404)
+                .json({ error: "Invalid or expired token", success: false });
+        }
+
+        // Generate a new hashed password
+        const salt = await bcrypt.genSalt(10);
+        // const saltRounds = 10; // Adjust the number of salt rounds based on your requirements
+        const newHashedPassword = await bcrypt.hash(newPassword, salt);
+
+        const userDataForSave = {
+            password: newHashedPassword,
+            resetPasswordToken: null,
+            resetPasswordTokenExpiration: null,
+        };
+        await readLankaFirebaseAppData.readLankaDB.collection("users").doc(userDataResult.userId).set(userDataForSave, {merge: true})
+
+        res
+            .status(200)
+            .json({ message: "Password reset successful", success: true });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error", success: false });
+    }
+};
 
 export const handleTokenVerification = async (req, res) => {
     try {
