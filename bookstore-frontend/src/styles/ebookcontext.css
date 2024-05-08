@@ -1,0 +1,104 @@
+.ebook-context-outer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+p{
+    color: black;
+}
+.search-outer{
+    width: ;
+}
+.book-list{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap:15px; 
+}
+.photo img{
+    border: 1px solid blue;
+    border-radius: 8px;
+}
+.photo:hover{
+    opacity: 60%;
+    transition: all 0.1s;
+}
+/* Phones: less than 768px */
+@media (max-width: 767px) {
+    .photo img{
+        width: 150px;  /* slightly less than 50% to account for gaps */
+        height: auto;  /* maintain aspect ratio */
+    }
+}
+
+/* Tablets: from 768px to 1024px */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .photo img{
+        width: 200px;  /* slightly less than one-third to account for gaps */
+        height: auto;  /* maintain aspect ratio */
+    }
+}
+
+/* Desktop and larger devices */
+@media (min-width: 1024px) {
+    .photo img{
+        width: 220px;  /* fixed width */
+        height: 270px;  /* fixed height */
+    }
+}
+
+
+/* View novel outer */
+.view-novel-outer{
+    width: 100%;
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.left-photo-outer{
+    width: 30%;
+    height: 650px;
+}
+.right-desc-outer{
+    width: 50%;
+    margin-left: 4%;
+    height: 650px;
+}
+.button-outer{
+    margin-left: 40%;
+    align-items: center;
+}
+span{
+    margin-left: 30px;
+    color: red;
+    font-weight:800;
+}
+.pricing-card{
+    margin-left: 40%;
+}
+/* Phones: less than 768px */
+@media (max-width: 767px) {
+    .left-photo-outer, .right-desc-outer {
+        width: 100%;  /* Each section takes full width */
+        margin-left: 0;  /* Remove margin from right-desc-outer */
+        height: auto;  /* Optional: Adjust height as needed */
+    }
+    .pricing-card{
+        margin-left: 15%;
+    }
+    .button-outer{
+        margin-left: 20%;
+    }
+    /* .left-photo-outer{
+        width: 25%;
+        height: 650px;
+    } */
+}
+
+ 

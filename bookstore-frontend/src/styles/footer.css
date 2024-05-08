@@ -1,0 +1,153 @@
+*{
+    margin: 0;
+    padding: 0;
+  }
+  
+  .footer-top {
+    background-color: rgb(236, 233, 233) !important;
+    width:100%;
+    height: auto;
+    padding-top: 10px;
+    /* border: 1px solid red; */
+  }
+  
+  .row {
+    width: 100%;
+    padding-left: 10px;
+    height:auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(245, 203, 234) !important;
+  }
+  
+  .footer-links{
+    width: 30%;
+    height: inherit;
+    background-color: rgb(245, 203, 234) !important;
+    /* border: 1px solid blue; */
+  }
+   .footer-links ul i {
+    padding-right: 2px;
+    font-size: 18px;
+    line-height: 1;
+  }
+  
+  #footer .footer-top .footer-contact {
+    margin-bottom: 30px;
+    background-color: rgb(239, 238, 238) !important;
+  }
+  
+  
+  
+  #footer .footer-top .footer-links {
+    margin-bottom: 30px;
+  }
+  
+  .mt-3 {
+    margin-top: 1rem!important;
+  } 
+  
+  .footer-links li a{
+    text-decoration: none;
+  }
+  
+  .footer-links li {
+    text-decoration: none!important;
+  }
+  
+  .footer-links ul {
+    list-style: none!important;
+    padding-left: 0;
+    margin-top: 1rem;
+  }
+  .footer-links ul:hover {
+    list-style: none!important;
+    padding-left: 0;
+    margin-top: 1rem;
+    color: rgb(11, 11, 11);
+  }
+  
+  .f-text{
+    /*color:#37517e;*/
+    color:rgb(8, 8, 8)!important;
+    margin-top: 1rem;
+    font-weight:bold;
+    background: rgb(246, 199, 199);
+  }
+  
+  p{
+    color:#090909;
+  }
+      
+    /* bottom */
+  /* .outer{
+    width:100vw;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(242, 44, 44) !important;
+  
+  }
+  
+  .bottom-footer-right{
+    width: 50vw;
+    align-items: flex-start;
+    padding-left: 30px;
+    width: 50vw;
+  }
+  
+  .bottom-footer-left{
+    align-items: flex-start;
+    padding-left: 30px;
+    width: 50vw;
+    flex:1 ;
+    color:#0e0e0f !important;
+  }
+  
+  .lb{
+    color:rgb(16, 15, 15);
+  }
+  
+  p a{
+    color:#060606 !important;
+  } */
+  
+  /* ---------------footer media query---------------- */
+   @media(max-width: 1140px) {
+  .footer-links{
+    display: block;
+    width: 30%;
+    text-align: center;
+  }
+  }
+  
+   @media(max-width: 880px) {
+  .footer-links{
+    display: block;
+    width: 30%;
+    text-align: center;
+  }
+  }
+  
+  @media(max-width: 620px) {
+  .footer-links{
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  }
+  
+   @media(max-width: 375px) {
+  .footer-links{
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  }
+    
+    
+    
+    
+    
