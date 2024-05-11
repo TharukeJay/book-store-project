@@ -2,6 +2,7 @@ import { logger } from "../utils/logger.js";
 import { authenticateToken } from "../utils/index.js";
 import express from "express";
 import {
+    handlePasswordResetConfirm,
     handleTokenVerification,
     loginUser,
     registerAdminUser,
@@ -32,10 +33,10 @@ router.post(
     logger,
     requestForPasswordResetLink
 );
-// router.post(
-//     "/confirm-reset-password/:token",
-//     logger,
-//     handlePasswordResetConfirm
-// );
+router.post(
+    "/confirm-reset-password/:token",
+    logger,
+    handlePasswordResetConfirm
+);
 
 export default router;
