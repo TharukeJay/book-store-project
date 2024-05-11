@@ -284,20 +284,19 @@ export const handlePasswordResetConfirm = async (req, res) => {
 
     try {
 
+        if (!newPassword) {
+            return res.status(400).json({ error: 'Password is required' });
+        }
+
         // Find the user by the reset token
         const snapshot = await userCollectionRef.orderBy("resetPasswordToken").get()
-        // const snapshot = await userCollectionRef.where("email", "==", "tharuke15jaya@gmail.com").get() .where("resetPasswordToken", "==", token)
         // console.log("token ====> ", snapshot)
         let userData = [];
         let userDataResult;
         snapshot.forEach(result => {
 
             userData.push(result.data())
-            // if(userDataResult["resetPasswordToken"].toString() === token.toString()) {
-            //
-            //     console.log("userDataall ====> ", userData)
-            //     console.log("token ====> ", token)
-            // }
+
         })
 
         // TODO - future enhancements
@@ -307,32 +306,40 @@ export const handlePasswordResetConfirm = async (req, res) => {
         const i = userData.findIndex(e => e.resetPasswordToken === token)
         console.log("index number ====>", i)
         userDataResult = userData[i]
-        console.log("user data indexed ====> ", userDataResult)
 
 
-        if (userDataResult.resetPasswordToken.toString() !== token) {
-            console.log("resetPasswordToken ====> ", userDataResult.resetPasswordToken)
-            console.log("resetPasswordToken ====> ", token)
+        if (i === -1 || userDataResult.resetPasswordToken.toString() !== token) {
             return res
                 .status(404)
                 .json({ error: "Invalid or expired token", success: false });
         }
 
-        // Generate a new hashed password
-        const salt = await bcrypt.genSalt(10);
-        // const saltRounds = 10; // Adjust the number of salt rounds based on your requirements
-        const newHashedPassword = await bcrypt.hash(newPassword, salt);
+        jwt.verify(token, process.env.JWT_KEY, async (err, decode) => {
+            if (err) {
 
-        const userDataForSave = {
-            password: newHashedPassword,
-            resetPasswordToken: null,
-            resetPasswordTokenExpiration: null,
-        };
-        await readLankaFirebaseAppData.readLankaDB.collection("users").doc(userDataResult.userId).set(userDataForSave, {merge: true})
+                return res
+                    .status(404)
+                    .json({error: err, success: false});
+            } else {
+                // Generate a new hashed password
+                const salt = await bcrypt.genSalt(10);
+                // const saltRounds = 10; // Adjust the number of salt rounds based on your requirements
+                const newHashedPassword = await bcrypt.hash(newPassword, salt);
 
-        res
-            .status(200)
-            .json({ message: "Password reset successful", success: true });
+                const userDataForSave = {
+                    password: newHashedPassword,
+                    resetPasswordToken: null,
+                    resetPasswordTokenExpiration: null,
+                };
+                await readLankaFirebaseAppData.readLankaDB.collection("users").doc(userDataResult.userId).set(userDataForSave, {merge: true})
+
+                res
+                    .status(200)
+                    .json({message: "Password reset successful", success: true});
+            }
+        })
+
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal server error", success: false });
