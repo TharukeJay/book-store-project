@@ -11,7 +11,7 @@ import {
 } from "../controller/AuthController.js";
 import {CheckAuth} from "../middlewares/check-auth.js";
 
-const router = express.Router();
+const   router = express.Router();
 
 const superAdminAndDeveloperOnly = authenticateToken([
     "superadmin",
@@ -27,7 +27,7 @@ const adminSuperAdminAndDeveloper = authenticateToken([
 router.post("/register-admin", logger, registerAdminUser);
 router.post("/register", logger, registerUser);
 router.post("/login", logger, loginUser);
-router.post("/verify-token", logger, handleTokenVerification);
+// router.post("/verify-token", logger, handleTokenVerification);
 router.post(
     "/request-reset-password-link-email",
     logger,

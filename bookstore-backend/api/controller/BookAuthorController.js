@@ -1,12 +1,11 @@
-// const {executeCreateCategory} = require("./../middlewares/categoryServices.js")
-import {executeCreateCategory,executeGetCategory} from "../services/categoryServices.js";
+import {executeCreateAuthor, executeGetAuthor} from "../services/bookAuthorServices.js";
 
-export const createCategory = async (req, res, next) => {
-    const categoryName = req.body.categoryName
 
+export const createAuthor = async (req, res, next) => {
+    const authorName = req.body.authorName
     try {
-        const data = await executeCreateCategory(
-            categoryName,
+        const data = await executeCreateAuthor(
+            authorName,
         );
         res.status(200).json(data);
         console.log(req.body)
@@ -19,10 +18,9 @@ export const createCategory = async (req, res, next) => {
     }
 }
 
-export const getCategory = async (req, res, next) => {
-
+export const getAuthor = async (req, res, next) => {
     try {
-        const data = await executeGetCategory(
+        const data = await executeGetAuthor(
         );
         res.status(200).json(data);
         console.log(req.body)
