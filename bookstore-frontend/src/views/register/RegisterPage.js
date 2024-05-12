@@ -3,13 +3,13 @@ import React ,  { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import '../../styles/registerpage.css'
+import {SIGN_UP  } from "../../apis/endpoints";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
     email:"" ,
     username:"" ,            
     password:"" ,
-    repassword:"" ,
   });
 
   const handleChange = (e) => {
@@ -17,16 +17,14 @@ const RegisterPage = () => {
     setFormData({...formData, [name]: value });
   };
 
+  const apiUrl = SIGN_UP;
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    if (formData.password !== formData.repassword) {
-      console.error('Passwords do not match');
-      return;
-    }
-    // const API_URL = 'http://localhost:3000/api';
+    // console.log(authApi.registerAPI);
+  
       try {
-        const response = await fetch('/api/auth/register', {
+        const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,8 +32,8 @@ const RegisterPage = () => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        // Handle successful signup
         console.log('User signed up successfully');
+        window.location.href='/login'
       } else {
         const data = await response.json();
         console.error(data.message);
@@ -80,17 +78,6 @@ const RegisterPage = () => {
               type="password" 
               placeholder="Password"
               value={formData.password}
-              onChange={handleChange}
-              required 
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicRePassword">
-            <Form.Label className='form-lable'>Password</Form.Label>
-            <Form.Control 
-              name='repassword' 
-              type="password" 
-              placeholder="Password"
-              value={formData.repassword}
               onChange={handleChange}
               required 
             />

@@ -7,8 +7,17 @@ import {
     loginUser,
     registerAdminUser,
     registerUser,
-    requestForPasswordResetLink
+    requestForPasswordResetLink,
 } from "../controller/AuthController.js";
+// import {
+//     getBookData,
+//     getBookDataID,
+//     getBookPDF
+// } from "../controller/BookController.js";
+// import {
+//     getNewsData,
+//     getNewsDataID
+// } from "../controller/NewsController.js";
 import {CheckAuth} from "../middlewares/check-auth.js";
 
 const router = express.Router();
@@ -38,5 +47,6 @@ router.post(
     logger,
     handlePasswordResetConfirm
 );
+
 
 export default router;
