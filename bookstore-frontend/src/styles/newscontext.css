@@ -3,7 +3,7 @@
     height: auto;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
 }
 .news-list{
     width: 100%;
@@ -14,10 +14,20 @@
     flex-wrap: wrap;
     gap:50px; 
 }
+.news-outer{
+    width: 20%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 .news-list img{
-    border: 1px solid red;
+    border: 1px solid rgb(241, 237, 237);
     border-radius: 8px;
     padding:10px;
+    align-items: center;
 }
 .photo-item:hover{
     opacity: 60%;
@@ -28,6 +38,10 @@
     .photo-item{
         width: 150px;  /* slightly less than 50% to account for gaps */
         height: auto;  /* maintain aspect ratio */
+    }
+    .news-outer{
+        width: 125px;
+        height: auto
     }
 }
 

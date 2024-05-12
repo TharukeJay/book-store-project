@@ -3,13 +3,11 @@ import Login from './routes/Login'
 import Register from './routes/Register'
 import ForgetPassword from './routes/ForgetPassword'
 import Home from './routes/Home'
-import EBook from './routes/EBook'
-import News from './routes/News'
 import PrivateRoute from './components/private-route/PrivateRoute';
 import React,  { useState, useEffect } from 'react'
-import axios from 'axios'
 import ReadBook from './components/ebook-context/ReadBook';
 import ViewNews from './components/news-context/ViewNews';
+import ReadPreview from './components/ebook-context/ReadPreview';
 
 
 
@@ -29,8 +27,8 @@ const App =() => {
           <Route path="/register" element={<Register/>}/>
           <Route path="/login" element={<Login />} />
 
-          <Route path="/read-book" element={<PrivateRoute><ReadBook /></PrivateRoute>} />
-          {/* <Route path="/read-book" element={<PrivateRoute><ReadBook /></PrivateRoute>} /> */}
+          <Route path="/read-book" element={<ReadBook />} />
+          <Route path="/read-preview" element={<PrivateRoute><ReadPreview /></PrivateRoute>} />
           <Route path="/read-news" element={<PrivateRoute><ViewNews /></PrivateRoute>} />
        </Routes>
     </>

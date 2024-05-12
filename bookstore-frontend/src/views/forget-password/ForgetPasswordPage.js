@@ -1,8 +1,9 @@
 import React,  { useState } from 'react'
 import Button from 'react-bootstrap/Button';
-import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import '../../styles/forgotpassword.css';
+import { REQUEST_RESET_PASSWORD_EMAIL } from "../../apis/endpoints";
+import API_ENDPOINT from '../../apis/httpAxios';
 
 const ForgetPasswordPage = () => {
   const [formData, setFormData] = useState({
@@ -14,14 +15,27 @@ const ForgetPasswordPage = () => {
     setFormData({...formData, [name]: value });
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log(formData);
+  //   try {
+  //   const response = await axios.post('api/forgot-password', formData);
+  //   console.log('Form data submitted successfully:', response.data);
+  //   } catch (error) {
+  //   console.error('Error submitting form data:', error);
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    console.log('formData', formData);
+    console.log("Execute Start");
     try {
-    const response = await axios.post('api/forgot-password', formData);
-    console.log('Form data submitted successfully:', response.data);
+      const response = await API_ENDPOINT.post(REQUEST_RESET_PASSWORD_EMAIL, formData);
+      console.log("response=======", response);
+
+      console.log("Execute success");
     } catch (error) {
-    console.error('Error submitting form data:', error);
+      console.error('Error:', error);
     }
   };
   return (

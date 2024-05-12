@@ -1,14 +1,36 @@
-import React from 'react'
+import  { useState, useEffect, React }from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
 import '../../styles/ebookcontext.css';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Image from 'react-bootstrap/Image';
+import { useNavigate  } from 'react-router-dom';
+import  {FETCH_ALL_BOOK}  from '../../apis/endpoints.js';
+import API_ENDPOINT from '../../apis/httpAxios';
 
 const EBookContext = () => {
+  const Navigate = useNavigate();
+  const [bookData, setBookData] = useState([]);
+
+  useEffect(() => {
+    console.log('Book Data Execute start');
+    const fetchData = async () => {
+      try {
+        const response = await API_ENDPOINT.get(FETCH_ALL_BOOK);
+        const allBookData = response.data;
+        console.log('Book Data:', allBookData);
+        setBookData(allBookData.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    
+    fetchData();
+  }, []);
+
+  const handlePhotoClick = (id) => {
+    localStorage.setItem('selectedBookId', id);
+    Navigate('/read-book');
+  };
   return (
     <>
       <br /><br />
@@ -19,87 +41,13 @@ const EBookContext = () => {
         </Stack>
       </div>
       <br />
+
       <div className='book-list'>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
-        <div className='photo'> 
-          <a href='/read-book'>
-            <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2FE-book.png?alt=media&token=6bccb2ff-8c79-4ea0-85d1-d0aecc3735db" alt="example photo" />
-          </a>
-        </div>
+        {bookData.map((book) => (
+          <div className='photo' key={book.id} onClick={() => handlePhotoClick(book.id)} > 
+              <img src={book.thumbnail} alt={`Thumbnail of ${book.title}`} />
+          </div>
+        ))}
       </div>
     </>
   )

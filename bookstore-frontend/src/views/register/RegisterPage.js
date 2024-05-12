@@ -3,7 +3,7 @@ import React ,  { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import '../../styles/registerpage.css'
-// import authApi from '../../apis/auth'
+import {SIGN_UP  } from "../../apis/endpoints";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -17,14 +17,14 @@ const RegisterPage = () => {
     setFormData({...formData, [name]: value });
   };
 
+  const apiUrl = SIGN_UP;
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
     // console.log(authApi.registerAPI);
   
       try {
-        const response = await fetch('http://localhost:3001/api/auth/register', {
-        // const response = await fetch(authApi.registerAPI, {
+        const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

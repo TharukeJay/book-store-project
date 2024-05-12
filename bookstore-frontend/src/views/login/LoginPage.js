@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import '../../styles/loginpage.css';
+import { LOG_IN } from "../../apis/endpoints";
+import API_ENDPOINT from '../../apis/httpAxios';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -15,35 +17,24 @@ const LoginPage = () => {
     setFormData({...formData, [name]: value });
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-
+    console.log("Execute Start");
     try {
-      const response = await fetch('http://localhost:3001/api/auth/login', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-      });
-      if (response.ok) {
-        console.log('User login successfully');
-
-        const data = await response.json();
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('userId', data.userId);
-        window.location.href="/"
-
-      } else {
-        const data = await response.json();
-        console.error(data.message);
-        alert('Wrong password or email')
-      }
+      const response = await API_ENDPOINT.post(LOG_IN, formData);
+      console.log("response=======", response);
+      const data = response.data;
+      localStorage.setItem('token', data.token);
+      
+      console.log("Execute success");
+      window.location.href = "/";
     } catch (error) {
-        console.error('Error:', error);
+      console.error('Error:', error);
     }
   };
+  
   return (
     <>
     <div className='login-main-outer'>

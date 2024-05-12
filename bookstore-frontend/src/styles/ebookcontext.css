@@ -122,9 +122,10 @@ span{
 }
 .wrap{
     margin: auto 20rem;
+    background-color: aqua;
 }
 .controls{
-    margin: 20px;
+    margin: 10px;
     justify-content: center;
 }
 .controls button{
