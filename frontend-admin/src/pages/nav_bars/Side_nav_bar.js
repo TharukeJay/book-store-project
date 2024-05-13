@@ -1,18 +1,62 @@
 import React from 'react';
-import Nav from 'react-bootstrap/Nav';
-import {Link} from "react-router-dom";
+import { Nav, Navbar, Container } from 'react-bootstrap';
+import {Link, useNavigate} from 'react-router-dom';
+import {Menu} from "antd";
 
-function SideNavbar() {
+const SideNavbar = () => {
+    const navigate = useNavigate();
     return (
-        <div style={{ width: '250px', background: '#f8f9fa', height: '100vh' }}>
-            <Nav defaultActiveKey="/home" className="flex-column p-3">
-                <Nav.Link as={Link} to="/home">Upload</Nav.Link>
-                <Nav.Link as={Link} to="/about">News Upload</Nav.Link>
-                <Nav.Link as={Link} to="/contact">Analytics</Nav.Link>
-                <Nav.Link as={Link} to="/admin">Admin Panel</Nav.Link>
-            </Nav>
-        </div>
+        // <Navbar bg="light" expand="lg" className="flex-column">
+        //     <Container>
+        //         <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        //         <Navbar.Collapse id="basic-navbar-nav">
+        //             <Nav className="flex-column">
+        //                 <Nav.Link as={Link} to="/upload">Upload</Nav.Link>
+        //                 <Nav.Link as={Link} to="/createCategory">Create Category</Nav.Link>
+        //                 <Nav.Link as={Link} to="/createAuthor">Create Author</Nav.Link>
+        //                 <Nav.Link as={Link} to="/users">Users</Nav.Link>
+        //                 <Nav.Link as={Link} to="/books">Books</Nav.Link>
+        //                 <Nav.Link as={Link} to="/audioBooks">Audio Books</Nav.Link>
+        //                 <Nav.Link as={Link} to="/adminUsers">Admin Users</Nav.Link>
+        //             </Nav>
+        //         </Navbar.Collapse>
+        //     </Container>
+        // </Navbar>
+        <div>
+        <div style={{display:"flex", flexDirection:"row"}}>
+    <header className={"App-header"}>
+            <space>
+    <Menu
+        onClick={({key})=>{
+            if(key==="signout"){
+
+            }else{
+                navigate(key)
+            }
+        }}
+        mode="inline"
+        defaultOpenKeys={["upload"]}
+        items={[
+            {label:"Upload", key:"/upload"},
+            // {label: "News Update",key:"newsUpdate"},
+            // {label: "Analytics", key:"analytics"},
+            // {label: "Users",key:"Users"},
+            {label: "Create",key:"create",type:"group",children:[
+               {label: "Category", key:"/createCategory"},
+               {label: "Author", key:"/createAuthor"},
+                ],},
+            {label: "View",key:"view",type:"group",children:[
+                    {label: "Books",key:"/books"},
+                    {label: "Audio Books",key:"/audioBooks"},
+                ],},
+
+            {label: "Users",key:"/users"},
+            {label: "Admin Users",key:"/adminUsers"},
+            {label: "Sign out",key:"signOut",danger:true},
+        ]}></Menu></space>
+        </header></div>
+</div>
     );
-}
+};
 
 export default SideNavbar;

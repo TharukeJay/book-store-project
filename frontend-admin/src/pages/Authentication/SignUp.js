@@ -51,6 +51,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import { Link } from "react-router-dom";
+import {executeRegisterUser} from "../../api/registerUser";
 
 function SignUp() {
     const [formData, setFormData] = useState({
@@ -67,20 +68,12 @@ function SignUp() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
-            const response = await fetch('/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-            const data = await response.json();
-            // Handle the response data (e.g., show success message, redirect)
+            const response = await executeRegisterUser(formData.name, formData.email, formData.password);
+            const data = response.data;
+            console.log('Registration successful:', data);
         } catch (error) {
             console.error('Error:', error);
-            // Handle error (e.g., show error message)
         }
     };
 
@@ -112,7 +105,7 @@ function SignUp() {
                 </Form.Group>
 
                 <center>
-                    <Button variant="primary" type="submit" style={{ width: '100%' }}>
+                    <Button variant="primary" type="submit" style={{ width: '100%' }} >
                         Sign Up
                     </Button>
                 </center>

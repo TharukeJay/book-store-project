@@ -16,39 +16,40 @@ import {
     ModalBody, FormLabel, ModalFooter, Table
 } from 'react-bootstrap';
 import {executeLoginUser} from "../../api/loginUser";
-import {executeCreateCategory, executeGetCategory} from "../../api/endPoints";
+import {executeCreateAuthor, executeGetAuthor} from "../../api/endPoints";
+
 
 function Categories() {
-    const [categoryData, setCategoryData] = useState([]);
-    const [categoryName, setCategoryName] = useState('');
+    const [authorData, setAuthorData] = useState([]);
+    const [authorName, setAuthorName] = useState('');
     const [visible, setVisible] = useState(false)
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
 
-    const getCategory = async () => {
+    const getAuthor = async () => {
         setLoading(true)
-        const response = await executeGetCategory();
+        const response = await executeGetAuthor();
         const data = response.data;
-            setCategoryData(data)
-            setLoading(false)
+        setAuthorData(data)
+        setLoading(false)
 
     }
-    const createCategory = async () => {
+    const createAuthor = async () => {
         setLoading(true);
         try {
-            const response = await executeCreateCategory(categoryName);
+            const response = await executeCreateAuthor(authorName);
             const data = response.data;
-            setCategoryName(categoryName);
+            setAuthorName(authorName);
             setLoading(false);
-            getCategory();
+            getAuthor();
         } catch (error) {
             setLoading(false);
-            console.error('Error creating category:', error);
+            console.error('Error creating author:', error);
         }
     };
 
 
     useEffect(() => {
-        getCategory()
+        getAuthor()
     }, [])
 
     // if (loading) {
@@ -61,6 +62,7 @@ function Categories() {
 
     return (
         <>
+            {console.log('authorData==>',authorData)}
             {/*<Button*/}
             {/*    variant="primary"*/}
             {/*    onClick={handleVisible}*/}
@@ -73,17 +75,17 @@ function Categories() {
 
             <Modal alignment="center" show={visible} onClose={() => setVisible(false)}>
                 <ModalHeader>
-                    <ModalTitle>New Category</ModalTitle>
+                    <ModalTitle>New Author</ModalTitle>
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
                         <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
-                            CATEGORY NAME
+                            AUTHOR NAME
                         </FormLabel>
                         <Col sm={8}>
-                            {/*<FormInput type="text" onChange={(e) => setCategoryName(e.target.value)} />*/}
+                            {/*<FormInput type="text" onChange={(e) => setAuthorName(e.target.value)} />*/}
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Control type="name" placeholder="Enter name" onChange={(e) => setCategoryName(e.target.value)} />
+                                <Form.Control type="name" placeholder="Enter name" onChange={(e) => setAuthorName(e.target.value)} />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -93,7 +95,7 @@ function Categories() {
                     <Button color="secondary" onClick={() => setVisible(false)}>
                         Close
                     </Button>
-                    <Button color="primary" onClick={() => createCategory(categoryName)}>
+                    <Button color="primary" onClick={() => createAuthor(authorName)}>
                         Save
                     </Button>
                 </ModalFooter>
@@ -101,32 +103,32 @@ function Categories() {
 
             <Table>
                 <thead color="light">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">CATEGORY NAME</th>
-                        <th scope="col">ACTION</th>
-                    </tr>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">AUTHOR NAME</th>
+                    <th scope="col">ACTION</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {categoryData.map((data, index) => {
-                        return (
-                            <tr key={data.data}>
-                                <td scope="row">{index + 1}</td>
-                                <td>{data.data.categoryName}</td>
+                {authorData.map((data, index) => {
+                    return (
+                        <tr key={data.data}>
+                            <td scope="row">{index + 1}</td>
+                            <td>{data.data.authorName}</td>
 
-                                <td>
-                                    <Button
-                                        color="success"
-                                        className="me-md-4"
-                                        active
-                                        tabIndex={-1}
-                                    >
-                                        Edit
-                                    </Button>
-                                </td>
-                            </tr>
-                        )
-                    })}
+                            <td>
+                                <Button
+                                    color="success"
+                                    className="me-md-4"
+                                    active
+                                    tabIndex={-1}
+                                >
+                                    Edit
+                                </Button>
+                            </td>
+                        </tr>
+                    )
+                })}
                 </tbody>
             </Table>
         </>
@@ -138,7 +140,7 @@ const Validation = () => {
             <Col xs={12}>
                 <Card className="mb-4">
                     <CardHeader>
-                        <h2>CATEGORY LIST</h2>
+                        <h2>AUTHOR LIST</h2>
                     </CardHeader>
                     <CardBody>{Categories()}</CardBody>
                 </Card>
