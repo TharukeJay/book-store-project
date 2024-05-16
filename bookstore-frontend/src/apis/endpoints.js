@@ -7,7 +7,7 @@ export const SIGN_UP = `${baseUrl}auth/register`;
 export const LOG_IN = `${baseUrl}auth/login`;
 export const VERIFY_TOKEN = `${baseUrl}auth/verify-token`;
 export const REQUEST_RESET_PASSWORD_EMAIL = `${baseUrl}auth/request-reset-password-link-email`;
-export const CONFIRM_RESET_PASSWORD = `${baseUrl}auth/confirm-reset-password/:token`;
+export const CONFIRM_RESET_PASSWORD = `${baseUrl}auth/confirm-reset-password`;
 
 // Book
 export const FETCH_ALL_BOOK = `${baseUrl}books/get-data`;

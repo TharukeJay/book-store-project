@@ -6,10 +6,12 @@ import '../../styles/ebookcontext.css';
 import { useNavigate  } from 'react-router-dom';
 import  {FETCH_ALL_BOOK}  from '../../apis/endpoints.js';
 import API_ENDPOINT from '../../apis/httpAxios';
+import ScreenLoading from '../loading/Loading'
 
 const EBookContext = () => {
   const Navigate = useNavigate();
-  const [bookData, setBookData] = useState([]);
+  const [bookData, setBookData] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     console.log('Book Data Execute start');
@@ -19,6 +21,7 @@ const EBookContext = () => {
         const allBookData = response.data;
         console.log('Book Data:', allBookData);
         setBookData(allBookData.data);
+        setLoading(false)
       } catch (error) {
         console.error('Error:', error);
       }
@@ -31,6 +34,9 @@ const EBookContext = () => {
     localStorage.setItem('selectedBookId', id);
     Navigate('/read-book');
   };
+  if (loading) {
+    return <ScreenLoading />
+  }
   return (
     <>
       <br /><br />

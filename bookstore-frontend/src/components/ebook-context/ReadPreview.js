@@ -6,6 +6,7 @@ import 'react-pdf/dist/esm/Page/TextLayer.css'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import { FETCH_ALL_READ_BOOK_PDF } from '../../apis/endpoints';
 import API_ENDPOINT from '../../apis/httpAxios';
+import ScreenLoading from '../loading/Loading'
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.js',
@@ -15,7 +16,9 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 const ReadPreview = () =>{
     const [numPages, setNumPages] = useState()
     const [pageNumber, setPageNumber] = useState(1)
-    const [pdfData, setPdfData] = useState(null);
+    const [pdfData, setPdfData] = useState(null)
+    const [loading, setLoading] = useState(true)
+
     const selectedBookId = localStorage.getItem('selectedBookId');
 
     useEffect(() => {
@@ -26,6 +29,7 @@ const ReadPreview = () =>{
             const selectedBookData = response.data;
             console.log('Selected Book Pdf Data:', selectedBookData);
             setPdfData(selectedBookData.pdfData);
+            setLoading(false)
           } catch (error) {
             console.log('Error:', error);
           }
@@ -47,7 +51,9 @@ const ReadPreview = () =>{
             setPageNumber(pageNumber - 1)
         }
     }
-
+    if (loading) {
+        return <ScreenLoading />
+    }
     return (
         <>
             <div className="bar" onContextMenu={(e) => e.preventDefault()}>

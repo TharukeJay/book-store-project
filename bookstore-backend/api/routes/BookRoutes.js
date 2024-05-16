@@ -14,7 +14,7 @@ import {CheckAuth} from "../middlewares/check-auth.js";
 const router = express.Router();
 
 router.get("/get-data", logger, getBookData); 
-router.get("/read-book/:id", logger, CheckAuth, getBookDataID);
+router.get("/read-book/:id", logger, getBookDataID);
 router.get("/read-book-pdf/:id",logger, CheckAuth, getBookPDF);
 router.get("/get-news", logger, getNewsData);
 router.get("/read-news/:id", logger,CheckAuth, getNewsDataID);

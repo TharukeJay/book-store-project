@@ -2,6 +2,7 @@ import { Route, Routes, Navigate  } from 'react-router-dom';
 import Login from './routes/Login'
 import Register from './routes/Register'
 import ForgetPassword from './routes/ForgetPassword'
+import ConfirmPassword from './routes/ConfirmPassword'
 import Home from './routes/Home'
 import PrivateRoute from './components/private-route/PrivateRoute';
 import React,  { useState, useEffect } from 'react'
@@ -24,6 +25,7 @@ const App =() => {
        <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/forgot-password" element={<ForgetPassword/>}/>
+          <Route path="/reset-password/:id" element={<ConfirmPassword/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/login" element={<Login />} />
 
