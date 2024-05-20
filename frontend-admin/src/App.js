@@ -9,6 +9,7 @@ import Upload from "./pages/Upload";
 import Users from "./pages/Users";
 import AudioBooks from "./pages/AudioBooks";
 import Books from "./pages/Books";
+import BookSeries from "./pages/create/createBookSeries";
 import AdminUsers from "./pages/AdminUsers";
 import SideNavbar from "./pages/nav_bars/Side_nav_bar";
 import createCategory from "./pages/create/createCategory";
@@ -42,6 +43,7 @@ function App() {
                             <Route path="/books" element={<Books />} />
                             <Route path="/audioBooks" element={<AudioBooks />} />
                             <Route path="/adminUsers" element={<AdminUsers />} />
+                            <Route path="/createBookSeries" element={<BookSeries />} />
                         </Routes>
                     </Col>
                 </Row>

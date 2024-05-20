@@ -37,10 +37,11 @@ function Categories() {
         setLoading(true);
         try {
             const response = await executeCreateAuthor(authorName);
-            const data = response.data;
+            const data2 = response.data;
             setAuthorName(authorName);
             setLoading(false);
             getAuthor();
+            setVisible(false)
         } catch (error) {
             setLoading(false);
             console.error('Error creating author:', error);
