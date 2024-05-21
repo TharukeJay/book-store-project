@@ -9,8 +9,8 @@ import cookieParser from  'cookie-parser';
 import authRoutes from "./api/routes/AuthRoutes.js";
 import categoryRoutes from "./api/routes/CategoryRoutes.js";
 import bookAuthorRoutes from "./api/routes/BookAuthorRoutes.js";
-import bookSeriesRoutes from "./api/routes/BookSeriesRoutes";
 import contentRoutes from "./api/routes/ContentRoutes.js";
+import bookSeriesRoutes from "./api/routes/BookSeriesRoutes.js";
 
 
 // Load environment variables from .env file

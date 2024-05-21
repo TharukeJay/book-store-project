@@ -11,12 +11,11 @@ export const executeUploadContent = async (category, authorName, chapter, bookTy
         const fileUploads = [];
         let imageUrl, audioUrl, pdfUrl;
 
-        // Handle image file upload
         if (imageFile) {
             const imageFileName = `${imageFile.originalname}`;
             const imageFilePath = `book_Thumbnail/${imageFileName}`;
 
-            // Check if the image file already exists
+
             const imageFileExists = await bucket.file(imageFilePath).exists();
             if (imageFileExists[0]) {
                 throw new Error("Image file with the same name already exists.");
@@ -32,7 +31,6 @@ export const executeUploadContent = async (category, authorName, chapter, bookTy
             fileUploads.push({ type: 'thumbnail', url: imageUrl });
         }
 
-        // Handle audio file upload if bookType is 'Audi Book'
         if (bookType == "Audio Book" && audioFile) {
             const audioFileName = `${audioFile.originalname}`;
             const audioFilePath = `audio/${seriesName}/${audioFileName}`;
@@ -53,7 +51,6 @@ export const executeUploadContent = async (category, authorName, chapter, bookTy
             fileUploads.push({ type: 'audio', url: audioUrl });
         }
 
-        // Handle PDF file upload if bookType is 'PDF Book'
         if (bookType === "PDF" && pdfFile) {
             const pdfFileName = `${pdfFile.originalname}`;
             const pdfFilePath = `pdf/${pdfFileName}`;
@@ -73,21 +70,21 @@ export const executeUploadContent = async (category, authorName, chapter, bookTy
             pdfUrl = pdfSignedUrl[0];
             fileUploads.push({ type: 'pdf', url: pdfUrl });
         }
-
-        const bookDocRef = await bookCollectionRef.add({
-            category: category,
-            authorName: authorName,
-            bookType: bookType,
-            isSeries: bookType === "Audio Book"? true:false,
-            seriesTitle: bookType === "Audio Book" ? seriesName : '',
-            description: description,
-            chapter: bookType === "Audio Book" ? chapter : 0,
-            price: price,
-            title: title,
-            thumbnail_url: imageUrl || '',
-            bookFile_url: bookType === "Audio Book" ? (audioUrl || '') : (pdfUrl || ''),
-            createdAt: new Date(),
-        });
+  if(bookType != '') {
+      const bookDocRef = await bookCollectionRef.add({
+          category: category,
+          authorName: authorName,
+          bookType: bookType,
+          isSeries: bookType === "Audio Book" ? true : false,
+          seriesTitle: bookType === "Audio Book" ? seriesName : '',
+          description: description,
+          chapter: bookType === "Audio Book" ? chapter : 0,
+          price: price,
+          title: title,
+          thumbnail_url: imageUrl || '',
+          bookFile_url: bookType === "Audio Book" ? (audioUrl || '') : (pdfUrl || ''),
+          createdAt: new Date(),
+      });
 
         const id = bookDocRef.id;
 
@@ -95,7 +92,7 @@ export const executeUploadContent = async (category, authorName, chapter, bookTy
             id: id,
         });
 
-        console.log("Book created successfully with ID:", id);
+        console.log("Book created successfully with ID:", id);}
     } catch (error) {
         console.error("Error executing executeUploadContent:", error);
         throw error;

@@ -51,7 +51,7 @@ const upload = multer();
 
 
 export const uploadContent = async (req, res, next) => {
-    const { bookType } = req.body;
+    const { bookType } = req.body.name;
 
     let uploadFields = [
         { name: 'thumbnail', maxCount: 1 }
@@ -63,7 +63,14 @@ export const uploadContent = async (req, res, next) => {
         uploadFields.push({ name: 'pdf', maxCount: 1 });
     }
 
-    // Middleware to handle the file uploads
+    // uploadFields.push({ name: 'pdf', maxCount: 1 });
+
+    console.log("req.files ===> ", req.body)
+    console.log("req.files booooook ===> ", bookType)
+    console.log("req. book type ===> ",req)
+    console.log("upload files ===> ", uploadFields)
+
+
     upload.fields(uploadFields)(req, res, async (err) => {
         // if (err) {
         //     return res.status(400).json({ status: "400", error: err.message });
@@ -72,7 +79,8 @@ export const uploadContent = async (req, res, next) => {
         const { category, authorName, chapter, description, price, title, seriesName } = req.body;
         const imageFile = req.files.thumbnail ? req.files.thumbnail[0] : null;
         const audioFile = bookType === "Audio Book" ? (req.files.audio ? req.files.audio[0] : null) : null;
-        const pdfFile = bookType === "PDF" ? (req.files.pdf ? req.files.pdf[0] : null) : null;
+        // const pdfFile = bookType === "PDF" ? (req.files.pdf ? req.files.pdf[0] : null) : null;
+        const pdfFile = req.files.pdf ? req.files.pdf[0] : null;
 
         console.log('Image File:', imageFile);
         console.log('Audio File:', audioFile);
