@@ -3,9 +3,12 @@ import '../../styles/ebookcontext.css'
 import { useState, useEffect } from 'react';
 import { FETCH_ALL_READ_BOOK } from '../../apis/endpoints';
 import API_ENDPOINT from '../../apis/httpAxios';
+import ScreenLoading from '../loading/Loading'
 
 const ReadBook = () => {
     const [book, setBook] = useState(null);
+    const [loading, setLoading] = useState(true)
+
     const selectedBookId = localStorage.getItem('selectedBookId');
 
     useEffect(() => {
@@ -13,9 +16,15 @@ const ReadBook = () => {
       const fetchData = async () => {
         try {
           const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_BOOK}/${selectedBookId}`);
-          const selectedBookData = response.data;
-          console.log('Selected Book Data:', selectedBookData);
-          setBook(selectedBookData.data);
+          if (response.status == 200) {
+            const selectedBookData = response.data;
+            console.log('Selected Book Data:', selectedBookData);
+            setBook(selectedBookData.data);
+            setLoading(false)
+          }else{
+            console.log("hi");
+            window.location.href="/login"
+          }
         } catch (error) {
           console.error('Error:', error);
         }
@@ -23,9 +32,9 @@ const ReadBook = () => {
       
       fetchData();
     }, []);
-  
-    if (!book) {
-      return <p>Loading...</p>;
+
+    if (loading) {
+      return <ScreenLoading />
     }
     return (
       <>

@@ -20,6 +20,7 @@ export const getNewsData = async (req, res) => {
         const newsData = [];
         snapshot.forEach(doc => {
             newsData.push(doc.data());
+            console.log("newsData================>>>", newsData);
         });
 
         return res.status(200).json({ data: newsData });

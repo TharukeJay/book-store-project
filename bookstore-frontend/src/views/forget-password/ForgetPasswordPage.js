@@ -14,17 +14,7 @@ const ForgetPasswordPage = () => {
     const { name, value } = e.target;
     setFormData({...formData, [name]: value });
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   console.log(formData);
-  //   try {
-  //   const response = await axios.post('api/forgot-password', formData);
-  //   console.log('Form data submitted successfully:', response.data);
-  //   } catch (error) {
-  //   console.error('Error submitting form data:', error);
-  //   }
-  // };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('formData', formData);
@@ -34,6 +24,7 @@ const ForgetPasswordPage = () => {
       console.log("response=======", response);
 
       console.log("Execute success");
+      window.location.href="/login";
     } catch (error) {
       console.error('Error:', error);
     }
