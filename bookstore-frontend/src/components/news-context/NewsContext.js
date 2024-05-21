@@ -25,6 +25,30 @@ const NewsContext = () => {
     fetchData();
   }, [])
 
+// useEffect(() => {
+//     console.log('News Data Execute start');
+//     const fetchData = async () => {
+//       try {
+//           fetch('http://localhost:3001/api/books/get-news')
+//             .then((res) => {
+//               return res.json();
+//             })
+//             .then((data) => {
+//               setNewsData(data);
+//               console.log('News Data:', data);
+//             });
+       
+        
+//       } catch (error) {
+//         console.error('Error:', error);
+//       }
+//     };
+        
+//     fetchData();
+//   }, [])
+    
+
+
   const handleNewsClick = (id) => {
     localStorage.setItem('selectedNewsId', id);
     Navigate('/read-news');

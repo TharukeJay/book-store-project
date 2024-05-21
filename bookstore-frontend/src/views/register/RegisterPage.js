@@ -8,7 +8,6 @@ import {SIGN_UP  } from "../../apis/endpoints";
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
     email:"" ,
-    username:"" ,            
     password:"" ,
   });
 
