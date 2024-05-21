@@ -14,7 +14,7 @@ import {sendPasswordResetEmail} from "../utils/resetPasswordLink.js";
 export const getBookData = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     try {
-        const bookCollectionRef = readLankaFirebaseAppData.readLankaDB.collection("books");
+        const bookCollectionRef = readLankaFirebaseAppData.readLankaDB.collection("booksSeries");
         const snapshot = await bookCollectionRef.get();
         const bookData = [];
         snapshot.forEach(doc => {

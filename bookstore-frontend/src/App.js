@@ -9,6 +9,8 @@ import React,  { useState, useEffect } from 'react'
 import ReadBook from './components/ebook-context/ReadBook';
 import ViewNews from './components/news-context/ViewNews';
 import ReadPreview from './components/ebook-context/ReadPreview';
+import AudioBooks from './components/audio-books/AudioBooks';
+import AudioPlayer  from './components/audio-books/PlayAudio';
 
 
 
@@ -31,7 +33,13 @@ const App =() => {
 
           <Route path="/read-book" element={<ReadBook />} />
           <Route path="/read-preview" element={<PrivateRoute><ReadPreview /></PrivateRoute>} />
-          <Route path="/read-news" element={<PrivateRoute><ViewNews /></PrivateRoute>} />
+          <Route path="/read-news" element={<ViewNews />} />
+
+          <Route path="/audio-books" element={<AudioBooks/>} />
+          <Route path="/play-audio" element={<AudioPlayer />} />
+
+
+
        </Routes>
     </>
   );

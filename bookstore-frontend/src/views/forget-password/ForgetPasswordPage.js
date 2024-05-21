@@ -24,6 +24,7 @@ const ForgetPasswordPage = () => {
       console.log("response=======", response);
 
       console.log("Execute success");
+      window.location.href="/login";
     } catch (error) {
       console.error('Error:', error);
     }

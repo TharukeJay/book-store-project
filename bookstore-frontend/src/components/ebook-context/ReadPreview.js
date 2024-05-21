@@ -32,6 +32,7 @@ const ReadPreview = () =>{
             setLoading(false)
           } catch (error) {
             console.log('Error:', error);
+            window.location.href="/login";
           }
         };
         

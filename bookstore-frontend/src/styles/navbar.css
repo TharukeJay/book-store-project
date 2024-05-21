@@ -7,13 +7,13 @@ height: 60px;
   z-index: 1;
 }
 .right-outer{
-  margin-left: 45vw;
+  margin-left: 30vw;
 }
 .link-page{
-  font-size: 50px;
+  font-size: 30px;
 }
 .link-page a{
-  font-size: 30px !important;
+  font-size: 20px !important;
   color: hsl(0, 100%, 100%);
   margin: 0 20px;
 }

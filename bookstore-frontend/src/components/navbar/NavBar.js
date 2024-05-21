@@ -19,7 +19,7 @@ import '../../styles/navbar.css';
                               <Nav.Link href="/">Book</Nav.Link>
                               <Nav.Link href="/audio-books">Audio</Nav.Link>
 
-                              <Nav.Link href="/login">Login</Nav.Link>
+                              <Nav.Link href="/login">Login | Register</Nav.Link>
                           </Nav>
                       </div>
                   </Navbar.Collapse>

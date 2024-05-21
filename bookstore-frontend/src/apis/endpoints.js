@@ -13,7 +13,11 @@ export const CONFIRM_RESET_PASSWORD = `${baseUrl}auth/confirm-reset-password`;
 export const FETCH_ALL_BOOK = `${baseUrl}books/get-data`;
 export const FETCH_ALL_READ_BOOK = `${baseUrl}books/read-book`;
 export const FETCH_ALL_READ_BOOK_PDF = `${baseUrl}books/read-book-pdf`;
-
+//Audio Book 
+// export const FETCH_ALL_READ_BOOK = `${baseUrl}books/read-book`;
 // NEWS
 export const FETCH_ALL_NEWS = `${baseUrl}books/get-news`;
 export const FETCH_ALL_READ_NEWS = `${baseUrl}books/read-news`;
+
+//Category
+export const FETCH_ALL_CATEGORY= `${baseUrl}books/get-category`;
