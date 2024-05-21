@@ -5,6 +5,7 @@ import {
     LOGIN_USER, UPDATE_BOOK_SERIES, UPLOAD_CONTENT,
 } from "../configs/commomConfigs";
 import API_ENDPOINT from "./httpEndpoint";
+import axios from "axios";
 
 
 export const executeGetCategory = ( ) => {
@@ -68,22 +69,29 @@ export const executeUploadContent = async (category, authorName, chapter, bookTy
         if (imageFile) {
             formData.append('thumbnail', imageFile);
         }
-        if (bookType === "Audio Book" && audioFile) {
+        if (bookType === "Audio Book") {
             formData.append('audio', audioFile);
         }
-        if (bookType === "PDF" && pdfFile) {
+        if (bookType === "PDF") {
             formData.append('pdf', pdfFile);
         }
 
+        const apiBody = {
+            body : formData
+        }
+
         // Make the API request
-        const response = await fetch(UPLOAD_CONTENT, {
-            method: 'POST',
-            body: formData,
-        });
+        // const response = await fetch(UPLOAD_CONTENT, {
+        //     method: 'POST',
+        //     body: formData,
+        // });
+        axios.post(UPLOAD_CONTENT,apiBody).then((val) => {
+            return val
+        })
 
         // if (response.ok) {
         //     const data = await response.json();
-            return response;
+        //     return response;
         // } else {
         //     throw new Error(`Error: ${response.status} ${response.statusText}`);
         // }
