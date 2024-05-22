@@ -51,7 +51,7 @@ const upload = multer();
 
 
 export const uploadContent = async (req, res, next) => {
-    const { bookType } = req.body.name;
+    const { bookType } = req.body;
 
     let uploadFields = [
         { name: 'thumbnail', maxCount: 1 }
@@ -67,7 +67,7 @@ export const uploadContent = async (req, res, next) => {
 
     console.log("req.files ===> ", req.body)
     console.log("req.files booooook ===> ", bookType)
-    console.log("req. book type ===> ",req)
+    console.log("req. book type ===> ",req.bookType)
     console.log("upload files ===> ", uploadFields)
 
 
