@@ -9,8 +9,8 @@ const router = express.Router();
 
 
 // Attach routes
-router.post("/create-category", logger, createCategory);
-router.post("/get-category", logger, getCategory);
+router.post("/create-category", logger,CheckAuth, createCategory);
+router.post("/get-category", logger,CheckAuth, getCategory);
 
 // Export router
 export default router;

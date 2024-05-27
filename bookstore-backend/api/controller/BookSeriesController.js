@@ -78,8 +78,6 @@ export const deleteBookSeries = async (req, res, next) => {
 };
 
 
-
-
 // export const createBookSeries = async (req, res, next) => {
 //     const authorName = req.body.authorName
 //     const seriesTitle = req.body.seriesTitle

@@ -3,10 +3,21 @@ import { readLankaFirebaseAppData} from "../utils/firebaseInit.js";// Adjust the
 const { readLankaDB, readLankaStorage } = readLankaFirebaseAppData;
 
 
-export const executeUploadContent = async (category, authorName, chapter, bookType, description, price, title, seriesName, imageFile, audioFile, pdfFile) => {
+export const executeUploadContent = async (
+    categoryName,
+    authorName,
+    chapter,
+    bookType,
+    description,
+    bookPrice,
+    bookName,
+    selecteBookSeries,
+    selecteBookSeriesID,
+    imageFile,
+    audioFile,
+    pdfFile) => {
     try {
         const bookCollectionRef = readLankaDB.collection("books");
-
         const bucket = readLankaStorage.bucket();
         const fileUploads = [];
         let imageUrl, audioUrl, pdfUrl;
@@ -32,10 +43,10 @@ export const executeUploadContent = async (category, authorName, chapter, bookTy
             fileUploads.push({ type: 'thumbnail', url: imageUrl });
         }
 
-        // Handle audio file upload if bookType is 'Audi Book'
+        // Handle audio file upload if bookType is 'Audio Book'
         if (bookType == "Audio Book" && audioFile) {
             const audioFileName = `${audioFile.originalname}`;
-            const audioFilePath = `audio/${seriesName}/${audioFileName}`;
+            const audioFilePath = `audio/${selecteBookSeries}/${audioFileName}`;
 
             // Check if the audio file already exists
             const audioFileExists = await bucket.file(audioFilePath).exists();
@@ -53,7 +64,7 @@ export const executeUploadContent = async (category, authorName, chapter, bookTy
             fileUploads.push({ type: 'audio', url: audioUrl });
         }
 
-        // Handle PDF file upload if bookType is 'PDF Book'
+        // Handle PDF file upload if bookType is 'PDF'
         if (bookType === "PDF" && pdfFile) {
             const pdfFileName = `${pdfFile.originalname}`;
             const pdfFilePath = `pdf/${pdfFileName}`;
@@ -75,15 +86,16 @@ export const executeUploadContent = async (category, authorName, chapter, bookTy
         }
 
         const bookDocRef = await bookCollectionRef.add({
-            category: category,
+            category: categoryName,
             authorName: authorName,
             bookType: bookType,
-            isSeries: bookType === "Audio Book"? true:false,
-            seriesTitle: bookType === "Audio Book" ? seriesName : '',
+            isSeries: bookType === "Audio Book" ? true : false,
+            seriesTitle: bookType === "Audio Book" ? selecteBookSeries : '',
+            seriesId: bookType === "Audio Book" ? selecteBookSeriesID: '',
             description: description,
             chapter: bookType === "Audio Book" ? chapter : 0,
-            price: price,
-            title: title,
+            price: bookPrice,
+            title: bookName,
             thumbnail_url: imageUrl || '',
             bookFile_url: bookType === "Audio Book" ? (audioUrl || '') : (pdfUrl || ''),
             createdAt: new Date(),
@@ -96,11 +108,35 @@ export const executeUploadContent = async (category, authorName, chapter, bookTy
         });
 
         console.log("Book created successfully with ID:", id);
+
+        return {
+            status: "200",
+            message: "Book created successfully",
+            data: {
+                id: id,
+                category: categoryName,
+                authorName: authorName,
+                bookType: bookType,
+                isSeries: bookType === "Audio Book" ? true : false,
+                seriesTitle: bookType === "Audio Book" ? selecteBookSeries : '',
+                seriesId: bookType === "Audio Book" ? selecteBookSeriesID : '',
+                description: description,
+                chapter: bookType === "Audio Book" ? chapter : 0,
+                price: bookPrice,
+                title: bookName,
+                thumbnail_url: imageUrl || '',
+                bookFile_url: bookType === "Audio Book" ? (audioUrl || '') : (pdfUrl || ''),
+                createdAt: new Date(),
+            }
+        };
     } catch (error) {
         console.error("Error executing executeUploadContent:", error);
         throw error;
     }
 };
+
+
+
 
 
 // export const executeUploadContent = async (category,authorName,chapter, bookType, description, price, title, seriesName, imageFile, audioFile, pdfFile) => {

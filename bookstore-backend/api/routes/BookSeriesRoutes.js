@@ -11,11 +11,11 @@ const router = express.Router();
 
 
 // Attach routes
-router.post("/create-bookSeries", logger, createBookSeries);
-router.post("/update-bookSeries", logger, updateBookSeries);
-router.post("/delete-bookSeries", logger, deleteBookSeries);
-router.post("/get-bookSeries", logger, getBookSeries);
-router.post("/get-selected-bookSeries", logger, getSelectedBookSeries);
+router.post("/create-bookSeries", logger,CheckAuth, createBookSeries);
+router.post("/update-bookSeries", logger,CheckAuth, updateBookSeries);
+router.post("/delete-bookSeries", logger,CheckAuth, deleteBookSeries);
+router.post("/get-bookSeries", logger,CheckAuth, getBookSeries);
+router.post("/get-selected-bookSeries", logger,CheckAuth, getSelectedBookSeries);
 
 // Export router
 export default router;

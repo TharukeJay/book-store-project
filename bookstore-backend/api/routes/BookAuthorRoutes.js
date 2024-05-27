@@ -6,8 +6,8 @@ const router = express.Router();
 
 
 // Attach routes
-router.post("/create-author", logger, createAuthor);
-router.post("/get-author", logger, getAuthor);
+router.post("/create-author", logger,CheckAuth, createAuthor);
+router.post("/get-author", logger,CheckAuth, getAuthor);
 
 // Export router
 export default router;

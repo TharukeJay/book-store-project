@@ -1,10 +1,88 @@
-
+import express from "express";
+import multer from "multer";
+import bodyParser from "body-parser";
 import {executeUploadContent} from "../services/uploadContentServices.js";
 
+//
+// // Configure multer for file uploads
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
 
-import multer from 'multer';
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-const upload = multer();
+
+
+export const uploadContent = async (req, res) => {
+    const { bookType, categoryName, authorName, chapter, description, bookPrice, bookName, selecteBookSeries, selecteBookSeriesID,} = req.body;
+
+    console.log('print req.body====>', req.body);
+    console.log('print req.files====>', req.files);
+
+    let uploadFields = [
+        { name: 'thumbnail', maxCount: 1 }
+    ];
+
+    if (bookType === 'Audio Book') {
+        uploadFields.push({ name: 'audioFile', maxCount: 1 });
+    } else if (bookType === 'PDF') {
+        uploadFields.push({ name: 'pdfFile', maxCount: 1 });
+    }
+
+
+    // upload.fields(uploadFields)(req, res, async (err) => {
+    //     console.log('print req.body====>', req.body);
+    //     console.log('print req.files====>', req.files);
+    //     if (err) {
+    //         return res.status(400).json({ status: "400", error: err.message });
+    //     }
+
+        const imageFile = req.files.thumbnail ? req.files.thumbnail[0] : null;
+        const audioFile = bookType === "Audio Book" ? (req.files.audioFile ? req.files.audioFile[0] : null) : null;
+        const pdfFile = bookType === "PDF" ? (req.files.pdfFile ? req.files.pdfFile[0] : null) : null;
+
+        console.log('Image File:', imageFile);
+        console.log('Audio File:', audioFile);
+        console.log('PDF File:', pdfFile);
+
+        try {
+            const data = await executeUploadContent(
+                categoryName,
+                authorName,
+                chapter,
+                bookType,
+                description,
+                bookPrice,
+                bookName,
+                selecteBookSeries,
+                selecteBookSeriesID,
+                imageFile,
+                audioFile,
+                pdfFile
+            );
+            res.status(200).json(data);
+            console.log('executeUploadContent=== REQ.BODY>', req.body);
+        } catch (error) {
+            console.error("Error uploading content:", error);
+            res.status(500).json({
+                status: "500",
+                error: error.message,
+            });
+        }
+    // });
+};
+
+
+
+
+
+
+
+
+
+// import multer from 'multer';
+//
+// const upload = multer();
 //
 // export const uploadContent = async (req, res, next) => {
 //
@@ -50,57 +128,57 @@ const upload = multer();
 
 
 
-export const uploadContent = async (req, res, next) => {
-    const { bookType } = req.body;
-
-    let uploadFields = [
-        { name: 'thumbnail', maxCount: 1 }
-    ];
-
-    if (bookType === 'Audio Book') {
-        uploadFields.push({ name: 'audio', maxCount: 1 });
-    } else if (bookType === 'PDF') {
-        uploadFields.push({ name: 'pdf', maxCount: 1 });
-    }
-
-    // Middleware to handle the file uploads
-    upload.fields(uploadFields)(req, res, async (err) => {
-        // if (err) {
-        //     return res.status(400).json({ status: "400", error: err.message });
-        // }
-
-        const { category, authorName, chapter, description, price, title, seriesName } = req.body;
-        const imageFile = req.files.thumbnail ? req.files.thumbnail[0] : null;
-        const audioFile = bookType === "Audio Book" ? (req.files.audio ? req.files.audio[0] : null) : null;
-        const pdfFile = bookType === "PDF" ? (req.files.pdf ? req.files.pdf[0] : null) : null;
-
-        console.log('Image File:', imageFile);
-        console.log('Audio File:', audioFile);
-        console.log('PDF File:', pdfFile);
-
-        try {
-            const data = await executeUploadContent(
-                category,
-                authorName,
-                chapter,
-                bookType,
-                description,
-                price,
-                title,
-                seriesName,
-                imageFile,
-                audioFile,
-                pdfFile
-            );
-            res.status(200).json(data);
-            console.log('executeUploadContent=== REQ.BODY>', req.body);
-        } catch (error) {
-            console.error("Error getting documents:", error);
-            res.status(500).json({
-                status: "500",
-                error: error.message,
-            });
-        }
-    });
-};
+// export const uploadContent = async (req, res, next) => {
+//
+//     const { bookType,category, authorName, chapter, description, price, title, seriesName } = req.body;
+//
+//     let uploadFields = [
+//         { name: 'thumbnail', maxCount: 1 }
+//     ];
+//
+//     if (bookType === 'Audio Book') {
+//         uploadFields.push({ name: 'audio', maxCount: 1 });
+//     } else if (bookType === 'PDF') {
+//         uploadFields.push({ name: 'pdf', maxCount: 1 });
+//     }
+//
+//     upload.fields(uploadFields)(req, res, async (err) => {
+//         if (err) {
+//             return res.status(400).json({ status: "400", error: err.message });
+//         }
+//
+//         const { category, authorName, chapter, description, price, title, seriesName } = req.body;
+//         const imageFile = req.files.thumbnail ? req.files.thumbnail[0] : null;
+//         const audioFile = bookType === "Audio Book" ? (req.files.audio ? req.files.audio[0] : null) : null;
+//         const pdfFile = bookType === "PDF" ? (req.files.pdf ? req.files.pdf[0] : null) : null;
+//
+//         console.log('Image File:', imageFile);
+//         console.log('Audio File:', audioFile);
+//         console.log('PDF File:', pdfFile);
+//
+//         try {
+//             const data = await executeUploadContent(
+//                 category,
+//                 authorName,
+//                 chapter,
+//                 bookType,
+//                 description,
+//                 price,
+//                 title,
+//                 seriesName,
+//                 imageFile,
+//                 audioFile,
+//                 pdfFile
+//             );
+//             res.status(200).json(data);
+//             console.log('executeUploadContent=== REQ.BODY>', req.body);
+//         } catch (error) {
+//             console.error("Error getting documents:", error);
+//             res.status(500).json({
+//                 status: "500",
+//                 error: error.message,
+//             });
+//         }
+//     });
+// };
 
