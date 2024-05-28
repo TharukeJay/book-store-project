@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import '../../styles/registerpage.css'
 import {SIGN_UP  } from "../../apis/endpoints";
+import toast, {Toaster} from "react-hot-toast";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -32,10 +33,28 @@ const RegisterPage = () => {
       });
       if (response.ok) {
         console.log('User signed up successfully');
+        toast.success(" Register Successfully", {
+          style: {
+            minWidth: '300px',
+            height: '50px',
+            // marginRight: '200px'
+          },
+          className: 'toaster',
+          duration: 1000,
+        });
         window.location.href='/login'
       } else {
         const data = await response.json();
         console.error(data.message);
+        toast.error(" Register faild", {
+          style: {
+            minWidth: '300px',
+            height: '50px',
+            // marginRight: '200px'
+          },
+          className: 'toaster',
+          duration: 1000,
+        });
       }
     } catch (error) {
       console.error('Error signing up:', error);
@@ -44,6 +63,10 @@ const RegisterPage = () => {
 
   return (
     <>
+    <Toaster  
+      position="top-center"
+      reverseOrder={false}
+    />
       <div className='register-main-outer'>
         <Form className='form-controler' onSubmit={handleSubmit}>
           <h1> Register Here</h1>

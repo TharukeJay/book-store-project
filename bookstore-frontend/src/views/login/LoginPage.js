@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import '../../styles/loginpage.css';
 import { LOG_IN } from "../../apis/endpoints";
 import API_ENDPOINT from '../../apis/httpAxios';
+import toast, {Toaster} from "react-hot-toast";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -28,15 +29,40 @@ const LoginPage = () => {
       const data = response.data;
       localStorage.setItem('token', data.token);
       
-      console.log("Execute success");
+      toast.success(" Welcome ! ...Login Succesfully", {
+        style: {
+          minWidth: '300px',
+          height: '50px',
+          // marginRight: '200px'
+        },
+        className: 'toaster',
+        duration: 1000,
+      });
+      if (response.status==200) {
+        window.location.href="/"
+      }
       window.location.href = "/";
+
     } catch (error) {
       console.error('Error:', error);
+      toast.error(" Login Faild", {
+        style: {
+          minWidth: '300px',
+          height: '50px',
+          // marginRight: '200px'
+        },
+        className: 'toaster',
+        duration: 1000,
+      });
     }
   };
   
   return (
     <>
+    <Toaster  
+      position="top-center"
+      reverseOrder={false}
+    />
     <div className='login-main-outer'>
       <Form className='form-controler' onSubmit={handleSubmit}>
         <h1> Login Here</h1>

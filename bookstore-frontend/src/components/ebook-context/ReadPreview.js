@@ -7,6 +7,8 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import { FETCH_ALL_READ_BOOK_PDF } from '../../apis/endpoints';
 import API_ENDPOINT from '../../apis/httpAxios';
 import ScreenLoading from '../loading/Loading'
+import { SlArrowLeftCircle } from "react-icons/sl";
+
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.js',
@@ -52,16 +54,16 @@ const ReadPreview = () =>{
             setPageNumber(pageNumber - 1)
         }
     }
+    const RedirectPage= ()=> {
+        window.location.href= "/read-book"
+    }
     if (loading) {
         return <ScreenLoading />
     }
     return (
         <>
             <div className="bar" onContextMenu={(e) => e.preventDefault()}>
-                <a href='/read-book' style={{color:'white'}}>Back</a>
-                brbrbr
-                brbrbrbr
-                <h3>Pdf View without download/Print/Screenshot/copy </h3>
+            <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"50px", margin:'10px'}}/>
 
             </div> 
             <div className="wrap" onContextMenu={(e) => e.preventDefault()}>

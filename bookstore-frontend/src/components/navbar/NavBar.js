@@ -11,7 +11,7 @@ import '../../styles/navbar.css';
       <div className='nav-bar'>
           <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer">
               <Container>
-                  <Navbar.Brand href="/" style={{fontSize:"35px" , color:"white",paddingLeft:"20px"} }>Read <span style={{color:'yellow'}} >Lanka</span></Navbar.Brand>
+                  <Navbar.Brand href="/" style={{fontSize:"25px" , color:"white",paddingLeft:"2px"} }>Read <span style={{color:'yellow'}} >Lanka</span></Navbar.Brand>
                   <Navbar.Toggle aria-controls="responsive-navbar-nav togs " />
                   <Navbar.Collapse id="responsive-navbar-nav tog-border">
                       <div className='right-outer'>

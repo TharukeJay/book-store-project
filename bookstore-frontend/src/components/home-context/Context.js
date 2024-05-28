@@ -11,7 +11,7 @@ const Context = () => {
   return (
     <>
          <div className="container">
-            {/* <EBookContext/> */}
+            <EBookContext/>
             <NewsContext/>
           </div> 
     </>

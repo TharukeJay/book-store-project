@@ -25,3 +25,47 @@ export const tracks = [
   
 ];
 
+// import { useState, useEffect } from "react";
+// import API_ENDPOINT from "../../apis/httpAxios";
+// import { FETCH_ALL_READ_BOOK } from "../../apis/endpoints";
+
+// const Tracks = (selectedAudioId) => {
+//   const [trackAudio, setTrackAudio] = useState([]);
+//   const [currentTrack, setCurrentTrack] = useState(null);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const fetchTrackData = async () => {
+//       try {
+//         const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_BOOK}/${selectedAudioId}`);
+//         if (response.status === 200) {
+//           const selectedBookData = response.data.data;
+//           console.log('Selected Audio Book Data:', selectedBookData);
+
+//           const trackData = {
+//             title: selectedBookData.title,
+//             src: selectedBookData.bookFile_url,
+//             author: selectedBookData.authorName,
+//             thumbnail: selectedBookData.thumbnail_url
+//           };
+//           setTrackAudio([trackData]);
+//           setCurrentTrack(trackData);
+//           setLoading(false);
+//         } else {
+//           window.location.href = "/login";
+//         }
+//       } catch (error) {
+//         console.error('Error:', error);
+//       }
+//     };
+
+//     fetchTrackData();
+//   }, [selectedAudioId]);
+
+//   return { trackAudio, currentTrack, loading };
+// };
+
+// export default Tracks;
+
+
+

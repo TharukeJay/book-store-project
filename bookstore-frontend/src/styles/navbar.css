@@ -1,8 +1,10 @@
 .nav-bar{
-height: 60px;
+/* height: 60px; */
+height: auto;
+width: 100%;
 }
 .nav-outer{
-  background-color:rgb(116, 190, 237)  !important;
+  background-color:rgb(135, 136, 137)  !important;
   background:none;
   z-index: 1;
 }
@@ -32,9 +34,12 @@ height: 60px;
 }
 @media screen and (max-width:767px) {
   p,h1{
-      font-size: 15px;
+      font-size: 10px;
   }
 }
 .link-page a{
-  font-size: 12px;
+  font-size: 10px;
+}
+span{
+  margin-left: -10px;
 }

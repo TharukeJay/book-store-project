@@ -3,6 +3,8 @@ import '../../styles/newscontext.css';
 import { useNavigate  } from 'react-router-dom';
 import { FETCH_ALL_NEWS } from "../../apis/endpoints";
 import API_ENDPOINT from '../../apis/httpAxios';
+import { FcNext } from "react-icons/fc";
+import { FcPrevious } from "react-icons/fc";
 
 const NewsContext = () => {
   const [newsData, setNewsData] = useState([]);
@@ -46,8 +48,6 @@ const NewsContext = () => {
         
 //     fetchData();
 //   }, [])
-    
-
 
   const handleNewsClick = (id) => {
     localStorage.setItem('selectedNewsId', id);
@@ -90,8 +90,8 @@ const NewsContext = () => {
           ))}
       </div>
       <div className="buttons">
-        <button onClick={handlePrevious} disabled={index === 0}>Previous</button>
-        <button onClick={handleNext} disabled={index + 4 >= newsData.length}>Next</button>
+        <button onClick={handlePrevious} disabled={index === 0}> <FcPrevious /> </button>
+        <button onClick={handleNext} disabled={index + 4 >= newsData.length}> <FcNext /> </button>
 
       </div>
     </div>

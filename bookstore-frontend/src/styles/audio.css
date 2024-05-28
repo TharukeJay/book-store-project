@@ -8,8 +8,34 @@
     margin: 0 10px;
   }
   
+  .main-outer-audio{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width : 100%;
+    height: auto;
+    flex-wrap: wrap;
+  }
+  .left-audio-outer{
+    height: inherit;
+    width: 50%;
+  }
+
+  .right-desc-outer{
+    width: 45%;
+  }
+
+  /* Phones: less than 768px */
+    @media (max-width: 767px) {
+      .left-audio-outer, .right-desc-outer {
+          width: 100%;  
+          margin-left: 0; 
+          height: auto; 
+      }
+    }
+
   .audio-player {
-    background: #c1b6bc;
+    background: hsl(327, 95%, 83%);
   }
   
   .inner {
@@ -22,6 +48,9 @@
   .audio-info {
     display: flex;
     gap: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   
   .text {
@@ -35,7 +64,12 @@
     margin-bottom: 0;
     padding: 2px;
     line-height: 37px;
-    background-color: rgba(0,0,0,.8);
+    background-color: rgba(249, 177, 226, 0.8);
+  }
+  .desc{
+    color: black;
+    font-weight: 100;
+    font-size:20px;
   }
   
   /* audio image */
@@ -73,18 +107,34 @@
   /* controls */
   .controls-wrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     margin-top: 10px;
+    margin-bottom: 10px;
+    height: auto;
+    width: 100%;
   }
-  
-  .controls button, .volume button {
+  .controls{
+    width: 65%;
+
+  }
+  .volume{
+    flex: 1;
+  }
+  .controls button{
     border: none;
     background-color: transparent;
     margin-right: 8px;
     cursor: pointer;
   }
-  
+  .volume button {
+    border: none;
+    background-color: transparent;
+    margin-right: 8px;
+    cursor: pointer;
+  }
+
   button svg {
     font-size: 20px;
   }
@@ -116,6 +166,33 @@
     color: #f50;
   }
   
+  @media (max-width: 900px) {
+    .controls{
+      width: 100%;  
+      margin-left: 0; 
+      height: auto;
+      padding-left: 30px;
+    }
+    .volume{
+      width: 10% !important;  
+      margin-left: 10px; 
+      height: auto;
+      padding-left:20px;
+    }
+    
+    .audio-image {
+      width: 60%;
+      height: 50%;
+    }
+    .title {
+      font-size: 25px;
+    }
+    .desc{
+      color: black;
+      font-weight: 100;
+      font-size:15px;
+    }
+  }
   /* Top bar */
   .top__bar {
     font-size: 0.875rem;

@@ -16,7 +16,8 @@ import {
   import "../../styles/audio.css";
   import "../../styles/customize-progress-bar.css";
 
-const Controls = ({audioRef,
+const Controls = ({
+    audioRef,
     progressBarRef,
     duration,
     setTimeProgress,
@@ -24,7 +25,8 @@ const Controls = ({audioRef,
     trackIndex,
     setTrackIndex,
     setCurrentTrack,
-    handleNext}) => {
+    handleNext
+  }) => {
 
         const [isPlaying, setIsPlaying] = useState(false);
         const [volume, setVolume] = useState(60);

@@ -5,6 +5,7 @@ import '../../styles/loginpage.css';
 import { CONFIRM_RESET_PASSWORD } from "../../apis/endpoints";
 import API_ENDPOINT from '../../apis/httpAxios';
 import axios from "axios";
+import toast, {Toaster} from "react-hot-toast";
 
 const ChangePassword = () => {
   const [formData, setFormData] = useState({
@@ -32,16 +33,38 @@ const ChangePassword = () => {
       const response = await axios.post(`${CONFIRM_RESET_PASSWORD}/${token}`, formData);
       console.log("response=======", response);
       const data = response.data;
-      console.log("Execute success");
+
+      toast.success("Password Change Successfully", {
+        style: {
+          minWidth: '300px',
+          height: '50px',
+          // marginRight: '200px'
+        },
+        className: 'toaster',
+        duration: 1000,
+      });
+
       window.location.href = "/login";
     } catch (error) {
-      console.log("Execute bad");
       console.error('Error:', error);
+      toast.error(" Password Change faild", {
+        style: {
+          minWidth: '300px',
+          height: '50px',
+          // marginRight: '200px'
+        },
+        className: 'toaster',
+        duration: 1000,
+      });
     }
   };
   
   return (
     <>
+    <Toaster  
+      position="top-center"
+      reverseOrder={false}
+    />
     <div className='login-main-outer'>
       <Form className='form-controler' onSubmit={handleSubmit}>
         <br /><hr /><br />

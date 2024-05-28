@@ -12,7 +12,7 @@ p{
 }
 .book-list{
     width: 100%;
-    height: 100%;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,31 +27,44 @@ p{
     opacity: 60%;
     transition: all 0.1s;
 }
+.category-buttons{
+    width: 100%;
+    height: auto;
+    padding-top: 10px;
+}
+
 /* Phones: less than 768px */
 @media (max-width: 767px) {
     .photo img{
-        width: 150px;  /* slightly less than 50% to account for gaps */
-        height: auto;  /* maintain aspect ratio */
+        width: 100px;  
+        height: auto; 
     }
 }
 
 /* Tablets: from 768px to 1024px */
 @media (min-width: 768px) and (max-width: 1023px) {
     .photo img{
-        width: 200px;  /* slightly less than one-third to account for gaps */
-        height: auto;  /* maintain aspect ratio */
+        width: 200px; 
+        height: auto; 
     }
 }
 
 /* Desktop and larger devices */
 @media (min-width: 1024px) {
     .photo img{
-        width: 220px;  /* fixed width */
-        height: 270px;  /* fixed height */
+        width: 220px;  
+        height: 270px; 
     }
 }
 
-
+.buttons-Ebook {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
 /* View novel outer */
 .view-novel-outer{
     width: 100%;
@@ -62,8 +75,13 @@ p{
     flex-wrap: wrap;
 }
 .left-photo-outer{
-    width: 30%;
-    height: 650px;
+    width: 45%;
+    height: 650px; 
+}
+.left-photo-outer img{
+    width: 80%;
+    height: 100%;
+    padding-left: 50px;
 }
 .right-desc-outer{
     width: 50%;
@@ -85,9 +103,9 @@ span{
 /* Phones: less than 768px */
 @media (max-width: 767px) {
     .left-photo-outer, .right-desc-outer {
-        width: 100%;  /* Each section takes full width */
-        margin-left: 0;  /* Remove margin from right-desc-outer */
-        height: auto;  /* Optional: Adjust height as needed */
+        width: 100%;  
+        margin-left: 0; 
+        height: auto; 
     }
     .pricing-card{
         margin-left: 15%;
@@ -95,21 +113,19 @@ span{
     .button-outer{
         margin-left: 20%;
     }
-    /* .left-photo-outer{
-        width: 25%;
+    .left-photo-outer img{
+        width: 100%;
         height: 650px;
-    } */
+        padding-left:0px;
+    }
 }
 
 
 /* ------------------------------- */
 .bar{
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     height: 5rem;
-    background-color: black;
+    background-color: rgb(186, 184, 184);
 }
 .bar h3{
     color: white;
@@ -119,10 +135,12 @@ span{
     display: flex;
     justify-content: center;
     user-select: none;
+    width: 100%;
 }
 .wrap{
-    margin: auto 20rem;
-    background-color: aqua;
+    /* margin: auto 20rem; */
+    background-color: rgb(242, 246, 246);
+    width: 100%;
 }
 .controls{
     margin: 10px;
@@ -137,4 +155,15 @@ span{
     outline: none;
     border: none ;
     box-shadow: 1px 2px 5px black;
+}
+/* Phones: less than 768px */
+@media (max-width: 767px) {
+    .bar{
+        width: 100%;
+        height: 5rem;
+    }
+    .pdf-container{
+        user-select: none;
+        width: 100%;
+    }
 }

@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import '../../styles/forgotpassword.css';
 import { REQUEST_RESET_PASSWORD_EMAIL } from "../../apis/endpoints";
 import API_ENDPOINT from '../../apis/httpAxios';
+import toast, {Toaster} from "react-hot-toast";
 
 const ForgetPasswordPage = () => {
   const [formData, setFormData] = useState({
@@ -23,14 +24,36 @@ const ForgetPasswordPage = () => {
       const response = await API_ENDPOINT.post(REQUEST_RESET_PASSWORD_EMAIL, formData);
       console.log("response=======", response);
 
-      console.log("Execute success");
+      toast.success("Link send success", {
+        style: {
+          minWidth: '300px',
+          height: '50px',
+          // marginRight: '200px'
+        },
+        className: 'toaster',
+        duration: 1000,
+      });
+
       window.location.href="/login";
     } catch (error) {
       console.error('Error:', error);
+      toast.error(" Link send faild", {
+        style: {
+          minWidth: '300px',
+          height: '50px',
+          // marginRight: '200px'
+        },
+        className: 'toaster',
+        duration: 1000,
+      });
     }
   };
   return (
     <>
+    <Toaster  
+      position="top-center"
+      reverseOrder={false}
+    />
     <div className='fw-main-outer'>
       <Form className='form-controler' onSubmit={handleSubmit}>
         <h1> Find your account</h1>
