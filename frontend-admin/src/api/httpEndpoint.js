@@ -7,18 +7,18 @@ const API_ENDPOINT = axios.create({
 });
 
 // Add an interceptor to modify requests
-API_ENDPOINT.interceptors.request.use(async (config) => {
-    // const token = localStorage.getItem("token");
-
-    const authUser = JSON.parse(localStorage.getItem("authUser"));
-    const token = authUser && authUser.token;
-    if (token) {
-        // Include the JWT token in the Authorization header
-        config.headers["Authorization"] = `Bearer ${token}`;
+API_ENDPOINT.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
     }
-
-    return config;
-});
+);
 
 
 

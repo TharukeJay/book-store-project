@@ -24,6 +24,7 @@ function Login() {
             const response = await executeLoginUser(formData.email, formData.password);
             const data = response.data;
             console.log('login successful:', data);
+            localStorage.setItem('token',data.token)
             setLoggedIn(true);
             navigate('/upload');
         } catch (error) {

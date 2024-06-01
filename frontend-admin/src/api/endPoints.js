@@ -5,6 +5,7 @@ import {
     LOGIN_USER, UPDATE_BOOK_SERIES, UPLOAD_CONTENT,
 } from "../configs/commomConfigs";
 import API_ENDPOINT from "./httpEndpoint";
+import axios from "axios";
 
 
 export const executeGetCategory = ( ) => {
@@ -48,41 +49,78 @@ export const executeCreateBookSeries = async (formData) => {
     }
 };
 
-export const executeUploadContent = async (category, authorName, chapter, bookType, description, price, title, seriesName, imageFile, audioFile, pdfFile) => {
+// export const executeUploadContent = async (category, authorName, chapter, bookType, description, price, title, seriesName, imageFile, audioFile, pdfFile) => {
+//     try {
+//         console.log('imageFile:', imageFile);
+//         console.log('audioFile:', audioFile);
+//         console.log('pdfFile:', pdfFile);
+//
+//         const formData = new FormData();
+//         formData.append('category', category);
+//         formData.append('authorName', authorName);
+//         formData.append('chapter', chapter);
+//         formData.append('bookType', bookType);
+//         formData.append('description', description);
+//         formData.append('price', price);
+//         formData.append('title', title);
+//         formData.append('seriesName', seriesName);
+//
+//         // Append files conditionally based on bookType
+//         if (imageFile) {
+//             formData.append('thumbnail', imageFile);
+//         }
+//         if (bookType === "Audio Book" && audioFile) {
+//             formData.append('audio', audioFile);
+//         }
+//         if (bookType === "PDF" && pdfFile) {
+//             formData.append('pdf', pdfFile);
+//         }
+//
+//         const response = await fetch(UPLOAD_CONTENT, {
+//             method: 'POST',
+//             body: formData,
+//         });
+//
+//         // if (response.ok) {
+//         //     const data = await response.json();
+//             return response;
+//         // } else {
+//         //     throw new Error(`Error: ${response.status} ${response.statusText}`);
+//         // }
+//     } catch (error) {
+//         console.error("Error creating book series:", error);
+//         throw error;
+//     }
+// };
+
+
+
+// export const executeUploadContent = async (formData) => {
+//     try {
+//         const response = await fetch(UPLOAD_CONTENT, {
+//             method: 'POST',
+//             body: formData,
+//         });
+//         // if (response.ok) {
+//         //     const data = await response.json();
+//         return response;
+//         // } else {
+//         //     throw new Error(`Error: ${response.status} ${response.statusText}`);
+//         // }
+//     } catch (error) {
+//         console.error("Error creating book series:", error);
+//         throw error;
+//     }
+// };
+
+export const executeUploadContent = async (formData) => {
     try {
-        console.log('imageFile:', imageFile);
-        console.log('audioFile:', audioFile);
-        console.log('pdfFile:', pdfFile);
-
-        const formData = new FormData();
-        formData.append('category', category);
-        formData.append('authorName', authorName);
-        formData.append('chapter', chapter);
-        formData.append('bookType', bookType);
-        formData.append('description', description);
-        formData.append('price', price);
-        formData.append('title', title);
-        formData.append('seriesName', seriesName);
-
-        // Append files conditionally based on bookType
-        if (imageFile) {
-            formData.append('thumbnail', imageFile);
-        }
-        if (bookType === "Audio Book" && audioFile) {
-            formData.append('audio', audioFile);
-        }
-        if (bookType === "PDF" && pdfFile) {
-            formData.append('pdf', pdfFile);
-        }
-
-        // Make the API request
         const response = await fetch(UPLOAD_CONTENT, {
             method: 'POST',
             body: formData,
         });
-
         // if (response.ok) {
-        //     const data = await response.json();
+        //     return await response.json();
             return response;
         // } else {
         //     throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -92,6 +130,7 @@ export const executeUploadContent = async (category, authorName, chapter, bookTy
         throw error;
     }
 };
+
 
 
 // export const executeUploadContent = async (category,authorName,chapter, bookType, description, price, title, seriesName, imageFile, audioFile, pdfFile) => {

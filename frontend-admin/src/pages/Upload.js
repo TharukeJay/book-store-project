@@ -22,16 +22,21 @@ const ContentData = () => {
     const [authorName, setAuthorName] = useState('');
     const [bookSeriesData, setBookSeriesData] = useState([]);
     const [selecteBookSeries, setSelecteBookSeries] = useState('');
+    const [selecteBookSeriesID, setSelecteBookSeriesID] = useState('');
     const [isBookSeries, setIsBookSeries] = useState(false);
     const [bookType, setBookType] = useState('');
     const [bookName, setBookName] = useState('');
     const [selectedImage, setSelectedImage] = useState('')
     const [selectedFileImage, setSelectedFileImage] = useState('')
+    const [selectedPreviewFileImage, setSelectedPreviewFileImage] = useState('')
+    const [selectedFullFileImage, setSelectedFullFileImage] = useState('')
     const [bookPrice, setBookPrice] = useState(0)
 
     const [thumbnail, setThumbnail] = useState(null)
     const [audioFile, setAudioFile] = useState(null)
     const [pdfFile, setPdfFile] = useState(null)
+    const [previewPdfFile, setPreviewPdfFile] = useState(null)
+    const [fullPdfFile, setFullPdfFile] = useState(null)
 
     const [validated, setValidated] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -96,9 +101,16 @@ const ContentData = () => {
         setBookType(e.target.value)
         if(e.target.value == 'Audio Book'){
             setIsBookSeries(true)
-        }
+        } else {setIsBookSeries(false)}
+
     }
 
+    const handleSeriesSelection = (seriesName, seriesId) => {
+        setSelecteBookSeries(seriesName);
+        setSelecteBookSeriesID(seriesId);
+        console.log('selected book series==>', seriesName);
+        console.log('selected book series ID ==>', seriesId);
+    };
     // const HandleSubmit = (event) => {
     //     const form = event.currentTarget
     //     if (form.checkValidity() === false) {
@@ -229,40 +241,81 @@ const ContentData = () => {
     // }
 
 
-
-
     const uploadContent = async (e) => {
         e.preventDefault();
 
-        // if (!authorName || ) {
-        //     alert("Author name and series title are required.");
-        //     setUploadNow(false);
-        //     return;
-        // },
-        try {
-            const data = await executeUploadContent(categoryName,authorName,chapter, bookType, description, bookPrice, bookName, selecteBookSeries, thumbnail, audioFile, pdfFile);
-            console.log('Series updated successfully:', data);
-            reset()
-        } catch (error) {
-            console.error('Error updating series:', error);
+        if (!categoryName || !authorName || !bookType || !bookPrice || !bookName || !thumbnail || (!audioFile && !previewPdfFile && !fullPdfFile)) {
+            alert("Please fill all required fields and upload the necessary files.");
+            return;
         }
-    }
+
+        setLoading(true);
+
+        const formData = new FormData();
+        formData.append('categoryName', categoryName);
+        formData.append('authorName', authorName);
+        formData.append('chapter', chapter);
+        formData.append('bookType', bookType);
+        formData.append('description', description);
+        formData.append('bookPrice', bookPrice);
+        formData.append('bookName', bookName);
+        formData.append('selecteBookSeries', selecteBookSeries);
+        formData.append('selecteBookSeriesID', selecteBookSeriesID);
+        formData.append('thumbnail', thumbnail);
+
+        if (bookType === "Audio Book") {
+            formData.append('audioFile', audioFile);
+        } else if (bookType === "PDF") {
+            formData.append('previewPdfFile', previewPdfFile);
+            formData.append('fullPdfFile', fullPdfFile);
+        }
+
+        try {
+            console.log('form data===>', formData);
+            const response = await executeUploadContent(formData);
+            console.log('Content uploaded successfully:', response.data);
+            alert('Content uploaded successfully!')
+            reset();
+        } catch (error) {
+            console.error('Error uploading content:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    // const uploadContent = async (e) => {
+    //     e.preventDefault();
+    //
+    //     // if ( !categoryName || !authorName || !bookType  || !bookPrice || !bookName) {
+    //     //     alert("Author name and series title are required.");
+    //     //     return;
+    //     // }
+    //     try {
+    //         const data = await executeUploadContent(categoryName,authorName,chapter, bookType, description, bookPrice, bookName, selecteBookSeries, thumbnail, audioFile, pdfFile);
+    //         console.log('Series updated successfully:', data);
+    //         reset()
+    //     } catch (error) {
+    //         console.error('Error updating series:', error);
+    //     }
+    // }
 
     const reset = () => {
         setValidated(false)
-        setNextSeason('')
         setNextchapter()
         setLoading(false)
         setCategoryName('')
         setBookName('')
         setChapter(0)
         setDescription('')
-        setPremium(false)
-        setTags([])
+
+
         setThumbnail(null)
         setSubtitle('')
         setSelectedImage(null)
         setPdfFile(null);
+        setPreviewPdfFile(null);
+        setFullPdfFile(null);
         setAudioFile(null);
     }
 
@@ -308,6 +361,22 @@ const ContentData = () => {
             const file = e.target.files[0];
             setSelectedFileImage(PDFImage);
             setPdfFile(file);
+        }
+    }
+
+    const previewPdfChange = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0];
+            setSelectedPreviewFileImage(PDFImage);
+            setPreviewPdfFile(file);
+        }
+    }
+
+    const fullPdfChange = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0];
+            setSelectedFullFileImage(PDFImage);
+            setFullPdfFile(file);
         }
     }
 
@@ -370,26 +439,25 @@ const ContentData = () => {
 
                 {isBookSeries == true ? (
                     <>
-                        {/* mui name */}
-                        <Col md={4} className="position-relative">
-                            <FormLabel htmlFor="validationTooltip04">
-                                Select Book Series
-                            </FormLabel>
-                            <FormSelect
-                                onChange={(e) => setSelecteBookSeries(e.target.value)}
-                                id="validationTooltip04"
-                                required
-                            >
-                                <option value="">Choose...</option>
-                                {bookSeriesData.map((item) => {
-                                    return (
-                                        <option key={item.data.seriesId} value={item.data.seriesTitle}>
-                                            {item.data.seriesTitle}
-                                        </option>
-                                    )
-                                })}
-                            </FormSelect>
-                        </Col></>) : null}
+                    <Col md={4} className="position-relative">
+                    <FormLabel htmlFor="validationTooltip04">
+                    Select Book Series
+                    </FormLabel>
+                    <FormSelect
+                    onChange={(e) => handleSeriesSelection(e.target.value, e.target.options[e.target.selectedIndex].getAttribute('data-series-id'))}
+                    id="validationTooltip04"
+                    required
+                    >
+                    <option value="">Choose...</option>
+                {bookSeriesData.map((item) => (
+                    <option key={item.data.seriesId} value={item.data.seriesTitle} data-series-id={item.data.seriesId}>
+                {item.data.seriesTitle}
+                    </option>
+                    ))}
+                    </FormSelect>
+                    </Col>
+
+                    </>) : null}
             </Row>
             <br/>
             <Row>
@@ -429,12 +497,8 @@ const ContentData = () => {
                     </Row>
 
                     </Col>
-                    <Col md={4}>
+                    <Col md={8}>
                         <Row><FormLabel>Upload Book</FormLabel></Row>
-                        {selectedFileImage ? (
-                        <Row className="mb-3">
-                            <Image align="center" style={{ width: '200px', height: '200px' }} rounded src={selectedFileImage} />
-                        </Row>):null}
                         {bookType == "Audio Book" ? (
                             <>
                                 <Row className="position-relative">
@@ -447,7 +511,23 @@ const ContentData = () => {
                                 {/*    <Image align="center" style={{ width: '200px', height: '200px' }} rounded src={selectedFileImage} />*/}
                                 {/*</Row>*/}
                                 <Row className="position-relative">
-                                    <input type="file" accept=".pdf" onChange={pdfChange} required />
+                                    <Col md={4}>
+                                        <FormLabel>Preview Book PDF File</FormLabel>
+                                        {selectedPreviewFileImage ? (
+                                            <Row className="mb-3">
+                                                <Image align="center" style={{ width: '200px', height: '200px' }} rounded src={selectedPreviewFileImage} />
+                                            </Row>):null}
+                                        <input type="file" accept=".pdf" onChange={previewPdfChange} required />
+                                    </Col>
+                                    <Col md={4}>
+                                        <FormLabel>Full Book PDF File</FormLabel>
+
+                                        {selectedFullFileImage ? (
+                                            <Row className="mb-3">
+                                                <Image align="center" style={{ width: '200px', height: '200px' }} rounded src={selectedFullFileImage} />
+                                            </Row>):null}
+                                        <input type="file" accept=".pdf" onChange={fullPdfChange} required />
+                                    </Col>
                                 </Row>
                             </>
                         ) : null}
