@@ -24,7 +24,8 @@ const upload = multer({ storage });
 router.post('/upload-content',upload.fields([
     { name: 'thumbnail', maxCount: 1 },
     { name: 'audioFile', maxCount: 1 },
-    { name: 'pdfFile', maxCount: 1 }
+    { name: 'previewPdfFile', maxCount: 1 },
+    { name: 'fullPdfFile', maxCount: 1 }
 ]), uploadContent);
 
 

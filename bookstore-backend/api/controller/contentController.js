@@ -26,7 +26,8 @@ export const uploadContent = async (req, res) => {
     if (bookType === 'Audio Book') {
         uploadFields.push({ name: 'audioFile', maxCount: 1 });
     } else if (bookType === 'PDF') {
-        uploadFields.push({ name: 'pdfFile', maxCount: 1 });
+        uploadFields.push({ name: 'previewPdfFile', maxCount: 1 });
+        uploadFields.push({ name: 'fullPdfFile', maxCount: 1 });
     }
 
 
@@ -39,11 +40,15 @@ export const uploadContent = async (req, res) => {
 
         const imageFile = req.files.thumbnail ? req.files.thumbnail[0] : null;
         const audioFile = bookType === "Audio Book" ? (req.files.audioFile ? req.files.audioFile[0] : null) : null;
-        const pdfFile = bookType === "PDF" ? (req.files.pdfFile ? req.files.pdfFile[0] : null) : null;
+        // const pdfFile = bookType === "PDF" ? (req.files.pdfFile ? req.files.pdfFile[0] : null) : null;
+        const previewPdfFile = bookType === "PDF" ? (req.files.previewPdfFile ? req.files.previewPdfFile[0] : null) : null;
+        const fullPdfFile = bookType === "PDF" ? (req.files.fullPdfFile ? req.files.fullPdfFile[0] : null) : null;
 
         console.log('Image File:', imageFile);
         console.log('Audio File:', audioFile);
-        console.log('PDF File:', pdfFile);
+        // console.log('PDF File:', pdfFile);
+        console.log('fullPdfFile File:', fullPdfFile);
+        console.log('previewPdfFile File:', previewPdfFile);
 
         try {
             const data = await executeUploadContent(
@@ -58,7 +63,8 @@ export const uploadContent = async (req, res) => {
                 selecteBookSeriesID,
                 imageFile,
                 audioFile,
-                pdfFile
+                previewPdfFile,
+                fullPdfFile
             );
             res.status(200).json(data);
             console.log('executeUploadContent=== REQ.BODY>', req.body);

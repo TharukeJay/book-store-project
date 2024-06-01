@@ -15,12 +15,14 @@ export const executeUploadContent = async (
     selecteBookSeriesID,
     imageFile,
     audioFile,
-    pdfFile) => {
+    previewPdfFile,
+    fullPdfFile
+   ) => {
     try {
         const bookCollectionRef = readLankaDB.collection("books");
         const bucket = readLankaStorage.bucket();
         const fileUploads = [];
-        let imageUrl, audioUrl, pdfUrl;
+        let imageUrl, audioUrl, previewPdfUrl,fullPdfUrl;
 
         // Handle image file upload
         if (imageFile) {
@@ -65,24 +67,44 @@ export const executeUploadContent = async (
         }
 
         // Handle PDF file upload if bookType is 'PDF'
-        if (bookType === "PDF" && pdfFile) {
-            const pdfFileName = `${pdfFile.originalname}`;
-            const pdfFilePath = `pdf/${pdfFileName}`;
+        if (bookType === "PDF" && previewPdfFile) {
+            const previewPdfFileName = `${previewPdfFile.originalname}`;
+            const previewPdfFilePath = `pdf/preview_pdf/${previewPdfFileName}`;
 
             // Check if the PDF file already exists
-            const pdfFileExists = await bucket.file(pdfFilePath).exists();
-            if (pdfFileExists[0]) {
+            const previewPdfFileExists = await bucket.file(previewPdfFilePath).exists();
+            if (previewPdfFileExists[0]) {
                 throw new Error("PDF file with the same name already exists.");
             }
 
-            const pdfFileRef = bucket.file(pdfFilePath);
-            await pdfFileRef.save(pdfFile.buffer, {
-                metadata: { contentType: pdfFile.mimetype },
+            const previewPdfFileRef = bucket.file(previewPdfFilePath);
+            await previewPdfFileRef.save(previewPdfFile.buffer, {
+                metadata: { contentType: previewPdfFile.mimetype },
             });
 
-            const pdfSignedUrl = await pdfFileRef.getSignedUrl({ action: 'read', expires: '03-09-2491' });
-            pdfUrl = pdfSignedUrl[0];
-            fileUploads.push({ type: 'pdf', url: pdfUrl });
+            const previewPdfFileSignedUrl = await previewPdfFileRef.getSignedUrl({ action: 'read', expires: '03-09-2491' });
+            previewPdfUrl = previewPdfFileSignedUrl[0];
+            fileUploads.push({ type: 'pdf', url: previewPdfUrl });
+        }
+
+        if (bookType === "PDF" && fullPdfFile) {
+            const fullPdfFileName = `${fullPdfFile.originalname}`;
+            const fullPdfFilePath = `pdf/full_book_pdf/${fullPdfFileName}`;
+
+            // Check if the PDF file already exists
+            const fullPdfFileExists = await bucket.file(fullPdfFilePath).exists();
+            if (fullPdfFileExists[0]) {
+                throw new Error("PDF file with the same name already exists.");
+            }
+
+            const fullPdfFileRef = bucket.file(fullPdfFilePath);
+            await fullPdfFileRef.save(fullPdfFile.buffer, {
+                metadata: { contentType: fullPdfFile.mimetype },
+            });
+
+            const fullPdfFileSignedUrl = await fullPdfFileRef.getSignedUrl({ action: 'read', expires: '03-09-2491' });
+            fullPdfUrl = fullPdfFileSignedUrl[0];
+            fileUploads.push({ type: 'pdf', url: fullPdfUrl });
         }
 
         const bookDocRef = await bookCollectionRef.add({
@@ -97,7 +119,11 @@ export const executeUploadContent = async (
             price: bookPrice,
             title: bookName,
             thumbnail_url: imageUrl || '',
-            bookFile_url: bookType === "Audio Book" ? (audioUrl || '') : (pdfUrl || ''),
+            // bookFile_url: bookType === "Audio Book" ? (audioUrl || '') : (pdfUrl || ''),
+            bookFile_url: {
+                bookPreviewUrl: bookType === "Audio Book" ? ('') : (previewPdfUrl || ''),
+                fullBookUrl: bookType === "Audio Book" ? (audioUrl || '') : (fullPdfUrl || '')
+            },
             createdAt: new Date(),
         });
 
@@ -125,7 +151,10 @@ export const executeUploadContent = async (
                 price: bookPrice,
                 title: bookName,
                 thumbnail_url: imageUrl || '',
-                bookFile_url: bookType === "Audio Book" ? (audioUrl || '') : (pdfUrl || ''),
+                bookFile_url: {
+                    bookPreviewUrl: bookType === "Audio Book" ? (audioUrl || '') : (previewPdfUrl || ''),
+                    fullBookUrl: bookType === "Audio Book" ? (audioUrl || '') : (fullPdfUrl || '')
+                },
                 createdAt: new Date(),
             }
         };
