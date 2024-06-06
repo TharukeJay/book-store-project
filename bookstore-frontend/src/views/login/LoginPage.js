@@ -1,8 +1,7 @@
 import React,  { useState } from 'react'
 import Button from 'react-bootstrap/Button';
-import axios from 'axios';
 import Form from 'react-bootstrap/Form';
-import '../../styles/loginpage.css';
+import '../../styles/authentication-page.css';
 import { LOG_IN } from "../../apis/endpoints";
 import API_ENDPOINT from '../../apis/httpAxios';
 import toast, {Toaster} from "react-hot-toast";
@@ -63,7 +62,7 @@ const LoginPage = () => {
       position="top-center"
       reverseOrder={false}
     />
-    <div className='login-main-outer'>
+    <div className='main-outer'>
       <Form className='form-controler' onSubmit={handleSubmit}>
         <h1> Login Here</h1>
         <br /><hr /><br />
@@ -92,7 +91,7 @@ const LoginPage = () => {
         </Form.Group>
         <a href="/forgot-password">Forgot Password</a>
         <br /><br />
-        <Button className='btn login-button-style' variant="primary" type="submit" >
+        <Button className='btn button-style' variant="primary" type="submit" >
           Login
         </Button>
         <p>Don't have an account? <a href="/register"> SignUp</a></p>

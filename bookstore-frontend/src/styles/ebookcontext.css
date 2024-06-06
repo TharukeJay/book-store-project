@@ -1,14 +1,19 @@
-.ebook-context-outer{
-    width: 100%;
+.outer{
+    background: linear-gradient(60deg, #f6c4c3, #f0edef);
+    max-width: 100% !important;
+    height: auto;
+    margin-bottom: 5%;
+}
+.outer p{
+    color: black;
+}
+.ebook-search-outer{
     display: flex;
     align-items: center;
     justify-content: center;
 }
-p{
-    color: black;
-}
 .search-outer{
-    width: 400px;
+    width: 50%;
 }
 .book-list{
     width: 100%;
@@ -18,6 +23,8 @@ p{
     align-items: center;
     flex-wrap: wrap;
     gap:15px; 
+    margin:7px 0 30px 0;
+
 }
 .photo img{
     border: 1px solid blue;
@@ -32,138 +39,267 @@ p{
     height: auto;
     padding-top: 10px;
 }
-
-/* Phones: less than 768px */
-@media (max-width: 767px) {
-    .photo img{
-        width: 100px;  
-        height: auto; 
-    }
-}
-
-/* Tablets: from 768px to 1024px */
-@media (min-width: 768px) and (max-width: 1023px) {
-    .photo img{
-        width: 200px; 
-        height: auto; 
-    }
-}
-
-/* Desktop and larger devices */
-@media (min-width: 1024px) {
-    .photo img{
-        width: 220px;  
-        height: 270px; 
-    }
-}
-
 .buttons-Ebook {
     margin-top: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-  }
+}
+.title-outer{
+    height: 50px;
+    display: flex;
+    align-items: center;
+
+}
+.title-outer button{
+    margin-left: 80%;
+}
+
+/* Tablets: from 768px to 1024px */
+@media (max-width: 767px)  {
+    .photo img{
+        width: 120px;  
+        height: 140px; 
+    }
+    .button{
+        width: auto;
+        height: 30px;
+    }
+    .search-outer{
+        width:80%;
+    }
+    .search-button{
+        width: auto;
+        height: 30px;
+    }
+    .title-outer button{
+        margin-left: 40%;
+    }
+    
+}
+@media (min-width: 768px) and (max-width: 1023px){
+    .photo img{
+        width: 200px;  
+        height: auto; 
+    }
+    .outer{
+        width: 100% !important;
+    }
+    .title-outer button{
+        margin-left: 60%;
+    }
+}
+/* Desktop and larger devices */
+@media (min-width: 1024px) {
+    .photo img{
+        width: 300px;  
+        height: 320px; 
+    }
+    .outer{
+        width: 100% !important;
+    }
+    .title-outer button{
+        margin-left: 80%;
+    }
+}
+
+
   
-/* View novel outer */
+/* ----------------Read Book CSS------------------- */
 .view-novel-outer{
     width: 100%;
-    height: 700px;
+    height: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; */
     flex-wrap: wrap;
+    background: linear-gradient(60deg, #f6c4c3, #f0edef);
 }
 .left-photo-outer{
-    width: 45%;
-    height: 650px; 
+    width:50%;
+    height: 90vh; 
 }
 .left-photo-outer img{
     width: 80%;
-    height: 100%;
+    height: 80%;
+    padding-top: 50px;
     padding-left: 50px;
 }
 .right-desc-outer{
     width: 50%;
-    margin-left: 4%;
-    height: 650px;
-}
-.button-outer{
-    margin-left: 40%;
+    height: 90vh;
+    padding:10px 10px 20px 10px;
+    display: flex;
     align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.right-desc-outer p{
+    font-size: 25px;
+}
+.pricing-card{
+    font-size: 25px;
+}
+.read-button-outer{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+.read-button-outer button{
+    width: auto;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 10cap;
 }
 span{
     margin-left: 30px;
     color: red;
-    font-weight:800;
+    font-weight:600;
 }
-.pricing-card{
-    margin-left: 40%;
+.Demo__container{
+    margin-top: 15px;
 }
 /* Phones: less than 768px */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     .left-photo-outer, .right-desc-outer {
         width: 100%;  
         margin-left: 0; 
         height: auto; 
     }
-    .pricing-card{
-        margin-left: 15%;
-    }
-    .button-outer{
-        margin-left: 20%;
-    }
     .left-photo-outer img{
         width: 100%;
-        height: 650px;
-        padding-left:0px;
+        height: 100%;
+        margin-left: -20px;
+    }
+    .view-novel-outer{
+        width: 100%;
     }
 }
 
 
-/* ------------------------------- */
+/* ---------------Read Preview---------------- */
+
 .bar{
-    width: 100%;
-    height: 5rem;
-    background-color: rgb(186, 184, 184);
+    font-size: 0.875rem;
+    max-width: 100%;
+    padding-bottom: .5rem;
+    background-color: #3f3e3e;
+    flex-direction: column;
+    align-items: flex-start;
+    display: flex;
+    padding-left: 20px;
+    margin-bottom: 30px;
+    margin-top: 5px;
 }
 .bar h3{
     color: white;
     margin: 0;
 }
-.pdf-container{
+.wrap{
+    /* margin: auto 20rem; */
+    /* background-color: rgb(242, 246, 246); */
+    width: 100%;
+}
+/* .pdf-container{
     display: flex;
     justify-content: center;
     user-select: none;
-    width: 100%;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    overflow: auto;
+    padding: 10px;
+
 }
-.wrap{
-    /* margin: auto 20rem; */
-    background-color: rgb(242, 246, 246);
-    width: 100%;
-}
-.controls{
+.pdf-page {
+    height: auto;
+    display: flex;
+    /* align-items: center;
+    justify-content: center; */
+    /* margin: auto;
+    width: 100; */
+    /* margin-left: -10px; */
+/* } */ 
+/* .controls{
     margin: 10px;
     justify-content: center;
 }
 .controls button{
     padding: 1rem 2rem;
-    background-color: black;
-    color: white;
+    background: black;
+    color: rgb(19, 19, 19);
     border-radius: 5px;
     margin-right: 2rem;
     outline: none;
     border: none ;
     box-shadow: 1px 2px 5px black;
+} */
+
+.pdf-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 10px; 
 }
+
+.pdf-page {
+    width: 1000 !important;
+    height: auto;
+    display: block;
+    margin: auto;
+}
+.controls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 900px;
+    margin: 10px auto;
+}
+
+.controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+    .controls button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
 /* Phones: less than 768px */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     .bar{
         width: 100%;
         height: 5rem;
     }
-    .pdf-container{
-        user-select: none;
-        width: 100%;
+    /* .wrap{
+        width: 100vw;
+    } */
+    .controls button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+@media (max-width: 480px) {
+    .controls {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .controls button {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 14px;
     }
 }

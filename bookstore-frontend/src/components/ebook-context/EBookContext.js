@@ -93,11 +93,13 @@ const EBookContext = () => {
     event.preventDefault();
     filterBooks(selectedCategory, searchInput);
   };
+
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       handleSearchSubmit(event);
     }
   };
+
   const handleNext = () => {
     if (index + 14 < filteredBookData.length) {
       setIndex(index + 14);
@@ -110,13 +112,17 @@ const EBookContext = () => {
     }
   };
 
+  const SeeAllBook = () => {
+    Navigate("/details/all-book");
+  }
+
   if (loading) {
     return <ScreenLoading />
   }
   return (
-    <>
+    <div className='outer' >
       <br /><br />
-      <div className="ebook-context-outer">
+      <div className="ebook-search-outer">
         <Stack direction="horizontal" gap={3} className='search-outer'>
           <Form.Control className="me-auto" 
             placeholder="Search by title..."
@@ -124,7 +130,7 @@ const EBookContext = () => {
             onChange={handleSearchInputChange} 
             onKeyPress={handleKeyPress}
           />
-          <Button variant="secondary"  onClick={handleSearchSubmit}>Submit</Button>
+          <Button variant="secondary"  onClick={handleSearchSubmit} className="btn btn-primary search-button">Submit</Button>
         </Stack>
       </div>
       <br />
@@ -135,7 +141,7 @@ const EBookContext = () => {
             key={category}
             variant={selectedCategory === category ? 'primary' : 'secondary'}
             onClick={() => handleCategoryClick(category)}
-            className="btn btn-primary"
+            className="btn btn-primary button"
             style={{margin:"5px"}}
           >
             {category}
@@ -143,21 +149,24 @@ const EBookContext = () => {
         ))}
       </div>
       <br />
-
+      <div className='title-outer'>
+        <h2 style={{color:" Blue"}}>Trending Now</h2>
+          <button onClick={SeeAllBook}>See All</button>
+      </div>
       <div className="book-list">
         {filteredBookData && filteredBookData.slice(index, index + 14).map((bookItem, i) => (
           <div key={i} onClick={() => handlePhotoClick(bookItem.id)} className='photo'>
             <img src={bookItem.thumbnail_url}alt={`Thumbnail of ${bookItem.title}`} />
-            <h4>{bookItem.title}</h4>
+            {/* <h4>{bookItem.title}</h4> */}
           </div>
         ))}
       </div>
       <div className="buttons-Ebook">
         <button onClick={handlePrevious} disabled={index === 0}> <FcPrevious /> </button>
-        <button onClick={handleNext} disabled={index + 14 >= bookData.length}>  <FcNext /> </button>
+        <button onClick={handleNext} disabled={index + 15 >= bookData.length}>  <FcNext /> </button>
 
       </div>
-    </>
+    </div>
   )
 }
 

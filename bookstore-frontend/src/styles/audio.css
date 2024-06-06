@@ -4,7 +4,7 @@
   
   body {
     font-family: sans-serif;
-    background: #f2f2f2;
+    background: linear-gradient(60deg, #f6c4c3, #f0edef);
     margin: 0 10px;
   }
   
@@ -18,11 +18,15 @@
   }
   .left-audio-outer{
     height: inherit;
-    width: 50%;
+    width: 45%;
   }
 
   .right-desc-outer{
     width: 45%;
+  }
+  .right-photo img{
+    width: 200px;
+    height: 200px;
   }
 
   /* Phones: less than 768px */
@@ -35,7 +39,7 @@
     }
 
   .audio-player {
-    background: hsl(327, 95%, 83%);
+    background: hsl(330, 1%, 69%);
   }
   
   .inner {
@@ -58,13 +62,12 @@
   }
   
   .title {
-    color: #fff;
+    color: #fffbfb;
     font-weight: 100;
     font-size: 32px;
     margin-bottom: 0;
     padding: 2px;
     line-height: 37px;
-    background-color: rgba(249, 177, 226, 0.8);
   }
   .desc{
     color: black;
@@ -94,7 +97,7 @@
     height: 80px;
     width: 80px;
     border-radius: 50%;
-    background: #989898;
+    background: #c7c3c3;
   }
   
   .audio-image img {
@@ -124,7 +127,7 @@
   }
   .controls button{
     border: none;
-    background-color: transparent;
+    background: hsl(0, 0%, 78%);
     margin-right: 8px;
     cursor: pointer;
   }
@@ -196,16 +199,15 @@
   /* Top bar */
   .top__bar {
     font-size: 0.875rem;
-    line-height: 1.25rem;
-    text-align: center;
-    padding-top: .5rem;
+    max-width: 100%;
     padding-bottom: .5rem;
-    background-color: #fafafa;
-    border-bottom: 1px solid #f0f0f2;
-  }
-  
-  .top__bar a {
-    color: inherit;
+    background-color: #3f3e3e;
+    flex-direction: column;
+    align-items: flex-start;
+    display: flex;
+    padding-left: 20px;
+    margin-bottom: 30px;
+    margin-top: 5px;
   }
   
   .top__bar p {

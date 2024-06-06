@@ -2,7 +2,7 @@ import React ,  { useState } from 'react'
 // import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import '../../styles/registerpage.css'
+import '../../styles/authentication-page.css';
 import {SIGN_UP  } from "../../apis/endpoints";
 import toast, {Toaster} from "react-hot-toast";
 
@@ -67,21 +67,10 @@ const RegisterPage = () => {
       position="top-center"
       reverseOrder={false}
     />
-      <div className='register-main-outer'>
+      <div className='main-outer'>
         <Form className='form-controler' onSubmit={handleSubmit}>
           <h1> Register Here</h1>
           <br /><hr /><br />
-          <Form.Group className="mb-3" controlId="formBasicPhone">
-            <Form.Label className='form-lable'>Enter your Name</Form.Label>
-            <Form.Control 
-              name='username' 
-              type="text" 
-              placeholder="Enter Your Name"
-              value={formData.username}
-              onChange={handleChange}
-              required 
-            />
-          </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label className='form-lable'>Email address</Form.Label>
             <Form.Control 
@@ -105,13 +94,10 @@ const RegisterPage = () => {
             />
           </Form.Group>
           <br />
-          <Button className='btn register-button-style' variant="primary" type="submit" >
+          <Button className='btn button-style' variant="primary" type="submit" >
             Register
           </Button>
           <p>already have an account?  <a href="/login">signIn</a>  </p>
-          {/* <Button className='btn btn-danger button-style' variant="primary" onclick="window.location.href='/login'" >
-            Login
-          </Button> */}
         </Form>
       </div>
     </>

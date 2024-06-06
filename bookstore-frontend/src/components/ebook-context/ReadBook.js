@@ -9,12 +9,12 @@ import {
   FacebookShareButton,
   FacebookIcon,
 } from "react-share";
+import EbookTopBar from '../ebook-context/EbbokTopBar';
 
 const ReadBook = () => {
   
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true)
-
 
     const selectedBookId = localStorage.getItem('selectedBookId');
 
@@ -54,21 +54,21 @@ const ReadBook = () => {
 
     return (
       <>
-       <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"50px", margin:'10px'}}/>
-        
+        {/* <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"50px", margin:'10px'}}/> */}
+        <EbookTopBar/>
         <div className='view-novel-outer'>
           <div className="left-photo-outer">
             <img src={book.thumbnail_url} alt="Book Thumbnail"/>
           </div>
           <div className="right-desc-outer">
             <br /><br />
+            <p style={{color:"blue"}}>{book.title}</p>
             <p>{book.description}</p>
             <br />
             <div className="pricing-card">
               <span>{book.price} $</span>
             </div>
-            <br />
-            <div className="button-outer">
+            <div className="read-button-outer">
               <button> <a href="/read-preview">Read preview</a> </button>
               <button>Buy Now</button>
             </div>
@@ -78,7 +78,7 @@ const ReadBook = () => {
                   url={shareUrl}
                   className="Demo__some-network__share-button"
                 >
-                  <FacebookIcon size={32} round />
+                  <FacebookIcon size={50} round />
                 </FacebookShareButton>
 
               </div>

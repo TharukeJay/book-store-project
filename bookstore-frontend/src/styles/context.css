@@ -1,3 +1,7 @@
+.container{
+  background: linear-gradient(60deg, #f6c4c3, #f0edef);
+  height: auto;
+}
 .gallery-container {
     display: flex;
     flex-direction: column;
@@ -9,23 +13,9 @@
     overflow-x: auto;
     padding: 10px;
   }
-  
-  .photo-item {
-    margin-right: 10px;
-    width: 100px; 
-    height: 100px;
-  }
-  
-  .buttons {
-    margin-top: 10px;
-  }
-  
+
   button {
     margin: 0 10px;
   }
-  .photo-item {
-    margin-right: 10px;
-    width: 150px !important; 
-    height: 150px !important; 
-  }
+
   

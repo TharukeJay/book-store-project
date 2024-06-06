@@ -1,31 +1,35 @@
 .nav-bar{
-/* height: 60px; */
-height: auto;
-width: 100%;
+  height: auto;
+  max-width: 100%;
+  background:rgb(63, 63, 63)  !important;
 }
 .nav-outer{
-  background-color:rgb(135, 136, 137)  !important;
+  background:rgb(63, 63, 63)  !important;
   background:none;
-  z-index: 1;
 }
+.nav-container{
+  max-width: 100%;
+  background:rgb(63, 63, 63)  !important;
+}
+
 .right-outer{
-  margin-left: 30vw;
+  margin-left: 60% !important;
 }
 .link-page{
   font-size: 30px;
 }
 .link-page a{
   font-size: 20px !important;
-  color: hsl(0, 100%, 100%);
+  color: hsl(0, 17%, 98%);
   margin: 0 20px;
 }
 .link-page a:hover{
   font-size: 20px;
-  color: #fffdfd;
+  color: #f9f5f5;
 }
 .togs{
-  background-color: #fffdfd;
-  border: 1px solid white;
+  background-color:rgb(252, 251, 251)  !important;
+  border: 1px solid rgb(251, 247, 247) !important;
 }
 @media screen and (min-width:1140px) {
   .right-outer{

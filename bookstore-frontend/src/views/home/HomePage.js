@@ -6,10 +6,8 @@ import Context from '../../components/home-context/Context'
 const HomePage = () => {
   return (
     <>
-    <div style={{width:'100%', height:'200vh',}}>
-      <NavBar/>
+    <div id='home' style={{width:'100%', height:'auto',}}>
       <Context/>
-      <Footer/>
     </div>
     </>
   )

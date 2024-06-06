@@ -80,7 +80,13 @@ const NewsContext = () => {
   return (
     <>
     <br /><br />
+    <div className='outer'>
+    <div className='title-outer-news'>
+      <h2  style={{ color:"blue"}}>News & Features</h2>
+        <button>See All</button>
+      </div>
     <div className="gallery-container">
+ 
       <div className="news-list">
       {newsData.slice(index, index + 4).map((newsItem, i) => (
             <div key={i} onClick={() => handleNewsClick(newsItem.id)} className='news-outer'>
@@ -95,7 +101,7 @@ const NewsContext = () => {
 
       </div>
     </div>
-      
+    </div>
     </>
   )
 }

@@ -2,8 +2,8 @@ import { SlArrowLeftCircle } from "react-icons/sl";
 const TopBar = () => {
 
   const RedirectPage = async(id) =>{
-    localStorage.removeItem('selectedAudioId');
-    window.location.href="/audio-books";
+    // localStorage.clear('selectedAudioId', id);
+    window.location.href="/";
   }
     return (
       <div className="top__bar">

@@ -1,4 +1,4 @@
-import  {React , useState, useEffect } from 'react'
+import  {React , useState, useEffect, useRef} from 'react'
 import '../../styles/ebookcontext.css'
 import {Document, Page, pdfjs} from "react-pdf"
 // import PDF from '../../assest/pdf/nowel.pdf'
@@ -8,6 +8,8 @@ import { FETCH_ALL_READ_BOOK_PDF } from '../../apis/endpoints';
 import API_ENDPOINT from '../../apis/httpAxios';
 import ScreenLoading from '../loading/Loading'
 import { SlArrowLeftCircle } from "react-icons/sl";
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import EbookTopBar from '../ebook-context/EbbokTopBar'
 
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -20,14 +22,16 @@ const ReadPreview = () =>{
     const [pageNumber, setPageNumber] = useState(1)
     const [pdfData, setPdfData] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [width, setWidth] = useState(0)
+    const containerRef = useRef(null)
 
     const selectedBookId = localStorage.getItem('selectedBookId');
 
     useEffect(() => {
-        console.log('selected Book Pdf Data Execute start');
         const fetchData = async () => {
-          try {
-            const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_BOOK_PDF}/${selectedBookId}`);
+            try {
+             const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_BOOK_PDF}/${selectedBookId}`);
+                console.log('selected Book Pdf Data Execute start');
             const selectedBookData = response.data;
             console.log('Selected Book Pdf Data:', selectedBookData);
             setPdfData(selectedBookData.pdfData);
@@ -57,16 +61,29 @@ const ReadPreview = () =>{
     const RedirectPage= ()=> {
         window.location.href= "/read-book"
     }
+    useEffect(() => {
+        const handleResize = () => {
+            if (containerRef.current) {
+                setWidth(containerRef.current.clientWidth);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     if (loading) {
         return <ScreenLoading />
     }
     return (
         <>
             <div className="bar" onContextMenu={(e) => e.preventDefault()}>
-            <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"50px", margin:'10px'}}/>
-
+            <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"50px", margin:'10px',color: "white"}}/>
+                {/* <EbookTopBar/> */}
             </div> 
-            <div className="wrap" onContextMenu={(e) => e.preventDefault()}>
+            <div className="wrap" onContextMenu={(e) => e.preventDefault()} ref={containerRef}>
                 <div className="controls" onContextMenu={(e) => e.preventDefault()}>
                     <button onClick={prevPage} >
                         Prev
@@ -84,7 +101,7 @@ const ReadPreview = () =>{
                         onLoadSuccess={onDocumentLoadSuccess}
                         onContextMenu={(e) => e.preventDefault()}
                         className="pdf-container" >
-                        <Page pageNumber={pageNumber}/>
+                        <Page pageNumber={pageNumber} width={1500} className="pdf-page"/>
                     </Document>
                 )} 
             </div> 
