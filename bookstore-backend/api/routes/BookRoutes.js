@@ -5,6 +5,7 @@ import {
     getBookDataID,
     getBookPDF,
     getBookSeriesData,
+    getPrivacyPolicyPdf,
     getBookSeriesDataID
 } from "../controller/BookController.js";
 import {
@@ -21,6 +22,7 @@ const router = express.Router();
 router.get("/get-data", logger, getBookData); 
 router.get("/read-book/:id", logger, getBookDataID);
 router.get("/read-book-pdf/:id",logger, CheckAuth, getBookPDF);
+router.get("/get-privacy-pdf", logger, getPrivacyPolicyPdf); 
 
 router.get("/get-data-series", logger, getBookSeriesData); 
 router.get("/get-audio-book/:id", logger, getBookSeriesDataID); 

@@ -14,6 +14,7 @@ import AudioPlayer  from './components/audio-books/PlayAudio';
 import About from './views/about/About';
 import SeeAll from './components/seeAll/SeeAll';
 import MyLibrary from './components/library/MyLibrary';
+import PrivacyPolicy from './components/privacy/PrivacyPolicy';
 const App =() => {
 
   const PrivateRoute = ({ children }) => {
@@ -49,7 +50,8 @@ const App =() => {
           <Route path="/audio-books" element={<AudioBooks/>} />
           <Route path="/play-audio" element={<AudioPlayer />} />
 
-
+          {/* Privacy & Policy */}
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
        </Routes>
     </>

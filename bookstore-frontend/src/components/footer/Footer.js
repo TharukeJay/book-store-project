@@ -16,7 +16,7 @@ const Footer = () => {
                 </div>
                 <div className=" footer-links-midle">
                     <p className="f-text"></p>
-                    <p>privacy & policy</p>
+                    <p><a href='/privacy-policy'> privacy & policy  </a></p>
                     <p></p>
                     <p></p>
                     <p></p>

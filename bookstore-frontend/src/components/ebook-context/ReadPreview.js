@@ -92,9 +92,9 @@ const ReadPreview = () =>{
                         Next
                     </button>
                 </div>
-                <p>
-                    Page {pageNumber} of {numPages}
-                </p>
+                        <p>
+                            Page {pageNumber} of {numPages}
+                        </p>
                 {pdfData  && (
                     <Document 
                         file={`data:application/pdf;base64,${pdfData}`} 
