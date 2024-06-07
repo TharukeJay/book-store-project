@@ -26,7 +26,7 @@ const App =() => {
     <>
        <Routes>
         {/* Home page / DashBoard */}
-          <Route path="/" element={<Home/>}/>
+          <Route path="/" element={<About/>}/>
 
           {/* Purchase library */}
           <Route path="/my-books" element={<MyLibrary/>}/>
