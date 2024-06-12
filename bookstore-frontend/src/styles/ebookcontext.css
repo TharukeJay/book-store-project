@@ -202,6 +202,7 @@ span{
     /* margin: auto 20rem; */
     /* background-color: rgb(242, 246, 246); */
     width: 100%;
+    user-select: none;
 }
 /* .pdf-container{
     display: flex;
@@ -247,12 +248,12 @@ span{
     padding: 10px; 
 }
 
-.pdf-page {
+/* .pdf-page {
     width: 1000 !important;
     height: auto;
     display: block;
     margin: auto;
-}
+} */
 .controls {
     display: flex;
     justify-content: space-between;

@@ -10,6 +10,8 @@ import  { readLankaFirebaseAppData } from "../utils/firebaseInit.js"
 import { v4 as uuidv4 } from 'uuid';
 import {sendPasswordResetEmail} from "../utils/resetPasswordLink.js";
 
+//  PDF ------------------
+
 export const getBookData = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     try {
@@ -98,6 +100,8 @@ export const getBookPDF = async (req, res) => {
 };
 
 
+//  Audio Book ------------------
+
 export const getBookSeriesData = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     try {
@@ -133,4 +137,58 @@ export const getBookSeriesDataID = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
+};
+
+export const saveListningAudio = async (req, res) => {
+    const salt = await bcrypt.genSalt(10);
+    const userId = req.body.userId;
+    const seriesAudioId = req.body.seriesAudioId;
+    const lastPlayedTrackIndex  = req.body.lastPlayedTrackIndex ;
+
+    console.log("userId ================>>>", userId);
+    console.log("seriesAudioId ================>>>", seriesAudioId);
+    console.log("lastPlayedTrackIndex ================>>>", lastPlayedTrackIndex);
+
+    if (!userId || !seriesAudioId || lastPlayedTrackIndex == null) {
+        return res.status(400).send({ error: 'Invalid request' });
+    }
+    try {
+        const listningAudioData = {
+            userId: userId,
+            seriesAudioId: seriesAudioId,
+            lastPlayedTrackIndex: lastPlayedTrackIndex,
+            createdAt: Date.now(),
+        };
+        console.log("listningAudioData ============>>>>>", listningAudioData);
+        const savedListningAudio = readLankaFirebaseAppData.readLankaDB.collection("userAudioProgress").doc(`${userId}_${seriesAudioId}`).set(listningAudioData)
+ 
+        res.send({ message: 'Progress saved successfully' });
+      } catch (error) {
+        res.status(500).send({ error: 'Failed to save progress' });
+      }
+};
+
+export const getListningAudio = async (req, res) => {
+    const salt = await bcrypt.genSalt(10);
+    const userId = req.params;
+    const seriesAudioId  = req.params;
+
+    // console.log("userId ================>>>", userId);
+    // console.log("seriesAudioId ================>>>", seriesAudioId);
+    try {
+        const bookCollectionRef = readLankaFirebaseAppData.readLankaDB.collection("userAudioProgress");
+
+        const snapshot = await bookCollectionRef.doc(`${userId}_${seriesAudioId}`).get(); 
+        if (!snapshot.exists) {
+            return res.status(404).json({ message: "not found" });
+        }
+
+            console.log("snapshot ================>>>", snapshot);
+            const dataList = snapshot.data(); 
+            console.log("dataList ================>>>", dataList);
+            return res.status(200).json({ data: snapshot });
+
+      } catch (error) {
+        res.status(500).send({ error: 'Failed to retrieve progress' });
+      }
 };

@@ -1,14 +1,13 @@
 import  {React , useState, useEffect, useRef} from 'react'
-import '../../styles/ebookcontext.css'
 import {Document, Page, pdfjs} from "react-pdf"
 // import PDF from '../../assest/pdf/nowel.pdf'
 import 'react-pdf/dist/esm/Page/TextLayer.css'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
+import '../../styles/ebookcontext.css'
 import { FETCH_ALL_READ_BOOK_PDF } from '../../apis/endpoints';
 import API_ENDPOINT from '../../apis/httpAxios';
 import ScreenLoading from '../loading/Loading'
 import { SlArrowLeftCircle } from "react-icons/sl";
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import EbookTopBar from '../ebook-context/EbbokTopBar'
 
 
@@ -101,7 +100,7 @@ const ReadPreview = () =>{
                         onLoadSuccess={onDocumentLoadSuccess}
                         onContextMenu={(e) => e.preventDefault()}
                         className="pdf-container" >
-                        <Page pageNumber={pageNumber} width={1500} className="pdf-page"/>
+                        <Page pageNumber={pageNumber} width={width} className="pdf-page"/>
                     </Document>
                 )} 
             </div> 

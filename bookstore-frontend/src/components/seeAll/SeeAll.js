@@ -27,6 +27,7 @@ const SeeAll = () => {
   const [audiobookData, setAudioBookData] = useState([]);
   const [filteredAudioBookData, setFilteredAudioBookData] = useState([]);
 
+  //  Pdf book -------
   useEffect(() => {
     console.log('Book Data Execute start');
     const fetchData = async () => {
@@ -43,53 +44,11 @@ const SeeAll = () => {
     };
     fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log('Audio Data Execute start');
-    const fetchData = async () => {
-      try {
-        const response = await API_ENDPOINT.get(FETCH_ALL_AUDIO_BOOK);
-        console.log('Audio Data Execute Midle', response);
-        const allAudioBookData = response.data.data;
-        console.log('allAudioBookData===========>>', allAudioBookData);
-        setAudioBookData(allAudioBookData);
-        setFilteredAudioBookData(allAudioBookData);
-        setLoading(false)
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-    fetchData();
-  }, []);
-  console.log('Audio Book Data:', filteredAudioBookData);
-
-  useEffect(() => {
-    console.log('Category Data Execute start');
-    const fetchCategoryData = async () => {
-      try {
-        const response = await API_ENDPOINT.get(FETCH_ALL_CATEGORY);
-        const allCategoryData = response.data;
-        console.log('Category Data:', allCategoryData);
-        const otherCategories = Array.from(new Set(allCategoryData.data.map(categoryList => categoryList.categoryName)));
-        setCategories(['All', ...otherCategories]);
-
-        setLoading(false)
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-    
-    fetchCategoryData();
-  }, []);
-
   const handlePhotoClick = (id) => {
     localStorage.setItem('selectedBookId', id);
     navigate('/read-book');
   };
-  const handlePhotoClickAudio = (seriesId) => {
-    localStorage.setItem('selectedSeriesAudioId', seriesId);
-    Navigate('/play-audio');
-  }; 
+
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -129,6 +88,87 @@ const SeeAll = () => {
     }
   };
 
+  //  Audio Book 
+  useEffect(() => {
+    console.log('Audio Data Execute start');
+    const fetchData = async () => {
+      try {
+        const response = await API_ENDPOINT.get(FETCH_ALL_AUDIO_BOOK);
+        console.log('Audio Data Execute Midle', response);
+        const allAudioBookData = response.data.data;
+        console.log('allAudioBookData===========>>', allAudioBookData);
+        setAudioBookData(allAudioBookData);
+        setFilteredAudioBookData(allAudioBookData);
+        setLoading(false)
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchData();
+  }, []);
+  console.log('Audio Book Data:', filteredAudioBookData);
+
+  const handlePhotoClickAudio = (seriesId) => {
+    localStorage.setItem('selectedSeriesAudioId', seriesId);
+    navigate('/play-audio');
+  }; 
+
+  const handleAudioCategoryClick = (category) => {
+    setSelectedCategory(category);
+    if (category === 'All') {
+        setFilteredAudioBookData(audiobookData);
+    } else {
+      setFilteredAudioBookData(audiobookData.filter(audio => audio.category === category));
+    }
+  };
+  const filterAudio = (category, searchTerm) => {
+    let filteredBooks = audiobookData;
+
+    if (category !== 'All') {
+      filteredBooks = filteredBooks.filter(audio => audio.category === category);
+    }
+    if (searchTerm) {
+      filteredBooks = filteredBooks.filter(audio =>
+        audio.seriesTitle && audio.seriesTitle.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+    setFilteredAudioBookData(filteredBooks);
+  };
+
+  const handleSearchInputChangeAudio = (event) => {
+    setSearchInput(event.target.value);
+  };
+
+  const handleSearchSubmitAudio = (event) => {
+    event.preventDefault();
+    filterAudio(selectedCategory, searchInput);
+  };
+
+  const handleKeyPressAudio = (event) => {
+    if (event.key === 'Enter') {
+      handleSearchSubmitAudio(event);
+    }
+  };
+
+  //  Category -------
+  useEffect(() => {
+    console.log('Category Data Execute start');
+    const fetchCategoryData = async () => {
+      try {
+        const response = await API_ENDPOINT.get(FETCH_ALL_CATEGORY);
+        const allCategoryData = response.data;
+        console.log('Category Data:', allCategoryData);
+        const otherCategories = Array.from(new Set(allCategoryData.data.map(categoryList => categoryList.categoryName)));
+        setCategories(['All', ...otherCategories]);
+
+        setLoading(false)
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    
+    fetchCategoryData();
+  }, []);
+
   const ShowAllBooks = async() =>{
     setShowAllBooks(!showAllBooks);
     setShowAllAudioBooks(false);
@@ -145,12 +185,19 @@ const SeeAll = () => {
     setShowAllAudioBooks(false);
     setShowAllFeatureBooks(!showAllFeatureBooks);
   }
+
   return (
     <>
       <NavBar/>
+      <div className="button-outer">
+          <button className='btn btn-primary' onClick={ShowAllBooks}>Books</button>
+          <button className='btn btn-primary' onClick={ShowAllAudioBooks}>Audio Book</button>
+          <button className='btn btn-primary' onClick={ShowAllFeatureBooks}>Feature</button>
+        </div>
+
       <div className='outer' >
         <br /><br />
-        {hideAllBooks &&(
+        {showAllBooks &&(
           <div>
         <div className="ebook-search-outer">
           <Stack direction="horizontal" gap={3} className='search-outer'>
@@ -175,6 +222,16 @@ const SeeAll = () => {
             {category}
           </Button>
         ))}
+        <div className="see-all-books">
+          <h2>All Books</h2>
+          <div className="book-list">
+            {filteredBookData.map((bookItem, i) => (
+              <div key={i} onClick={() => handlePhotoClick(bookItem.id)} className='photo'>
+                <img src={bookItem.thumbnail_url} alt={`Thumbnail of ${bookItem.title}`} />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       </div>
         )}
@@ -186,65 +243,36 @@ const SeeAll = () => {
                 <Form.Control className="me-auto" 
                   placeholder="Search by title..."
                   value={searchInput}
-                  onChange={handleSearchInputChange} 
-                  onKeyPress={handleKeyPress}
+                  onChange={handleSearchInputChangeAudio} 
+                  onKeyPress={handleKeyPressAudio}
                 />
-                <Button variant="secondary"  onClick={handleSearchSubmit}>Submit</Button>
+                <Button variant="secondary"  onClick={handleSearchSubmitAudio}>Submit</Button>
               </Stack>
             </div>
             <br />
-
             <div className="category-buttons">
               {categories.map(category => (
                 <Button
                   key={category}
                   variant={selectedCategory === category ? 'primary' : 'secondary'}
                   className="btn btn-primary"  style={{margin:"5px"}}
-                  onClick={() => handleCategoryClick(category)}
+                  onClick={() => handleAudioCategoryClick(category)}
                 >
                   {category}
                 </Button>
               ))}
             </div>
-          </div>
-        )}
-
-        <br />
-
-        <div className="button-outer">
-          <button className='btn btn-primary' onClick={ShowAllBooks}>Books</button>
-          <button className='btn btn-primary' onClick={ShowAllAudioBooks}>Audio Book</button>
-          <button className='btn btn-primary' onClick={ShowAllFeatureBooks}>Feature</button>
-        </div>
-
-        {/* {hideAllBooks &&(
-
-        )} */}
-
-        {showAllBooks &&(
-          <div className="see-all-books">
-            <h2>All Books</h2>
             <div className="book-list">
-              {filteredBookData.map((bookItem, i) => (
-                <div key={i} onClick={() => handlePhotoClick(bookItem.id)} className='photo'>
-                  <img src={bookItem.thumbnail_url} alt={`Thumbnail of ${bookItem.title}`} />
+            {filteredAudioBookData && filteredAudioBookData.slice(index, index + 4).map((audioBookItem, i) => (
+                <div key={i} onClick={() => handlePhotoClickAudio(audioBookItem.seriesId)} className='photo'>
+                  <img src={audioBookItem.thumbnail_url}alt={`Thumbnail of ${audioBookItem.seriesTitle}`} />
+                  <h4>{audioBookItem.seriesTitle}</h4>
                 </div>
               ))}
-            </div>
+          </div>
           </div>
         )}
-
-        {showAllAudioBooks &&(
-          <div className="book-list">
-          {filteredAudioBookData && filteredAudioBookData.slice(index, index + 4).map((audioBookItem, i) => (
-              <div key={i} onClick={() => handlePhotoClick(audioBookItem.seriesId)} className='photo'>
-                <img src={audioBookItem.thumbnail_url}alt={`Thumbnail of ${audioBookItem.seriesTitle}`} />
-                <h4>{audioBookItem.seriesTitle}</h4>
-              </div>
-            ))}
-        </div>
-        )}
-          
+        <br />
       </div>
       <Footer/>
     </>
