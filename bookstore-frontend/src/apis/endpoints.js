@@ -24,3 +24,6 @@ export const FETCH_ALL_READ_NEWS = `${baseUrl}books/read-news`;
 
 //Category
 export const FETCH_ALL_CATEGORY= `${baseUrl}books/get-category`;
+
+// export const FETCH_PRIVACY= `${baseUrl}books/get-privacy-pdf`;
+export const FETCH_PRIVACY= `${baseUrl}privacy/get-privacy`;

@@ -5,9 +5,14 @@ import {
     getBookDataID,
     getBookPDF,
     getBookSeriesData,
+<<<<<<< Feature/Amith/athentication
     getBookSeriesDataID,
     saveListningAudio,
     getListningAudio,
+=======
+    getPrivacyPolicyPdf,
+    getBookSeriesDataID
+>>>>>>> main
 } from "../controller/BookController.js";
 import {
     getNewsData,
@@ -24,6 +29,7 @@ const router = express.Router();
 router.get("/get-data", logger, getBookData); 
 router.get("/read-book/:id", logger, getBookDataID);
 router.get("/read-book-pdf/:id",logger, CheckAuth, getBookPDF);
+router.get("/get-privacy-pdf", logger, getPrivacyPolicyPdf); 
 
 //  Audio Books 
 router.get("/get-data-series", logger, getBookSeriesData); 
