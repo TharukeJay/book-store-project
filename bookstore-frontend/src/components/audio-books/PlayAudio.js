@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../styles/ebookcontext.css'
 import { useState, useEffect, useRef } from 'react';
-import { FETCH_ALL_BOOK_SERIES_ID, FETCH_ALL_READ_BOOK} from '../../apis/endpoints';
+import { FETCH_ALL_BOOK_SERIES_ID, FETCH_ALL_READ_BOOK, FETCH_LISTNING_AUDIO, SET_LISTNING_AUDIO} from '../../apis/endpoints';
 import API_ENDPOINT from '../../apis/httpAxios';
 import ScreenLoading from '../loading/Loading';
 import { useNavigate  } from 'react-router-dom';
@@ -36,7 +36,23 @@ const AudioPlayer  = () => {
     }
   };
   const selectedBookId = localStorage.getItem('selectedSeriesAudioId');
+  const userId = localStorage.getItem('userId');
 
+    // useEffect(() => {
+      const fetchLastPlayedTrackIndex = async () => {
+        try {
+          const response = await API_ENDPOINT.get(`${FETCH_LISTNING_AUDIO}/${userId}/${selectedBookId}`);
+          if (response.status === 200) {
+            return response.data.lastPlayedTrackIndex;
+          }
+          console.log("fetchLastPlayedTrackIndex =============>>>", response.data.lastPlayedTrackIndex);
+        } catch (error) {
+          console.error('Error fetching last played track index:', error);
+        }
+        return 0;
+      };
+    // },[]);
+  
     useEffect(() => {
       console.log('selected Book Data Execute start');
       const fetchData = async () => {
@@ -57,8 +73,12 @@ const AudioPlayer  = () => {
               description: book.description,
             }));
             setTracks(updatedTracks);
-            setCurrentTrack(updatedTracks[0]);
-            setTrackIndex(0);
+            // setCurrentTrack(updatedTracks[0]);
+            // setTrackIndex(0);
+
+            const lastPlayedTrackIndex = await fetchLastPlayedTrackIndex();
+            setTrackIndex(lastPlayedTrackIndex);
+            setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
           }else{
             window.location.href="/login"
           }
@@ -79,6 +99,28 @@ const AudioPlayer  = () => {
         }
       }
     }, [currentTrack, isPlaying]);
+
+
+    const saveProgress = async () => {
+      try {
+        await API_ENDPOINT.post(SET_LISTNING_AUDIO, {
+          userId : userId,
+          seriesAudioId: selectedBookId,
+          lastPlayedTrackIndex: trackIndex,
+        });
+      } catch (error) {
+        console.error('Error saving progress:', error);
+      }
+    };
+
+    useEffect(() => {
+      window.addEventListener('beforeunload', saveProgress);
+      return () => {
+        window.removeEventListener('beforeunload', saveProgress);
+        saveProgress();
+      };
+    }, [trackIndex]);
+  
 
     const handlePhotoClick = (id) => {
       localStorage.setItem('selectedAudioId', id);
@@ -142,11 +184,11 @@ const AudioPlayer  = () => {
           </div>
         </div>
         <div className="right-desc-outer">
-          <div className="book-list">
+          <div className="audio-book-list">
             {bookData && bookData.map((audioBookItem, i) => (
                 <div key={i} onClick={() => handlePhotoClick(audioBookItem.id)} className='right-photo'>
                   <img src={audioBookItem.thumbnail_url}alt={`Thumbnail of ${audioBookItem.seriesTitle}`} />
-                  <h4>{audioBookItem.title}</h4>
+                  <p>{audioBookItem.title}</p>
                 </div>
               ))}
           </div>

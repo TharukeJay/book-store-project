@@ -27,6 +27,7 @@ const LoginPage = () => {
       console.log("response=======", response);
       const data = response.data;
       localStorage.setItem('token', data.token);
+      localStorage.setItem('userId', data.userId);
       
       toast.success(" Welcome ! ...Login Succesfully", {
         style: {

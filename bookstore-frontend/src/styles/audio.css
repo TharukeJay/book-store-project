@@ -24,17 +24,32 @@
   .right-desc-outer{
     width: 45%;
   }
+  .right-photo{
+    display:flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction:row;
+    margin-bottom:15px;
+    width: auto;
+    cursor: pointer;
+  }
   .right-photo img{
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
+  }
+  .right-photo p{
+      margin: 25px 15px ;
   }
 
   /* Phones: less than 768px */
-    @media (max-width: 767px) {
+    @media (max-width: 768px) {
       .left-audio-outer, .right-desc-outer {
           width: 100%;  
           margin-left: 0; 
           height: auto; 
+      }
+      .right-photo p{
+        font-size: 20px;
       }
     }
 
@@ -169,12 +184,16 @@
     color: #f50;
   }
   
-  @media (max-width: 900px) {
+  @media (max-width: 768px) {
     .controls{
       width: 100%;  
       margin-left: 0; 
       height: auto;
-      padding-left: 30px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-direction: row;
+      /* padding-left: 30px; */
     }
     .volume{
       width: 10% !important;  
@@ -196,6 +215,25 @@
       font-size:15px;
     }
   }
+  @media (max-width: 1280px) {
+    .controls{
+      width: 100%;  
+      margin-left: 0; 
+      height: auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-direction: row;
+      /* padding-left: 30px; */
+    }
+    .volume{
+      width: 10% !important;  
+      margin-left: 10px; 
+      height: auto;
+      padding-left:20px;
+    }
+  }
+
   /* Top bar */
   .top__bar {
     font-size: 0.875rem;

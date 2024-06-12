@@ -16,6 +16,8 @@ export const FETCH_ALL_READ_BOOK_PDF = `${baseUrl}books/read-book-pdf`;
 //Audio Book 
 export const FETCH_ALL_AUDIO_BOOK = `${baseUrl}books/get-data-series`;
 export const FETCH_ALL_BOOK_SERIES_ID = `${baseUrl}books/get-audio-book`;
+export const FETCH_LISTNING_AUDIO = `${baseUrl}books/audio-progress`;
+export const SET_LISTNING_AUDIO = `${baseUrl}books/audio-progress`;
 // NEWS
 export const FETCH_ALL_NEWS = `${baseUrl}books/get-news`;
 export const FETCH_ALL_READ_NEWS = `${baseUrl}books/read-news`;
