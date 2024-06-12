@@ -1,17 +1,17 @@
 import React,{ useState ,useEffect} from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import '../../styles/loginpage.css';
+import '../../styles/authentication-page.css';
 import { CONFIRM_RESET_PASSWORD } from "../../apis/endpoints";
 import API_ENDPOINT from '../../apis/httpAxios';
 import axios from "axios";
+import toast, {Toaster} from "react-hot-toast";
 
 const ChangePassword = () => {
   const [formData, setFormData] = useState({
     password: "",
     repassword:"" ,
   });
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,17 +32,39 @@ const ChangePassword = () => {
       const response = await axios.post(`${CONFIRM_RESET_PASSWORD}/${token}`, formData);
       console.log("response=======", response);
       const data = response.data;
-      console.log("Execute success");
+
+      toast.success("Password Change Successfully", {
+        style: {
+          minWidth: '300px',
+          height: '50px',
+          // marginRight: '200px'
+        },
+        className: 'toaster',
+        duration: 1000,
+      });
+
       window.location.href = "/login";
     } catch (error) {
-      console.log("Execute bad");
       console.error('Error:', error);
+      toast.error(" Password Change faild", {
+        style: {
+          minWidth: '300px',
+          height: '50px',
+          // marginRight: '200px'
+        },
+        className: 'toaster',
+        duration: 1000,
+      });
     }
   };
   
   return (
     <>
-    <div className='login-main-outer'>
+    <Toaster  
+      position="top-center"
+      reverseOrder={false}
+    />
+    <div className='main-outer'>
       <Form className='form-controler' onSubmit={handleSubmit}>
         <br /><hr /><br />
         <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -69,7 +91,7 @@ const ChangePassword = () => {
           />
         </Form.Group>
         <br /><br />
-        <Button className='btn login-button-style' variant="primary" type="submit" >
+        <Button className='btn button-style' variant="primary" type="submit" >
           Submit
         </Button>
       </Form>

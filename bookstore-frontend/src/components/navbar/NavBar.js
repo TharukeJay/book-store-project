@@ -10,12 +10,13 @@ import '../../styles/navbar.css';
     <>
       <div className='nav-bar'>
           <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer">
-              <Container>
-                  <Navbar.Brand href="/" style={{fontSize:"35px" , color:"white",paddingLeft:"20px"} }>Read <span style={{color:'yellow'}} >Lanka</span></Navbar.Brand>
+              <Container className='nav-container'>
+                  <Navbar.Brand href="/" style={{fontSize:"25px" , color:"white",paddingLeft:"2px"} }>Read Lanka</Navbar.Brand>
                   <Navbar.Toggle aria-controls="responsive-navbar-nav togs " />
                   <Navbar.Collapse id="responsive-navbar-nav tog-border">
                       <div className='right-outer'>
                           <Nav className='link-page'>
+                              <Nav.Link href="/my-books">My Books</Nav.Link>
                               <Nav.Link href="/">Book</Nav.Link>
                               <Nav.Link href="/audio-books">Audio</Nav.Link>
 

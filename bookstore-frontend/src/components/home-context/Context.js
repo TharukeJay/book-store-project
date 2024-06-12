@@ -5,15 +5,19 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import NewsContext from '../news-context/NewsContext';
 import EBookContext from '../ebook-context/EBookContext';
+import NavBar from '../navbar/NavBar';
+import Footer from '../footer/Footer';
 
 
 const Context = () => {
   return (
     <>
-         <div className="container">
-            {/* <EBookContext/> */}
+        <NavBar/>
+         <div className="container" style={{maxWidth: "100%"}}>
+            <EBookContext/>
             <NewsContext/>
           </div> 
+        <Footer/>
     </>
   )
 }

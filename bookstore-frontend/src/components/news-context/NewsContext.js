@@ -3,6 +3,8 @@ import '../../styles/newscontext.css';
 import { useNavigate  } from 'react-router-dom';
 import { FETCH_ALL_NEWS } from "../../apis/endpoints";
 import API_ENDPOINT from '../../apis/httpAxios';
+import { FcNext } from "react-icons/fc";
+import { FcPrevious } from "react-icons/fc";
 
 const NewsContext = () => {
   const [newsData, setNewsData] = useState([]);
@@ -46,8 +48,6 @@ const NewsContext = () => {
         
 //     fetchData();
 //   }, [])
-    
-
 
   const handleNewsClick = (id) => {
     localStorage.setItem('selectedNewsId', id);
@@ -80,7 +80,13 @@ const NewsContext = () => {
   return (
     <>
     <br /><br />
+    <div className='outer'>
+    <div className='title-outer-news'>
+      <h2  style={{ color:"blue"}}>News & Features</h2>
+        <button>See All</button>
+      </div>
     <div className="gallery-container">
+ 
       <div className="news-list">
       {newsData.slice(index, index + 4).map((newsItem, i) => (
             <div key={i} onClick={() => handleNewsClick(newsItem.id)} className='news-outer'>
@@ -90,12 +96,12 @@ const NewsContext = () => {
           ))}
       </div>
       <div className="buttons">
-        <button onClick={handlePrevious} disabled={index === 0}>Previous</button>
-        <button onClick={handleNext} disabled={index + 4 >= newsData.length}>Next</button>
+        <button onClick={handlePrevious} disabled={index === 0}> <FcPrevious /> </button>
+        <button onClick={handleNext} disabled={index + 4 >= newsData.length}> <FcNext /> </button>
 
       </div>
     </div>
-      
+    </div>
     </>
   )
 }

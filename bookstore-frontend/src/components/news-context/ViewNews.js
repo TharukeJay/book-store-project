@@ -1,32 +1,47 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import '../../styles/newscontext.css'
-import { useState, useEffect } from 'react';
-import { FETCH_ALL_READ_NEWS } from '../../apis/endpoints';
+import { FETCH_ALL_READ_NEWS, FETCH_ALL_NEWS } from '../../apis/endpoints';
 import API_ENDPOINT from '../../apis/httpAxios';
+import { SlArrowLeftCircle } from "react-icons/sl";
 
 const ViewNews = () => {
     const [news, setNews] = useState(null);
-    const selectedNewsId = localStorage.getItem('selectedNewsId');
-
-      useEffect(() => {
-        console.log('selected News Data Execute start');
-        const fetchData = async () => {
-          try {
-            const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_NEWS}/${selectedNewsId}`);
-            const selectedNewsData = response.data;
-            console.log('Selected News Data:', selectedNewsData);
-            setNews(selectedNewsData.data);
-            console.log('Selected News :', news);
-          } catch (error) {
-            console.error('Error:', error);
-          }
-        };
-        fetchData();
-      }, []);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     
+    const selectedNewsId = localStorage.getItem('selectedNewsId');
+    console.log("selectedNewsId : ", selectedNewsId);
+    
+    useEffect(() => {
+      console.log('selected News Data Execute start');
+      const fetchData = async () => {
+        try {
+          const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_NEWS}/${selectedNewsId}`);
+          console.log('Selected News Data:', response);
+          const selectedNewsData = response.data.data;
+          setNews(selectedNewsData);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error:', error);
+          setError(error);
+          setLoading(false);
+          console.log("'Selected News Data:', response", news);
+        }
+      };
+  
+      if (selectedNewsId) {
+        fetchData();
+      } else {
+        setLoading(false);
+      }
+    }, [5000]);
+
+    const RedirectPage =()=>{
+      window.location.href="/";
+  }
   return (
     <>
-        <a href='/' >Back</a>
+        <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"50px", margin:'10px'}}/>
         <div className='view-news-outer'>
             <div className="left-news-outer">
                 <img src={news.thumbnail} alt="ABC"/>

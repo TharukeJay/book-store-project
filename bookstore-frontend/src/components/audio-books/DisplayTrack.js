@@ -19,15 +19,15 @@ const DisplayTrack = ({
   return (
     <>
       <audio
-        src={currentTrack.src}
+        src={currentTrack?.src || ""}
         ref={audioRef}
         onLoadedMetadata={onLoadedMetadata}
         onEnded={handleNext}
       />
       <div className="audio-info">
         <div className="audio-image">
-          {currentTrack.thumbnail ? (
-            <img src={currentTrack.thumbnail} alt="audio avatar" />
+          {currentTrack?.thumbnail_url ? (
+            <img src={currentTrack?.thumbnail_url || ""} alt="audio avatar" />
           ) : (
             <div className="icon-wrapper">
               <span className="audio-icon">
@@ -37,8 +37,9 @@ const DisplayTrack = ({
           )}
         </div>
         <div className="text">
-          <p className="title">{currentTrack.title}</p>
-          <p>{currentTrack.author}</p>
+          <p className="title">{currentTrack?.title}</p>
+          <p className="desc">Author:  {currentTrack?.authorName }</p>
+          <p className="desc">{currentTrack?.description}</p>
         </div>
       </div>
     </>

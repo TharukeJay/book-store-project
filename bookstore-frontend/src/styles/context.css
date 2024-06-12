@@ -1,28 +1,7 @@
-/* .container{
-    display: grid;
-    /* grid-template-columns: 1fr 1fr; */ /*
-} 
-.img{
-    height:500px;
+.container{
+  background: linear-gradient(60deg, #f6c4c3, #f0edef);
+  height: auto;
 }
-.img1{
-    background-image: url('../assest/img/news-letter.jpeg');
-}
-.img2{
-    background-image: url('../assest/img/E-book.png');
-}
-.card-outer{
-    width: 18rem;
-    border: 1px solid red;
-}
-@media screen and (min-width:560px) {
-    .container{
-        grid-template-columns: 1fr 1fr;
-        display: grid;
-    }   
-} */
-
-
 .gallery-container {
     display: flex;
     flex-direction: column;
@@ -34,23 +13,9 @@
     overflow-x: auto;
     padding: 10px;
   }
-  
-  .photo-item {
-    margin-right: 10px;
-    width: 100px; 
-    height: 100px;
-  }
-  
-  .buttons {
-    margin-top: 10px;
-  }
-  
+
   button {
     margin: 0 10px;
   }
-  .photo-item {
-    margin-right: 10px;
-    width: 150px !important; 
-    height: 150px !important; 
-  }
+
   

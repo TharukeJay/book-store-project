@@ -6,7 +6,9 @@ import '../../styles/ebookcontext.css';
 import { useNavigate  } from 'react-router-dom';
 import  {FETCH_ALL_BOOK, FETCH_ALL_CATEGORY}  from '../../apis/endpoints.js';
 import API_ENDPOINT from '../../apis/httpAxios';
-import ScreenLoading from '../loading/Loading'
+import ScreenLoading from '../loading/Loading';
+import { FcNext } from "react-icons/fc";
+import { FcPrevious } from "react-icons/fc";
 
 const EBookContext = () => {
   const Navigate = useNavigate();
@@ -19,31 +21,12 @@ const EBookContext = () => {
   const [index, setIndex] = useState(0); 
   const [searchInput, setSearchInput] = useState('');
 
-  // useEffect(() => {
-  //   console.log('Book Data Execute start');
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await API_ENDPOINT.get(FETCH_ALL_BOOK);
-  //       // const allBookData = response.data;
-  //       const allBookData = response.data.data.filter(book => book.categoryType === 'Pdf');
-  //       console.log('Book Data:', allBookData);
-  //       setBookData(allBookData);
-  //       setFilteredBookData(allBookData);
-  //       setLoading(false)
-  //     } catch (error) {
-  //       console.error('Error:', error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-  
   useEffect(() => {
     console.log('Book Data Execute start');
     const fetchData = async () => {
       try {
         const response = await API_ENDPOINT.get(FETCH_ALL_BOOK);
-        const allBookData = response.data;
-        // const allBookData = response.data.data.filter(book => book.categoryType === 'Pdf');
+        const allBookData = response.data.data.filter(book => book.bookType === 'PDF');
         console.log('Book Data:', allBookData);
         setBookData(allBookData);
         setFilteredBookData(allBookData);
@@ -55,24 +38,24 @@ const EBookContext = () => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   console.log('Category Data Execute start');
-  //   const fetchCategoryData = async () => {
-  //     try {
-  //       const response = await API_ENDPOINT.get(FETCH_ALL_CATEGORY);
-  //       const allCategoryData = response.data;
-  //       console.log('Category Data:', allCategoryData);
-  //       const otherCategories = Array.from(new Set(allCategoryData.data.map(categoryList => categoryList.categoryName)));
-  //       setCategories(['All', ...otherCategories]);
+  useEffect(() => {
+    console.log('Category Data Execute start');
+    const fetchCategoryData = async () => {
+      try {
+        const response = await API_ENDPOINT.get(FETCH_ALL_CATEGORY);
+        const allCategoryData = response.data;
+        console.log('Category Data:', allCategoryData);
+        const otherCategories = Array.from(new Set(allCategoryData.data.map(categoryList => categoryList.categoryName)));
+        setCategories(['All', ...otherCategories]);
 
-  //       setLoading(false)
-  //     } catch (error) {
-  //       console.error('Error:', error);
-  //     }
-  //   };
+        setLoading(false)
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
     
-  //   fetchCategoryData();
-  // }, []);
+    fetchCategoryData();
+  }, []);
 
   const handlePhotoClick = (id) => {
     localStorage.setItem('selectedBookId', id);
@@ -87,15 +70,17 @@ const EBookContext = () => {
       setFilteredBookData(bookData.filter(book => book.category === category));
     }
   };
+
   const filterBooks = (category, searchTerm) => {
-    let filteredBooks = bookData.filter(book => book.categoryType === 'Pdf');
+    // let filteredBooks = bookData.filter(book => book.categoryType === 'Pdf');
+    let filteredBooks = bookData;
 
     if (category !== 'All') {
       filteredBooks = filteredBooks.filter(book => book.category === category);
     }
     if (searchTerm) {
-      filteredBooks = filteredBooks.filter(book =>
-        book.title && book.title.toLowerCase().includes(searchTerm.toLowerCase()));
+      filteredBooks = filteredBooks.filter(book => book.title.toLowerCase().includes(searchTerm.toLowerCase()));
+      console.log("filteredBooks=================", filteredBooks);
     }
     setFilteredBookData(filteredBooks);
   };
@@ -108,30 +93,36 @@ const EBookContext = () => {
     event.preventDefault();
     filterBooks(selectedCategory, searchInput);
   };
+
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       handleSearchSubmit(event);
     }
   };
+
   const handleNext = () => {
-    if (index + 4 < bookData.length) {
-      setIndex(index + 4);
+    if (index + 14 < filteredBookData.length) {
+      setIndex(index + 14);
     }
   };
 
   const handlePrevious = () => {
-    if (index - 4 >= 0) {
-      setIndex(index - 4);
+    if (index - 14 >= 0) {
+      setIndex(index - 14);
     }
   };
 
-  // if (loading) {
-  //   return <ScreenLoading />
-  // }
+  const SeeAllBook = () => {
+    Navigate("/details/all-book");
+  }
+
+  if (loading) {
+    return <ScreenLoading />
+  }
   return (
-    <>
+    <div className='outer' >
       <br /><br />
-      <div className="ebook-context-outer">
+      <div className="ebook-search-outer">
         <Stack direction="horizontal" gap={3} className='search-outer'>
           <Form.Control className="me-auto" 
             placeholder="Search by title..."
@@ -139,7 +130,7 @@ const EBookContext = () => {
             onChange={handleSearchInputChange} 
             onKeyPress={handleKeyPress}
           />
-          <Button variant="secondary"  onClick={handleSearchSubmit}>Submit</Button>
+          <Button variant="secondary"  onClick={handleSearchSubmit} className="btn btn-primary search-button">Submit</Button>
         </Stack>
       </div>
       <br />
@@ -150,27 +141,32 @@ const EBookContext = () => {
             key={category}
             variant={selectedCategory === category ? 'primary' : 'secondary'}
             onClick={() => handleCategoryClick(category)}
+            className="btn btn-primary button"
+            style={{margin:"5px"}}
           >
             {category}
           </Button>
         ))}
       </div>
       <br />
-
+      <div className='title-outer'>
+        <h2 style={{color:" Blue"}}>Trending Now</h2>
+          <button onClick={SeeAllBook}>See All</button>
+      </div>
       <div className="book-list">
-        {filteredBookData.slice(index, index + 4).map((bookItem, i) => (
-            <div key={i} onClick={() => handlePhotoClick(bookItem.id)} className='photo'>
-              <img src={bookItem.thumbnail}alt={`Thumbnail of ${bookItem.title}`} />
-              <h4>{bookItem.title}</h4>
-            </div>
-          ))}
+        {filteredBookData && filteredBookData.slice(index, index + 14).map((bookItem, i) => (
+          <div key={i} onClick={() => handlePhotoClick(bookItem.id)} className='photo'>
+            <img src={bookItem.thumbnail_url}alt={`Thumbnail of ${bookItem.title}`} />
+            {/* <h4>{bookItem.title}</h4> */}
+          </div>
+        ))}
       </div>
-      <div className="buttons">
-        <button onClick={handlePrevious} disabled={index === 0}>Previous</button>
-        <button onClick={handleNext} disabled={index + 4 >= bookData.length}>Next</button>
+      <div className="buttons-Ebook">
+        <button onClick={handlePrevious} disabled={index === 0}> <FcPrevious /> </button>
+        <button onClick={handleNext} disabled={index + 15 >= bookData.length}>  <FcNext /> </button>
 
       </div>
-    </>
+    </div>
   )
 }
 

@@ -42,6 +42,7 @@ export const getNewsDataID = async (req, res) => {
         }
 
         const newsData = snapshot.data(); 
+        console.log("Selected newsData============>>>>", newsData);
         return res.status(200).json({ data: newsData });
 
     } catch (error) {

@@ -14,10 +14,14 @@ export const FETCH_ALL_BOOK = `${baseUrl}books/get-data`;
 export const FETCH_ALL_READ_BOOK = `${baseUrl}books/read-book`;
 export const FETCH_ALL_READ_BOOK_PDF = `${baseUrl}books/read-book-pdf`;
 //Audio Book 
-// export const FETCH_ALL_READ_BOOK = `${baseUrl}books/read-book`;
+export const FETCH_ALL_AUDIO_BOOK = `${baseUrl}books/get-data-series`;
+export const FETCH_ALL_BOOK_SERIES_ID = `${baseUrl}books/get-audio-book`;
 // NEWS
 export const FETCH_ALL_NEWS = `${baseUrl}books/get-news`;
 export const FETCH_ALL_READ_NEWS = `${baseUrl}books/read-news`;
 
 //Category
 export const FETCH_ALL_CATEGORY= `${baseUrl}books/get-category`;
+
+// export const FETCH_PRIVACY= `${baseUrl}books/get-privacy-pdf`;
+export const FETCH_PRIVACY= `${baseUrl}privacy/get-privacy`;
