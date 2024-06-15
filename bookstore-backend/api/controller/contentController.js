@@ -1,7 +1,8 @@
 import express from "express";
 import multer from "multer";
 import bodyParser from "body-parser";
-import {executeUploadContent} from "../services/uploadContentServices.js";
+import {executeGetContent, executeUploadContent} from "../services/uploadContentServices.js";
+import {executeGetCategory} from "../services/categoryServices.js";
 
 //
 // // Configure multer for file uploads
@@ -78,8 +79,21 @@ export const uploadContent = async (req, res) => {
     // });
 };
 
+export const getContent = async (req, res, next) => {
 
-
+    try {
+        const data = await executeGetContent(
+        );
+        res.status(200).json(data);
+        console.log(req.body)
+    } catch (error) {
+        console.error("Error getting documents:", error);
+        res.status(500).json({
+            status: "500",
+            error: error.message,
+        });
+    }
+}
 
 
 

@@ -58,3 +58,31 @@ export const executeGetAuthor = async (req, res, next) => {
         });
     }
 };
+export const executeUpdateAuthor = async (updatedData) => {
+    try {
+        const authorDocRef = readLankaFirebaseAppData.readLankaDB.collection("author").doc(updatedData.authorId);
+
+        // Check if the series exists
+        const doc = await authorDocRef.get();
+        if (!doc.exists) {
+            throw new Error("author  not found.");
+        }
+
+        const existingData = doc.data();
+        let updatedFields = {
+            authorName:updatedData.authorName,
+            updatedAt: new Date(),
+        };
+
+
+        // Update the series document with the new data
+        await authorDocRef.update(updatedFields);
+
+        console.log("author updated successfully with ID:", updatedData.authorId);
+        let authorId=updatedData.authorId;
+        return { authorId, ...updatedFields };
+    } catch (error) {
+        console.error("Error executing categoryId:", error);
+        throw error;
+    }
+};

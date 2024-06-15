@@ -5,6 +5,8 @@ import {generateRefreshToken, generateToken} from "../utils/token.js";
 import {readLankaFirebaseAppData} from "../utils/firebaseInit.js"
 import {v4 as uuidv4} from 'uuid';
 import {sendPasswordResetEmail} from "../utils/resetPasswordLink.js";
+import {executeUpdateCategory} from "../services/categoryServices.js";
+import {executeUpdateAuthor} from "../services/bookAuthorServices.js";
 
 // Register new user
 export const registerUser = async (req, res) => {
@@ -357,6 +359,27 @@ export const handleTokenVerification = async (req, res) => {
         res
             .status(500)
             .json({ error: "Token Verification Failed", success: false });
+    }
+};
+
+export const updateAuthor = async (req, res, next) => {
+
+    const { authorName,authorId } = req.body;
+
+    try {
+        const updatedData = {
+            authorName,
+            authorId
+        };
+
+        const data = await executeUpdateAuthor(updatedData);
+        res.status(200).json(data);
+    } catch (error) {
+        console.error("Error updating series:", error);
+        res.status(500).json({
+            status: "500",
+            error: error.message,
+        });
     }
 };
 

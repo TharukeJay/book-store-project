@@ -1,10 +1,11 @@
 import {logger} from "../utils/logger.js";
 import express from "express";
 import {CheckAuth} from "../middlewares/check-auth.js";
-import {uploadContent} from "../controller/contentController.js";
+import {getContent, uploadContent} from "../controller/contentController.js";
 import bodyParser from "body-parser";
 import multer from "multer";
 import cors from "cors";
+import {getCategory} from "../controller/categoryController.js";
 
 
 
@@ -27,6 +28,7 @@ router.post('/upload-content',upload.fields([
     { name: 'previewPdfFile', maxCount: 1 },
     { name: 'fullPdfFile', maxCount: 1 }
 ]), uploadContent);
+router.post("/get-content", logger,CheckAuth, getContent);
 
 
 // Export router

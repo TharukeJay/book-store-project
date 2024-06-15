@@ -1,6 +1,6 @@
 import {logger} from "../utils/logger.js";
 import express from "express";
-import {createCategory, getCategory} from "../controller/categoryController.js";
+import {createCategory, getCategory, updateCategory} from "../controller/categoryController.js";
 import {CheckAuth} from "../middlewares/check-auth.js";
 // import createCategory  from "./../controller/category";
 const router = express.Router();
@@ -11,6 +11,7 @@ const router = express.Router();
 // Attach routes
 router.post("/create-category", logger,CheckAuth, createCategory);
 router.post("/get-category", logger,CheckAuth, getCategory);
+router.post("/update-category", logger,CheckAuth, updateCategory);
 
 // Export router
 export default router;

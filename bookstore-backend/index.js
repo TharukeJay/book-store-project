@@ -11,6 +11,7 @@ import categoryRoutes from "./api/routes/CategoryRoutes.js";
 import bookAuthorRoutes from "./api/routes/BookAuthorRoutes.js";
 import contentRoutes from "./api/routes/ContentRoutes.js";
 import bookSeriesRoutes from "./api/routes/BookSeriesRoutes.js";
+import newsRoutes from "./api/routes/NewsRoutes.js";
 
 
 // Load environment variables from .env file
@@ -36,6 +37,7 @@ dotenv.config();
 app.use("/api/auth", authRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/author",bookAuthorRoutes );
+app.use("/api/news",newsRoutes );
 app.use("/api/series",bookSeriesRoutes );
 app.use("/api/content",contentRoutes );
 

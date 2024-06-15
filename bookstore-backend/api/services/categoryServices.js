@@ -1,4 +1,5 @@
 import { readLankaFirebaseAppData } from "../utils/firebaseInit.js";
+import {executeUpdateBookSeries} from "./bookSeriesServices.js";
 
 
 export const executeCreateCategory = async (name) => {
@@ -58,3 +59,33 @@ export const executeGetCategory = async (req, res, next) => {
         });
     }
 };
+
+export const executeUpdateCategory = async (updatedData) => {
+    try {
+        const categoryDocRef = readLankaFirebaseAppData.readLankaDB.collection("category").doc(updatedData.categoryId);
+
+        // Check if the series exists
+        const doc = await categoryDocRef.get();
+        if (!doc.exists) {
+            throw new Error("Category not found.");
+        }
+
+        const existingData = doc.data();
+        let updatedFields = {
+            categoryName:updatedData.categoryName,
+            updatedAt: new Date(),
+        };
+
+
+        // Update the series document with the new data
+        await categoryDocRef.update(updatedFields);
+
+        console.log("Category updated successfully with ID:", updatedData.categoryId);
+        let categoryId=updatedData.categoryId;
+        return { categoryId, ...updatedFields };
+    } catch (error) {
+        console.error("Error executing categoryId:", error);
+        throw error;
+    }
+};
+
