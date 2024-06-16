@@ -10,6 +10,7 @@ import {
   FacebookIcon,
 } from "react-share";
 import EbookTopBar from '../ebook-context/EbbokTopBar';
+import {Navigate} from "react-router-dom";
 
 const ReadBook = () => {
   
@@ -29,7 +30,6 @@ const ReadBook = () => {
             setBook(selectedBookData);
             setLoading(false)
           }else{
-            console.log("hi");
             window.location.href="/login"
           }
         } catch (error) {
@@ -48,6 +48,10 @@ const ReadBook = () => {
     // const shareUrl = "http://localhost:3000/read-book";
     const title = "GitHub";
 
+    // const CheckoutBalnce = () => {
+    //     window.location.href="/checkout-order";
+    // }
+
     if (loading) {
       return <ScreenLoading />
     }
@@ -62,19 +66,22 @@ const ReadBook = () => {
           </div>
           <div className="right-desc-outer">
             <br /><br />
-            <p style={{color:"blue"}}>{book.title}</p>
+            <p style={{color:"blue", fontSize:"45px" , paddingBottom:"20px"}}>{book.title}</p>
             <p>{book.description}</p>
             <br />
             <div className="pricing-card">
-              <span>{book.price} $</span>
+              <span>LKR {book.price} </span>
             </div>
             <div className="read-button-outer">
               <button> <a href="/read-preview">Read preview</a> </button>
-              <button>Buy Now</button>
+                {/*<button onClick={CheckoutBalnce}>*/}
+                {/*    Buy Now*/}
+                {/*</button> */}
+                <button><a href={`/checkout-order?price=${book.price}&title=${encodeURIComponent(book.title)}`}>  Buy Now</a></button>
             </div>
-            <div className="Demo__container">
-              <div className="Demo__some-network">
-                <FacebookShareButton
+              <div className="Demo__container">
+                  <div className="Demo__some-network">
+                  <FacebookShareButton
                   url={shareUrl}
                   className="Demo__some-network__share-button"
                 >

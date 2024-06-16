@@ -36,7 +36,7 @@ const LoginPage = () => {
           // marginRight: '200px'
         },
         className: 'toaster',
-        duration: 1000,
+        duration: 3000,
       });
       if (response.status==200) {
         window.location.href="/"

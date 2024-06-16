@@ -9,6 +9,8 @@ import API_ENDPOINT from '../../apis/httpAxios';
 import ScreenLoading from '../loading/Loading';
 import { FcNext } from "react-icons/fc";
 import { FcPrevious } from "react-icons/fc";
+import Carousel from 'react-bootstrap/Carousel';
+// import ExampleCarouselImage from 'components/ExampleCarouselImage';
 
 const EBookContext = () => {
   const Navigate = useNavigate();
@@ -124,10 +126,10 @@ const EBookContext = () => {
       <br /><br />
       <div className="ebook-search-outer">
         <Stack direction="horizontal" gap={3} className='search-outer'>
-          <Form.Control className="me-auto" 
+          <Form.Control className="me-auto"
             placeholder="Search by title..."
             value={searchInput}
-            onChange={handleSearchInputChange} 
+            onChange={handleSearchInputChange}
             onKeyPress={handleKeyPress}
           />
           <Button variant="secondary"  onClick={handleSearchSubmit} className="btn btn-primary search-button">Submit</Button>
@@ -153,14 +155,21 @@ const EBookContext = () => {
         <h2 style={{color:" Blue"}}>Trending Now</h2>
           <button onClick={SeeAllBook}>See All</button>
       </div>
-      <div className="book-list">
-        {filteredBookData && filteredBookData.slice(index, index + 14).map((bookItem, i) => (
-          <div key={i} onClick={() => handlePhotoClick(bookItem.id)} className='photo'>
-            <img src={bookItem.thumbnail_url}alt={`Thumbnail of ${bookItem.title}`} />
-            {/* <h4>{bookItem.title}</h4> */}
+      <Carousel>
+        <Carousel.Item>
+          <div className="book-list">
+            {filteredBookData && filteredBookData.slice(index, index + 14).map((bookItem, i) => (
+                <div key={i} onClick={() => handlePhotoClick(bookItem.id)} className='photo'>
+                  <img src={bookItem.thumbnail_url} alt={`Thumbnail of ${bookItem.title}`} />
+                  {/* <h4>{bookItem.title}</h4> */}
+                </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </Carousel.Item>
+        <Carousel.Item>
+          <h3>HI 2</h3>
+        </Carousel.Item>
+      </Carousel>
       <div className="buttons-Ebook">
         <button onClick={handlePrevious} disabled={index === 0}> <FcPrevious /> </button>
         <button onClick={handleNext} disabled={index + 15 >= bookData.length}>  <FcNext /> </button>

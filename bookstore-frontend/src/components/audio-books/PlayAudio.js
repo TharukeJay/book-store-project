@@ -9,8 +9,10 @@ import DisplayTrack from './DisplayTrack';
 import Controls from './Controles';
 import ProgressBar from './ProgressBar';
 import TopBar from './TopBar';
-// import { tracks } from '../data/track';
-// import tracks from '../data/track'
+import {
+  FacebookShareButton,
+  FacebookIcon,
+} from "react-share";
 
 const AudioPlayer  = () => {
   const Navigate = useNavigate();
@@ -38,21 +40,19 @@ const AudioPlayer  = () => {
   const selectedBookId = localStorage.getItem('selectedSeriesAudioId');
   const userId = localStorage.getItem('userId');
 
-    // useEffect(() => {
       const fetchLastPlayedTrackIndex = async () => {
         try {
           const response = await API_ENDPOINT.get(`${FETCH_LISTNING_AUDIO}/${userId}/${selectedBookId}`);
           if (response.status === 200) {
-            return response.data.lastPlayedTrackIndex;
+            return response.data.data;
           }
-          console.log("fetchLastPlayedTrackIndex =============>>>", response.data.lastPlayedTrackIndex);
+          console.log("fetchLastPlayedTrackIndex =============>>>", response.data);
         } catch (error) {
           console.error('Error fetching last played track index:', error);
         }
-        return 0;
+        return { lastPlayedTrackIndex: 0, selectedAudioId: "" };
       };
-    // },[]);
-  
+
     useEffect(() => {
       console.log('selected Book Data Execute start');
       const fetchData = async () => {
@@ -76,9 +76,13 @@ const AudioPlayer  = () => {
             // setCurrentTrack(updatedTracks[0]);
             // setTrackIndex(0);
 
-            const lastPlayedTrackIndex = await fetchLastPlayedTrackIndex();
+            const lastPlayedData = await fetchLastPlayedTrackIndex();
+            const lastPlayedTrackIndex = lastPlayedData.lastPlayedTrackIndex;
+            const lastPlayedAudioId = lastPlayedData.selectedAudioId;
+
             setTrackIndex(lastPlayedTrackIndex);
             setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
+            setSelectedTrackId(lastPlayedAudioId);
           }else{
             window.location.href="/login"
           }
@@ -104,8 +108,9 @@ const AudioPlayer  = () => {
     const saveProgress = async () => {
       try {
         await API_ENDPOINT.post(SET_LISTNING_AUDIO, {
-          userId : userId,
+          userId: userId,
           seriesAudioId: selectedBookId,
+          selectedAudioId: selectedTrackId,
           lastPlayedTrackIndex: trackIndex,
         });
       } catch (error) {
@@ -113,13 +118,13 @@ const AudioPlayer  = () => {
       }
     };
 
-    useEffect(() => {
-      window.addEventListener('beforeunload', saveProgress);
-      return () => {
-        window.removeEventListener('beforeunload', saveProgress);
-        saveProgress();
-      };
-    }, [trackIndex]);
+  useEffect(() => {
+    window.addEventListener('beforeunload', saveProgress);
+    return () => {
+      window.removeEventListener('beforeunload', saveProgress);
+      saveProgress();
+    };
+  }, [trackIndex, selectedTrackId]);
   
 
     const handlePhotoClick = (id) => {
@@ -145,6 +150,10 @@ const AudioPlayer  = () => {
         fetchAudioData();
       }
     }, [selectedAudioId]);
+
+  const shareUrl = "http://github.com";
+  // const shareUrl = "http://localhost:3000/read-book";
+  const title = "GitHub";
 
     return (
       <>
@@ -187,16 +196,31 @@ const AudioPlayer  = () => {
           <div className="audio-book-list">
             {bookData && bookData.map((audioBookItem, i) => (
                 <div key={i} onClick={() => handlePhotoClick(audioBookItem.id)} className='right-photo'>
-                  <img src={audioBookItem.thumbnail_url}alt={`Thumbnail of ${audioBookItem.seriesTitle}`} />
+                  <img src={audioBookItem.thumbnail_url} alt={`Thumbnail of ${audioBookItem.seriesTitle}`}/>
                   <p>{audioBookItem.title}</p>
                 </div>
-              ))}
+            ))}
+          </div>
+          <div className="pricing-card">
+            {/*<span>LKR {book.price} </span>*/}
+            <button>Buy Now</button>
+          </div>
+          <div className="Demo__container">
+            <div className="Demo__some-network">
+              <FacebookShareButton
+                  url={shareUrl}
+                  className="Demo__some-network__share-button"
+              >
+                <FacebookIcon size={50} round/>
+              </FacebookShareButton>
+
+            </div>
           </div>
         </div>
       </div>
       </>
     );
-  };
+};
 
-export default AudioPlayer 
+export default AudioPlayer
 

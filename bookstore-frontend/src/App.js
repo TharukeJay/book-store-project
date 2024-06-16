@@ -15,6 +15,7 @@ import About from './views/about/About';
 import SeeAll from './components/seeAll/SeeAll';
 import MyLibrary from './components/library/MyLibrary';
 import PrivacyPolicy from './components/privacy/PrivacyPolicy';
+import Checkout from "./components/cheeckout/checkout";
 const App =() => {
 
   const PrivateRoute = ({ children }) => {
@@ -26,7 +27,7 @@ const App =() => {
     <>
        <Routes>
         {/* Home page / DashBoard */}
-          <Route path="/" element={<About/>}/>
+          <Route path="/" element={<Home/>}/>
 
           {/* Purchase library */}
           <Route path="/my-books" element={<MyLibrary/>}/>
@@ -53,6 +54,8 @@ const App =() => {
           {/* Privacy & Policy */}
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
+           {/*  Payment pages  */}
+           <Route path="/checkout-order" element={<Checkout />} />
        </Routes>
     </>
   );
