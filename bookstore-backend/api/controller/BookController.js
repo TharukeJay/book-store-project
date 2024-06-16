@@ -165,6 +165,7 @@ export const saveListningAudio = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const userId = req.body.userId;
     const seriesAudioId = req.body.seriesAudioId;
+    const selectedAudioId = req.body.selectedAudioId;
     const lastPlayedTrackIndex  = req.body.lastPlayedTrackIndex ;
 
     console.log("userId ================>>>", userId);
@@ -178,6 +179,7 @@ export const saveListningAudio = async (req, res) => {
         const listningAudioData = {
             userId: userId,
             seriesAudioId: seriesAudioId,
+            selectedAudioId:selectedAudioId,
             lastPlayedTrackIndex: lastPlayedTrackIndex,
             createdAt: Date.now(),
         };
@@ -192,11 +194,11 @@ export const saveListningAudio = async (req, res) => {
 
 export const getListningAudio = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
-    const userId = req.params;
-    const seriesAudioId  = req.params;
+    const userId = req.params.userId;
+    const seriesAudioId  = req.params.seriesAudioId;
 
-    // console.log("userId ================>>>", userId);
-    // console.log("seriesAudioId ================>>>", seriesAudioId);
+    console.log("userId ================>>>", userId);
+    console.log("seriesAudioId ================>>>", seriesAudioId);
     try {
         const bookCollectionRef = readLankaFirebaseAppData.readLankaDB.collection("userAudioProgress");
 
@@ -208,7 +210,7 @@ export const getListningAudio = async (req, res) => {
             console.log("snapshot ================>>>", snapshot);
             const dataList = snapshot.data(); 
             console.log("dataList ================>>>", dataList);
-            return res.status(200).json({ data: snapshot });
+            return res.status(200).json({ data: snapshot.data() });
 
       } catch (error) {
         res.status(500).send({ error: 'Failed to retrieve progress' });

@@ -35,7 +35,7 @@
   }
   .right-photo img{
     width: 100px;
-    height: 100px;
+    height: 110px;
   }
   .right-photo p{
       margin: 25px 15px ;
@@ -99,8 +99,8 @@
   }
   
   .audio-image {
-    width: 300px;
-    height: 300px;
+    width: 280px;
+    height: 400px;
     background: #1e1e1e; 
   }
   

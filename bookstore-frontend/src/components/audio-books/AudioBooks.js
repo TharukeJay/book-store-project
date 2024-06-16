@@ -153,7 +153,7 @@ const AudioBooks = () => {
           {filteredAudioBookData && filteredAudioBookData.slice(index, index + 4).map((audioBookItem, i) => (
               <div key={i} onClick={() => handlePhotoClick(audioBookItem.seriesId)} className='photo'>
                 <img src={audioBookItem.thumbnail_url}alt={`Thumbnail of ${audioBookItem.seriesTitle}`} />
-                <h4>{audioBookItem.seriesTitle}</h4>
+                {/*<h4>{audioBookItem.seriesTitle}</h4>*/}
               </div>
             ))}
         </div>

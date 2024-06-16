@@ -4,6 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react'
 import '../../styles/navbar.css';
+import Logo from '../../assest/img/VLogo.mp4'
 
  const NavBar= () => {
   return (
@@ -11,7 +12,10 @@ import '../../styles/navbar.css';
       <div className='nav-bar'>
           <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer">
               <Container className='nav-container'>
-                  <Navbar.Brand href="/" style={{fontSize:"25px" , color:"white",paddingLeft:"2px"} }>Read Lanka</Navbar.Brand>
+                  <Navbar.Brand href="/" style={{fontSize:"25px" , color:"white",paddingLeft:"2px"} }>
+                      {/*<img src={ Logo} style={{width:"100px" , height:"60px"}}/>*/}
+                      Read Lanka
+                  </Navbar.Brand>
                   <Navbar.Toggle aria-controls="responsive-navbar-nav togs " />
                   <Navbar.Collapse id="responsive-navbar-nav tog-border">
                       <div className='right-outer'>

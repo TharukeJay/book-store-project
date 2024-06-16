@@ -5,14 +5,10 @@ import {
     getBookDataID,
     getBookPDF,
     getBookSeriesData,
-<<<<<<< Feature/Amith/athentication
     getBookSeriesDataID,
     saveListningAudio,
     getListningAudio,
-=======
     getPrivacyPolicyPdf,
-    getBookSeriesDataID
->>>>>>> main
 } from "../controller/BookController.js";
 import {
     getNewsData,
