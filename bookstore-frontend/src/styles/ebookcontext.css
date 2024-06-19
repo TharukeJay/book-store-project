@@ -1,4 +1,8 @@
+:root {
+    --background-color: linear-gradient(60deg, #f6c4c3, #f0edef);
+}
 .outer{
+    /*background: var(--background-color);*/
     background: linear-gradient(60deg, #f6c4c3, #f0edef);
     max-width: 100% !important;
     height: auto;
@@ -22,13 +26,13 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap:15px; 
+    gap:35px;
     margin:7px 0 30px 0;
 
 }
 .photo img{
     border: 1px solid blue;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 .photo:hover{
     opacity: 60%;
@@ -57,7 +61,7 @@
 }
 
 /* Tablets: from 768px to 1024px */
-@media (max-width: 767px)  {
+@media (max-width: 768px)  {
     .photo img{
         width: 120px;  
         height: 140px; 
@@ -93,8 +97,8 @@
 /* Desktop and larger devices */
 @media (min-width: 1024px) {
     .photo img{
-        width: 350px;
-        height: 550px;
+        width: 300px !important;
+        height: 500px!important;
     }
     .outer{
         width: 100% !important;
@@ -109,7 +113,7 @@
 /* ----------------Read Book CSS------------------- */
 .view-novel-outer{
     width: 100%;
-    height: 100%;
+    height:auto;
     display: flex;
     /* justify-content: center;
     align-items: center; */
@@ -118,17 +122,18 @@
 }
 .left-photo-outer{
     width:50%;
-    height: 90vh; 
+    height: 90vh;
 }
 .left-photo-outer img{
-    width: 100%;
-    height: 98%;
+    height: 100%;
     padding-top: 50px;
     padding-left: 50px;
 }
 .right-desc-outer{
     width: 50%;
-    height: 90vh;
+    margin-left: 40px;
+    /*height: 90vh;*/
+    height: auto;
     padding:10px 10px 20px 10px;
     display: flex;
     align-items: center;
@@ -136,10 +141,10 @@
     flex-direction: column;
 }
 .right-desc-outer p{
-    font-size: 25px;
+    font-size: 20px;
 }
 .pricing-card{
-    font-size: 35px;
+    font-size: 28px;
 }
 .read-button-outer{
     display: flex;
@@ -151,7 +156,7 @@
 .read-button-outer button{
     width: auto;
     padding: 10px;
-    font-size: 20px;
+    font-size: 18px;
     border-radius: 10cap;
 }
 a{

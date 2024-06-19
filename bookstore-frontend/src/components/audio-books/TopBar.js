@@ -3,12 +3,12 @@ const TopBar = () => {
 
   const RedirectPage = async(id) =>{
     localStorage.removeItem('selectedAudioId');
-    window.location.href="/audio-books";
+    window.location.href="/";
   }
     return (
       <div className="top__bar">
         <p>
-          <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"40px", margin:'10px', color:"white"}}/>
+          <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"40px", color:"white"}}/>
         </p>
       </div>
     );

@@ -1,89 +1,87 @@
-import  { useState, useEffect, React }from 'react'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
+import Carousel from 'react-bootstrap/Carousel';
 import '../../styles/ebookcontext.css';
-import { useNavigate  } from 'react-router-dom';
-import  {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_CATEGORY}  from '../../apis/endpoints.js';
+import { FETCH_ALL_AUDIO_BOOK, FETCH_ALL_BOOK, FETCH_ALL_CATEGORY } from '../../apis/endpoints.js';
 import API_ENDPOINT from '../../apis/httpAxios';
-import ScreenLoading from '../loading/Loading'
-import NavBar from '../navbar/NavBar.js';
-import Footer from "../footer/Footer.js"
+import ScreenLoading from '../loading/Loading';
 
-const AudioBooks = () => {
-  const Navigate = useNavigate();
-  const [audiobookData, setAudioBookData] = useState([]);
+const EBookContext = () => {
+  const navigate = useNavigate();
+  const [bookData, setBookData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
-  const [filteredAudioBookData, setFilteredAudioBookData] = useState([]);
+  const [filteredBookData, setFilteredBookData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState(['All']);
-  const [index, setIndex] = useState(0); 
+  const [index, setIndex] = useState(0);
   const [searchInput, setSearchInput] = useState('');
-  
+  const [indexNext, setIndexNext] = useState(0);
+  const [showAllBooks, setShowAllBooks] = useState(true);
+  const [showAllAudioBooks, setShowAllAudioBooks] = useState(false);
+  const [audiobookData, setAudioBookData] = useState([]);
+  const [filteredAudioBookData, setFilteredAudioBookData] = useState([]);
+
+  const handleSelect = (selectedIndex) => {
+    setIndexNext(selectedIndex);
+  };
+
   useEffect(() => {
-    console.log('Audio Data Execute start');
     const fetchData = async () => {
       try {
-        const response = await API_ENDPOINT.get(FETCH_ALL_AUDIO_BOOK);
-        console.log('Audio Data Execute Midle', response);
-        const allAudioBookData = response.data.data;
-        console.log('allAudioBookData===========>>', allAudioBookData);
-        setAudioBookData(allAudioBookData);
-        setFilteredAudioBookData(allAudioBookData);
-        setLoading(false)
+        const response = await API_ENDPOINT.get(FETCH_ALL_BOOK);
+        const allBookData = response.data.data.filter(book => book.bookType === 'PDF');
+        setBookData(allBookData);
+        setFilteredBookData(allBookData);
+        setLoading(false);
       } catch (error) {
         console.error('Error:', error);
       }
     };
     fetchData();
   }, []);
-  console.log('Audio Book Data:', filteredAudioBookData);
-    
+
   useEffect(() => {
-    // console.log('Category Data Execute start');
     const fetchCategoryData = async () => {
       try {
         const response = await API_ENDPOINT.get(FETCH_ALL_CATEGORY);
         const allCategoryData = response.data;
-        console.log('Category Data:', allCategoryData);
         const otherCategories = Array.from(new Set(allCategoryData.data.map(categoryList => categoryList.categoryName)));
         setCategories(['All', ...otherCategories]);
-
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
         console.error('Error:', error);
       }
     };
-    
     fetchCategoryData();
   }, []);
 
-  const handlePhotoClick = (seriesId) => {
-    localStorage.setItem('selectedSeriesAudioId', seriesId);
-    Navigate('/play-audio');
-  }; 
+  const handlePhotoClick = (id) => {
+    localStorage.setItem('selectedBookId', id);
+    navigate('/read-book');
+  };
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
     if (category === 'All') {
-        setFilteredAudioBookData(audiobookData);
+      setFilteredBookData(bookData);
     } else {
-      setFilteredAudioBookData(audiobookData.filter(audio => audio.category === category));
+      setFilteredBookData(bookData.filter(book => book.category === category));
     }
   };
-  const filterAudio = (category, searchTerm) => {
-    // let filteredAudioBooks = audiobookData.filter(audio => audio.bookType === 'Audio Book');
-    let filteredBooks = audiobookData;
 
+  const filterBooks = (category, searchTerm) => {
+    let filteredBooks = bookData;
     if (category !== 'All') {
-      filteredBooks = filteredBooks.filter(audio => audio.category === category);
+      filteredBooks = filteredBooks.filter(book => book.category === category);
     }
     if (searchTerm) {
-      filteredBooks = filteredBooks.filter(audio =>
-        audio.seriesTitle && audio.seriesTitle.toLowerCase().includes(searchTerm.toLowerCase()));
+      filteredBooks = filteredBooks.filter(book => book.title.toLowerCase().includes(searchTerm.toLowerCase()));
     }
-    setFilteredAudioBookData(filteredBooks);
+    setFilteredBookData(filteredBooks);
   };
 
   const handleSearchInputChange = (event) => {
@@ -92,7 +90,7 @@ const AudioBooks = () => {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    filterAudio(selectedCategory, searchInput);
+    filterBooks(selectedCategory, searchInput);
   };
 
   const handleKeyPress = (event) => {
@@ -101,70 +99,195 @@ const AudioBooks = () => {
     }
   };
 
-  const handleNext = () => {
-    if (index + 15 < audiobookData.length) {
-      setIndex(index + 15);
+  const SeeAllBook = () => {
+    navigate("/details/all-books", { state: { type: 'book' } });
+  }
+
+  const chunkArray = (array, chunkSize) => {
+    const results = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      results.push(array.slice(i, i + chunkSize));
+    }
+    return results;
+  };
+
+  const bookChunks = chunkArray(filteredBookData, 6);
+
+  // Audio Book
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await API_ENDPOINT.get(FETCH_ALL_AUDIO_BOOK);
+        const allAudioBookData = response.data.data;
+        setAudioBookData(allAudioBookData);
+        setFilteredAudioBookData(allAudioBookData);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handlePhotoClickAudio = (seriesId) => {
+    localStorage.setItem('selectedSeriesAudioId', seriesId);
+    navigate('/play-audio');
+  };
+
+  const handleAudioCategoryClick = (category) => {
+    setSelectedCategory(category);
+    if (category === 'All') {
+      setFilteredAudioBookData(audiobookData);
+    } else {
+      setFilteredAudioBookData(audiobookData.filter(audio => audio.category === category));
     }
   };
 
-  const handlePrevious = () => {
-    if (index - 15 >= 0) {
-      setIndex(index - 15);
+  const filterAudio = (category, searchTerm) => {
+    let filteredBooks = audiobookData;
+    if (category !== 'All') {
+      filteredBooks = filteredBooks.filter(audio => audio.category === category);
+    }
+    if (searchTerm) {
+      filteredBooks = filteredBooks.filter(audio =>
+          audio.seriesTitle && audio.seriesTitle.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+    setFilteredAudioBookData(filteredBooks);
+  };
+
+  const handleSearchInputChangeAudio = (event) => {
+    setSearchInput(event.target.value);
+  };
+
+  const handleSearchSubmitAudio = (event) => {
+    event.preventDefault();
+    filterAudio(selectedCategory, searchInput);
+  };
+
+  const handleKeyPressAudio = (event) => {
+    if (event.key === 'Enter') {
+      handleSearchSubmitAudio(event);
     }
   };
+
+  const ShowAllBooks = () => {
+    setShowAllBooks(true);
+    setShowAllAudioBooks(false);
+  }
+
+  const ShowAllAudioBooks = () => {
+    setShowAllBooks(false);
+    setShowAllAudioBooks(true);
+  }
+
+  const audioBookChunks = chunkArray(filteredAudioBookData, 6);
 
   if (loading) {
     return <ScreenLoading />
   }
 
   return (
-    <>
-      <div className='outer' >
-        <NavBar/>
+      <div className='outer'>
+        <br />
+        <div className="button-outer">
+          <button className='btn btn-primary' onClick={ShowAllBooks}>Books</button>
+          <button className='btn btn-primary' onClick={ShowAllAudioBooks}>Audio Book</button>
+        </div>
         <br /><br />
-        <div className="ebook-context-outer">
-          <Stack direction="horizontal" gap={3} className='search-outer'>
-            <Form.Control className="me-auto" 
-              placeholder="Search by title..."
-              value={searchInput}
-              onChange={handleSearchInputChange} 
-              onKeyPress={handleKeyPress}
-            />
-            <Button variant="secondary"  onClick={handleSearchSubmit}>Submit</Button>
-          </Stack>
-        </div>
-        <br />
-
-        <div className="category-buttons">
-          {categories.map(category => (
-            <Button
-              key={category}
-              variant={selectedCategory === category ? 'primary' : 'secondary'}
-              className="btn btn-primary"  style={{margin:"5px"}}
-              onClick={() => handleCategoryClick(category)}
-            >
-              {category}
-            </Button>
-          ))}
-        </div>
-        <br />
-
-        <div className="book-list">
-          {filteredAudioBookData && filteredAudioBookData.slice(index, index + 4).map((audioBookItem, i) => (
-              <div key={i} onClick={() => handlePhotoClick(audioBookItem.seriesId)} className='photo'>
-                <img src={audioBookItem.thumbnail_url}alt={`Thumbnail of ${audioBookItem.seriesTitle}`} />
-                {/*<h4>{audioBookItem.seriesTitle}</h4>*/}
+        {showAllBooks && (
+            <div>
+              <div className="ebook-search-outer">
+                <Stack direction="horizontal" gap={3} className='search-outer'>
+                  <Form.Control className="me-auto"
+                                placeholder="Search by title..."
+                                value={searchInput}
+                                onChange={handleSearchInputChange}
+                                onKeyPress={handleKeyPress}
+                  />
+                  <Button variant="secondary" onClick={handleSearchSubmit}
+                          className="btn btn-primary search-button">Submit</Button>
+                </Stack>
               </div>
-            ))}
-        </div>
-        <div className="buttons-Ebook">
-          <button onClick={handlePrevious} disabled={index === 0}>Previous</button>
-          <button onClick={handleNext} disabled={index + 15 >= audiobookData.length}>Next</button>
-        </div>
+              <div className="category-buttons">
+                {categories.map(category => (
+                    <Button
+                        key={category}
+                        variant={selectedCategory === category ? 'primary' : 'secondary'}
+                        onClick={() => handleCategoryClick(category)}
+                        className="btn btn-primary button"
+                        style={{ margin: "5px" }}
+                    >
+                      {category}
+                    </Button>
+                ))}
+              </div>
+              <div className='title-outer'>
+                <h2 style={{ color: "Blue" }}>Trending Now</h2>
+                <button onClick={SeeAllBook}>See All</button>
+              </div>
+              <Carousel activeIndex={indexNext} onSelect={handleSelect}>
+                {bookChunks.map((chunk, idx) => (
+                    <Carousel.Item key={idx}>
+                      <div className="book-list">
+                        {chunk.map((bookItem, i) => (
+                            <div key={i} onClick={() => handlePhotoClick(bookItem.id)} className='photo'>
+                              <img src={bookItem.thumbnail_url} alt={`Thumbnail of ${bookItem.title}`} />
+                            </div>
+                        ))}
+                      </div>
+                    </Carousel.Item>
+                ))}
+              </Carousel>
+            </div>
+        )}
+        {showAllAudioBooks && (
+            <div>
+              <div className="ebook-search-outer">
+                <Stack direction="horizontal" gap={3} className='search-outer'>
+                  <Form.Control className="me-auto"
+                                placeholder="Search by title..."
+                                value={searchInput}
+                                onChange={handleSearchInputChangeAudio}
+                                onKeyPress={handleKeyPressAudio}
+                  />
+                  <Button variant="secondary" onClick={handleSearchSubmitAudio}>Submit</Button>
+                </Stack>
+              </div>
+              <br />
+              <div className="category-buttons">
+                {categories.map(category => (
+                    <Button
+                        key={category}
+                        variant={selectedCategory === category ? 'primary' : 'secondary'}
+                        onClick={() => handleAudioCategoryClick(category)}
+                        className="btn btn-primary button"
+                        style={{ margin: "5px" }}
+                    >
+                      {category}
+                    </Button>
+                ))}
+              </div>
+              <div className='title-outer'>
+                <h2 style={{ color: "Blue" }}>Trending Now</h2>
+                <button onClick={SeeAllBook}>See All</button>
+              </div>
+              <Carousel activeIndex={indexNext} onSelect={handleSelect}>
+                {audioBookChunks.map((chunk, idx) => (
+                    <Carousel.Item key={idx}>
+                      <div className="book-list">
+                        {chunk.map((audioItem, i) => (
+                            <div key={i} onClick={() => handlePhotoClickAudio(audioItem.id)} className='photo'>
+                              <img src={audioItem.thumbnail_url} alt={`Thumbnail of ${audioItem.seriesTitle}`} />
+                            </div>
+                        ))}
+                      </div>
+                    </Carousel.Item>
+                ))}
+              </Carousel>
+            </div>
+        )}
       </div>
-      <Footer/>
-      
-  </>
-  )
-}
-export default AudioBooks
+  );
+};
+
+export default EBookContext;

@@ -194,7 +194,7 @@ const AudioPlayer  = () => {
         </div>
         <div className="right-desc-outer">
           <div className="audio-book-list">
-            {bookData && bookData.map((audioBookItem, i) => (
+            {bookData.sort((a, b) => a.chapter - b.chapter).map((audioBookItem, i) => (
                 <div key={i} onClick={() => handlePhotoClick(audioBookItem.id)} className='right-photo'>
                   <img src={audioBookItem.thumbnail_url} alt={`Thumbnail of ${audioBookItem.seriesTitle}`}/>
                   <p>{audioBookItem.title}</p>
@@ -202,8 +202,11 @@ const AudioPlayer  = () => {
             ))}
           </div>
           <div className="pricing-card">
-            {/*<span>LKR {book.price} </span>*/}
-            <button>Buy Now</button>
+            <div className="read-button-outer">
+              <span>LKR {bookData.price} </span>
+              <button><a href={`/checkout-order?price=${bookData.price}&title=${encodeURIComponent(bookData.title)}`}> Buy
+                Now</a></button>
+            </div>
           </div>
           <div className="Demo__container">
             <div className="Demo__some-network">
