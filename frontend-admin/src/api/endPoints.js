@@ -1,8 +1,27 @@
 import {
-    CREATE_AUTHOR, CREATE_BOOK_SERIES,
-    CREATE_CATEGORY, DELETE_BOOK_SERIES, GET_AUTHOR, GET_BOOK_SERIES,
-    GET_CATEGORY, GET_SELECTED_BOOK_SERIES,
-    LOGIN_USER, UPDATE_BOOK_SERIES, UPLOAD_CONTENT,
+    CREATE_AUTHOR,
+    CREATE_BOOK_SERIES,
+    CREATE_CATEGORY,
+    CREATE_NEWS,
+    DELETE_AUTHOR,
+    DELETE_BOOK_SERIES,
+    DELETE_CATEGORY,
+    DELETE_NEWS,
+    GET_AUTHOR,
+    GET_BOOK_SERIES,
+    GET_CATEGORY,
+    GET_CONTENT,
+    GET_NEWS,
+    GET_SELECTED_BOOK_SERIES,
+    GET_SELECTED_NEWS,
+    GET_USERS,
+    LOGIN_USER,
+    SET_ADMIN,
+    UPDATE_AUTHOR,
+    UPDATE_BOOK_SERIES,
+    UPDATE_CATEGORY,
+    UPDATE_NEWS,
+    UPLOAD_CONTENT,
 } from "../configs/commomConfigs";
 import API_ENDPOINT from "./httpEndpoint";
 import axios from "axios";
@@ -49,69 +68,6 @@ export const executeCreateBookSeries = async (formData) => {
     }
 };
 
-// export const executeUploadContent = async (category, authorName, chapter, bookType, description, price, title, seriesName, imageFile, audioFile, pdfFile) => {
-//     try {
-//         console.log('imageFile:', imageFile);
-//         console.log('audioFile:', audioFile);
-//         console.log('pdfFile:', pdfFile);
-//
-//         const formData = new FormData();
-//         formData.append('category', category);
-//         formData.append('authorName', authorName);
-//         formData.append('chapter', chapter);
-//         formData.append('bookType', bookType);
-//         formData.append('description', description);
-//         formData.append('price', price);
-//         formData.append('title', title);
-//         formData.append('seriesName', seriesName);
-//
-//         // Append files conditionally based on bookType
-//         if (imageFile) {
-//             formData.append('thumbnail', imageFile);
-//         }
-//         if (bookType === "Audio Book" && audioFile) {
-//             formData.append('audio', audioFile);
-//         }
-//         if (bookType === "PDF" && pdfFile) {
-//             formData.append('pdf', pdfFile);
-//         }
-//
-//         const response = await fetch(UPLOAD_CONTENT, {
-//             method: 'POST',
-//             body: formData,
-//         });
-//
-//         // if (response.ok) {
-//         //     const data = await response.json();
-//             return response;
-//         // } else {
-//         //     throw new Error(`Error: ${response.status} ${response.statusText}`);
-//         // }
-//     } catch (error) {
-//         console.error("Error creating book series:", error);
-//         throw error;
-//     }
-// };
-
-
-
-// export const executeUploadContent = async (formData) => {
-//     try {
-//         const response = await fetch(UPLOAD_CONTENT, {
-//             method: 'POST',
-//             body: formData,
-//         });
-//         // if (response.ok) {
-//         //     const data = await response.json();
-//         return response;
-//         // } else {
-//         //     throw new Error(`Error: ${response.status} ${response.statusText}`);
-//         // }
-//     } catch (error) {
-//         console.error("Error creating book series:", error);
-//         throw error;
-//     }
-// };
 
 export const executeUploadContent = async (formData) => {
     try {
@@ -131,51 +87,10 @@ export const executeUploadContent = async (formData) => {
     }
 };
 
-
-
-// export const executeUploadContent = async (category,authorName,chapter, bookType, description, price, title, seriesName, imageFile, audioFile, pdfFile) => {
-//     try {
-//         console.log('imageFile===>',imageFile)
-//         console.log('audioFile===>',audioFile)
-//         console.log('pdfFile===>',pdfFile)
-//         const formData = new FormData();
-//         formData.append('category', category);
-//         formData.append('authorName', authorName);
-//         formData.append('chapter', chapter);
-//         formData.append('bookType', bookType);
-//         formData.append('description', description);
-//         formData.append('price', price);
-//         formData.append('title', title);
-//         formData.append('seriesName', seriesName);
-//
-//         // Append files conditionally based on bookType
-//         if (imageFile) {
-//             formData.append('thumbnail', imageFile);
-//         }
-//         if (bookType == "Audio Book" && audioFile) {
-//             formData.append('audio', audioFile);
-//         }
-//         if (bookType == "PDF" && pdfFile) {
-//             formData.append('pdf', pdfFile);
-//         }
-//
-//         // Make the API request
-//         const response = await fetch(UPLOAD_CONTENT, {
-//             method: 'POST',
-//             body: formData,
-//         });
-//
-//         // if (response.ok) {
-//         //     const data = await response.json();
-//             return response;
-//         // } else {
-//         //     throw new Error(`Error: ${response.status} ${response.statusText}`);
-//         // }
-//     } catch (error) {
-//         console.error("Error creating book series:", error);
-//         throw error;
-//     }
-// };
+export const executeGetContent = ( ) => {
+    return API_ENDPOINT.post(GET_CONTENT, {
+    });
+};
 
 
 export const executeUpdateBookSeries = async (seriesId, authorName, seriesTitle, description, imageFile) => {
@@ -225,5 +140,107 @@ export const executeGetSelectedBookSeries = (seriesId) => {
 export const executeDeleteBookSeries = (seriesId) => {
     return API_ENDPOINT.post(DELETE_BOOK_SERIES, {
         seriesId: seriesId
+    });
+};
+
+export const executeCreateNews = async (formData) => {
+    try {
+        const response = await fetch(CREATE_NEWS, {
+            method: 'POST',
+            body: formData,
+        });
+
+        return response;
+
+    } catch (error) {
+        console.error("Error creating book series:", error);
+        throw error;
+    }
+};
+export const executeUpdateNews = async (newsId,newsTitle, description, imageFile) => {
+    try {
+        const formData = new FormData();
+        formData.append('newsId', newsId);
+        formData.append('newsTitle', newsTitle);
+        formData.append('description', description);
+        if (imageFile) {
+            formData.append('thumbnail', imageFile);
+        }
+
+        const response = await fetch(UPDATE_NEWS, {
+            method: 'POST',
+            body: formData,
+        });
+
+        // if (response.ok) {
+        //     const data = await response.json();
+        return response;
+        // } else {
+        //     throw new Error(`Error: ${response.status} ${response.statusText}`);
+        // }
+    } catch (error) {
+        console.error("Error updating book series:", error);
+        throw error;
+    }
+};
+
+
+
+export const executeGetNews = () => {
+    return API_ENDPOINT.get( GET_NEWS, {
+
+    });
+};
+
+export const executeGetSelectedNews = (newsId) => {
+    return API_ENDPOINT.get(GET_SELECTED_NEWS, {
+        newsId: newsId
+    });
+};
+
+
+
+export const executeDeleteNews = (newsId) => {
+    return API_ENDPOINT.post(DELETE_NEWS, {
+        newsId: newsId
+    });
+};
+
+
+export const executeGetUsers = ( ) => {
+    return API_ENDPOINT.get(GET_USERS, {
+    });
+};
+
+export const executeSetAdmin = (userId,isAdmin) => {
+    return API_ENDPOINT.post(SET_ADMIN, {
+        userId: userId,
+        isAdmin:isAdmin
+    });
+};
+
+export const executeUpdateCategory = async (categoryId,categoryName) => {
+    return API_ENDPOINT.post(UPDATE_CATEGORY, {
+        categoryId: categoryId,
+        categoryName:categoryName
+    });
+};
+
+export const executeDeleteCategory = (categoryId) => {
+    return API_ENDPOINT.post(DELETE_CATEGORY, {
+        categoryId: categoryId,
+    });
+};
+
+export const executeUpdateAuthor = async (authorId,authorName) => {
+    return API_ENDPOINT.post(UPDATE_AUTHOR, {
+        authorId: authorId,
+        authorName:authorName
+    });
+};
+
+export const executeDeleteAuthor = (authorId) => {
+    return API_ENDPOINT.post(DELETE_AUTHOR, {
+        authorId: authorId,
     });
 };

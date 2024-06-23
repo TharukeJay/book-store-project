@@ -28,8 +28,9 @@ const SideNavbar = () => {
             <space>
     <Menu
         onClick={({key})=>{
-            if(key==="signout"){
-
+            if(key==="signOut"){
+                localStorage.clear();
+                navigate('/');
             }else{
                 navigate(key)
             }
@@ -45,6 +46,7 @@ const SideNavbar = () => {
                {label: "Category", key:"/createCategory"},
                {label: "Author", key:"/createAuthor"},
                {label: "Book Series", key:"/createBookSeries"},
+               {label: "News", key:"/createNews"},
                 ],},
             {label: "View",key:"view",type:"group",children:[
                     {label: "Books",key:"/books"},

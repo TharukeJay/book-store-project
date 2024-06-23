@@ -13,16 +13,23 @@ import {
     Modal,
     ModalHeader,
     ModalTitle,
-    ModalBody, FormLabel, ModalFooter, Table
+    ModalBody, FormLabel, ModalFooter, Table, InputGroup, FormSelect, Image
 } from 'react-bootstrap';
 import {executeLoginUser} from "../../api/loginUser";
-import {executeCreateCategory, executeGetCategory} from "../../api/endPoints";
+import {
+    executeCreateCategory, executeDeleteBookSeries, executeDeleteCategory,
+    executeGetCategory,
+    executeUpdateBookSeries,
+    executeUpdateCategory
+} from "../../api/endPoints";
 
 function Categories() {
     const [categoryData, setCategoryData] = useState([]);
     const [categoryName, setCategoryName] = useState('');
+    const [categoryId, setCategoryId] = useState('');
     const [visible, setVisible] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [editVisible, setEditVisible] = useState(false)
 
     const getCategory = async () => {
         setLoading(true)
@@ -58,6 +65,52 @@ function Categories() {
         setVisible(true)
     }
 
+    const edit = async (categoryId,categoryName) => {
+        if(categoryId != ''){
+            setCategoryId(categoryId)
+            setCategoryName(categoryName)
+            setEditVisible(true)
+        }
+    }
+
+    const updateMedia = async (e) => {
+
+        // setUploadNow(true)
+        e.preventDefault();
+
+        if (!categoryName) {
+            alert("Author name and series title are required.");
+            // setUploadNow(false);
+            return;
+        }
+        try {
+            const data = await executeUpdateCategory(categoryId, categoryName);
+            console.log('Series updated successfully:', data);
+            await getCategory();
+            setEditVisible(false)
+        } catch (error) {
+            console.error('Error updating series:', error);
+        }
+    }
+    const Delete = async () => {
+        setLoading(true);
+        try {
+            const response = await executeDeleteCategory(categoryId);
+            const data = response.data;
+            setLoading(false);
+            await getCategory();
+            setEditVisible(false)
+        } catch (error) {
+            setLoading(false);
+            console.error('Error creating author:', error);
+        }
+    }
+
+    const handleClose = () => {
+        setCategoryName('')
+        setVisible(false)
+        setEditVisible(false)
+    }
 
     return (
         <>
@@ -99,6 +152,40 @@ function Categories() {
                 </ModalFooter>
             </Modal>
 
+            <Modal alignment="center" show={editVisible} onClose={() => handleClose()}>
+                <ModalHeader closeButton onClick={handleClose}>
+                    <ModalTitle>UPDATE CATEGORY</ModalTitle>
+                </ModalHeader>
+                <ModalBody>
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                            Category Name
+                        </FormLabel>
+                        <Col sm={8}>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="name" placeholder="Enter name" value={categoryName} onChange={(e) => setCategoryName(e.target.value)}  />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
+                    <form onSubmit={updateMedia}>
+                        <div className="row justify-content-md-center">
+                            <Col xs lg={9}>
+                                <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">
+                                    UPDATE
+                                </Button>
+                            </Col>
+
+                            <Col>
+                                <Button color="danger" onClick={() => Delete()}>
+                                    DELETE
+                                </Button>
+                            </Col>
+                        </div>
+                    </form>
+                </ModalBody>
+            </Modal>
+
             <Table>
                 <thead color="light">
                     <tr>
@@ -120,6 +207,10 @@ function Categories() {
                                         className="me-md-4"
                                         active
                                         tabIndex={-1}
+                                        onClick={() => edit(
+                                            data.data.categoryId,
+                                            data.data.categoryName,
+                                        )}
                                     >
                                         Edit
                                     </Button>

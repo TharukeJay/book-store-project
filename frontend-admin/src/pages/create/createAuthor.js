@@ -16,7 +16,13 @@ import {
     ModalBody, FormLabel, ModalFooter, Table
 } from 'react-bootstrap';
 import {executeLoginUser} from "../../api/loginUser";
-import {executeCreateAuthor, executeGetAuthor} from "../../api/endPoints";
+import {
+    executeCreateAuthor,
+    executeDeleteCategory,
+    executeGetAuthor,
+    executeUpdateAuthor,
+    executeUpdateCategory
+} from "../../api/endPoints";
 
 
 function Categories() {
@@ -24,6 +30,8 @@ function Categories() {
     const [authorName, setAuthorName] = useState('');
     const [visible, setVisible] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [editVisible, setEditVisible] = useState(false)
+    const [authorId, setAuthorId] = useState('');
 
     const getAuthor = async () => {
         setLoading(true)
@@ -58,6 +66,53 @@ function Categories() {
     // }
     const handleVisible = () => {
         setVisible(true)
+    }
+
+    const edit = async (authorId,authorName) => {
+        if(authorId != ''){
+            setAuthorId(authorId)
+            setAuthorName(authorName)
+            setEditVisible(true)
+        }
+    }
+
+    const updateMedia = async (e) => {
+
+        // setUploadNow(true)
+        e.preventDefault();
+
+        if (!authorName) {
+            alert("Author name and series title are required.");
+            // setUploadNow(false);
+            return;
+        }
+        try {
+            const data = await executeUpdateAuthor(authorId, authorName);
+            console.log('author updated successfully:', data);
+            await getAuthor();
+            setEditVisible(false)
+        } catch (error) {
+            console.error('Error updating series:', error);
+        }
+    }
+    const Delete = async () => {
+        setLoading(true);
+        try {
+            const response = await executeDeleteCategory(authorId);
+            const data = response.data;
+            setLoading(false);
+            await getAuthor();
+            setEditVisible(false)
+        } catch (error) {
+            setLoading(false);
+            console.error('Error creating author:', error);
+        }
+    }
+
+    const handleClose = () => {
+        setAuthorName('')
+        setVisible(false)
+        setEditVisible(false)
     }
 
 
@@ -101,6 +156,39 @@ function Categories() {
                     </Button>
                 </ModalFooter>
             </Modal>
+            <Modal alignment="center" show={editVisible} onClose={() => handleClose()}>
+                <ModalHeader closeButton onClick={handleClose}>
+                    <ModalTitle>UPDATE AUTHOR</ModalTitle>
+                </ModalHeader>
+                <ModalBody>
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                            Author Name
+                        </FormLabel>
+                        <Col sm={8}>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="name" placeholder="Enter name" value={authorName} onChange={(e) => setAuthorName(e.target.value)}  />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
+                    <form onSubmit={updateMedia}>
+                        <div className="row justify-content-md-center">
+                            <Col xs lg={9}>
+                                <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">
+                                    UPDATE
+                                </Button>
+                            </Col>
+
+                            <Col>
+                                <Button color="danger" onClick={() => Delete()}>
+                                    DELETE
+                                </Button>
+                            </Col>
+                        </div>
+                    </form>
+                </ModalBody>
+            </Modal>
 
             <Table>
                 <thead color="light">
@@ -123,6 +211,10 @@ function Categories() {
                                     className="me-md-4"
                                     active
                                     tabIndex={-1}
+                                    onClick={() => edit(
+                                        data.data.authorId,
+                                        data.data.authorName,
+                                    )}
                                 >
                                     Edit
                                 </Button>
