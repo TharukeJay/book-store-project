@@ -15,7 +15,7 @@ const Context = () => {
         <NavBar/>
          <div className="container" style={{maxWidth: "100%"}}>
             <EBookContext/>
-            <NewsContext/>
+            {/*<NewsContext/>*/}
           </div> 
         <Footer/>
     </>

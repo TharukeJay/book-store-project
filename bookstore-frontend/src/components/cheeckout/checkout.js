@@ -2,7 +2,6 @@ import React,{useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import  '../../styles/checkout.css'
 // import toast, {Toaster} from "react-hot-toast";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
