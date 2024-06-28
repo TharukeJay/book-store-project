@@ -1,5 +1,6 @@
 
-export const baseUrl = "http://localhost:3001/api";
+// export const baseUrl = "http://localhost:3001/api";
+export const baseUrl = "https://bookstore-backend-97qw.onrender.com/api";
 
 
 export const REGISTER_USER = `${baseUrl}/auth/register-admin`;
