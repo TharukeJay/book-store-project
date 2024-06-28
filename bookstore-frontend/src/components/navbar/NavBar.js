@@ -11,7 +11,8 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
 
  const NavBar= () => {
      const [userData, setUserData] =useState("")
-     const [showSignOut, setShowSignOut] =useState(false)
+     const [showSignOut, setShowSignOut] =useState(false);
+     const [showMyRack, setShowMyRack] =useState(false)
      const userId  = localStorage.getItem('userId');
 
 
@@ -25,6 +26,7 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
                  setUserData(getData);
                  if(getData.userId != ""){
                     setShowSignOut(!showSignOut);
+                     setShowMyRack(!showMyRack);
                  }
                  console.log("userData========>>>>", userData)
              } catch (error) {
@@ -44,17 +46,18 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
           <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer">
               <Container className='nav-container'>
                   <Navbar.Brand href="/" style={{fontSize:"20px" , color:"white",paddingLeft:"2px"} }>
-                      {userData && (
-                          <div className="user-info" >
-                              {userData.email}
-                          </div>
-                      )}
+                              Read Lanka
                   </Navbar.Brand>
                   <Navbar.Toggle aria-controls="responsive-navbar-nav togs " />
                   <Navbar.Collapse id="responsive-navbar-nav tog-border">
                       <div className='right-outer'>
                           <Nav className='link-page'>
-                              <Nav.Link href="/my-books">My Book Rack</Nav.Link>
+                              {userData && (
+                                <Nav.Link href="/my-books" style={{fontSize:"15px" , color:"red"}}> {userData.email}</Nav.Link>
+                              )}
+                              {showMyRack &&(
+                                <Nav.Link href="/my-books">My Book Rack</Nav.Link>
+                              )}
                               <Nav.Link href="/">Books</Nav.Link>
                               <Nav.Link href="/news-papers">News</Nav.Link>
 

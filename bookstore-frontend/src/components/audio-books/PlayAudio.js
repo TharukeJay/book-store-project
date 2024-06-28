@@ -1,26 +1,36 @@
 import React from 'react'
 import '../../styles/ebookcontext.css'
 import { useState, useEffect, useRef } from 'react';
-import { FETCH_ALL_BOOK_SERIES_ID, FETCH_ALL_READ_BOOK, FETCH_LISTNING_AUDIO, SET_LISTNING_AUDIO} from '../../apis/endpoints';
+import {
+  FETCH_ALL_AUDIO_BOOK,
+  FETCH_ALL_BOOK_SERIES_ID,
+  FETCH_ALL_READ_BOOK,
+  FETCH_LISTNING_AUDIO,
+  SET_LISTNING_AUDIO
+} from '../../apis/endpoints';
 import API_ENDPOINT from '../../apis/httpAxios';
 import ScreenLoading from '../loading/Loading';
-import { useNavigate  } from 'react-router-dom';
+import { useNavigate, useLocation  } from 'react-router-dom';
 import DisplayTrack from './DisplayTrack';
 import Controls from './Controles';
 import ProgressBar from './ProgressBar';
 import TopBar from './TopBar';
 import {
   FacebookShareButton,
-  FacebookIcon,
+  FacebookIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon,
 } from "react-share";
+import {bgColor} from "../../common/commonColors";
+import Footer from "../footer/Footer";
 
 const AudioPlayer  = () => {
   const Navigate = useNavigate();
+  const location = useLocation();
   const [trackIndex, setTrackIndex] = useState(0);
   const [currentTrack, setCurrentTrack] = useState(null);
   const [timeProgress, setTimeProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [bookData, setBookData] =useState([]);
+  const [seriesBookData, setSeriesBookData] =useState('');
   const [loading, setLoading] = useState(true);
   const [tracks, setTracks] = useState([]);
   const audioRef = useRef();
@@ -37,10 +47,14 @@ const AudioPlayer  = () => {
       setCurrentTrack(tracks[trackIndex + 1]);
     }
   };
-  const selectedBookId = localStorage.getItem('selectedSeriesAudioId');
+  // const selectedBookId = localStorage.getItem('selectedSeriesAudioId');
+  const { selectedSeriesAudioId } = location.state;
+  const selectedBookId = selectedSeriesAudioId;
+  // console.log("selectedSeriesAudioId =============>>>", selectedBookId);
   const userId = localStorage.getItem('userId');
 
-      const fetchLastPlayedTrackIndex = async () => {
+  // useEffect(() => {
+    const fetchLastPlayedTrackIndex = async () => {
         try {
           const response = await API_ENDPOINT.get(`${FETCH_LISTNING_AUDIO}/${userId}/${selectedBookId}`);
           if (response.status === 200) {
@@ -52,15 +66,17 @@ const AudioPlayer  = () => {
         }
         return { lastPlayedTrackIndex: 0, selectedAudioId: "" };
       };
+  //   fetchLastPlayedTrackIndex();
+  // }, []);
 
-    useEffect(() => {
-      console.log('selected Book Data Execute start');
+  useEffect(() => {
+      // console.log('selected Book Data Execute start');
       const fetchData = async () => {
         try {
           const response = await API_ENDPOINT.get(`${FETCH_ALL_BOOK_SERIES_ID}/${selectedBookId}`);
           if (response.status == 200) {
             const selectedBookData = response.data.data;
-            console.log('Selected Book Data for Id:', selectedBookData);
+            // console.log('Selected Book Data for Id new:', selectedBookData);
             setBookData(selectedBookData);
             setLoading(false)
             
@@ -94,7 +110,26 @@ const AudioPlayer  = () => {
       fetchData();
     }, []);
 
-    useEffect(() => {
+  useEffect(() => {
+    console.log('selected Book Data Execute start');
+    const fetchData = async () => {
+      try {
+        const response = await API_ENDPOINT.get(FETCH_ALL_AUDIO_BOOK);
+        const allAudioBookData = response.data.data;
+        console.log('allAudioBookData===============>>>', allAudioBookData);
+        const filteredData = allAudioBookData.filter(book => book.seriesId === selectedBookId);
+        setSeriesBookData(filteredData);
+        console.log('setSeriesBookData===============>>>', filteredData);
+        console.log('setSeriesBookData===============>>>', seriesBookData.description);
+
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.load();
@@ -104,8 +139,7 @@ const AudioPlayer  = () => {
       }
     }, [currentTrack, isPlaying]);
 
-
-    const saveProgress = async () => {
+  const saveProgress = async () => {
       try {
         await API_ENDPOINT.post(SET_LISTNING_AUDIO, {
           userId: userId,
@@ -125,16 +159,15 @@ const AudioPlayer  = () => {
       saveProgress();
     };
   }, [trackIndex, selectedTrackId]);
-  
 
-    const handlePhotoClick = (id) => {
+  const handlePhotoClick = (id) => {
       localStorage.setItem('selectedAudioId', id);
       setSelectedTrackId(id);
     }; 
 
-    const selectedAudioId = localStorage.getItem('selectedAudioId');
+  const selectedAudioId = localStorage.getItem('selectedAudioId');
     
-    useEffect(() => {
+  useEffect(() => {
       const fetchAudioData = async () => {
         try {
             let tracId = tracks.find((element) => element.id === selectedTrackId)
@@ -158,7 +191,7 @@ const AudioPlayer  = () => {
     return (
       <>
       <TopBar />
-      <div className="main-outer-audio">
+      <div className="main-outer-audio" style={{background:bgColor}}>
         <div className="left-audio-outer">
           <div className="audio-player">
             <div className="inner">
@@ -170,6 +203,9 @@ const AudioPlayer  = () => {
                   progressBarRef,
                   handleNext,
                 }}
+              />
+              <ProgressBar
+                  {...{ progressBarRef, audioRef, timeProgress, duration }}
               />
               <Controls
                 {...{
@@ -186,12 +222,11 @@ const AudioPlayer  = () => {
                   handleNext,
                 }}
               />
-              <ProgressBar
-                {...{ progressBarRef, audioRef, timeProgress, duration }}
-              />
+
             </div>
           </div>
         </div>
+
         <div className="right-desc-outer">
           <div className="audio-book-list">
             {bookData.sort((a, b) => a.chapter - b.chapter).map((audioBookItem, i) => (
@@ -201,13 +236,25 @@ const AudioPlayer  = () => {
                 </div>
             ))}
           </div>
+
           <div className="pricing-card">
-            <div className="read-button-outer">
-              <span>LKR {bookData.price} </span>
-              <button><a href={`/checkout-order?price=${bookData.price}&title=${encodeURIComponent(bookData.title)}`}> Buy
-                Now</a></button>
-            </div>
+            <p>{seriesBookData.description}</p>
           </div>
+          {/*{seriesBookData.map(audioBook => (*/}
+          <div className="pricing-card">
+            <span>LKR {seriesBookData.price} </span>
+          </div>
+          {/*))};*/}
+          <div style={{height: "40px"}}></div>
+
+          <div className="read-button-outer">
+            <button><a
+                href={`/checkout-order?price=${bookData.price}&title=${encodeURIComponent(bookData.title)}`}> Buy
+              Now</a></button>
+          </div>
+
+          <div style={{height: "40px"}}></div>
+
           <div className="Demo__container">
             <div className="Demo__some-network">
               <FacebookShareButton
@@ -216,11 +263,24 @@ const AudioPlayer  = () => {
               >
                 <FacebookIcon size={50} round/>
               </FacebookShareButton>
+              <TwitterShareButton
+                  url={shareUrl}
+                  className="Demo__some-network__share-button"
+              >
+                <TwitterIcon size={50} round/>
+              </TwitterShareButton>
 
+              <WhatsappShareButton
+                  url={shareUrl}
+                  className="Demo__some-network__share-button"
+              >
+                <WhatsappIcon size={50} round/>
+              </WhatsappShareButton>
             </div>
           </div>
         </div>
       </div>
+        <Footer/>
       </>
     );
 };

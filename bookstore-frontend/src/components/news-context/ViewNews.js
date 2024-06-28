@@ -4,7 +4,14 @@ import { FETCH_ALL_READ_NEWS, FETCH_ALL_NEWS } from '../../apis/endpoints';
 import API_ENDPOINT from '../../apis/httpAxios';
 import { SlArrowLeftCircle } from "react-icons/sl";
 import ScreenLoading from "../loading/Loading";
-import {FacebookIcon, FacebookShareButton} from "react-share";
+import {
+    FacebookIcon,
+    FacebookShareButton,
+    TwitterIcon,
+    TwitterShareButton,
+    WhatsappIcon,
+    WhatsappShareButton
+} from "react-share";
 
 const ViewNews = () => {
     const [news, setNews] = useState();
@@ -52,6 +59,7 @@ const ViewNews = () => {
     const shareUrl = "http://github.com";
     // const shareUrl = "http://localhost:3000/read-book";
     const title = "GitHub";
+
   return (
       <>
           <div className="top__bar">
@@ -77,6 +85,19 @@ const ViewNews = () => {
                       >
                           <FacebookIcon size={50} round />
                       </FacebookShareButton>
+                      <TwitterShareButton
+                          url={shareUrl}
+                          className="Demo__some-network__share-button"
+                      >
+                          <TwitterIcon size={50} round/>
+                      </TwitterShareButton>
+
+                      <WhatsappShareButton
+                          url={shareUrl}
+                          className="Demo__some-network__share-button"
+                      >
+                          <WhatsappIcon size={50} round/>
+                      </WhatsappShareButton>
 
                   </div>
               </div>

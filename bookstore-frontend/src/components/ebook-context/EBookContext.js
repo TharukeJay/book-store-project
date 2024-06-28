@@ -10,7 +10,7 @@ import ScreenLoading from '../loading/Loading';
 import { FcNext } from "react-icons/fc";
 import { FcPrevious } from "react-icons/fc";
 import Carousel from 'react-bootstrap/Carousel';
-// import ExampleCarouselImage from 'components/ExampleCarouselImage';
+import {bgColor, seeAllBtn} from "../../common/commonColors";
 
 const EBookContext = () => {
   const Navigate = useNavigate();
@@ -72,8 +72,8 @@ const EBookContext = () => {
   }, []);
 
   const handlePhotoClick = (id) => {
-    localStorage.setItem('selectedBookId', id);
-    Navigate('/read-book');
+    // localStorage.setItem('selectedBookId', id);
+    Navigate('/read-book', { state: { selectedBookId: id } });
   };
 
   const handleCategoryClick = (category) => {
@@ -142,7 +142,7 @@ const EBookContext = () => {
     return results;
   };
 
-  const bookChunks = chunkArray(filteredBookData, 6);
+  const bookChunks = chunkArray(filteredBookData, 3);
 
 
   //  Audio Book
@@ -166,17 +166,8 @@ const EBookContext = () => {
   console.log('Audio Book Data:', filteredAudioBookData);
 
   const handlePhotoClickAudio = (seriesId) => {
-    localStorage.setItem('selectedSeriesAudioId', seriesId);
-    navigate('/play-audio');
-  };
-
-  const handleAudioCategoryClick = (category) => {
-    setSelectedCategory(category);
-    if (category === 'All') {
-      setFilteredAudioBookData(audiobookData);
-    } else {
-      setFilteredAudioBookData(audiobookData.filter(audio => audio.category === category));
-    }
+    // localStorage.setItem('selectedSeriesAudioId', seriesId);
+    navigate('/play-audio', { state: { selectedSeriesAudioId: seriesId }});
   };
 
   const filterAudio = (category, searchTerm) => {
@@ -220,7 +211,7 @@ const EBookContext = () => {
     setHideAllBooks(false);
   }
 
-  const audioBbookChunks = chunkArray(filteredAudioBookData, 6);
+  const audioBbookChunks = chunkArray(filteredAudioBookData, 2);
 
   const RedirectBooksPage = () =>{
         navigate("/details/all-book", { state: { type: 'book' } });
@@ -229,197 +220,57 @@ const EBookContext = () => {
   const RedirectAudioBooksPage = () =>{
     navigate("/details/all-book", { state: { type: 'audiobook' } });
   }
+
   if (loading) {
     return <ScreenLoading />
   }
 
   return (
-      <div className='outer'>
+      <div className='outer' style={{background:bgColor}}>
         <br/>
-        {/*<div className="button-outer">*/}
-        {/*  <button className='btn btn-primary' onClick={ShowAllBooks}>Books</button>*/}
-        {/*  <button className='btn btn-primary' onClick={ShowAllAudioBooks}>Audio Book</button>*/}
-        {/*</div>*/}
-
-
         <div className="">
           <button className='btn btn-primary' onClick={RedirectBooksPage}>Books</button>
           <button className='btn btn-primary' onClick={RedirectAudioBooksPage}>Audio Book</button>
         </div>
         <br/><br/>
-
-        {/*{showAllBooks && (*/}
-        {/*    <div>*/}
-        {/*      <div className="ebook-search-outer">*/}
-        {/*        <Stack direction="horizontal" gap={3} className='search-outer'>*/}
-        {/*          <Form.Control className="me-auto"*/}
-        {/*                        placeholder="Search by title..."*/}
-        {/*                        value={searchInput}*/}
-        {/*                        onChange={handleSearchInputChange}*/}
-        {/*                        onKeyPress={handleKeyPress}*/}
-        {/*          />*/}
-        {/*          <Button variant="secondary" onClick={handleSearchSubmit}*/}
-        {/*                  className="btn btn-primary search-button">Submit</Button>*/}
-        {/*        </Stack>*/}
-        {/*      </div>*/}
-        {/*      <div className="category-buttons">*/}
-        {/*        {categories.map(category => (*/}
-        {/*            <Button*/}
-        {/*                key={category}*/}
-        {/*                variant={selectedCategory === category ? 'primary' : 'secondary'}*/}
-        {/*                onClick={() => handleCategoryClick(category)}*/}
-        {/*                className="btn btn-primary button"*/}
-        {/*                style={{margin: "5px"}}*/}
-        {/*            >*/}
-        {/*              {category}*/}
-        {/*            </Button>*/}
-        {/*        ))}*/}
-        {/*      </div>*/}
-        {/*      <div className='title-outer'>*/}
-        {/*        <h2 style={{color: " Blue"}}>Trending Now</h2>*/}
-        {/*        <button onClick={SeeAllBook}>See All</button>*/}
-        {/*      </div>*/}
-        {/*      <Carousel activeIndex={indexNext} onSelect={handleSelect}>*/}
-        {/*        {bookChunks.map((chunk, idx) => (*/}
-        {/*            <Carousel.Item key={idx}>*/}
-        {/*              <div className="book-list">*/}
-        {/*                {chunk.map((bookItem, i) => (*/}
-        {/*                    <div key={i} onClick={() => handlePhotoClick(bookItem.id)} className='photo'>*/}
-        {/*                      <img src={bookItem.thumbnail_url} alt={`Thumbnail of ${bookItem.title}`}/>*/}
-        {/*                    </div>*/}
-        {/*                ))}*/}
-        {/*              </div>*/}
-        {/*            </Carousel.Item>*/}
-        {/*        ))}*/}
-        {/*      </Carousel>*/}
-        {/*    </div>*/}
-        {/*)};*/}
-
-
-        {/*Remove this */}
-            <div>
-              {/*<div className="ebook-search-outer">*/}
-              {/*  <Stack direction="horizontal" gap={3} className='search-outer'>*/}
-              {/*    <Form.Control className="me-auto"*/}
-              {/*                  placeholder="Search by title..."*/}
-              {/*                  value={searchInput}*/}
-              {/*                  onChange={handleSearchInputChange}*/}
-              {/*                  onKeyPress={handleKeyPress}*/}
-              {/*    />*/}
-              {/*    <Button variant="secondary" onClick={handleSearchSubmit}*/}
-              {/*            className="btn btn-primary search-button">Submit</Button>*/}
-              {/*  </Stack>*/}
-              {/*</div>*/}
-              {/*<div className="category-buttons">*/}
-              {/*  {categories.map(category => (*/}
-              {/*      <Button*/}
-              {/*          key={category}*/}
-              {/*          variant={selectedCategory === category ? 'primary' : 'secondary'}*/}
-              {/*          onClick={() => handleCategoryClick(category)}*/}
-              {/*          className="btn btn-primary button"*/}
-              {/*          style={{margin: "5px"}}*/}
-              {/*      >*/}
-              {/*        {category}*/}
-              {/*      </Button>*/}
-              {/*  ))}*/}
-              {/*</div>*/}
-              <div className='title-outer'>
-                <h2 style={{color: " Blue"}}>Trending Books</h2>
-                <button onClick={SeeAllBook} style={{borderRadius:'10px', background:'black', color:'white'}}>See All</button>
-              </div>
-              <Carousel activeIndex={indexNext} onSelect={handleSelect}>
-                {bookChunks.map((chunk, idx) => (
-                    <Carousel.Item key={idx}>
-                      <div className="book-list">
-                        {chunk.map((bookItem, i) => (
-                            <div key={i} onClick={() => handlePhotoClick(bookItem.id)} className='photo'>
-                              <img src={bookItem.thumbnail_url} alt={`Thumbnail of ${bookItem.title}`}/>
-                            </div>
-                        ))}
-                      </div>
-                    </Carousel.Item>
-                ))}
-              </Carousel>
+        <div>
+          <div className='title-outer'>
+            <div className='left-ttle'>
+              <h2 style={{color: " Blue"}}>Trending Books</h2>
             </div>
-
-        {/*{showAllAudioBooks &&(*/}
-        {/*    <div>*/}
-        {/*      <div className="ebook-search-outer">*/}
-        {/*        <Stack direction="horizontal" gap={3} className='search-outer'>*/}
-        {/*          <Form.Control className="me-auto"*/}
-        {/*                        placeholder="Search by title..."*/}
-        {/*                        value={searchInput}*/}
-        {/*                        onChange={handleSearchInputChangeAudio}*/}
-        {/*                        onKeyPress={handleKeyPressAudio}*/}
-        {/*          />*/}
-        {/*          <Button variant="secondary" onClick={handleSearchSubmitAudio}>Submit</Button>*/}
-        {/*        </Stack>*/}
-        {/*      </div>*/}
-        {/*      <br/>*/}
-        {/*      <div className="category-buttons">*/}
-        {/*        {categories.map(category => (*/}
-        {/*            <Button*/}
-        {/*                key={category}*/}
-        {/*                variant={selectedCategory === category ? 'primary' : 'secondary'}*/}
-        {/*                className="btn btn-primary" style={{margin: "5px"}}*/}
-        {/*                onClick={() => handleAudioCategoryClick(category)}*/}
-        {/*            >*/}
-        {/*              {category}*/}
-        {/*            </Button>*/}
-        {/*        ))}*/}
-        {/*      </div>*/}
-        {/*      <div className='title-outer'>*/}
-        {/*        <h2 style={{color: " Blue"}}>Trending Now</h2>*/}
-        {/*        <button onClick={SeeAllAudioBook}>See All</button>*/}
-        {/*      </div>*/}
-        {/*      <Carousel activeIndex={indexNext} onSelect={handleSelect}>*/}
-        {/*        {audioBbookChunks.map((chunk, idx) => (*/}
-        {/*            <Carousel.Item key={idx}>*/}
-        {/*              <div className="book-list">*/}
-        {/*                {chunk.map((audioBookItem, i) => (*/}
-        {/*                    <div key={i} onClick={() => handlePhotoClickAudio(audioBookItem.seriesId)}*/}
-        {/*                         className='photo'>*/}
-        {/*                      <img src={audioBookItem.thumbnail_url} alt={`Thumbnail of ${audioBookItem.title}`}/>*/}
-        {/*                    </div>*/}
-        {/*                ))}*/}
-        {/*              </div>*/}
-        {/*            </Carousel.Item>*/}
-        {/*        ))}*/}
-        {/*      </Carousel>*/}
-        {/*    </div>*/}
-        {/*)}*/}
-
-
-            {/*Remove this */}
-            <div>
-              {/*<div className="ebook-search-outer">*/}
-              {/*  <Stack direction="horizontal" gap={3} className='search-outer'>*/}
-              {/*    <Form.Control className="me-auto"*/}
-              {/*                  placeholder="Search by title..."*/}
-              {/*                  value={searchInput}*/}
-              {/*                  onChange={handleSearchInputChangeAudio}*/}
-              {/*                  onKeyPress={handleKeyPressAudio}*/}
-              {/*    />*/}
-              {/*    <Button variant="secondary" onClick={handleSearchSubmitAudio}>Submit</Button>*/}
-              {/*  </Stack>*/}
-              {/*</div>*/}
-              <br/>
-              {/*<div className="category-buttons">*/}
-              {/*  {categories.map(category => (*/}
-              {/*      <Button*/}
-              {/*          key={category}*/}
-              {/*          variant={selectedCategory === category ? 'primary' : 'secondary'}*/}
-              {/*          className="btn btn-primary" style={{margin: "5px"}}*/}
-              {/*          onClick={() => handleAudioCategoryClick(category)}*/}
-              {/*      >*/}
-              {/*        {category}*/}
-              {/*      </Button>*/}
-              {/*  ))}*/}
-              {/*</div>*/}
-              <div className='title-outer'>
-                <h2 style={{color: " Blue"}}>Trending Audio Book</h2>
-                <button onClick={SeeAllAudioBook} style={{borderRadius:'10px', background:'black', color:'white',marginLeft:'75%'}}>See All</button>
+            <div className='right-btn'>
+              <button onClick={SeeAllBook} style={{borderRadius: '10px', background: seeAllBtn, color: 'white'}}>See All
+              </button>
+            </div>
+          </div>
+          <Carousel activeIndex={indexNext} onSelect={handleSelect}>
+            {bookChunks.map((chunk, idx) => (
+                <Carousel.Item key={idx}>
+                  <div className="book-list">
+                    {chunk.map((bookItem, i) => (
+                        <div key={i} onClick={() => handlePhotoClick(bookItem.id)} className='photo'>
+                          <img src={bookItem.thumbnail_url} alt={`Thumbnail of ${bookItem.title}`}/>
+                        </div>
+                    ))}
+                  </div>
+                </Carousel.Item>
+            ))}
+          </Carousel>
+        </div>
+        <div>
+          <br/>
+          <div className='title-outer'>
+            <div className='left-ttle'>
+              <h2 style={{color: " Blue"}}>Trending Audio Books</h2>
+            </div>
+            <div className='right-btn'>
+              <button onClick={SeeAllAudioBook}
+                      style={{borderRadius: '10px', background: seeAllBtn, color: 'white'}}>See
+                All
+              </button>
+                </div>
               </div>
+
               <Carousel activeIndex={indexNext} onSelect={handleSelect}>
                 {audioBbookChunks.map((chunk, idx) => (
                     <Carousel.Item key={idx}>
