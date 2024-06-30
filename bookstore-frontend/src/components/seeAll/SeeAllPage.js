@@ -4,10 +4,13 @@ import API_ENDPOINT from '../../apis/httpAxios';
 import {FETCH_ALL_BOOK, FETCH_ALL_AUDIO_BOOK, FETCH_ALL_CATEGORY} from '../../apis/endpoints.js';
 import ScreenLoading from '../loading/Loading';
 import {SlArrowLeftCircle} from "react-icons/sl";
-import Carousel from 'react-bootstrap/Carousel';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Stack from 'react-bootstrap/Stack';
+import {FcNext, FcPrevious} from "react-icons/fc";
+import '../../styles/ebookcontext.css';
+import NavBar from "../navbar/NavBar";
+import Footer from "../footer/Footer";
 
 const SeeAllPage = () => {
   const location = useLocation();
@@ -29,6 +32,8 @@ const SeeAllPage = () => {
   const [showAllFeatureBooks, setShowAllFeatureBooks] = useState(false);
   const [audiobookData, setAudioBookData] = useState([]);
   const [filteredAudioBookData, setFilteredAudioBookData] = useState([]);
+  const [audioIndex, setAudioIndex] = useState(0);
+  const itemsPerPage = 12;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,9 +79,13 @@ const SeeAllPage = () => {
         console.error('Error:', error);
       }
     };
-
-    fetchCategoryData();
+    // fetchCategoryData();
   // }, []);
+
+  // useEffect(() =>{
+  //   fetchCategoryData();
+  //   // fetchData();
+  // },[3000])
 
   const handleCategoryClick = (category) => {
     if (type === 'book') {
@@ -140,24 +149,36 @@ const SeeAllPage = () => {
   };
 
   const handleNext = () => {
-    if (index + 14 < filteredBookData.length) {
-      setIndex(index + 14);
+    if (index + itemsPerPage  < filteredBookData.length) {
+      setIndex(index + itemsPerPage);
     }
   };
 
   const handlePrevious = () => {
-    if (index - 14 >= 0) {
-      setIndex(index - 14);
+    if (index -itemsPerPage  >= 0) {
+      setIndex(index - itemsPerPage );
+    }
+  };
+
+  const handleAudioNext = () => {
+    if (audioIndex + itemsPerPage  < filteredAudioBookData.length) {
+      setAudioIndex(audioIndex + itemsPerPage );
+    }
+  };
+
+  const handleAudioPrevious = () => {
+    if (audioIndex - itemsPerPage  >= 0) {
+      setAudioIndex(audioIndex - itemsPerPage );
     }
   };
 
   const handlePhotoClick = (id) => {
     if (type === 'book') {
-      localStorage.setItem('selectedBookId', id);
-      navigate('/read-book');
+      // localStorage.setItem('selectedBookId', id);
+      navigate('/read-book',{ state: { selectedBookId: id } });
     } else if (type === 'audiobook') {
-      localStorage.setItem('selectedSeriesAudioId', id);
-      navigate('/play-audio');
+      // localStorage.setItem('selectedSeriesAudioId', id);
+      navigate('/play-audio', { state: { selectedSeriesAudioId: id } });
     }
   };
 
@@ -169,54 +190,99 @@ const SeeAllPage = () => {
     }
   }
 
+  const getPageNumbers = (currentIndex, dataLength) => {
+    const totalPages = Math.ceil(dataLength / itemsPerPage);
+    const currentPage = Math.floor(currentIndex / itemsPerPage) + 1;
+    return { currentPage, totalPages };
+  };
+
+  const { currentPage, totalPages } = type === 'book'
+      ? getPageNumbers(index, filteredBookData.length)
+      : getPageNumbers(audioIndex, filteredAudioBookData.length);
+
   return (
       <div>
+        <NavBar style={{display: 'fixed'}}/>
         <div className="top__bar">
           <p>
             <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize: "40px", margin: '10px', color: "white"}}/>
           </p>
         </div>
-        <br/><br/>
-        <div className="ebook-search-outer">
-          <Stack direction="horizontal" gap={3} className='search-outer'>
-            <Form.Control className="me-auto"
-                          placeholder="Search by title..."
-                          value={searchInput}
-                          onChange={handleSearchInputChange}
-                          onKeyPress={handleKeyPress}
-            />
-            <Button variant="secondary" onClick={handleSearchSubmit}
-                    className="btn btn-primary search-button">Submit</Button>
-          </Stack>
+
+        <div className='outer'>
+          <br/><br/>
+
+          <div className="ebook-search-outer">
+            <Stack direction="horizontal" gap={3} className='search-outer'>
+              <Form.Control className="me-auto"
+                  placeholder="Search by title..."
+                  value={searchInput}
+                  onChange={handleSearchInputChange}
+                  onKeyPress={handleKeyPress}
+              />
+              <Button variant="secondary" onClick={handleSearchSubmit}
+                      className="btn btn-primary search-button">Submit</Button>
+            </Stack>
+          </div>
+          <br/>
+
+          <div className="category-buttons">
+            {categories.map(category => (
+                <Button
+                    key={category}
+                    variant={selectedCategory === category ? 'primary' : 'secondary'}
+                    onClick={() => handleCategoryClick(category)}
+                    className="btn btn-primary button"
+                    style={{margin: "5px"}}
+                >
+                  {category}
+                </Button>
+            ))}
+          </div>
+
+          <div style={{height: '100px'}}></div>
+
+          <div className="gallery-container">
+            {type === 'book' && (
+                <>
+                  <div className="book-list">
+                    {filteredBookData.slice(index, index + itemsPerPage).map(item => (
+                        <div key={item.id} onClick={() => handlePhotoClick(item.id)} className='photo'>
+                          <img src={item.thumbnail_url} alt={`Thumbnail of ${item.title}`}/>
+                        </div>
+                    ))}
+                  </div>
+
+                  <div className="buttons">
+                    <button onClick={handlePrevious} disabled={index === 0}><FcPrevious/></button>
+                    <span>{currentPage} {currentPage + 1} {currentPage + 2}...</span>
+                    <button onClick={handleNext} disabled={index + itemsPerPage >= filteredBookData.length}><FcNext/>
+                    </button>
+                  </div>
+                </>
+            )}
+
+            {type === 'audiobook' && (
+                <>
+                  <div className="book-list">
+                    {filteredAudioBookData.slice(audioIndex, audioIndex + itemsPerPage).map(item => (
+                        <div key={item.id} onClick={() => handlePhotoClick(item.seriesId)} className='photo'>
+                          <img src={item.thumbnail_url} alt={`Thumbnail of ${item.title}`}/>
+                        </div>
+                    ))}
+                  </div>
+                  <div className="buttons">
+                    <button onClick={handleAudioPrevious} disabled={audioIndex === 0}><FcPrevious/></button>
+                    <span>{currentPage} {currentPage + 1} {currentPage + 2}...</span>
+                    <button onClick={handleAudioNext}
+                            disabled={audioIndex + itemsPerPage >= filteredAudioBookData.length}>
+                      <FcNext/></button>
+                  </div>
+                </>
+            )}
+          </div>
         </div>
-        <div className="category-buttons">
-          {categories.map(category => (
-              <Button
-                  key={category}
-                  variant={selectedCategory === category ? 'primary' : 'secondary'}
-                  onClick={() => handleCategoryClick(category)}
-                  className="btn btn-primary button"
-                  style={{margin: "5px"}}
-              >
-                {category}
-              </Button>
-          ))}
-        </div>
-        <h2>{type === 'book' ? 'All Books' : 'All Audiobooks'}</h2>
-        <div className="book-list">
-          {filteredBookData.map(item => (
-              <div key={item.id} onClick={() => handlePhotoClick(item.id)} className='photo'>
-                <img src={item.thumbnail_url} alt={`Thumbnail of ${item.title}`}/>
-              </div>
-          ))}
-        </div>
-        <div className="book-list">
-          {filteredAudioBookData.map(item => (
-              <div key={item.id} onClick={() => handlePhotoClick(item.seriesId)} className='photo'>
-                <img src={item.thumbnail_url} alt={`Thumbnail of ${item.title}`}/>
-              </div>
-          ))}
-        </div>
+        <Footer/>
       </div>
   );
 };

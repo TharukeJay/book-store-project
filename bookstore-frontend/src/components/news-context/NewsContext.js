@@ -22,6 +22,7 @@ const NewsContext = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [filteredNewsData, setFilteredNewsData] = useState([]);
   const [searchInput, setSearchInput] = useState('');
+  const itemsPerPage = 8;
 
   useEffect(() => {
     console.log('News Data Execute start');
@@ -100,16 +101,24 @@ const NewsContext = () => {
   };
 
   const handleNext = () => {
-    if (index + 8 < newsData.length) {
-      setIndex(index + 8);
+    if (index + itemsPerPage < newsData.length) {
+      setIndex(index + itemsPerPage);
     }
   };
 
   const handlePrevious = () => {
-    if (index - 8 >= 0) {
-      setIndex(index - 8);
+    if (index - itemsPerPage >= 0) {
+      setIndex(index - itemsPerPage);
     }
   };
+
+  const getPageNumbers = (currentIndex, dataLength) => {
+    const totalPages = Math.ceil(dataLength / itemsPerPage);
+    const currentPage = Math.floor(currentIndex / itemsPerPage) + 1;
+    return { currentPage, totalPages };
+  };
+
+  const { currentPage, totalPages } =getPageNumbers(index, newsData.length)
 
   const truncateDescription = (description) => {
     if (!description) {
@@ -117,7 +126,7 @@ const NewsContext = () => {
     }
     const words = description.split(' ');
     if (words.length > 15) {
-      return words.slice(0,10).join(' ') + '...';
+      return words.slice(0,50).join(' ') + '...';
     }
     return description;
   };
@@ -290,8 +299,9 @@ const NewsContext = () => {
 return (
     <>
       <NavBar/>
+      <div className='outer'>
       <br/><br/>
-      <div className="ebook-search-outer">
+      <div className="ebook-search-outer-news">
         <Stack direction="horizontal" gap={3} className='search-outer'>
           <Form.Control className="me-auto"
                         placeholder="Search by title..."
@@ -303,12 +313,12 @@ return (
         </Stack>
       </div>
       <br/>
-      <div className="category-buttons">
+      <div className="category-buttons-news">
         {categories.map((category,index) => (
             <Button
                 key={category}
                 variant={selectedCategory === category ? 'primary' : 'secondary'}
-                className="btn btn-primary" style={{margin: "5px"}}
+                className="btn btn-primary button" style={{margin: "5px"}}
                 onClick={() => handleCategoryClick(category)}
             >
               {category}
@@ -316,24 +326,25 @@ return (
         ))}
       </div>
       <br/>
-      <div className='outer'>
-        <div className='title-outer-news'>
-          {/*<h2 style={{color: "blue"}}>News & Features</h2>*/}
-          {/*<button>See All</button>*/}
-        </div>
+        <div className='title-outer-news'></div>
         <div className="gallery-container">
-
           <div className="news-list">
-            {newsData.slice(index, index + 8).map((newsItem, i) => (
+            {newsData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                 <div key={i} onClick={() => handleNewsClick(newsItem.id)} className='news-outer'>
-                  <img src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
-                  <p>{newsItem.newsTitle}</p>
-                  <p>{truncateDescription(newsItem.description)}</p>
+                  <div className='left-news-outer'>
+                    <img src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
+                  </div>
+                  <div className='right-news-outer'>
+                    <h2>{newsItem.newsTitle}</h2>
+                    <br/>
+                    <p>{truncateDescription(newsItem.description)} <span style={{color:"blue", fontWeight:'100', fontSize:'17px'}}>Read  More</span></p>
+                  </div>
                 </div>
             ))}
           </div>
           <div className="buttons">
             <button onClick={handlePrevious} disabled={index === 0}><FcPrevious/></button>
+            <span>{currentPage} {currentPage + 1} {currentPage + 2}...</span>
             <button onClick={handleNext} disabled={index + 4 >= newsData.length}><FcNext/></button>
           </div>
         </div>

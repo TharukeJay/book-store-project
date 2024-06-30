@@ -1,9 +1,4 @@
-:root {
-    --background-color: linear-gradient(60deg, #f6c4c3, #f0edef);
-}
 .outer{
-    /*background: var(--background-color);*/
-    background: linear-gradient(60deg, #f6c4c3, #f0edef);
     max-width: 100% !important;
     height: auto;
     margin-bottom: 5%;
@@ -16,9 +11,6 @@
     align-items: center;
     justify-content: center;
 }
-.search-outer{
-    width: 50%;
-}
 .book-list{
     width: 100%;
     height: auto;
@@ -28,11 +20,11 @@
     flex-wrap: wrap;
     gap:35px;
     margin:7px 0 30px 0;
-
 }
 .photo img{
     border: 1px solid blue;
     border-radius: 10px;
+    cursor: pointer;
 }
 .photo:hover{
     opacity: 60%;
@@ -50,75 +42,90 @@
     justify-content: center;
     width: 100%;
 }
+
 .title-outer{
     height: 50px;
     display: flex;
-    align-items: center;
-
+    flex-direction:row;
 }
-.title-outer button{
-    margin-left: 80%;
+.left-ttle{
+    width: 90%;
+}
+.right-btn{
+    flex: content;
 }
 
 /* Tablets: from 768px to 1024px */
 @media (max-width: 768px)  {
     .photo img{
-        width: 120px;  
-        height: 140px; 
+        width: 120px;
+        height: 200px;
     }
     .button{
         width: auto;
-        height: 30px;
+        height: auto;
     }
     .search-outer{
-        width:80%;
+        width:90%;
     }
     .search-button{
         width: auto;
         height: 30px;
     }
-    .title-outer button{
-        margin-left: 40%;
+    .right-btn button{
+        width: 70px;
+        height: auto;
     }
-    
+    .left-ttle h2{
+      font-size: 20px;
+    }
 }
-@media (min-width: 768px) and (max-width: 1023px){
+
+@media  screen and  (min-width: 768px) and (max-width: 1024px){
     .photo img{
-        width: 200px;  
-        height: 320px;
+        width: 250px !important;
+        height: 400px !important;
     }
     .outer{
         width: 100% !important;
     }
-    .title-outer button{
-        margin-left: 60%;
+    .right-btn button{
+        width: 100px;
+        height: 40px;
+        font-size: 20px;
+    }
+    .search-outer{
+        width: 50%;
     }
 }
+
 /* Desktop and larger devices */
 @media (min-width: 1024px) {
     .photo img{
-        width: 300px !important;
-        height: 500px!important;
+        width: 240px !important;
+        height: 380px!important;
     }
     .outer{
         width: 100% !important;
     }
     .title-outer button{
-        margin-left: 80%;
+        width: 120px;
+        height: 40px;
+    }
+    .search-outer{
+        width: 50%;
+        height: 50px;
     }
 }
 
-
-  
 /* ----------------Read Book CSS------------------- */
-.view-novel-outer{
+.view-novel-outer-ebook{
     width: 100%;
-    height:auto;
+    height:100vh;
     display: flex;
-    /* justify-content: center;
-    align-items: center; */
-    flex-wrap: wrap;
-    background: linear-gradient(60deg, #f6c4c3, #f0edef);
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
 }
 .left-photo-outer{
     width:50%;
@@ -129,10 +136,8 @@
     padding-top: 50px;
     padding-left: 50px;
 }
-.right-desc-outer{
-    width: 50%;
-    margin-left: 40px;
-    /*height: 90vh;*/
+.right-desc-outer-ebook{
+    flex: content;
     height: auto;
     padding:10px 10px 20px 10px;
     display: flex;
@@ -140,7 +145,7 @@
     justify-content: center;
     flex-direction: column;
 }
-.right-desc-outer p{
+.right-desc-outer-ebook p{
     font-size: 20px;
 }
 .pricing-card{
