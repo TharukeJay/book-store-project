@@ -1,104 +1,286 @@
-.ebook-context-outer{
-    width: 100%;
+:root {
+    --background-color: linear-gradient(60deg, #f6c4c3, #f0edef);
+}
+.outer{
+    /*background: var(--background-color);*/
+    background: linear-gradient(60deg, #f6c4c3, #f0edef);
+    max-width: 100% !important;
+    height: auto;
+    margin-bottom: 5%;
+}
+.outer p{
+    color: black;
+}
+.ebook-search-outer{
     display: flex;
     align-items: center;
     justify-content: center;
 }
-p{
-    color: black;
-}
 .search-outer{
-    width: ;
+    width: 50%;
 }
 .book-list{
     width: 100%;
-    height: 100%;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap:15px; 
+    gap:35px;
+    margin:7px 0 30px 0;
+
 }
 .photo img{
     border: 1px solid blue;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 .photo:hover{
     opacity: 60%;
     transition: all 0.1s;
 }
-/* Phones: less than 768px */
-@media (max-width: 767px) {
-    .photo img{
-        width: 150px;  /* slightly less than 50% to account for gaps */
-        height: auto;  /* maintain aspect ratio */
-    }
+.category-buttons{
+    width: 100%;
+    height: auto;
+    padding-top: 10px;
+}
+.buttons-Ebook {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.title-outer{
+    height: 50px;
+    display: flex;
+    align-items: center;
+
+}
+.title-outer button{
+    margin-left: 80%;
 }
 
 /* Tablets: from 768px to 1024px */
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (max-width: 768px)  {
     .photo img{
-        width: 200px;  /* slightly less than one-third to account for gaps */
-        height: auto;  /* maintain aspect ratio */
+        width: 120px;  
+        height: 140px; 
+    }
+    .button{
+        width: auto;
+        height: 30px;
+    }
+    .search-outer{
+        width:80%;
+    }
+    .search-button{
+        width: auto;
+        height: 30px;
+    }
+    .title-outer button{
+        margin-left: 40%;
+    }
+    
+}
+@media (min-width: 768px) and (max-width: 1023px){
+    .photo img{
+        width: 200px;  
+        height: 320px;
+    }
+    .outer{
+        width: 100% !important;
+    }
+    .title-outer button{
+        margin-left: 60%;
     }
 }
-
 /* Desktop and larger devices */
 @media (min-width: 1024px) {
     .photo img{
-        width: 220px;  /* fixed width */
-        height: 270px;  /* fixed height */
+        width: 300px !important;
+        height: 500px!important;
+    }
+    .outer{
+        width: 100% !important;
+    }
+    .title-outer button{
+        margin-left: 80%;
     }
 }
 
 
-/* View novel outer */
+  
+/* ----------------Read Book CSS------------------- */
 .view-novel-outer{
     width: 100%;
-    height: 700px;
+    height:auto;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; */
     flex-wrap: wrap;
+    background: linear-gradient(60deg, #f6c4c3, #f0edef);
 }
 .left-photo-outer{
-    width: 30%;
-    height: 650px;
+    width:50%;
+    height: 90vh;
+}
+.left-photo-outer img{
+    height: 100%;
+    padding-top: 50px;
+    padding-left: 50px;
 }
 .right-desc-outer{
     width: 50%;
-    margin-left: 4%;
-    height: 650px;
-}
-.button-outer{
-    margin-left: 40%;
+    margin-left: 40px;
+    /*height: 90vh;*/
+    height: auto;
+    padding:10px 10px 20px 10px;
+    display: flex;
     align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.right-desc-outer p{
+    font-size: 20px;
+}
+.pricing-card{
+    font-size: 28px;
+}
+.read-button-outer{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+.read-button-outer button{
+    width: auto;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 10cap;
+}
+a{
+    text-decoration: none;
 }
 span{
     margin-left: 30px;
     color: red;
-    font-weight:800;
+    font-weight:600;
 }
-.pricing-card{
-    margin-left: 40%;
+.Demo__container{
+    margin-top: 15px;
 }
 /* Phones: less than 768px */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     .left-photo-outer, .right-desc-outer {
-        width: 100%;  /* Each section takes full width */
-        margin-left: 0;  /* Remove margin from right-desc-outer */
-        height: auto;  /* Optional: Adjust height as needed */
+        width: 100%;  
+        margin-left: 0; 
+        height: auto; 
     }
-    .pricing-card{
-        margin-left: 15%;
+    .left-photo-outer img{
+        width: 100%;
+        height: 100%;
+        margin-left: -20px;
     }
-    .button-outer{
-        margin-left: 20%;
+    .view-novel-outer{
+        width: 100%;
     }
-    /* .left-photo-outer{
-        width: 25%;
-        height: 650px;
-    } */
 }
 
- 
+
+/* ---------------Read Preview---------------- */
+
+.bar{
+    font-size: 0.875rem;
+    max-width: 100%;
+    padding-bottom: .5rem;
+    background-color: #3f3e3e;
+    flex-direction: column;
+    align-items: flex-start;
+    display: flex;
+    padding-left: 20px;
+    margin-bottom: 30px;
+    margin-top: 5px;
+}
+.bar h3{
+    color: white;
+    margin: 0;
+}
+.wrap{
+    width: 100%;
+    user-select: none;
+}
+
+/*.pdf-page {*/
+/*    height: 100%;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    width: 100%;*/
+/*}*/
+.pdf-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 10px; 
+}
+
+.pdf-page {
+    height: auto;
+    display: block;
+    margin: auto;
+    width: auto;
+}
+.controls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 900px;
+    margin: 10px auto;
+}
+
+.controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+    .controls button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+/* Phones: less than 768px */
+@media (max-width: 768px) {
+    .bar{
+        width: 100%;
+        height: 5rem;
+    }
+    /* .wrap{
+        width: 100vw;
+    } */
+    .controls button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+@media (max-width: 480px) {
+    .controls {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .controls button {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}

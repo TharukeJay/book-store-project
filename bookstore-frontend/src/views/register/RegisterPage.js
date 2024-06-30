@@ -2,14 +2,14 @@ import React ,  { useState } from 'react'
 // import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import '../../styles/registerpage.css'
+import '../../styles/authentication-page.css';
+import {SIGN_UP  } from "../../apis/endpoints";
+import toast, {Toaster} from "react-hot-toast";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
     email:"" ,
-    username:"" ,            
     password:"" ,
-    repassword:"" ,
   });
 
   const handleChange = (e) => {
@@ -17,16 +17,14 @@ const RegisterPage = () => {
     setFormData({...formData, [name]: value });
   };
 
+  const apiUrl = SIGN_UP;
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    if (formData.password !== formData.repassword) {
-      console.error('Passwords do not match');
-      return;
-    }
-    // const API_URL = 'http://localhost:3000/api';
+    // console.log(authApi.registerAPI);
+  
       try {
-        const response = await fetch('/api/auth/register', {
+        const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,11 +32,29 @@ const RegisterPage = () => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        // Handle successful signup
         console.log('User signed up successfully');
+        toast.success(" Register Successfully", {
+          style: {
+            minWidth: '300px',
+            height: '50px',
+            // marginRight: '200px'
+          },
+          className: 'toaster',
+          duration: 1000,
+        });
+        window.location.href='/login'
       } else {
         const data = await response.json();
         console.error(data.message);
+        toast.error(" Register faild", {
+          style: {
+            minWidth: '300px',
+            height: '50px',
+            // marginRight: '200px'
+          },
+          className: 'toaster',
+          duration: 1000,
+        });
       }
     } catch (error) {
       console.error('Error signing up:', error);
@@ -47,21 +63,14 @@ const RegisterPage = () => {
 
   return (
     <>
-      <div className='register-main-outer'>
+    <Toaster  
+      position="top-center"
+      reverseOrder={false}
+    />
+      <div className='main-outer'>
         <Form className='form-controler' onSubmit={handleSubmit}>
           <h1> Register Here</h1>
           <br /><hr /><br />
-          <Form.Group className="mb-3" controlId="formBasicPhone">
-            <Form.Label className='form-lable'>Enter your Name</Form.Label>
-            <Form.Control 
-              name='username' 
-              type="text" 
-              placeholder="Enter Your Name"
-              value={formData.username}
-              onChange={handleChange}
-              required 
-            />
-          </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label className='form-lable'>Email address</Form.Label>
             <Form.Control 
@@ -84,25 +93,11 @@ const RegisterPage = () => {
               required 
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicRePassword">
-            <Form.Label className='form-lable'>Password</Form.Label>
-            <Form.Control 
-              name='repassword' 
-              type="password" 
-              placeholder="Password"
-              value={formData.repassword}
-              onChange={handleChange}
-              required 
-            />
-          </Form.Group>
           <br />
-          <Button className='btn register-button-style' variant="primary" type="submit" >
+          <Button className='btn button-style' variant="primary" type="submit" >
             Register
           </Button>
           <p>already have an account?  <a href="/login">signIn</a>  </p>
-          {/* <Button className='btn btn-danger button-style' variant="primary" onclick="window.location.href='/login'" >
-            Login
-          </Button> */}
         </Form>
       </div>
     </>

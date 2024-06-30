@@ -1,44 +1,75 @@
-import React from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import Stack from 'react-bootstrap/Stack';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React, {useEffect, useState} from 'react'
 import '../../styles/navbar.css';
+import Logo from '../../assest/img/VLogo.mp4'
+import API_ENDPOINT from "../../apis/httpAxios";
+import { VscSignOut } from "react-icons/vsc";
+import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../apis/endpoints";
 
  const NavBar= () => {
+     const [userData, setUserData] =useState("")
+     const [showSignOut, setShowSignOut] =useState(false)
+     const userId  = localStorage.getItem('userId');
+
+
+     useEffect(() => {
+         console.log('Audio Data Execute start');
+         const fetchUserData = async () => {
+             try { console.log("execute Function========>>>>")
+                 const response = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
+                 console.log('user Data Execute Midle', response);
+                 const getData = response.data.data;
+                 setUserData(getData);
+                 if(getData.userId != ""){
+                    setShowSignOut(!showSignOut);
+                 }
+                 console.log("userData========>>>>", userData)
+             } catch (error) {
+                 console.error('Error:', error);
+             }
+         };
+         fetchUserData();
+     }, [userId]);
+
+     const SignOut=()=>{
+         localStorage.clear();
+         window.location.href='/login';
+     }
   return (
     <>
-     <Stack direction="horizontal" gap={2}>
-      <div className="p-2" style={{color:'black'}}>Book Store</div>
-      {/* <div className="p-2 ms-auto"> */}
-        <div className='nav-main-outer'>
-          <Navbar expand="lg" className="bg-body-tertiary">
-            {/* <Container> */}
-              {/* <Navbar.Brand   href="/book-store">Book Store</Navbar.Brand> */}
-              {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-              {/* <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                </Nav>
-              </Navbar.Collapse> */}
-              
-              {/* <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                  <Nav.Link href="/">HOME</Nav.Link>
-                  <Nav.Link href="#link">E-Book</Nav.Link>
+      <div className='nav-bar'>
+          <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer">
+              <Container className='nav-container'>
+                  <Navbar.Brand href="/" style={{fontSize:"20px" , color:"white",paddingLeft:"2px"} }>
+                      {userData && (
+                          <div className="user-info" >
+                              {userData.email}
+                          </div>
+                      )}
+                  </Navbar.Brand>
+                  <Navbar.Toggle aria-controls="responsive-navbar-nav togs " />
+                  <Navbar.Collapse id="responsive-navbar-nav tog-border">
+                      <div className='right-outer'>
+                          <Nav className='link-page'>
+                              <Nav.Link href="/my-books">My Book Rack</Nav.Link>
+                              <Nav.Link href="/">Books</Nav.Link>
+                              <Nav.Link href="/news-papers">News</Nav.Link>
 
-                  <Nav.Link href="#link">News Letter</Nav.Link>
-                  <Nav.Link href="/proposal/create">About</Nav.Link>
-                </Nav>
-              </Navbar.Collapse> */}
-            {/* </Container> */}
-          </Navbar> 
-        </div>
-      {/* </div> */}
-      {/* <div className="vr" /> */}
-      <div className="p-2" style={{color:'black'}}><Nav.Link href="/login">Login</Nav.Link></div>
-    </Stack>
-
+                              <Nav.Link href="/login">Login | Register</Nav.Link>
+                              {showSignOut &&(
+                                <Nav.Link ><VscSignOut onClick={SignOut} xlinkShow={showSignOut}/></Nav.Link>
+                              )}
+                          </Nav>
+                      </div>
+                  </Navbar.Collapse>
+              </Container>
+          </Navbar>
+      </div>
     </>
   )
 }
+
 export default NavBar;

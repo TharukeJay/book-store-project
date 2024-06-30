@@ -1,40 +1,87 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import '../../styles/newscontext.css'
+import { FETCH_ALL_READ_NEWS, FETCH_ALL_NEWS } from '../../apis/endpoints';
+import API_ENDPOINT from '../../apis/httpAxios';
+import { SlArrowLeftCircle } from "react-icons/sl";
+import ScreenLoading from "../loading/Loading";
+import {FacebookIcon, FacebookShareButton} from "react-share";
 
 const ViewNews = () => {
-  return (
-    <>
-           <>
-            <a href='/' >Back</a>
-            <div className='view-news-outer'>
-                <div className="left-news-outer">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/local%2Fnews-letter.jpeg?alt=media&token=70e7e003-1507-438b-91f3-89308b3d658a" alt=""  style={{width:'300px', height:'400px'}}/>
-                </div>
-                <div className="right-desc-outer">
-                    <br /><br />
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, deleniti? Delectus odio culpa explicabo dolorem saepe id, sapiente fuga et reprehenderit quibusdam corrupti harum dolore possimus incidunt quo quasi blanditiis. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum voluptatem nesciunt corporis vel accusamus nihil. Molestias in commodi atque quia ullam fugiat, ipsum consequuntur accusamus dicta? Obcaecati fuga ullam commodi? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vitae eum animi nisi, tenetur repudiandae non distinctio a praesentium asperiores maxime deleniti ipsam modi eos fuga minus nemo molestiae, ducimus quibusdam!</p>
-                    <br/>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, deleniti? Delectus odio culpa explicabo dolorem saepe id, sapiente fuga et reprehenderit quibusdam corrupti harum dolore possimus incidunt quo quasi blanditiis. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum voluptatem nesciunt corporis vel accusamus nihil. Molestias in commodi atque quia ullam fugiat, ipsum consequuntur accusamus dicta? Obcaecati fuga ullam commodi? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vitae eum animi nisi, tenetur repudiandae non distinctio a praesentium asperiores maxime deleniti ipsam modi eos fuga minus nemo molestiae, ducimus quibusdam!</p>
-                    <br/>
-                    
-                    <div className="button-outer">
-                        <button>  <a href=""> Read preview</a>
-                        </button>
-                    </div>
-                    {/* <Container>
-                        <Segment>
-                            <FacebookShareButton>
-                                <FacebookIcon logoFillColor="white" round ={true}>
+    const [news, setNews] = useState();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    
+    const selectedNewsId = localStorage.getItem('selectedNewsId');
+    console.log("selectedNewsId : ", selectedNewsId);
+    
+    useEffect(() => {
+      console.log('selected News Data Execute start');
+      const fetchData = async () => {
+        try {
+          const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_NEWS}/${selectedNewsId}`);
+          console.log('Selected News Data:', response);
+          if (response.status == 200) {
+              const selectedNewsData = response.data.data;
+              setNews(selectedNewsData);
+              console.log("'Selected News Data:', response", news);
+              setLoading(false);
+          }else{
+              window.location.href="/login"
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+        fetchData();
+    }, [selectedNewsId]);
 
-                                </FacebookIcon>
-                            </FacebookShareButton>
-                        </Segment>
-                    </Container> */}
-                </div>
-            </div>
-        </>
-    </>
+    const RedirectPage =()=>{
+      window.location.href="/news-papers";
+  }
+    if (loading) {
+        return <ScreenLoading />
+    }
+    if (error) {
+        return <div>Error loading news: {error.message}</div>;
+    }
+
+    if (!news) {
+        return <div>No news available</div>;
+    }
+
+    const shareUrl = "http://github.com";
+    // const shareUrl = "http://localhost:3000/read-book";
+    const title = "GitHub";
+  return (
+      <>
+          <div className="top__bar">
+              <p>
+                  <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize: "40px", margin: '10px', color: "white"}}/>
+              </p>
+          </div>
+
+          <div className='view-news-outer'>
+              <div className="left-news-outer">
+                  <img src={news.thumbnail_url} alt={news.newsTitle}/>
+              </div>
+              <div className="right-news-desc-outer">
+                  <br/><br/>
+                  <h2>{news.newsTitle}</h2>
+                  <p>{news.description}</p>
+              </div>
+              <div className="Demo__container">
+                  <div className="Demo__some-network">
+                      <FacebookShareButton
+                          url={shareUrl}
+                          className="Demo__some-network__share-button"
+                      >
+                          <FacebookIcon size={50} round />
+                      </FacebookShareButton>
+
+                  </div>
+              </div>
+          </div>
+      </>
   )
 }
-
 export default ViewNews

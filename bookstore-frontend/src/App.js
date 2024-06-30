@@ -1,50 +1,65 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate  } from 'react-router-dom';
 import Login from './routes/Login'
 import Register from './routes/Register'
 import ForgetPassword from './routes/ForgetPassword'
+import ConfirmPassword from './routes/ConfirmPassword'
 import Home from './routes/Home'
-import EBook from './routes/EBook'
-import News from './routes/News'
 import PrivateRoute from './components/private-route/PrivateRoute';
 import React,  { useState, useEffect } from 'react'
-import axios from 'axios'
 import ReadBook from './components/ebook-context/ReadBook';
 import ViewNews from './components/news-context/ViewNews';
-
-
+import ReadPreview from './components/ebook-context/ReadPreview';
+import AudioBooks from './components/audio-books/AudioBooks';
+import AudioPlayer  from './components/audio-books/PlayAudio';
+import About from './views/about/About';
+import SeeAll from './components/seeAll/SeeAllPage';
+import MyLibrary from './components/library/MyLibrary';
+import PrivacyPolicy from './components/privacy/PrivacyPolicy';
+import Checkout from "./components/cheeckout/checkout";
+import NewsContext from "./components/news-context/NewsContext";
+import SeeAllPage from "./components/seeAll/SeeAllPage";
 const App =() => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // const jwtKey = process.env.REACT_APP_JWT_KEY;
 
-  // const checkAuthentication = async () => {
-  //   try {
-  //     const response = await axios.get('/api/check-auth');
-  //     setIsAuthenticated(response.data.isAuthenticated);
-  //   } catch (error) {
-  //     console.error('Authentication check failed:', error);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   checkAuthentication();
-  // }, []);
-
+  const PrivateRoute = ({ children }) => {
+    const token = localStorage.getItem('token');
+    return token ? children : <Navigate to="/login" />;
+  };
+  
   return (
     <>
        <Routes>
+        {/* Home page / DashBoard */}
           <Route path="/" element={<Home/>}/>
-          <Route path="/read-book" element={<ReadBook/>}/>
-          <Route path="/read-news" element={<ViewNews/>}/>
-          <Route path="/forgot-password" element={<ForgetPassword/>}/>
-          <Route path="/register" element={<Register/>}/>
-          {!isAuthenticated && <Route path="/login" element={<Login />} />}
-           {/* <Route path="/login" element={<Login/>}/>  */}
-          {/* <Route path="/" isAuthenticated={isAuthenticated} element={<Home/>}/> */}
-          {/* <Route path="/book-store" element={<EBook/>}/>
-          <Route path="/news" element={<News/>}/> */}
 
-        {isAuthenticated && <PrivateRoute path="/ebook" element={<EBook />} isAuthenticated={isAuthenticated} />}
-        {isAuthenticated && <PrivateRoute path="/news" element={<News />} isAuthenticated={isAuthenticated} />}
+          {/* Purchase library */}
+          <Route path="/my-books" element={<MyLibrary/>}/>
+
+          {/* All books */}
+          <Route path="/details/all-book" element={<SeeAllPage/>}/>
+
+          {/* Authentication */}
+          <Route path="/about" element={<About/>}/>
+          <Route path="/forgot-password" element={<ForgetPassword/>}/>
+          <Route path="/reset-password/:id" element={<ConfirmPassword/>}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/login" element={<Login />} />
+
+          {/* Pdf */}
+          <Route path="/read-book" element={<ReadBook />} />
+          <Route path="/read-preview" element={<PrivateRoute><ReadPreview /></PrivateRoute>} />
+          <Route path="/read-news" element={<ViewNews />} />
+
+          {/* News aper*/}
+          <Route path="/news-papers" element={<NewsContext/>} />
+
+          {/* Audio Book */}
+          <Route path="/play-audio" element={<AudioPlayer />} />
+
+          {/* Privacy & Policy */}
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
+           {/*  Payment pages  */}
+           <Route path="/checkout-order" element={<Checkout />} />
        </Routes>
     </>
   );
