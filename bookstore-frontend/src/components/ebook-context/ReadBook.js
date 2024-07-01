@@ -26,8 +26,8 @@ const ReadBook = () => {
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true)
 
-    // const selectedBookId = localStorage.getItem('selectedBookId');
-const {selectedBookId} = location.state;
+    const selectedBookId = localStorage.getItem('selectedBookId');
+// const {selectedBookId} = location.state;
     console.log('selectedBookId===================>>>', selectedBookId);
 
     useEffect(() => {

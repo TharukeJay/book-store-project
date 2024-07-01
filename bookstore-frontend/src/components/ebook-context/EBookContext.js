@@ -72,7 +72,7 @@ const EBookContext = () => {
   }, []);
 
   const handlePhotoClick = (id) => {
-    // localStorage.setItem('selectedBookId', id);
+    localStorage.setItem('selectedBookId', id);
     Navigate('/read-book', { state: { selectedBookId: id } });
   };
 
@@ -166,7 +166,7 @@ const EBookContext = () => {
   console.log('Audio Book Data:', filteredAudioBookData);
 
   const handlePhotoClickAudio = (seriesId) => {
-    // localStorage.setItem('selectedSeriesAudioId', seriesId);
+    localStorage.setItem('selectedSeriesAudioId', seriesId);
     navigate('/play-audio', { state: { selectedSeriesAudioId: seriesId }});
   };
 
