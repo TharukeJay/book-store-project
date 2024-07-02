@@ -7,7 +7,7 @@ import EBookContext from '../../components/ebook-context/EBookContext'
 const EBookPage = () => {
   return (
     <>
-        <NavBar/>
+        <NavBar style={{}}/>
         <EBookContext/>
         <Footer/>
     </>

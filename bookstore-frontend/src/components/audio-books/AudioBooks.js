@@ -129,9 +129,9 @@ const EBookContext = () => {
     fetchData();
   }, []);
 
-  const handlePhotoClickAudio = (seriesId) => {
-    localStorage.setItem('selectedSeriesAudioId', seriesId);
-    navigate('/play-audio');
+  const handlePhotoClickAudio = (seriesId,audioItem) => {
+    // localStorage.setItem('selectedSeriesAudioId', seriesId);
+    navigate('/play-audio',{state: {audioSeries: audioItem}});
   };
 
   const handleAudioCategoryClick = (category) => {

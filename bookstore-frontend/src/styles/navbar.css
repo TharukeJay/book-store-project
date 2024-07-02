@@ -2,24 +2,26 @@
   height: auto;
   max-width: 100%;
   background:rgb(63, 63, 63)  !important;
+  /*border: 1px solid red;*/
 }
 .nav-outer{
   background:rgb(63, 63, 63)  !important;
   background:none;
+  /*border: 1px solid red;*/
 }
 .nav-container{
   max-width: 100%;
   background:rgb(63, 63, 63)  !important;
+  /*border: 1px solid red;*/
 }
 
 .right-outer{
-  margin-left: 45% !important;
+  margin-left: 35% !important;
+  /*border: 1px solid #ffffff;*/
 }
-.link-page{
-  font-size: 30px;
-}
+
 .link-page a{
-  font-size: 20px !important;
+  font-size: 15px !important;
   color: hsl(0, 17%, 98%);
   margin: 0 20px;
 }
