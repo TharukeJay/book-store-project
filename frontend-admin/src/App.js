@@ -14,6 +14,7 @@ import Books from "./pages/Books";
 import AudioBooks from "./pages/AudioBooks";
 import AdminUsers from "./pages/AdminUsers";
 import Top_nav_bar from "./pages/nav_bars/Top_nav_bar";
+import CreateNewsCategory from "./pages/create/createNewsCategory";
 
 
 const App = () => {
@@ -43,6 +44,7 @@ const App = () => {
                     <Route path="/adminUsers" element={<AdminUsers />} />
                     <Route path="/createBookSeries" element={<BookSeries />} />
                     <Route path="/createNews" element={<News />} />
+                    <Route path="/createNewsCategory" element={<CreateNewsCategory />} />
                 </Routes>
             </Col>
         </Row>

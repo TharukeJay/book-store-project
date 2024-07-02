@@ -1,5 +1,5 @@
 import {
-    executeCreateNews, executeDeleteNews, executeGetNews,
+    executeCreateNews, executeDeleteNews, executeGetNews, executeGetNewsCategory,
     executeUpdateNews
 } from "../../api/endPoints";
 import React, {useEffect, useState} from "react";
@@ -7,8 +7,8 @@ import ScreenLoading from "../Loading";
 import {
     Button, Card, CardBody, CardHeader,
     Col,
-    FormLabel,
-    Image,
+    FormLabel, FormSelect,
+    Image, InputGroup,
     Modal,
     ModalBody,
     ModalHeader,
@@ -44,6 +44,8 @@ const News = () => {
     const [contentProvider, setContentProvider] = useState('')
     const [contentProviderData, setContentProviderData] = useState([])
     const [contentProviderTitle, setContentProviderTitle] = useState('')
+    const [newsCategoryData, setNewsCategoryData] = useState([]);
+    const [newsCategory, setNewsCategory] = useState('');
 
 
 
@@ -57,11 +59,19 @@ const News = () => {
 
     }
 
+    const getNewsCategory = async () => {
+        setLoading(true)
+        const response = await executeGetNewsCategory();
+        const data = response.data;
+        setNewsCategoryData(data)
+        setLoading(false)
 
+    }
 
     // REACT JS - USE EFFECT FUNCTION
     useEffect(() => {
         getNews()
+        getNewsCategory()
     }, [])
 
 
@@ -72,7 +82,7 @@ const News = () => {
         setUploadNow(true)
         e.preventDefault();
 
-        if (!description || !newsTitle) {
+        if (!description || !newsTitle || !newsCategory) {
             alert("newsTitle and description are required.");
             setUploadNow(false);
             return;
@@ -80,6 +90,7 @@ const News = () => {
 
         const formData = new FormData();
         formData.append('newsTitle', newsTitle);
+        formData.append('newsCategory', newsCategory);
         formData.append('description', description);
         formData.append('thumbnail', thumbnail);
 
@@ -101,13 +112,13 @@ const News = () => {
         setUploadNow(true)
         e.preventDefault();
 
-        if (!description || !newsTitle) {
+        if (!description || !newsTitle || !newsCategory) {
             alert("description name and News title are required.");
             setUploadNow(false);
             return;
         }
         try {
-            const data = await executeUpdateNews(newsID,newsTitle, description, thumbnail);
+            const data = await executeUpdateNews(newsID,newsTitle, description, thumbnail,newsCategory);
             console.log('News updated successfully:', data);
             getNews();
             setEditVisible(false)
@@ -129,10 +140,11 @@ const News = () => {
         }
     }
 
-    const edit = async (id,newsTitle,description, thumbnail_url,) => {
+    const edit = async (id,newsTitle,description, thumbnail_url,newsCategory) => {
         if(id != ''){
             setNewsID(id)
             setDescription(description)
+            setNewsCategory(newsCategory)
             setNewsTitle(newsTitle)
             setThumbnail(thumbnail_url)
             setEditVisible(true)
@@ -193,6 +205,33 @@ const News = () => {
                             </Form.Group>
                         </Col>
                     </Row>
+                    <Row className="mb-3">
+                        <Col sm={4} className="position-relative">
+                        <FormLabel htmlFor="staticEmail" className="col-sm-4 col-form-label">
+                            Category Name
+                        </FormLabel></Col>
+                        <Col sm={8} className="position-relative">
+                            <InputGroup className="mb-1">
+                                <FormSelect
+                                    id="validationTooltip04"
+                                    name="series"
+                                    onChange={(e) => {
+                                        setNewsCategory(e.target.value)
+                                    }}
+                                    value={newsCategory}
+                                >
+                                    <option value="">Choose..</option>
+                                    {newsCategoryData.map((item) => {
+                                        return (
+                                            <option key={item.data.id} value={item.data.id}>
+                                                {item.data.categoryName}
+                                            </option>
+                                        )
+                                    })}
+                                </FormSelect>
+                            </InputGroup>
+                        </Col>
+                    </Row>
 
                     <Row className="mb-3">
                         <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
@@ -250,6 +289,33 @@ const News = () => {
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="name" placeholder="Enter name" value={newsTitle} onChange={(e) => setNewsTitle(e.target.value)}  />
                             </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
+                        <Col sm={4} className="position-relative">
+                        <FormLabel htmlFor="staticEmail" className="col-sm-4 col-form-label">
+                            Category Name
+                        </FormLabel></Col>
+                        <Col sm={8} className="position-relative">
+                            <InputGroup className="mb-1">
+                                <FormSelect
+                                    id="validationTooltip04"
+                                    name="series"
+                                    onChange={(e) => {
+                                        setNewsCategory(e.target.value)
+                                    }}
+                                    value={newsCategory}
+                                >
+                                    <option value="">Choose..</option>
+                                    {newsCategoryData.map((item) => {
+                                        return (
+                                            <option key={item.data.id} value={item.data.id}>
+                                                {item.data.categoryName}
+                                            </option>
+                                        )
+                                    })}
+                                </FormSelect>
+                            </InputGroup>
                         </Col>
                     </Row>
 
@@ -325,6 +391,7 @@ const News = () => {
                                     onClick={() => edit(
                                         data.data.newsId,
                                         data.data.newsTitle,
+                                        data.data.newsCategory,
                                         data.data.description,
                                         data.data.thumbnail_url,
                                     )}

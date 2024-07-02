@@ -2,16 +2,16 @@ import {
     CREATE_AUTHOR,
     CREATE_BOOK_SERIES,
     CREATE_CATEGORY,
-    CREATE_NEWS,
+    CREATE_NEWS, CREATE_NEWS_CATEGORY,
     DELETE_AUTHOR,
     DELETE_BOOK_SERIES,
     DELETE_CATEGORY,
-    DELETE_NEWS,
+    DELETE_NEWS, DELETE_NEWS_CATEGORY,
     GET_AUTHOR,
     GET_BOOK_SERIES,
     GET_CATEGORY,
     GET_CONTENT,
-    GET_NEWS,
+    GET_NEWS, GET_NEWS_CATEGORY,
     GET_SELECTED_BOOK_SERIES,
     GET_SELECTED_NEWS,
     GET_USERS,
@@ -20,7 +20,7 @@ import {
     UPDATE_AUTHOR,
     UPDATE_BOOK_SERIES,
     UPDATE_CATEGORY,
-    UPDATE_NEWS,
+    UPDATE_NEWS, UPDATE_NEWS_CATEGORY,
     UPLOAD_CONTENT,
 } from "../configs/commomConfigs";
 import API_ENDPOINT from "./httpEndpoint";
@@ -157,10 +157,11 @@ export const executeCreateNews = async (formData) => {
         throw error;
     }
 };
-export const executeUpdateNews = async (newsId,newsTitle, description, imageFile) => {
+export const executeUpdateNews = async (newsId,newsTitle,newsCategory, description, imageFile) => {
     try {
         const formData = new FormData();
         formData.append('newsId', newsId);
+        formData.append('newsCategory', newsCategory);
         formData.append('newsTitle', newsTitle);
         formData.append('description', description);
         if (imageFile) {
@@ -242,5 +243,29 @@ export const executeUpdateAuthor = async (authorId,authorName) => {
 export const executeDeleteAuthor = (authorId) => {
     return API_ENDPOINT.post(DELETE_AUTHOR, {
         authorId: authorId,
+    });
+};
+
+export const executeGetNewsCategory = ( ) => {
+    return API_ENDPOINT.post(GET_NEWS_CATEGORY, {
+    });
+};
+
+export const executeCreateNewsCategory = (categoryName) => {
+    return API_ENDPOINT.post(CREATE_NEWS_CATEGORY, {
+        categoryName:categoryName
+    });
+};
+
+export const executeUpdateNewsCategory = async (categoryId,categoryName) => {
+    return API_ENDPOINT.post(UPDATE_NEWS_CATEGORY, {
+        categoryId: categoryId,
+        categoryName:categoryName
+    });
+};
+
+export const executeDeleteNewsCategory = (categoryId) => {
+    return API_ENDPOINT.post(DELETE_NEWS_CATEGORY, {
+        categoryId: categoryId,
     });
 };

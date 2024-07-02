@@ -9,7 +9,7 @@ const API_ENDPOINT = axios.create({
 // Add an interceptor to modify requests
 API_ENDPOINT.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+        const token = localStorage.getItem('token');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }

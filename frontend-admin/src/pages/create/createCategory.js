@@ -39,6 +39,7 @@ function Categories() {
             setLoading(false)
 
     }
+
     const createCategory = async () => {
         setLoading(true);
         try {

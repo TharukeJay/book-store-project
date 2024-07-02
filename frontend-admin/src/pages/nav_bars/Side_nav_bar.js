@@ -47,6 +47,7 @@ const SideNavbar = () => {
                {label: "Author", key:"/createAuthor"},
                {label: "Book Series", key:"/createBookSeries"},
                {label: "News", key:"/createNews"},
+               {label: "News Category", key:"/createNewsCategory"},
                 ],},
             {label: "View",key:"view",type:"group",children:[
                     {label: "Books",key:"/books"},
