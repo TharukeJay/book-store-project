@@ -118,7 +118,7 @@ const News = () => {
             return;
         }
         try {
-            const data = await executeUpdateNews(newsID,newsTitle, description, thumbnail,newsCategory);
+            const data = await executeUpdateNews(newsID,newsTitle,newsCategory, description, thumbnail);
             console.log('News updated successfully:', data);
             getNews();
             setEditVisible(false)
@@ -140,7 +140,7 @@ const News = () => {
         }
     }
 
-    const edit = async (id,newsTitle,description, thumbnail_url,newsCategory) => {
+    const edit = async (id,newsTitle,newsCategory,description, thumbnail_url,) => {
         if(id != ''){
             setNewsID(id)
             setDescription(description)
@@ -178,6 +178,7 @@ const News = () => {
 
     const handleAddNew = () => {
         setNewsTitle('')
+        setNewsCategory('')
         setVisible(!visible)
     }
     if (loading) {
