@@ -37,6 +37,7 @@ const Series = () => {
     const [loading, setLoading] = useState(true)
     const [visible, setVisible] = useState(false)
     const [seriesID, setSeriesID] = useState('')
+    const [seriesPrice, setSeriesPrice] = useState('')
 
 
     const [editVisible, setEditVisible] = useState(false)
@@ -97,6 +98,7 @@ const Series = () => {
         formData.append('seriesTitle', bookSeriesTitle);
         formData.append('description', description);
         formData.append('thumbnail', thumbnail);
+        formData.append('seriesPrice', seriesPrice);
 
         try {
             const response = await executeCreateBookSeries(formData).then(function (response) {
@@ -122,7 +124,7 @@ const Series = () => {
             return;
         }
         try {
-            const data = await executeUpdateBookSeries(seriesID, authorName, bookSeriesTitle, description, thumbnail);
+            const data = await executeUpdateBookSeries(seriesID, authorName, bookSeriesTitle, description, thumbnail,seriesPrice);
             console.log('Series updated successfully:', data);
             getBookSeries();
             setEditVisible(false)
@@ -144,7 +146,7 @@ const Series = () => {
         }
     }
 
-    const edit = async (id,seriesTitle,description,authorName, thumbnail_url,) => {
+    const edit = async (id,seriesTitle,description,authorName, thumbnail_url,seriesPrice) => {
         if(id != ''){
             setSeriesID(id)
             setAuthorName(authorName)
@@ -152,6 +154,7 @@ const Series = () => {
             setBookSeriesTitle(seriesTitle)
             setThumbnail(thumbnail_url)
             setEditVisible(true)
+            setSeriesPrice(seriesPrice)
         }
     }
 
@@ -235,6 +238,16 @@ const Series = () => {
                         <Col sm={8}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Control type="name" placeholder="Enter name" onChange={(e) => setBookSeriesTitle(e.target.value)}  />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                            Book Series Price
+                        </FormLabel>
+                        <Col sm={8}>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="name" placeholder="Enter name" onChange={(e) => setSeriesPrice(e.target.value)}  />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -323,6 +336,16 @@ const Series = () => {
                                 </Form.Group>
                             </Col>
                     </Row>
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                            Book Series Price
+                        </FormLabel>
+                        <Col sm={8}>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="name" placeholder="Enter name" value={seriesPrice} onChange={(e) => setSeriesPrice(e.target.value)}  />
+                            </Form.Group>
+                        </Col>
+                    </Row>
 
                     <Row className="mb-3">
                         <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
@@ -398,6 +421,7 @@ const Series = () => {
                                             data.data.description,
                                             data.data.authorName,
                                             data.data.thumbnail_url,
+                                            data.data.seriesPrice,
                                         )}
                                     >
                                         Edit

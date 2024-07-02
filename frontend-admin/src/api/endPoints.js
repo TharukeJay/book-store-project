@@ -93,13 +93,14 @@ export const executeGetContent = ( ) => {
 };
 
 
-export const executeUpdateBookSeries = async (seriesId, authorName, seriesTitle, description, imageFile) => {
+export const executeUpdateBookSeries = async (seriesId, authorName, seriesTitle, description, imageFile,seriesPrice) => {
     try {
         const formData = new FormData();
         formData.append('seriesId', seriesId);
         formData.append('authorName', authorName);
         formData.append('seriesTitle', seriesTitle);
         formData.append('description', description);
+        formData.append('seriesPrice', seriesPrice);
         if (imageFile) {
             formData.append('thumbnail', imageFile);
         }
