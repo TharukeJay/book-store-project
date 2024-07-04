@@ -17,11 +17,12 @@ import Form from 'react-bootstrap/Form';
 import {
     executeDeleteBookSeries,
     executeGetAuthor,
-    executeGetBookSeries,
+    executeGetBookSeries, executeGetCategory,
     executeGetContent,
     executeUpdateBookSeries
 } from "../api/endPoints";
 import ScreenLoading from "./Loading";
+import Mp3Image from "../assets/mp3-file-format-symbol.png";
 
 
 const Series = () => {
@@ -38,7 +39,12 @@ const Series = () => {
     const [progress, setProgress] = useState(0)
     const [loading, setLoading] = useState(true)
     const [visible, setVisible] = useState(false)
-    const [seriesID, setSeriesID] = useState('')
+    const [seriesId, setSeriesId] = useState('')
+    const [category, setCategory] = useState('')
+    const [seriesTitle, setSeriesTitle] = useState('')
+    const [title, setTitle] = useState('')
+    const [price, setPrice] = useState('')
+    const [bookFileUrl, setBookFileUrl] = useState('')
 
 
     const [editVisible, setEditVisible] = useState(false)
@@ -52,7 +58,10 @@ const Series = () => {
     const [contentProvider, setContentProvider] = useState('')
     const [contentProviderData, setContentProviderData] = useState([])
     const [contentProviderTitle, setContentProviderTitle] = useState('')
-
+    const [categoryData, setCategoryData] = useState([]);
+    const [selectedFileImage, setSelectedFileImage] = useState('')
+    const [audioFile, setAudioFile] = useState(null)
+    const [existingAudioFileName, setExistingAudioFileName] = useState('');
 
 
     const getAuthor = async () => {
@@ -63,7 +72,14 @@ const Series = () => {
         setLoading(false)
 
     }
+    const getCategory = async () => {
+        setLoading(true)
+        const response = await executeGetCategory();
+        const data = response.data;
+        setCategoryData(data)
+        setLoading(false)
 
+    }
 
     const getBookSeries = async () => {
         setLoading(true)
@@ -86,6 +102,8 @@ const Series = () => {
     // REACT JS - USE EFFECT FUNCTION
     useEffect(() => {
         getBookContents()
+        getAuthor()
+        getCategory()
     }, [])
 
 
@@ -100,7 +118,7 @@ const Series = () => {
             return;
         }
         try {
-            const data = await executeUpdateBookSeries(seriesID, authorName, bookSeriesTitle, description, thumbnail);
+            const data = await executeUpdateBookSeries(seriesId, authorName, bookSeriesTitle, description, thumbnail);
             console.log('Series updated successfully:', data);
             getBookSeries();
             setEditVisible(false)
@@ -122,21 +140,27 @@ const Series = () => {
         }
     }
 
-    const edit = async (id,seriesTitle,description,authorName, thumbnail_url,) => {
-        if(id != ''){
-            setSeriesID(id)
+    const edit = async (category,authorName,seriesId,seriesTitle,title,price,description,bookFile_url, thumbnail_url,bookFileName) => {
+        if(seriesId != ''){
+            console.log('print bookfile url===>',bookFile_url['fullBookUrl'])
+            setCategory(category)
             setAuthorName(authorName)
+            setSeriesId(seriesId)
+            setSeriesTitle(seriesTitle)
+            setTitle(title)
+            setPrice (price)
             setDescription(description)
-            setBookSeriesTitle(seriesTitle)
+            setAudioFile(bookFile_url['fullBookUrl'])
             setThumbnail(thumbnail_url)
             setEditVisible(true)
+            setExistingAudioFileName(bookFileName)
         }
     }
 
     const Delete = async () => {
         setLoading(true);
         try {
-            const response = await executeDeleteBookSeries(seriesID);
+            const response = await executeDeleteBookSeries(seriesId);
             const data = response.data;
             setLoading(false);
             getBookSeries();
@@ -157,6 +181,14 @@ const Series = () => {
         setEditVisible(false)
     }
 
+    const mp3Change = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0];
+            setSelectedFileImage(Mp3Image);
+            setAudioFile(file);
+        }
+    }
+
 
     const handleAddNew = () => {
         setAuthorName('')
@@ -169,89 +201,143 @@ const Series = () => {
     return (
         <>
 
-            {/*<Modal alignment="center" show={editVisible} onClose={() => handleClose()}>*/}
-            {/*    <ModalHeader closeButton onClick={handleClose}>*/}
-            {/*        <ModalTitle>UPDATE BOOK SERIES</ModalTitle>*/}
-            {/*    </ModalHeader>*/}
-            {/*    <ModalBody>*/}
-            {/*        <Row className="mb-3">*/}
-            {/*            <FormLabel htmlFor="staticEmail" className="col-sm-4 col-form-label">*/}
-            {/*                Author Name*/}
-            {/*            </FormLabel>*/}
-            {/*            <Col md={8} className="position-relative">*/}
-            {/*                <InputGroup className="mb-1">*/}
-            {/*                    <FormSelect*/}
-            {/*                        id="validationTooltip04"*/}
-            {/*                        name="series"*/}
-            {/*                        onChange={(e) => {*/}
-            {/*                            setAuthorName(e.target.value)*/}
-            {/*                        }}*/}
-            {/*                        value={authorName}*/}
-            {/*                    >*/}
-            {/*                        <option value="">Choose..</option>*/}
-            {/*                        {authorData.map((item) => {*/}
-            {/*                            return (*/}
-            {/*                                <option key={item.data.id} value={item.data.id}>*/}
-            {/*                                    {item.data.authorName}*/}
-            {/*                                </option>*/}
-            {/*                            )*/}
-            {/*                        })}*/}
-            {/*                    </FormSelect>*/}
-            {/*                </InputGroup>*/}
-            {/*            </Col>*/}
-            {/*        </Row>*/}
-            {/*        <Row className="mb-3">*/}
-            {/*            <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">*/}
-            {/*                Book Series Title*/}
-            {/*            </FormLabel>*/}
-            {/*            <Col sm={8}>*/}
-            {/*                <Form.Group className="mb-3" controlId="formBasicEmail">*/}
-            {/*                    <Form.Control type="name" placeholder="Enter name" value={bookSeriesTitle} onChange={(e) => setBookSeriesTitle(e.target.value)}  />*/}
-            {/*                </Form.Group>*/}
-            {/*            </Col>*/}
-            {/*        </Row>*/}
+            <Modal alignment="center" show={editVisible} onClose={() => handleClose()}>
+                <ModalHeader closeButton onClick={handleClose}>
+                    <ModalTitle>UPDATE AUDIO BOOK</ModalTitle>
+                </ModalHeader>
+                <ModalBody>
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                           Book name
+                        </FormLabel>
+                        <Col sm={8}>
 
-            {/*        <Row className="mb-3">*/}
-            {/*            <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">*/}
-            {/*                Description*/}
-            {/*            </FormLabel>*/}
-            {/*            <Col sm={8}>*/}
-            {/*                /!*<Form.Text type="text" onChange={(e) => setDescription(e.target.value)} />*!/*/}
-            {/*                <Form.Control as="textarea" aria-label="With textarea" value={description} onChange={(e) => setDescription(e.target.value)} />*/}
-            {/*            </Col>*/}
-            {/*        </Row>*/}
+                            <Form.Control as="textarea" aria-label="With textarea" value={title} onChange={(e) => setTitle(e.target.value)} />
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="staticEmail" className="col-sm-4 col-form-label">
+                            Category
+                        </FormLabel>
+                        <Col md={8} className="position-relative">
+                            <InputGroup className="mb-1">
+                                <FormSelect
+                                    id="validationTooltip04"
+                                    name="series"
+                                    onChange={(e) => {
+                                        setCategory(e.target.value)
+                                    }}
+                                    value={category}
+                                >
+                                    <option value="">Choose..</option>
+                                    {categoryData.map((item) => {
+                                        return (
+                                            <option key={item.data.id} value={item.data.id}>
+                                                {item.data.categoryName}
+                                            </option>
+                                        )
+                                    })}
+                                </FormSelect>
+                            </InputGroup>
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="staticEmail" className="col-sm-4 col-form-label">
+                            Author Name
+                        </FormLabel>
+                        <Col md={8} className="position-relative">
+                            <InputGroup className="mb-1">
+                                <FormSelect
+                                    id="validationTooltip04"
+                                    name="series"
+                                    onChange={(e) => {
+                                        setAuthorName(e.target.value)
+                                    }}
+                                    value={authorName}
+                                >
+                                    <option value="">Choose..</option>
+                                    {authorData.map((item) => {
+                                        return (
+                                            <option key={item.data.id} value={item.data.id}>
+                                                {item.data.authorName}
+                                            </option>
+                                        )
+                                    })}
+                                </FormSelect>
+                            </InputGroup>
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                            Book Series Title
+                        </FormLabel>
+                        <Col sm={8}>
+                            {/*<Form.Text type="text" onChange={(e) => setDescription(e.target.value)} />*/}
+                            <Form.Control as="textarea" aria-label="With textarea" value={seriesTitle} onChange={(e) => setSeriesTitle(e.target.value)} />
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                            Description
+                        </FormLabel>
+                        <Col sm={8}>
+                            {/*<Form.Text type="text" onChange={(e) => setDescription(e.target.value)} />*/}
+                            <Form.Control as="textarea" aria-label="With textarea" value={description} onChange={(e) => setDescription(e.target.value)} />
+                        </Col>
+                    </Row>
 
-            {/*        {selectedImage ? (*/}
-            {/*            <Row className="mb-3">*/}
-            {/*                <Image align="center" rounded src={selectedImage} />*/}
-            {/*            </Row>*/}
-            {/*        ) : (<Row className="mb-3">*/}
-            {/*            <Image  align="center" rounded src={thumbnail} />*/}
-            {/*        </Row>)}*/}
+                    {selectedImage ? (
+                        <Row className="mb-3">
+                            <Image align="center" rounded src={selectedImage} />
+                        </Row>
+                    ) : (<Row className="mb-3">
+                        <Image  align="center" rounded src={thumbnail} />
+                    </Row>)}
 
-            {/*        <form onSubmit={updateMedia}>*/}
-            {/*            <Row className="mb-2">*/}
-            {/*                <Col md={12} className="position-relative">*/}
-            {/*                    <input type="file" onChange={imageChangeUpdate}  />*/}
-            {/*                </Col>*/}
-            {/*            </Row>*/}
+                    <form onSubmit={updateMedia}>
+                        <Row className="mb-2">
+                            <Col md={12} className="position-relative">
+                                <input type="file" onChange={imageChangeUpdate}  />
+                            </Col>
+                        </Row>
+                        {/*<Row><FormLabel>Upload Book</FormLabel></Row>*/}
 
-            {/*            <div className="row justify-content-md-center">*/}
-            {/*                <Col xs lg={9}>*/}
-            {/*                    <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">*/}
-            {/*                        UPDATE*/}
-            {/*                    </Button>*/}
-            {/*                </Col>*/}
+                        {/*        <Row className="position-relative">*/}
+                        {/*            <input type="file" accept=".mp3" onChange={mp3Change} required />*/}
+                        {/*        </Row>*/}
+                        <Row className="mb-3">
+                            <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                                Existing Audio File
+                            </FormLabel>
+                            <Col sm={8}>
+                                {existingAudioFileName ? (
+                                    <p>{existingAudioFileName}</p>
+                                ) : (
+                                    <p>No Audio File Available</p>
+                                )}
+                                <Form.Control
+                                    type="file"
+                                    accept="audio/*"
+                                    onChange={mp3Change}
+                                />
+                            </Col>
+                        </Row>
+                        <div className="row justify-content-md-center">
+                            <Col xs lg={9}>
+                                <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">
+                                    UPDATE
+                                </Button>
+                            </Col>
 
-            {/*                <Col>*/}
-            {/*                    <Button color="danger" onClick={() => Delete()}>*/}
-            {/*                        DELETE*/}
-            {/*                    </Button>*/}
-            {/*                </Col>*/}
-            {/*            </div>*/}
-            {/*        </form>*/}
-            {/*    </ModalBody>*/}
-            {/*</Modal>*/}
+                            <Col>
+                                <Button color="danger" onClick={() => Delete()}>
+                                    DELETE
+                                </Button>
+                            </Col>
+                        </div>
+                    </form>
+                </ModalBody>
+            </Modal>
 
             {/* react - Table sub categories list */}
             <Table>
@@ -287,13 +373,17 @@ const Series = () => {
                                     className="me-md-4"
                                     active
                                     tabIndex={-1}
-                                    // onClick={() => edit(
-                                    //     data.data.seriesId,
-                                    //     data.data.seriesTitle,
-                                    //     data.data.description,
-                                    //     data.data.authorName,
-                                    //     data.data.thumbnail_url,
-                                    // )}
+                                    onClick={() => edit(
+                                        data.data.category,
+                                        data.data.authorName,
+                                        data.data.seriesId,
+                                        data.data.seriesTitle,
+                                        data.data.title,
+                                        data.data.price,
+                                        data.data.description,
+                                        data.data.bookFile_url,
+                                        data.data.thumbnail_url,
+                                    )}
                                 >
                                     Edit
                                 </Button>

@@ -1,5 +1,6 @@
 
 export const baseUrl = "http://localhost:3001/api";
+// export const baseUrl = "https://bookstore-backend-97qw.onrender.com/api";
 
 
 export const REGISTER_USER = `${baseUrl}/auth/register-admin`;
@@ -9,6 +10,11 @@ export const CREATE_CATEGORY = `${baseUrl}/category/create-category`;
 export const GET_CATEGORY = `${baseUrl}/category/get-category`;
 export const UPDATE_CATEGORY = `${baseUrl}/category/update-category`;
 export const DELETE_CATEGORY = `${baseUrl}/category/delete-category`;
+
+export const CREATE_NEWS_CATEGORY = `${baseUrl}/newsCategory/create-news-category`;
+export const GET_NEWS_CATEGORY = `${baseUrl}/newsCategory/get-news-category`;
+export const UPDATE_NEWS_CATEGORY = `${baseUrl}/newsCategory/update-news-category`;
+export const DELETE_NEWS_CATEGORY = `${baseUrl}/newsCategory/delete-news-category`;
 
 export const GET_AUTHOR = `${baseUrl}/author/get-author`;
 export const CREATE_AUTHOR = `${baseUrl}/author/create-author`;

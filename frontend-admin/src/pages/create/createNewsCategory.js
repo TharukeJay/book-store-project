@@ -13,52 +13,51 @@ import {
     Modal,
     ModalHeader,
     ModalTitle,
-    ModalBody, FormLabel, ModalFooter, Table
+    ModalBody, FormLabel, ModalFooter, Table, InputGroup, FormSelect, Image
 } from 'react-bootstrap';
 import {executeLoginUser} from "../../api/loginUser";
 import {
-    executeCreateAuthor, executeDeleteAuthor,
-    executeDeleteCategory,
-    executeGetAuthor,
-    executeUpdateAuthor,
-    executeUpdateCategory
+    executeCreateNewsCategory,
+    executeDeleteNewsCategory,
+    executeGetNewsCategory,
+    executeUpdateNewsCategory
 } from "../../api/endPoints";
 
 
 function Categories() {
-    const [authorData, setAuthorData] = useState([]);
-    const [authorName, setAuthorName] = useState('');
+    const [categoryData, setCategoryData] = useState([]);
+    const [categoryName, setCategoryName] = useState('');
+    const [categoryId, setCategoryId] = useState('');
     const [visible, setVisible] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [editVisible, setEditVisible] = useState(false)
-    const [authorId, setAuthorId] = useState('');
 
-    const getAuthor = async () => {
+    const getNewsCategory = async () => {
         setLoading(true)
-        const response = await executeGetAuthor();
+        const response = await executeGetNewsCategory();
         const data = response.data;
-        setAuthorData(data)
+        setCategoryData(data)
         setLoading(false)
 
     }
-    const createAuthor = async () => {
+    const createNewsCategory = async () => {
         setLoading(true);
         try {
-            const response = await executeCreateAuthor(authorName);
-            const data2 = response.data;
-            setAuthorName(authorName);
+            const response = await executeCreateNewsCategory(categoryName);
+            const data = response.data;
+            setCategoryName(categoryName);
             setLoading(false);
-            getAuthor();
+            getNewsCategory();
             setVisible(false)
         } catch (error) {
             setLoading(false);
-            console.error('Error creating author:', error);
+            console.error('Error creating category:', error);
         }
     };
 
 
     useEffect(() => {
-        getAuthor()
+        getNewsCategory()
     }, [])
 
     // if (loading) {
@@ -68,10 +67,10 @@ function Categories() {
         setVisible(true)
     }
 
-    const edit = async (authorId,authorName) => {
-        if(authorId != ''){
-            setAuthorId(authorId)
-            setAuthorName(authorName)
+    const edit = async (categoryId,categoryName) => {
+        if(categoryId != ''){
+            setCategoryId(categoryId)
+            setCategoryName(categoryName)
             setEditVisible(true)
         }
     }
@@ -81,15 +80,15 @@ function Categories() {
         // setUploadNow(true)
         e.preventDefault();
 
-        if (!authorName) {
+        if (!categoryName) {
             alert("Author name and series title are required.");
             // setUploadNow(false);
             return;
         }
         try {
-            const data = await executeUpdateAuthor(authorId, authorName);
-            console.log('author updated successfully:', data);
-            await getAuthor();
+            const data = await executeUpdateNewsCategory(categoryId, categoryName);
+            console.log('Series updated successfully:', data);
+            await getNewsCategory();
             setEditVisible(false)
         } catch (error) {
             console.error('Error updating series:', error);
@@ -98,10 +97,10 @@ function Categories() {
     const Delete = async () => {
         setLoading(true);
         try {
-            const response = await executeDeleteAuthor(authorId);
+            const response = await executeDeleteNewsCategory(categoryId);
             const data = response.data;
             setLoading(false);
-            await getAuthor();
+            await getNewsCategory();
             setEditVisible(false)
         } catch (error) {
             setLoading(false);
@@ -110,15 +109,13 @@ function Categories() {
     }
 
     const handleClose = () => {
-        setAuthorName('')
+        setCategoryName('')
         setVisible(false)
         setEditVisible(false)
     }
 
-
     return (
         <>
-            {console.log('authorData==>',authorData)}
             {/*<Button*/}
             {/*    variant="primary"*/}
             {/*    onClick={handleVisible}*/}
@@ -131,17 +128,17 @@ function Categories() {
 
             <Modal alignment="center" show={visible} onClose={() => setVisible(false)}>
                 <ModalHeader>
-                    <ModalTitle>New Author</ModalTitle>
+                    <ModalTitle>New News Category</ModalTitle>
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
                         <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
-                            AUTHOR NAME
+                            CATEGORY NAME
                         </FormLabel>
                         <Col sm={8}>
-                            {/*<FormInput type="text" onChange={(e) => setAuthorName(e.target.value)} />*/}
+                            {/*<FormInput type="text" onChange={(e) => setCategoryName(e.target.value)} />*/}
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Control type="name" placeholder="Enter name" onChange={(e) => setAuthorName(e.target.value)} />
+                                <Form.Control type="name" placeholder="Enter name" onChange={(e) => setCategoryName(e.target.value)} />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -151,23 +148,24 @@ function Categories() {
                     <Button color="secondary" onClick={() => setVisible(false)}>
                         Close
                     </Button>
-                    <Button color="primary" onClick={() => createAuthor(authorName)}>
+                    <Button color="primary" onClick={() => createNewsCategory(categoryName)}>
                         Save
                     </Button>
                 </ModalFooter>
             </Modal>
+
             <Modal alignment="center" show={editVisible} onClose={() => handleClose()}>
                 <ModalHeader closeButton onClick={handleClose}>
-                    <ModalTitle>UPDATE AUTHOR</ModalTitle>
+                    <ModalTitle>UPDATE NEWS CATEGORY</ModalTitle>
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
                         <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
-                            Author Name
+                            Category Name
                         </FormLabel>
                         <Col sm={8}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Control type="name" placeholder="Enter name" value={authorName} onChange={(e) => setAuthorName(e.target.value)}  />
+                                <Form.Control type="name" placeholder="Enter name" value={categoryName} onChange={(e) => setCategoryName(e.target.value)}  />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -194,16 +192,16 @@ function Categories() {
                 <thead color="light">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">AUTHOR NAME</th>
+                    <th scope="col">CATEGORY NAME</th>
                     <th scope="col">ACTION</th>
                 </tr>
                 </thead>
                 <tbody>
-                {authorData.map((data, index) => {
+                {categoryData.map((data, index) => {
                     return (
                         <tr key={data.data}>
                             <td scope="row">{index + 1}</td>
-                            <td>{data.data.authorName}</td>
+                            <td>{data.data.categoryName}</td>
 
                             <td>
                                 <Button
@@ -212,8 +210,8 @@ function Categories() {
                                     active
                                     tabIndex={-1}
                                     onClick={() => edit(
-                                        data.data.authorId,
-                                        data.data.authorName,
+                                        data.data.categoryId,
+                                        data.data.categoryName,
                                     )}
                                 >
                                     Edit
@@ -233,7 +231,7 @@ const Validation = () => {
             <Col xs={12}>
                 <Card className="mb-4">
                     <CardHeader>
-                        <h2>AUTHOR LIST</h2>
+                        <h2>NEWS CATEGORY LIST</h2>
                     </CardHeader>
                     <CardBody>{Categories()}</CardBody>
                 </Card>
@@ -244,3 +242,4 @@ const Validation = () => {
 
 
 export default Validation;
+
