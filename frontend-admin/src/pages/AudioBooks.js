@@ -15,11 +15,11 @@ import {
 } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import {
-    executeDeleteBookSeries,
+    executeDeleteBookSeries, executeDeleteContent,
     executeGetAuthor,
     executeGetBookSeries, executeGetCategory,
     executeGetContent,
-    executeUpdateBookSeries
+    executeUpdateBookSeries, executeUpdateContent, executeUploadContent
 } from "../api/endPoints";
 import ScreenLoading from "./Loading";
 import Mp3Image from "../assets/mp3-file-format-symbol.png";
@@ -44,25 +44,24 @@ const Series = () => {
     const [seriesTitle, setSeriesTitle] = useState('')
     const [title, setTitle] = useState('')
     const [price, setPrice] = useState('')
-    const [bookFileUrl, setBookFileUrl] = useState('')
-
-
     const [editVisible, setEditVisible] = useState(false)
-    const [subcategory, setSubcategory] = useState()
-    const [editId, setEditId] = useState()
-
-    const [episodes, setEpisodes] = useState()
-    const [hide, setHide] = useState(false)
-    const [displayFeaturedContent, setDisplayFeaturedContent] = useState('')
-    const [featuredContent, setFeaturedContent] = useState(false)
-    const [contentProvider, setContentProvider] = useState('')
-    const [contentProviderData, setContentProviderData] = useState([])
-    const [contentProviderTitle, setContentProviderTitle] = useState('')
     const [categoryData, setCategoryData] = useState([]);
     const [selectedFileImage, setSelectedFileImage] = useState('')
     const [audioFile, setAudioFile] = useState(null)
-    const [existingAudioFileName, setExistingAudioFileName] = useState('');
+    const [audioFileName, setAudioFileName] = useState(null)
+    const [chapter, setChapter] = useState(1)
+    const [bookType, setBookType] = useState('Audio Book')
+    const [id, setId] = useState('')
 
+    const incrementChapter = () => {
+        setChapter(prevChapter => prevChapter + 1);
+    };
+
+    const decrementChapter = () => {
+        if (chapter > 1) {
+            setChapter(prevChapter => prevChapter - 1);
+        }
+    };
 
     const getAuthor = async () => {
         setLoading(true)
@@ -108,23 +107,40 @@ const Series = () => {
 
 
     const updateMedia = async (e) => {
+            e.preventDefault();
 
-        setUploadNow(true)
-        e.preventDefault();
+            if (!category || !authorName || !bookType || !title || !thumbnail) {
+                alert("Please fill all required fields and upload the necessary files.");
+                return;
+            }
 
-        if (!authorName || !bookSeriesTitle) {
-            alert("Author name and series title are required.");
-            setUploadNow(false);
-            return;
-        }
-        try {
-            const data = await executeUpdateBookSeries(seriesId, authorName, bookSeriesTitle, description, thumbnail);
-            console.log('Series updated successfully:', data);
-            getBookSeries();
-            setEditVisible(false)
-        } catch (error) {
-            console.error('Error updating series:', error);
-        }
+            setLoading(true);
+
+            const formData = new FormData();
+            formData.append('categoryName', category);
+            formData.append('authorName', authorName);
+            formData.append('chapter', chapter);
+            formData.append('bookType', bookType);
+            formData.append('description', description);
+            formData.append('bookPrice', price);
+            formData.append('bookName', title);
+            formData.append('selecteBookSeries', seriesTitle);
+            formData.append('selecteBookSeriesID', seriesId);
+            formData.append('thumbnail', thumbnail);
+            formData.append('audioFile', audioFile);
+            formData.append('id', id);
+
+            try {
+                console.log('form data===>', formData);
+                const response = await executeUpdateContent(formData);
+                console.log('Content uploaded successfully:', response.data);
+                alert('Content uploaded successfully!')
+                setEditVisible(false)
+            } catch (error) {
+                console.error('Error uploading content:', error);
+            } finally {
+                setLoading(false);
+            }
     }
 
     const imageChange = (e) => {
@@ -140,7 +156,7 @@ const Series = () => {
         }
     }
 
-    const edit = async (category,authorName,seriesId,seriesTitle,title,price,description,bookFile_url, thumbnail_url,bookFileName) => {
+    const edit = async (category,authorName,seriesId,seriesTitle,title,price,description,bookFile_url, thumbnail_url,id,chapter) => {
         if(seriesId != ''){
             console.log('print bookfile url===>',bookFile_url['fullBookUrl'])
             setCategory(category)
@@ -153,18 +169,21 @@ const Series = () => {
             setAudioFile(bookFile_url['fullBookUrl'])
             setThumbnail(thumbnail_url)
             setEditVisible(true)
-            setExistingAudioFileName(bookFileName)
+            setAudioFileName(bookFile_url['fullBookName'])
+            setId(id)
+            setChapter(chapter)
         }
     }
 
     const Delete = async () => {
         setLoading(true);
         try {
-            const response = await executeDeleteBookSeries(seriesId);
+            const response = await executeDeleteContent(id);
             const data = response.data;
             setLoading(false);
-            getBookSeries();
             setEditVisible(false)
+            alert('Content deleted successfully!')
+            getBookSeries();
         } catch (error) {
             setLoading(false);
             console.error('Error creating author:', error);
@@ -242,6 +261,24 @@ const Series = () => {
                         </Col>
                     </Row>
                     <Row className="mb-3">
+                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                            Chapter
+     c                   </FormLabel>
+                        <Col sm={8}>
+                            <div className="d-flex align-items-center">
+                                <Button variant="outline-secondary" onClick={decrementChapter}>-</Button>
+                                <Form.Control
+                                    type="text"
+                                    value={chapter}
+                                    readOnly
+                                    className="mx-2"
+                                    style={{ width: '50px', textAlign: 'center' }}
+                                />
+                                <Button variant="outline-secondary" onClick={incrementChapter}>+</Button>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
                         <FormLabel htmlFor="staticEmail" className="col-sm-4 col-form-label">
                             Author Name
                         </FormLabel>
@@ -307,14 +344,12 @@ const Series = () => {
                         {/*        </Row>*/}
                         <Row className="mb-3">
                             <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
-                                Existing Audio File
+                                Audio File
                             </FormLabel>
+                        </Row>
+                        <Row>
                             <Col sm={8}>
-                                {existingAudioFileName ? (
-                                    <p>{existingAudioFileName}</p>
-                                ) : (
-                                    <p>No Audio File Available</p>
-                                )}
+                                {audioFileName ? audioFileName : ''}{audioFileName ? audioFileName : ''}
                                 <Form.Control
                                     type="file"
                                     accept="audio/*"
@@ -383,6 +418,8 @@ const Series = () => {
                                         data.data.description,
                                         data.data.bookFile_url,
                                         data.data.thumbnail_url,
+                                        data.data.id,
+                                        data.data.chapter,
                                     )}
                                 >
                                     Edit

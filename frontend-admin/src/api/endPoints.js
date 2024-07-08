@@ -5,7 +5,7 @@ import {
     CREATE_NEWS, CREATE_NEWS_CATEGORY,
     DELETE_AUTHOR,
     DELETE_BOOK_SERIES,
-    DELETE_CATEGORY,
+    DELETE_CATEGORY, DELETE_CONTENT,
     DELETE_NEWS, DELETE_NEWS_CATEGORY,
     GET_AUTHOR,
     GET_BOOK_SERIES,
@@ -15,11 +15,11 @@ import {
     GET_SELECTED_BOOK_SERIES,
     GET_SELECTED_NEWS,
     GET_USERS,
-    LOGIN_USER,
+    LOGIN_USER, REQUEST_RESET_PASSWORD,
     SET_ADMIN,
     UPDATE_AUTHOR,
     UPDATE_BOOK_SERIES,
-    UPDATE_CATEGORY,
+    UPDATE_CATEGORY, UPDATE_CONTENT,
     UPDATE_NEWS, UPDATE_NEWS_CATEGORY,
     UPLOAD_CONTENT,
 } from "../configs/commomConfigs";
@@ -81,6 +81,19 @@ export const executeUploadContent = async (formData) => {
         // } else {
         //     throw new Error(`Error: ${response.status} ${response.statusText}`);
         // }
+    } catch (error) {
+        console.error("Error creating book series:", error);
+        throw error;
+    }
+};
+
+export const executeUpdateContent = async (formData) => {
+    try {
+        const response = await fetch(UPDATE_CONTENT, {
+            method: 'POST',
+            body: formData,
+        });
+        return response;
     } catch (error) {
         console.error("Error creating book series:", error);
         throw error;
@@ -268,5 +281,17 @@ export const executeUpdateNewsCategory = async (categoryId,categoryName) => {
 export const executeDeleteNewsCategory = (categoryId) => {
     return API_ENDPOINT.post(DELETE_NEWS_CATEGORY, {
         categoryId: categoryId,
+    });
+};
+
+export const executeDeleteContent = (contentId) => {
+    return API_ENDPOINT.post(DELETE_CONTENT, {
+        contentId: contentId
+    });
+};
+
+export const executeRestPassword = (email) => {
+    return API_ENDPOINT.post(REQUEST_RESET_PASSWORD, {
+        email: email
     });
 };

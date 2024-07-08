@@ -2,6 +2,7 @@
 export const baseUrl = "http://localhost:3001/api";
 // export const baseUrl = "https://bookstore-backend-97qw.onrender.com/api";
 
+const token = window.location.href.split('/reset-password/')[1];
 
 export const REGISTER_USER = `${baseUrl}/auth/register-admin`;
 export const LOGIN_USER = `${baseUrl}/auth/login`;
@@ -27,6 +28,8 @@ export const UPDATE_BOOK_SERIES = `${baseUrl}/series/update-bookSeries`;
 export const DELETE_BOOK_SERIES = `${baseUrl}/series/delete-bookSeries`;
 export const GET_SELECTED_BOOK_SERIES = `${baseUrl}/series/get-selected-bookSeries`;
 export const UPLOAD_CONTENT = `${baseUrl}/content/upload-content`;
+export const UPDATE_CONTENT = `${baseUrl}/content/update-content`;
+export const DELETE_CONTENT = `${baseUrl}/content/delete-content`;
 export const GET_CONTENT = `${baseUrl}/content/get-content`;
 
 export const GET_USERS = `${baseUrl}/users/get-users`;
@@ -38,3 +41,4 @@ export const GET_NEWS = `${baseUrl}/news/get-news`;
 export const UPDATE_NEWS = `${baseUrl}/news/update-news`;
 export const DELETE_NEWS = `${baseUrl}/news/delete-news`;
 export const GET_SELECTED_NEWS = `${baseUrl}/news/get-selected-news`;
+export const REQUEST_RESET_PASSWORD = `${baseUrl}/auth/confirm-reset-password`;
