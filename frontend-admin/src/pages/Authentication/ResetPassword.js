@@ -7,7 +7,7 @@ import { executeLoginUser } from '../../api/loginUser';
 import {executeGetBookSeries, executeGetContent, executeGetUsers} from "../../api/endPoints";
 import toast from "bootstrap/js/src/toast";
 import axios from "axios";
-import {REQUEST_RESET_PASSWORD} from "../../configs/commomConfigs";
+import {CONFIRM_RESET_PASSWORD, REQUEST_RESET_PASSWORD} from "../../configs/commomConfigs";
 
 function ResetPassword() {
     const navigate = useNavigate(); // Hook for navigation
@@ -17,8 +17,10 @@ function ResetPassword() {
         newPassword: '',
         confirmPassword: '',
     });
+    const [error, setError] = useState('');
 
     const handleChange = (e) => {
+        setError('');
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
@@ -30,11 +32,12 @@ function ResetPassword() {
         e.preventDefault();
         console.log(formData);
         if (formData.newPassword !== formData.confirmPassword) {
-            alert('Passwords do not match');
+            setError('Passwords do not match');
+            return;
         }
         try {
             console.log("Execute Start");
-            const response = await axios.post(`${REQUEST_RESET_PASSWORD}/${token}`, formData);
+            const response = await axios.post(`${CONFIRM_RESET_PASSWORD}/${token}`, formData);
             console.log("response=======", response);
             const data = response.data;
 
@@ -63,7 +66,7 @@ function ResetPassword() {
 
     return (
         <Container className="d-flex flex-column align-items-center mt-5">
-            <Form className="w-50" style={{ backgroundColor: 'lightblue', padding: '20px', borderRadius: '10px' }} onSubmit={handleSubmit}>
+            <Form className="w-50" style={{ backgroundColor: 'yellowgreen', padding: '20px', borderRadius: '10px',borderColor: error ? 'red' : '' }} onSubmit={handleSubmit}>
                 <center>
                     <h2>Reset Password</h2>
                 </center>
@@ -77,10 +80,11 @@ function ResetPassword() {
                         onChange={handleChange}
                         required
                     />
+                    {error && <Form.Text className="text-danger" style={{fontSize:14,fontWeight:"bold",borderColor: error ? 'red' : ''}}>{error}</Form.Text>}
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label className='form-lable'>Re-Password</Form.Label>
+                    <Form.Label className='form-lable'>Confirm Password</Form.Label>
                     <Form.Control
                         name='confirmPassword'
                         type="password"
@@ -104,14 +108,14 @@ function ResetPassword() {
                 {/*    <Form.Control type="password" placeholder="Password" name="password" value={formData.confirmPassword} onChange={handleChange} />*/}
                 {/*</Form.Group>*/}
                 <center>
-                    <Button variant="primary" type="submit" style={{ width: '100%', alignItems: 'center' }}>
+                    <Button variant="dark" type="submit" style={{ width: '100%', alignItems: 'center' }}>
                         Change Password
                     </Button>
                 </center>
                 <br />
                 <Form.Group className="mb-3">
                     <Form.Label>A new admin? </Form.Label>
-                    <Link to="/signup"> Signup</Link>
+                    <Link to="/signup" style={{ color: "darkblue" }}> Signup</Link>
                 </Form.Group>
             </Form>
             {isLoggedIn && <Navigate to="/upload" />} {/* Conditionally render Navigate outside the form */}

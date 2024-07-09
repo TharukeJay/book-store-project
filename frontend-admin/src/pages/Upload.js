@@ -497,7 +497,7 @@ const ContentData = () => {
 const Index = () => {
     return (
         <Row>
-            <Col xs={12}>
+            <Col>
                 <Card className="mb-4">
                     <CardHeader>
                         <h3>BOOKS UPLOAD</h3>

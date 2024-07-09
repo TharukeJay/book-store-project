@@ -17,29 +17,31 @@ import Top_nav_bar from "./pages/nav_bars/Top_nav_bar";
 import CreateNewsCategory from "./pages/create/createNewsCategory";
 import ForgotPassword from "./pages/Authentication/ForgotPassword";
 import ResetPassword from "./pages/Authentication/ResetPassword";
+import LoginError from "./pages/Authentication/loginError";
 
 
 const App = () => {
     const location = useLocation();
-
+    const token = window.location.href.split('/reset-password/')[1];
     return (
         <Row>
             <Row>
                 <Top_nav_bar/>
             </Row>
-            {location.pathname !== '/' && location.pathname !== '/signup' && location.pathname !== '/login' && location.pathname !== '/forgotPassword' && location.pathname !== '/confirm-reset-password/:token' && (
-                <Col xs={3}>
+            {location.pathname !== '/' && location.pathname !== '/signup' && location.pathname !== '/login' && location.pathname !== '/forgotPassword' && location.pathname !== `/reset-password/${token}` && (
+                <Col xs={2}>
                     <SideNavbar />
                 </Col>
             )}
-            <Col xs={location.pathname !== '/' && location.pathname !== '/signup' && location.pathname !== '/login' && location.pathname !== '/forgotPassword'&& location.pathname !== '/confirm-reset-password/:token'  ? 9 : 12}>
+            <Col xs={location.pathname !== '/' && location.pathname !== '/signup' && location.pathname !== '/login' && location.pathname !== '/forgotPassword'&& location.pathname !== `/reset-password/${token}`  ? 10 : 12} >
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/home" element={<Home />} />
                     <Route path="/forgotPassword" element={<ForgotPassword />} />
-                    <Route path="/reset-password/:id" element={<ResetPassword/>}/>
+                    <Route path="/reset-password/:token" element={<ResetPassword/>}/>
+                        <Route path="/login-error" element={<LoginError/>}/>
                     <Route path="/upload" element={<Upload />} />
                     <Route path="/createCategory" element={<CreateCategory />} />
                     <Route path="/createAuthor" element={<CreateAuthor />} />

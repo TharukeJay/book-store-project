@@ -41,4 +41,5 @@ export const GET_NEWS = `${baseUrl}/news/get-news`;
 export const UPDATE_NEWS = `${baseUrl}/news/update-news`;
 export const DELETE_NEWS = `${baseUrl}/news/delete-news`;
 export const GET_SELECTED_NEWS = `${baseUrl}/news/get-selected-news`;
-export const REQUEST_RESET_PASSWORD = `${baseUrl}/auth/confirm-reset-password`;
+export const REQUEST_RESET_PASSWORD = `${baseUrl}/auth/request-reset-password-link-email`;
+export const CONFIRM_RESET_PASSWORD = `${baseUrl}/auth/confirm-reset-password`;
