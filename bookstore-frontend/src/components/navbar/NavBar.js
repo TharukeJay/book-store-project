@@ -13,6 +13,7 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
      const [userData, setUserData] =useState("")
      const [showSignOut, setShowSignOut] =useState(false);
      const [showMyRack, setShowMyRack] =useState(false)
+     const [showLoginSignup, setShowLoginSignup] =useState(true)
      const userId  = localStorage.getItem('userId');
 
 
@@ -24,9 +25,10 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
                  console.log('user Data Execute Midle', response);
                  const getData = response.data.data;
                  setUserData(getData);
-                 if(getData.userId != ""){
-                    setShowSignOut(!showSignOut);
+                 if(getData.userId != "") {
+                     setShowSignOut(!showSignOut);
                      setShowMyRack(!showMyRack);
+                     setShowLoginSignup(!showLoginSignup);
                  }
                  console.log("userData========>>>>", userData)
              } catch (error) {
@@ -38,7 +40,7 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
 
      const SignOut=()=>{
          localStorage.clear();
-         window.location.href='/login';
+         window.location.href='/';
      }
   return (
     <>
@@ -53,7 +55,7 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
                       <div className='right-outer'>
                           <Nav className='link-page'>
                               {userData && (
-                                <Nav.Link href="/my-books" style={{fontSize:"15px" , color:"red"}}> {userData.email}</Nav.Link>
+                                <Nav.Link  style={{fontSize:"10px" , color:"white"}}> {userData.email}</Nav.Link>
                               )}
                               {showMyRack &&(
                                 <Nav.Link href="/my-books">My Book Rack</Nav.Link>
@@ -61,9 +63,11 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
                               <Nav.Link href="/">Books</Nav.Link>
                               <Nav.Link href="/news-papers">News</Nav.Link>
 
-                              <Nav.Link href="/login">Login | Register</Nav.Link>
                               {showSignOut &&(
                                 <Nav.Link ><VscSignOut onClick={SignOut} xlinkShow={showSignOut}/></Nav.Link>
+                              )}
+                              {showLoginSignup &&(
+                                  <Nav.Link href="/login">Login | Register</Nav.Link>
                               )}
                           </Nav>
                       </div>

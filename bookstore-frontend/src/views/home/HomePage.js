@@ -6,7 +6,7 @@ import Context from '../../components/home-context/Context'
 const HomePage = () => {
   return (
     <>
-    <div id='home' style={{width:'100%', height:'auto',}}>
+    <div id='home' >
       <Context/>
     </div>
     </>

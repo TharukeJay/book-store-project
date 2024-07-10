@@ -121,7 +121,7 @@
 /* ----------------Read Book CSS------------------- */
 .view-novel-outer-ebook{
     width: 100%;
-    height:100vh;
+    height:auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,9 +175,107 @@ span{
 .Demo__container{
     margin-top: 15px;
 }
+/*.comments-section{*/
+/*    width: 100%;*/
+/*    max-height: 600px;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    flex-direction: column;*/
+/*    margin-top: 20px;*/
+/*    background-color: #f1eaea;*/
+/*    overflow-y: scroll;*/
+/*    border: 1px solid black;*/
+/*}*/
+/*.comments-list{*/
+/*    background-color: #e6e5e5;*/
+/*    width: 60%;*/
+/*    min-height: 150px;*/
+/*    margin-top: 20px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    border-radius: 12px;*/
+/*    align-items: center;*/
+/*    border: 1px solid red;*/
+/*}*/
+/*.comment{*/
+/*    border: 1px solid blue;*/
+/*}*/
+
+.comments-section {
+    width: 100%;
+    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    background-color: #f1eaea;
+    overflow-y: auto; /* Ensure scrolling is enabled */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.comments-list {
+    background-color: #e6e5e5;
+    width: 60%;
+    height: auto;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    border-radius: 12px;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    flex-direction: column;
+}
+
+.comment {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.comment-header {
+    width: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.comment-descriptions{
+    width: inherit;
+    padding-left: 60px;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+}
+.comment-header-left{
+    width: 50%;
+}
+.comment-header-right{
+    flex: 1;    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.comments-form-outer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #f1eaea;
+}
+
+.comments-form {
+    width: 60%;
+    margin-top: 20px;
+}
+
 /* Phones: less than 768px */
 @media (max-width: 768px) {
-    .left-photo-outer, .right-desc-outer {
+    .left-photo-outer, .right-desc-outer-ebook {
         width: 100%;  
         margin-left: 0; 
         height: auto; 
@@ -187,14 +285,23 @@ span{
         height: 100%;
         margin-left: -20px;
     }
-    .view-novel-outer{
+    .view-novel-outer-ebook{
+        width: 100%;
+        flex-direction: column;
+    }
+    .comments-section {
         width: 100%;
     }
+    .comments-list {
+        width: 100%;
+    }
+    .comments-form {
+        width: 100%;
+    }
+
 }
 
-
 /* ---------------Read Preview---------------- */
-
 .bar{
     font-size: 0.875rem;
     max-width: 100%;
@@ -223,6 +330,7 @@ span{
 /*    justify-content: center;*/
 /*    width: 100%;*/
 /*}*/
+
 .pdf-container {
     display: flex;
     justify-content: center;

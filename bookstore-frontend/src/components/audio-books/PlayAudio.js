@@ -1,11 +1,11 @@
 import React from 'react'
 import '../../styles/ebookcontext.css'
-import { useState, useEffect, useRef } from 'react';
+import { useState,useEffect, useRef } from 'react';
 import {
   FETCH_ALL_AUDIO_BOOK,
   FETCH_ALL_BOOK_SERIES_ID,
   FETCH_ALL_READ_BOOK,
-  FETCH_LISTNING_AUDIO,
+  FETCH_LISTNING_AUDIO, GET_COMMENTS_AUDIO, GET_USER_DATA, SET_COMMENTS_AUDIO,
   SET_LISTNING_AUDIO
 } from '../../apis/endpoints';
 import API_ENDPOINT from '../../apis/httpAxios';
@@ -21,6 +21,10 @@ import {
 } from "react-share";
 import {bgColor} from "../../common/commonColors";
 import Footer from "../footer/Footer";
+import {RiAccountCircleFill} from "react-icons/ri";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import Button from "react-bootstrap/Button";
 
 const AudioPlayer  = () => {
   const Navigate = useNavigate();
@@ -37,6 +41,10 @@ const AudioPlayer  = () => {
   const progressBarRef = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const [selectedTrackId, setSelectedTrackId]= useState("");
+  const [newComment, setNewComment] = useState('');
+  const [comments, setComments] = useState([]);
+  const [seriesData, setSeriesData] = useState([]);
+  const [usersData, setUsersData] = useState([]);
 
   const handleNext = () => {
     if (trackIndex >= tracks.length - 1) {
@@ -47,27 +55,22 @@ const AudioPlayer  = () => {
       setCurrentTrack(tracks[trackIndex + 1]);
     }
   };
-  // const selectedBookId = localStorage.getItem('selectedSeriesAudioId');
   const { selectedSeriesAudioId } = location.state;
   const selectedBookId = selectedSeriesAudioId;
-  // console.log("selectedSeriesAudioId =============>>>", selectedBookId);
   const userId = localStorage.getItem('userId');
 
-  // useEffect(() => {
-    const fetchLastPlayedTrackIndex = async () => {
-        try {
-          const response = await API_ENDPOINT.get(`${FETCH_LISTNING_AUDIO}/${userId}/${selectedBookId}`);
-          if (response.status === 200) {
-            return response.data.data;
-          }
-          console.log("fetchLastPlayedTrackIndex =============>>>", response.data);
-        } catch (error) {
-          console.error('Error fetching last played track index:', error);
-        }
-        return { lastPlayedTrackIndex: 0, selectedAudioId: "" };
-      };
-  //   fetchLastPlayedTrackIndex();
-  // }, []);
+  const fetchLastPlayedTrackIndex = async () => {
+    try {
+      const response = await API_ENDPOINT.get(`${FETCH_LISTNING_AUDIO}/${userId}_${selectedBookId}`);
+      if (response.status === 200) {
+        return response.data.data;
+      }
+      console.log("fetchLastPlayedTrackIndex =============>>>", response.data);
+    } catch (error) {
+      console.error('Error fetching last played track index:', error);
+    }
+    return { lastPlayedTrackIndex: 0, selectedAudioId: "" };
+  };
 
   useEffect(() => {
       // console.log('selected Book Data Execute start');
@@ -111,25 +114,6 @@ const AudioPlayer  = () => {
     }, []);
 
   useEffect(() => {
-    console.log('selected Book Data Execute start');
-    const fetchData = async () => {
-      try {
-        const response = await API_ENDPOINT.get(FETCH_ALL_AUDIO_BOOK);
-        const allAudioBookData = response.data.data;
-        console.log('allAudioBookData===============>>>', allAudioBookData);
-        const filteredData = allAudioBookData.filter(book => book.seriesId === selectedBookId);
-        setSeriesBookData(filteredData);
-        console.log('setSeriesBookData===============>>>', filteredData);
-        console.log('setSeriesBookData===============>>>', seriesBookData.description);
-
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.load();
@@ -139,7 +123,8 @@ const AudioPlayer  = () => {
       }
     }, [currentTrack, isPlaying]);
 
-  const saveProgress = async () => {
+  // useEffect(() => {
+    const saveProgress = async () => {
       try {
         await API_ENDPOINT.post(SET_LISTNING_AUDIO, {
           userId: userId,
@@ -147,10 +132,12 @@ const AudioPlayer  = () => {
           selectedAudioId: selectedTrackId,
           lastPlayedTrackIndex: trackIndex,
         });
+        console.error('success');
       } catch (error) {
         console.error('Error saving progress:', error);
       }
     };
+  // }, []);
 
   useEffect(() => {
     window.addEventListener('beforeunload', saveProgress);
@@ -166,6 +153,25 @@ const AudioPlayer  = () => {
     }; 
 
   const selectedAudioId = localStorage.getItem('selectedAudioId');
+
+  // useEffect(() => {
+  //   console.log('selected Book Data Execute start');
+  //   const fetchSeriesData = async () => {
+  //     try {
+  //       const response = await API_ENDPOINT.get(FETCH_ALL_AUDIO_BOOK);
+  //       const allAudioBookData = response.data.data;
+  //       console.log('allAudioBookData===============>>>', allAudioBookData);
+  //       const filteredData = allAudioBookData.filter(book => book.seriesId === selectedBookId);
+  //       setSeriesBookData(filteredData);
+  //       console.log('setSeriesBookData data===============>>>', filteredData);
+  //       console.log('setSeriesBookData description===============>>>', seriesBookData);
+  //
+  //     } catch (error) {
+  //       console.error('Error:', error);
+  //     }
+  //   };
+  //   fetchSeriesData();
+  // }, []);
     
   useEffect(() => {
       const fetchAudioData = async () => {
@@ -184,104 +190,216 @@ const AudioPlayer  = () => {
       }
     }, [selectedAudioId]);
 
-  const shareUrl = "http://github.com";
-  // const shareUrl = "http://localhost:3000/read-book";
-  const title = "GitHub";
+  useEffect(() =>{
+    const getUsersForComments = async () =>{
+      try {
+        const userResponse = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
+        const getData = userResponse.data;
+        setUsersData(getData.data);
+        console.log('user data ==============>>>>:',usersData);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+    getUsersForComments();
+  },[])
 
+  const commentData = async () => {
+    try {
+      const response = await API_ENDPOINT.get(`${GET_COMMENTS_AUDIO}/${selectedBookId}`);
+      if (response.status == 200) {
+        const selectedSeriesData = response.data.data;
+        console.log('Selected series Data:', selectedSeriesData);
+        setSeriesData(selectedSeriesData);
+        setComments(selectedSeriesData.commentList || []);
+        setLoading(false);
+        console.log('Selected comments :', comments);
+        // console.log('selectedCommentData=====================>>>> :', selectedCommentData);
+        // console.log('seriesData=====================>>>> :', seriesData);
+      }else{
+        console.log('No comments');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const RedirectPage =()=>{
+    window.location.href="/";
+  }
+
+  const [formData, setFormData] = useState({
+    comment: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({...formData, [name]: value });
+    console.log('newComment ===================>>>>>', formData)
+  };
+  const handleCommentSubmit = async(e) => {
+    e.preventDefault();
+    try {
+      await API_ENDPOINT.post(SET_COMMENTS_AUDIO, {
+        formData,
+        userId: userId,
+        seriesId: selectedBookId,
+        name: usersData.email,
+      });
+      setFormData({ comment: "" });
+    } catch (error) {
+      console.error('Error saving progress:', error);
+    }
+  }
+
+  useEffect(() => {
+    commentData();
+  }, []);
+
+  // const shareUrl = "http://github.com";
+  const shareUrl = `https://readlanka.com/play-audio/${selectedBookId}`;
+  const title = "#Read Lanka";
+
+  function formatDate(timestamp) {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString();
+
+  }
     return (
-      <>
-      <TopBar />
-      <div className="main-outer-audio" style={{background:bgColor}}>
-        <div className="left-audio-outer">
-          <div className="audio-player">
-            <div className="inner">
-              <DisplayTrack
-                {...{
-                  currentTrack,
-                  audioRef,
-                  setDuration,
-                  progressBarRef,
-                  handleNext,
-                }}
-              />
-              <ProgressBar
-                  {...{ progressBarRef, audioRef, timeProgress, duration }}
-              />
-              <Controls
-                {...{
-                  audioRef,
-                  progressBarRef,
-                  duration,
-                  setTimeProgress,
-                  tracks,
-                  trackIndex,
-                  setTrackIndex,
-                  setCurrentTrack,
-                  isPlaying,
-                  setIsPlaying,
-                  handleNext,
-                }}
-              />
+        <>
+          <TopBar/>
+          <div className="main-outer-audio" style={{background: bgColor}}>
+            <div className="left-audio-outer">
+              <div className="audio-player">
+                <div className="inner">
+                  <DisplayTrack
+                      {...{
+                        currentTrack,
+                        audioRef,
+                        setDuration,
+                        progressBarRef,
+                        handleNext,
+                      }}
+                  />
+                  <ProgressBar
+                      {...{progressBarRef, audioRef, timeProgress, duration}}
+                  />
+                  <Controls
+                      {...{
+                        audioRef,
+                        progressBarRef,
+                        duration,
+                        setTimeProgress,
+                        tracks,
+                        trackIndex,
+                        setTrackIndex,
+                        setCurrentTrack,
+                        isPlaying,
+                        setIsPlaying,
+                        handleNext,
+                      }}
+                  />
 
+                </div>
+              </div>
+            </div>
+
+            <div className="right-desc-outer">
+              <div className="audio-book-list">
+                {bookData.sort((a, b) => a.chapter - b.chapter).map((audioBookItem, i) => (
+                    <div key={i} onClick={() => handlePhotoClick(audioBookItem.id)} className='right-photo'>
+                      <img src={audioBookItem.thumbnail_url} alt={`Thumbnail of ${audioBookItem.seriesTitle}`}/>
+                      <p>{audioBookItem.title}</p>
+                    </div>
+                ))}
+              </div>
+
+              {/*{seriesData.map((series, i) => (*/}
+              <div className="pricing-card">
+                <span>LKR {seriesData.seriesPrice} </span>
+              </div>
+              {/*))}*/}
+
+              <div style={{height: "40px"}}></div>
+
+              <div className="read-button-outer">
+                <button><a
+                    href={`/checkout-order?price=${seriesData.seriesPrice}&title=${encodeURIComponent(seriesData.seriesTitle)}`}> Buy
+                  Now</a></button>
+              </div>
+
+              <div style={{height: "40px"}}></div>
+
+              <div className="Demo__container">
+                <div className="Demo__some-network">
+                  <FacebookShareButton
+                      url={shareUrl}
+                      htmlTitle={title}
+                      className="Demo__some-network__share-button"
+                  >
+                    <FacebookIcon size={50} round/>
+                  </FacebookShareButton>
+                  <TwitterShareButton
+                      url={shareUrl}
+                      className="Demo__some-network__share-button"
+                  >
+                    <TwitterIcon size={50} round/>
+                  </TwitterShareButton>
+
+                  <WhatsappShareButton
+                      url={shareUrl}
+                      className="Demo__some-network__share-button"
+                  >
+                    <WhatsappIcon size={50} round/>
+                  </WhatsappShareButton>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="right-desc-outer">
-          <div className="audio-book-list">
-            {bookData.sort((a, b) => a.chapter - b.chapter).map((audioBookItem, i) => (
-                <div key={i} onClick={() => handlePhotoClick(audioBookItem.id)} className='right-photo'>
-                  <img src={audioBookItem.thumbnail_url} alt={`Thumbnail of ${audioBookItem.seriesTitle}`}/>
-                  <p>{audioBookItem.title}</p>
+          <div className="comments-section">
+            {comments.map((comment, index) => (
+                <div className="comments-list">
+                  <div className="comment">
+                    <div className="comment-header">
+                      <div className="comment-header-left">
+                        <p><RiAccountCircleFill style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
+                      </div>
+                      <div className="comment-header-right">
+                        <p style={{fontSize: '10px', color: 'yellowgreen'}}>
+                          {formatDate(comment.createdAt)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="comment-descriptions">
+                      <p>
+                        {comment.comment}
+                      </p>
+                    </div>
+                  </div>
                 </div>
             ))}
           </div>
 
-          <div className="pricing-card">
-            <p>{seriesBookData.description}</p>
-          </div>
-          {/*{seriesBookData.map(audioBook => (*/}
-          <div className="pricing-card">
-            <span>LKR {seriesBookData.price} </span>
-          </div>
-          {/*))};*/}
-          <div style={{height: "40px"}}></div>
-
-          <div className="read-button-outer">
-            <button><a
-                href={`/checkout-order?price=${bookData.price}&title=${encodeURIComponent(bookData.title)}`}> Buy
-              Now</a></button>
-          </div>
-
-          <div style={{height: "40px"}}></div>
-
-          <div className="Demo__container">
-            <div className="Demo__some-network">
-              <FacebookShareButton
-                  url={shareUrl}
-                  className="Demo__some-network__share-button"
-              >
-                <FacebookIcon size={50} round/>
-              </FacebookShareButton>
-              <TwitterShareButton
-                  url={shareUrl}
-                  className="Demo__some-network__share-button"
-              >
-                <TwitterIcon size={50} round/>
-              </TwitterShareButton>
-
-              <WhatsappShareButton
-                  url={shareUrl}
-                  className="Demo__some-network__share-button"
-              >
-                <WhatsappIcon size={50} round/>
-              </WhatsappShareButton>
+            <div className="comments-form-outer">
+              <div className="comments-form">
+                <Form onSubmit={handleCommentSubmit}>
+                <InputGroup className="mb-3">
+                  <Form.Control
+                      name='comment'
+                      value={formData.comment}
+                      onChange={handleChange}
+                      placeholder="Write a comment..."
+                      required
+                  />
+                  <Button variant="outline-secondary" type="submit" id="button-addon2"
+                          style={{border: '1px solid white', borderRadius: '8px', marginLeft:'10px', paddingTop: '-90px'}}>
+                    Post
+                  </Button>
+                </InputGroup>
+              </Form>
+             </div>
             </div>
-          </div>
-        </div>
-      </div>
-        <Footer/>
-      </>
+          <Footer/>
+        </>
     );
 };
 

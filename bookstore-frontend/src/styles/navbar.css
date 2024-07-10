@@ -1,5 +1,5 @@
 .nav-bar{
-  height: auto;
+  height: 70px;
   max-width: 100%;
   background:rgb(63, 63, 63)  !important;
   /*border: 1px solid red;*/
@@ -21,7 +21,7 @@
 }
 
 .link-page a{
-  font-size: 15px !important;
+  font-size: 20px !important;
   color: hsl(0, 17%, 98%);
   margin: 0 20px;
 }
@@ -40,12 +40,15 @@
 }
 @media screen and (max-width:768px) {
   p,h1{
-      font-size: 10px;
+      font-size: 8px;
   }
 }
 .link-page a{
-  font-size: 10px;
+  font-size: 8px;
 }
 span{
   margin-left: -10px;
+}
+.nav-bar{
+  width: 100% !important;
 }
