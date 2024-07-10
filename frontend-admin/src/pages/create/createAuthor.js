@@ -32,6 +32,7 @@ function Categories() {
     const [loading, setLoading] = useState(false)
     const [editVisible, setEditVisible] = useState(false)
     const [authorId, setAuthorId] = useState('');
+    const [error, setError] = useState('');
 
     const getAuthor = async () => {
         setLoading(true)
@@ -43,6 +44,10 @@ function Categories() {
     }
     const createAuthor = async () => {
         setLoading(true);
+        if (authorName == '') {
+            setError("Please enter a author name");
+            return;
+        }
         try {
             const response = await executeCreateAuthor(authorName);
             const data2 = response.data;
@@ -53,6 +58,7 @@ function Categories() {
         } catch (error) {
             setLoading(false);
             console.error('Error creating author:', error);
+            setError(error.response.data.error)
         }
     };
 
@@ -65,11 +71,13 @@ function Categories() {
     //     return <Loading />
     // }
     const handleVisible = () => {
+        setError('')
         setVisible(true)
     }
 
     const edit = async (authorId,authorName) => {
         if(authorId != ''){
+            setError('')
             setAuthorId(authorId)
             setAuthorName(authorName)
             setEditVisible(true)
@@ -77,15 +85,23 @@ function Categories() {
     }
 
     const updateMedia = async (e) => {
-
-        // setUploadNow(true)
+        const authorExists = authorData.some(data => data.data.authorName === authorName);
         e.preventDefault();
 
-        if (!authorName) {
-            alert("Author name and series title are required.");
-            // setUploadNow(false);
+        if (authorName == '') {
+            setError("Please enter a author name");
             return;
         }
+        if(authorExists){
+            setError("Author with the same name already exists.");
+            return;
+        }
+
+        // if (!authorName) {
+        //     alert("Author name and series title are required.");
+        //     // setUploadNow(false);
+        //     return;
+        // }
         try {
             const data = await executeUpdateAuthor(authorId, authorName);
             console.log('author updated successfully:', data);
@@ -93,6 +109,7 @@ function Categories() {
             setEditVisible(false)
         } catch (error) {
             console.error('Error updating series:', error);
+            setError(error.response.data.error)
         }
     }
     const Delete = async () => {
@@ -141,7 +158,8 @@ function Categories() {
                         <Col sm={8}>
                             {/*<FormInput type="text" onChange={(e) => setAuthorName(e.target.value)} />*/}
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Control type="name" placeholder="Enter name" onChange={(e) => setAuthorName(e.target.value)} />
+                                <Form.Control type="name" placeholder="Enter name" onChange={(e) =>  {setAuthorName(e.target.value);setError('')}} style={{ borderColor: error ? 'red' : '' }}/>
+                                {error && <Form.Text className="text-danger" style={{fontSize:14,fontWeight:"bold"}}>{error}</Form.Text>}
                             </Form.Group>
                         </Col>
                     </Row>
@@ -167,7 +185,8 @@ function Categories() {
                         </FormLabel>
                         <Col sm={8}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Control type="name" placeholder="Enter name" value={authorName} onChange={(e) => setAuthorName(e.target.value)}  />
+                                <Form.Control type="name" placeholder="Enter name" value={authorName} onChange={(e) => {setAuthorName(e.target.value);setError('')}} style={{ borderColor: error ? 'red' : '' }}  />
+                                {error && <Form.Text className="text-danger" style={{fontSize:14,fontWeight:"bold"}}>{error}</Form.Text>}
                             </Form.Group>
                         </Col>
                     </Row>

@@ -31,6 +31,8 @@ function Categories() {
     const [visible, setVisible] = useState(false)
     const [loading, setLoading] = useState(true)
     const [editVisible, setEditVisible] = useState(false)
+    const [error, setError] = useState('');
+
 
     const getNewsCategory = async () => {
         setLoading(true)
@@ -42,6 +44,10 @@ function Categories() {
     }
     const createNewsCategory = async () => {
         setLoading(true);
+        if (categoryName == '') {
+            setError("Please enter a category name");
+            return;
+        }
         try {
             const response = await executeCreateNewsCategory(categoryName);
             const data = response.data;
@@ -52,6 +58,7 @@ function Categories() {
         } catch (error) {
             setLoading(false);
             console.error('Error creating category:', error);
+            setError(error.response.data.error)
         }
     };
 
@@ -64,11 +71,13 @@ function Categories() {
     //     return <Loading />
     // }
     const handleVisible = () => {
+        setError('')
         setVisible(true)
     }
 
     const edit = async (categoryId,categoryName) => {
         if(categoryId != ''){
+            setError('')
             setCategoryId(categoryId)
             setCategoryName(categoryName)
             setEditVisible(true)
@@ -76,13 +85,15 @@ function Categories() {
     }
 
     const updateMedia = async (e) => {
-
+        const categoryExists = categoryData.some(data => data.data.categoryName === categoryName);
         // setUploadNow(true)
         e.preventDefault();
-
-        if (!categoryName) {
-            alert("Author name and series title are required.");
-            // setUploadNow(false);
+        if (categoryName == '') {
+            setError("Please enter a category name");
+            return;
+        }
+        if(categoryExists){
+            setError("Category with the same name already exists.");
             return;
         }
         try {
@@ -92,6 +103,7 @@ function Categories() {
             setEditVisible(false)
         } catch (error) {
             console.error('Error updating series:', error);
+            setError(error.response.data.error)
         }
     }
     const Delete = async () => {
@@ -138,7 +150,8 @@ function Categories() {
                         <Col sm={8}>
                             {/*<FormInput type="text" onChange={(e) => setCategoryName(e.target.value)} />*/}
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Control type="name" placeholder="Enter name" onChange={(e) => setCategoryName(e.target.value)} />
+                                <Form.Control type="name" placeholder="Enter name" onChange={(e) =>{setCategoryName(e.target.value);setError('')}} style={{ borderColor: error ? 'red' : '' }} />
+                                {error && <Form.Text className="text-danger" style={{fontSize:14,fontWeight:"bold"}}>{error}</Form.Text>}
                             </Form.Group>
                         </Col>
                     </Row>
@@ -165,7 +178,8 @@ function Categories() {
                         </FormLabel>
                         <Col sm={8}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Control type="name" placeholder="Enter name" value={categoryName} onChange={(e) => setCategoryName(e.target.value)}  />
+                                <Form.Control type="name" placeholder="Enter name" value={categoryName} onChange={(e) =>{setCategoryName(e.target.value);setError('')}} style={{ borderColor: error ? 'red' : '' }}  />
+                                {error && <Form.Text className="text-danger" style={{fontSize:14,fontWeight:"bold"}}>{error}</Form.Text>}
                             </Form.Group>
                         </Col>
                     </Row>

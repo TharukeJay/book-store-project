@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {
     executeGetAuthor,
     executeGetBookSeries,
-    executeGetCategory,
+    executeGetCategory, executeGetContent,
     executeUpdateBookSeries,
     executeUploadContent
 } from "../api/endPoints";
@@ -52,6 +52,7 @@ const ContentData = () => {
     const [nextSeason, setNextSeason] = useState('i')
     const [numberOfchapters, setNumberOfchapters] = useState(0)
     const [nextchapter, setNextchapter] = useState('i')
+    const [booksData, setBooksData] = useState('i')
 
     // uploads
     const [progress, setProgress] = useState(0)
@@ -86,14 +87,24 @@ const ContentData = () => {
         const data = response.data;
         setBookSeriesData(data)
         setLoading(false)
+        console.log('print getBookserie===>',bookSeriesData);
 
     }
 
+    const getBookContents = async () => {
+        setLoading(true)
+        const response = await executeGetContent();
+        const data = response.data;
+        setBooksData(data)
+        setLoading(false)
+
+    }
 
     useEffect(() => {
         getCategory()
         getAuthor()
         getBookSeries()
+        getBookContents()
     }, [])
 
     const handleBookType = (e) => {
@@ -102,97 +113,31 @@ const ContentData = () => {
         if(e.target.value == 'Audio Book'){
             setIsBookSeries(true)
         } else {setIsBookSeries(false)}
+        // console.log('current chapter in book upload ===>', chapter);
 
     }
 
     const handleSeriesSelection = (seriesName, seriesId) => {
         setSelecteBookSeries(seriesName);
         setSelecteBookSeriesID(seriesId);
-        console.log('selected book series==>', seriesName);
-        console.log('selected book series ID ==>', seriesId);
-    };
-    // const HandleSubmit = (event) => {
-    //     const form = event.currentTarget
-    //     if (form.checkValidity() === false) {
-    //         event.preventDefault()
-    //         event.stopPropagation()
-    //     }
-    //     setValidated(true)
-    //     if (category === 'Teledrama') {
-    //         setSeriesNextSeasonAndchapter()
-    //     } else {
-    //         StoreData(1, 1)
-    //     }
-    //
-    //     // StoreData()
-    // }
-    //
-    // //react image upload
-    // const handleThumbnailUpload = (e) => {
-    //     e.preventDefault()
-    //     const file = e.target[0]?.files[0]
-    //     if (!file) return
-    //     const storageRef = ref(storage, `thumbnail/${file.name}`)
-    //     const uploadTask = uploadBytesResumable(storageRef, file)
-    //
-    //     uploadTask.on(
-    //         'state_changed',
-    //         (snapshot) => {
-    //             const progressData = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
-    //             setProgress(progressData)
-    //         },
-    //         (error) => {
-    //             alert(error)
-    //         },
-    //         () => {
-    //             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-    //                 setThumbnail(downloadURL)
-    //                 setProgress(0)
-    //                 setVisible(false)
-    //             })
-    //         },
-    //     )
-    // }
-    //
-    // //react subtitle upload
-    // const handleUploadSubtitle = (e) => {
-    //     e.preventDefault()
-    //     const file = e.target[0]?.files[0]
-    //     if (!file) return
-    //     const storageRef = ref(storage, `subtitle/${file.name}`)
-    //     const uploadTask = uploadBytesResumable(storageRef, file)
-    //
-    //     uploadTask.on(
-    //         'state_changed',
-    //         (snapshot) => {
-    //             const progressData = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
-    //             setProgress(progressData)
-    //         },
-    //         (error) => {
-    //             alert(error)
-    //         },
-    //         () => {
-    //             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-    //                 setSubtitle(downloadURL)
-    //                 setProgress(0)
-    //                 setVisibleSubtitle(false)
-    //             })
-    //         },
-    //     )
-    // }
-    //
-    // const TagForSearch = () => {
-    //     let array = []
-    //     for (let i = 0; i < tags.length; i++) {
-    //         for (let j = 1; j <= tags[i].length; j++) {
-    //             array.push(tags[i].substring(0, j))
-    //         }
-    //     }
-    //     return array
-    // }
-    //
 
-    //
+        // Calculate next chapter
+        let nextChapter = 0;
+        try {
+            const filteredSeriesData = booksData.filter(item => item.data['seriesTitle'] === seriesName);
+            nextChapter = filteredSeriesData.length + 1;
+        } catch (error) {
+            console.error('Error fetching or processing data:', error);
+        }
+
+        // Update chapter state using callback
+        setChapter(prevChapter => {
+            const updatedChapter = nextChapter; // or any logic you need with prevChapter
+            console.log('Current chapter:', nextChapter);
+            return nextChapter;
+        });
+    };
+
     const validchapter = (chapterNum) => {
         console.log('inside of the validation chapter')
         let modifiedValue
@@ -208,43 +153,36 @@ const ContentData = () => {
         }
         return modifiedValue
     }
-
-    // const setBookSerieschapter = async () => {
-    //     let travelSeriesQuery = query(collection(db, 'content'))
+    // const setBookSeriesChapter = async (seriesName) => {
+    //     let nextChapter = 0;
     //
-    //     travelSeriesQuery = query(travelSeriesQuery, where('travelSeriesName', '==', travelSeriesName))
-    //     //
-    //     await getDocs(travelSeriesQuery).then(async function (data) {
-    //         const newData = data.docs.map((doc) => ({
-    //             ...doc.data(),
-    //             id: doc.id,
-    //         }))
-    //         console.log('new data travel ===>', newData)
-    //         let currentTravelchapter = 0
-    //         let nextTravelchapter = 0
-    //         let modifiedTravelchapter = ''
-    //         // setchapterCount ( newData[0].chapters)
-    //         // setchapterForPodcast(currentchapterNum + 1)
-    //         if (newData.length === 0) {
-    //             setchapterForTravel(1)
-    //             await StoreData(null, chapterForTravel)
+    //     try {
+    //         // Assuming booksData is an array of documents or similar structure
+    //         const filteredSeriesData = booksData.filter(item => item.data['seriesTitle'] === seriesName);
+    //
+    //         if (filteredSeriesData.length === 0) {
+    //             // If no series found, set chapter to 0 (or 1 as per your requirement)
+    //             setChapter(0); // or setChapter(1);
     //         } else {
-    //             for (const el of newData.sort((a, b) => parseInt(a.chapter) - parseInt(b.chapter))) {
-    //                 console.log('inside of the for loop', el)
-    //                 currentTravelchapter = parseInt(el.chapter)
-    //                 nextTravelchapter = currentTravelchapter + 1
-    //                 setchapterForTravel(nextTravelchapter)
-    //             }
-    //             await StoreData(null, nextTravelchapter)
+    //             // Calculate the next chapter
+    //             nextChapter = filteredSeriesData.length + 1;
+    //
+    //             // Set the chapter to nextChapter
+    //             setChapter(nextChapter);
+    //             // Ensure this logs the correct chapter value
     //         }
-    //     })
-    // }
+    //         console.log('current chapter===>', chapter);
+    //     } catch (error) {
+    //         console.error('Error fetching or processing data:', error);
+    //     }
+    // };
+
 
 
     const uploadContent = async (e) => {
         e.preventDefault();
 
-        if (!categoryName || !authorName || !bookType || !bookPrice || !bookName || !thumbnail || (!audioFile && !previewPdfFile && !fullPdfFile)) {
+        if (!categoryName || !authorName || !bookType || !bookName || !thumbnail || (!audioFile && !previewPdfFile && !fullPdfFile)) {
             alert("Please fill all required fields and upload the necessary files.");
             return;
         }
@@ -444,7 +382,7 @@ const ContentData = () => {
                     Select Book Series
                     </FormLabel>
                     <FormSelect
-                    onChange={(e) => handleSeriesSelection(e.target.value, e.target.options[e.target.selectedIndex].getAttribute('data-series-id'))}
+                    onClick={(e) => handleSeriesSelection(e.target.value, e.target.options[e.target.selectedIndex].getAttribute('data-series-id'))}
                     id="validationTooltip04"
                     required
                     >
@@ -468,12 +406,22 @@ const ContentData = () => {
                     </Form.Group>
 
                 </Col>
+                {isBookSeries == false ?(
                 <Col md={4} className="position-relative">
                     <FormLabel htmlFor="validationTooltip04">Book Price</FormLabel>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Control type="name" placeholder="Enter price" onChange={(e) => setBookPrice(e.target.value)}  />
                     </Form.Group>
 
+                </Col> ) : null}
+            </Row>
+            <Row className="mb-3">
+                <Col sm={8}>
+                    <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                        Description
+                    </FormLabel>
+                    {/*<Form.Text type="text" onChange={(e) => setDescription(e.target.value)} />*/}
+                    <Form.Control as="textarea" aria-label="With textarea" onChange={(e) => setDescription(e.target.value)} />
                 </Col>
             </Row>
             <br/>
@@ -549,7 +497,7 @@ const ContentData = () => {
 const Index = () => {
     return (
         <Row>
-            <Col xs={12}>
+            <Col>
                 <Card className="mb-4">
                     <CardHeader>
                         <h3>BOOKS UPLOAD</h3>

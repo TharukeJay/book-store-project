@@ -23,32 +23,13 @@ import ScreenLoading from "./Loading";
 
 const Series = () => {
 
-    const [authorData, setAuthorData] = useState([]);
     const [authorName, setAuthorName] = useState('');
     const [usersData, setUsersData] = useState([]);
-    const [usersTitle, setUsersTitle] = useState('');
-    const [description, setDescription] = useState('');
     const [selectedImage, setSelectedImage] = useState('')
-    const [thumbnail, setThumbnail] = useState('')
-    const [uploadNow, setUploadNow] = useState(false)
-    const [progress, setProgress] = useState(0)
     const [loading, setLoading] = useState(true)
     const [visible, setVisible] = useState(false)
-    const [seriesID, setSeriesID] = useState('')
-
-
+    const [error, setError] = useState('');
     const [editVisible, setEditVisible] = useState(false)
-    const [subcategory, setSubcategory] = useState()
-    const [editId, setEditId] = useState()
-
-    const [episodes, setEpisodes] = useState()
-    const [hide, setHide] = useState(false)
-    const [displayFeaturedContent, setDisplayFeaturedContent] = useState('')
-    const [featuredContent, setFeaturedContent] = useState(false)
-    const [contentProvider, setContentProvider] = useState('')
-    const [contentProviderData, setContentProviderData] = useState([])
-    const [contentProviderTitle, setContentProviderTitle] = useState('')
-
 
 
     const getUsers = async () => {
@@ -61,35 +42,16 @@ const Series = () => {
     }
 
 
-
     // REACT JS - USE EFFECT FUNCTION
     useEffect(() => {
         getUsers()
     }, [])
 
 
-    //
-    // const Delete = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const response = await executeDeleteBookSeries(seriesID);
-    //         const data = response.data;
-    //         setLoading(false);
-    //         getBookSeries();
-    //         setEditVisible(false)
-    //     } catch (error) {
-    //         setLoading(false);
-    //         console.error('Error creating author:', error);
-    //     }
-    // }
-
     const handleClose = () => {
         setAuthorName('')
         setVisible(false)
         setSelectedImage(null)
-        // setHide(false)
-        // setFeaturedContent(false)
-        // setDisplayFeaturedContent('')
         setEditVisible(false)
     }
 
@@ -110,7 +72,7 @@ const Series = () => {
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">EMAIL</th>
-                    <th scope="col">ACTION</th>
+                    {/*<th scope="col">ACTION</th>*/}
                 </tr>
                 </thead>
                 <tbody>
