@@ -12,6 +12,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Carousel from "react-bootstrap/Carousel";
 import Footer from "../footer/Footer";
+import {bgColor} from "../../common/commonColors";
 
 const NewsContext = () => {
   const [newsData, setNewsData] = useState([]);
@@ -32,6 +33,7 @@ const NewsContext = () => {
         const newsData = response.data.data;
         console.log('News Data:', newsData);
         setNewsData(newsData);
+        setFilteredNewsData(newsData);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -63,7 +65,7 @@ const NewsContext = () => {
     if (category === 'All') {
       setFilteredNewsData(newsData);
     } else {
-      setFilteredNewsData(newsData.filter(audio => audio.category === category));
+      setFilteredNewsData(newsData.filter(news => news.category === category));
     }
   };
 
@@ -76,6 +78,7 @@ const NewsContext = () => {
     if (searchTerm) {
       filteredNews = filteredNews.filter(news =>
           news.newsTitle && news.newsTitle.toLowerCase().includes(searchTerm.toLowerCase()));
+      console.log("filteredBooks=================", filteredNews);
     }
     setFilteredNewsData(filteredNews);
   };
@@ -299,7 +302,7 @@ const NewsContext = () => {
 return (
     <>
       <NavBar/>
-      <div className='outer'>
+      <div className='outer' style={{background: bgColor, height: 'auto'}}>
       <br/><br/>
       <div className="ebook-search-outer-news">
         <Stack direction="horizontal" gap={3} className='search-outer'>
@@ -328,8 +331,14 @@ return (
       <br/>
         <div className='title-outer-news'></div>
         <div className="gallery-container">
+          <div className= 'news-strip'>
+            <h1> News Stript</h1>
+          </div>
+          <div className= 'picture-rim'>
+            <h1>  Picture Rim </h1>
+          </div>
           <div className="news-list">
-            {newsData.slice(index, index + itemsPerPage).map((newsItem, i) => (
+            {filteredNewsData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                 <div key={i} onClick={() => handleNewsClick(newsItem.id)} className='news-outer'>
                   <div className='left-news-outer'>
                     <img src={newsItem.thumbnail_url} alt="News" className="photo-item"/>

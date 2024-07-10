@@ -24,6 +24,7 @@ const EBookContext = () => {
   const [index, setIndex] = useState(0); 
   const [searchInput, setSearchInput] = useState('');
   const [indexNext, setIndexNext] = useState(0);
+  const [indexNextAudio, setIndexNextAudio] = useState(0);
   const [showAllBooks, setShowAllBooks] = useState(true);
   const [hideAllBooks, setHideAllBooks] = useState(false);
   const [showAllAudioBooks, setShowAllAudioBooks] = useState(false);
@@ -33,6 +34,9 @@ const EBookContext = () => {
 
   const handleSelect = (selectedIndex) => {
     setIndexNext(selectedIndex);
+  };
+  const handleSelectAudio = (selectedIndex) => {
+    setIndexNextAudio(selectedIndex);
   };
 
   useEffect(() => {
@@ -67,13 +71,13 @@ const EBookContext = () => {
         console.error('Error:', error);
       }
     };
-    
+
     fetchCategoryData();
   }, []);
 
   const handlePhotoClick = (id) => {
     localStorage.setItem('selectedBookId', id);
-    Navigate('/read-book', { state: { selectedBookId: id } });
+    Navigate(`/read-book/${id}`, { state: { selectedBookId: id } });
   };
 
   const handleCategoryClick = (category) => {
@@ -163,11 +167,12 @@ const EBookContext = () => {
     };
     fetchData();
   }, []);
+
   console.log('Audio Book Data:', filteredAudioBookData);
 
   const handlePhotoClickAudio = (seriesId) => {
     localStorage.setItem('selectedSeriesAudioId', seriesId);
-    navigate('/play-audio', { state: { selectedSeriesAudioId: seriesId }});
+    navigate(`/play-audio/${seriesId}`, { state: { selectedSeriesAudioId: seriesId }});
   };
 
   const filterAudio = (category, searchTerm) => {
@@ -243,12 +248,14 @@ const EBookContext = () => {
               </button>
             </div>
           </div>
+
           <Carousel activeIndex={indexNext} onSelect={handleSelect}>
             {bookChunks.map((chunk, idx) => (
                 <Carousel.Item key={idx}>
                   <div className="book-list">
                     {chunk.map((bookItem, i) => (
-                        <div key={i} onClick={() => handlePhotoClick(bookItem.id)} className='photo'>
+                        <div key={i} onClick={() => handlePhotoClick(bookItem.id)}
+                             className='photo'>
                           <img src={bookItem.thumbnail_url} alt={`Thumbnail of ${bookItem.title}`}/>
                         </div>
                     ))}
@@ -256,6 +263,7 @@ const EBookContext = () => {
                 </Carousel.Item>
             ))}
           </Carousel>
+
         </div>
         <div>
           <br/>
@@ -271,7 +279,7 @@ const EBookContext = () => {
                 </div>
               </div>
 
-              <Carousel activeIndex={indexNext} onSelect={handleSelect}>
+              <Carousel activeIndex={indexNextAudio} onSelect={handleSelectAudio}>
                 {audioBbookChunks.map((chunk, idx) => (
                     <Carousel.Item key={idx}>
                       <div className="book-list">
@@ -285,6 +293,7 @@ const EBookContext = () => {
                     </Carousel.Item>
                 ))}
               </Carousel>
+
             </div>
         <br/>
       </div>

@@ -45,7 +45,7 @@ const App =() => {
           <Route path="/login" element={<Login />} />
 
           {/* Pdf */}
-          <Route path="/read-book" element={<ReadBook />} />
+          <Route path="/read-book/:id" element={<ReadBook />} />
           <Route path="/read-preview" element={<PrivateRoute><ReadPreview /></PrivateRoute>} />
           <Route path="/read-news" element={<ViewNews />} />
 
@@ -53,7 +53,7 @@ const App =() => {
           <Route path="/news-papers" element={<NewsContext/>} />
 
           {/* Audio Book */}
-          <Route path="/play-audio" element={<AudioPlayer />} />
+          <Route path="/play-audio/:id" element={<AudioPlayer />} />
 
           {/* Privacy & Policy */}
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
