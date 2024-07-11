@@ -485,7 +485,7 @@ const ContentData = () => {
 
 
                 <Col xs={12} className="position-relative">
-                    <Button color="primary" type="submit">
+                    <Button color="success" type="submit">
                         Upload Now
                     </Button>
                 </Col>
