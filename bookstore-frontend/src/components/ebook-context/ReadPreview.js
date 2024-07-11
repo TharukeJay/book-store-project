@@ -9,12 +9,11 @@ import API_ENDPOINT from '../../apis/httpAxios';
 import ScreenLoading from '../loading/Loading'
 import { SlArrowLeftCircle } from "react-icons/sl";
 import EbookTopBar from '../ebook-context/EbbokTopBar'
+import toast, {Toaster} from "react-hot-toast";
 
+const url = `//cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.js',
-    import.meta.url,
-    ).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = url;
 
 const ReadPreview = () =>{
     const [numPages, setNumPages] = useState()
@@ -37,6 +36,15 @@ const ReadPreview = () =>{
             setLoading(false)
           } catch (error) {
             console.log('Error:', error);
+                toast.error(" Session Expire", {
+                    style: {
+                        minWidth: '300px',
+                        height: '50px',
+                        // marginRight: '200px'
+                    },
+                    className: 'toaster',
+                    duration: 2000,
+                });
             window.location.href="/login";
           }
         };
@@ -58,7 +66,7 @@ const ReadPreview = () =>{
         }
     }
     const RedirectPage= ()=> {
-        window.location.href= "/read-book"
+        window.location.href= `/read-book/${selectedBookId}`
     }
     useEffect(() => {
         const handleResize = () => {
@@ -78,6 +86,10 @@ const ReadPreview = () =>{
     }
     return (
         <>
+            <Toaster
+                position="top-center"
+                reverseOrder={false}
+            />
             <div className="bar" onContextMenu={(e) => e.preventDefault()}>
             <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"50px", margin:'10px',color: "white"}}/>
                 {/* <EbookTopBar/> */}

@@ -36,7 +36,7 @@ const LoginPage = () => {
           // marginRight: '200px'
         },
         className: 'toaster',
-        duration: 3000,
+        duration: 5000,
       });
       if (response.status==200) {
         window.location.href="/"
@@ -52,7 +52,7 @@ const LoginPage = () => {
           // marginRight: '200px'
         },
         className: 'toaster',
-        duration: 1000,
+        duration: 2000,
       });
     }
   };

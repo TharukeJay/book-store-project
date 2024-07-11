@@ -12,6 +12,8 @@ import {
     WhatsappIcon,
     WhatsappShareButton
 } from "react-share";
+import {bgColor} from "../../common/commonColors";
+import Footer from "../footer/Footer";
 
 const ViewNews = () => {
     const [news, setNews] = useState();
@@ -68,7 +70,7 @@ const ViewNews = () => {
               </p>
           </div>
 
-          <div className='view-news-outer'>
+          <div className='view-news-outer' style={{background: bgColor}}>
               <div className="left-news-outer">
                   <img src={news.thumbnail_url} alt={news.newsTitle}/>
               </div>
@@ -78,6 +80,7 @@ const ViewNews = () => {
                   <p>{news.description}</p>
               </div>
               <div className="Demo__container">
+                  <p style={{fontSize:'25px'}}>Share</p>
                   <div className="Demo__some-network">
                       <FacebookShareButton
                           url={shareUrl}
@@ -102,6 +105,7 @@ const ViewNews = () => {
                   </div>
               </div>
           </div>
+          <Footer/>
       </>
   )
 }

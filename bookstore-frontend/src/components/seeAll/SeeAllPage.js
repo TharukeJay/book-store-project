@@ -11,6 +11,7 @@ import {FcNext, FcPrevious} from "react-icons/fc";
 import '../../styles/ebookcontext.css';
 import NavBar from "../navbar/NavBar";
 import Footer from "../footer/Footer";
+import {bgColor} from "../../common/commonColors";
 
 const SeeAllPage = () => {
   const location = useLocation();
@@ -60,12 +61,7 @@ const SeeAllPage = () => {
     fetchData();
   }, []);
 
-  if (loading) {
-    return <ScreenLoading />;
-  }
-
-  // useEffect(() => {
-    console.log('Category Data Execute start');
+  useEffect(() => {
     const fetchCategoryData = async () => {
       try {
         const response = await API_ENDPOINT.get(FETCH_ALL_CATEGORY);
@@ -79,13 +75,8 @@ const SeeAllPage = () => {
         console.error('Error:', error);
       }
     };
-    // fetchCategoryData();
-  // }, []);
-
-  // useEffect(() =>{
-  //   fetchCategoryData();
-  //   // fetchData();
-  // },[3000])
+    fetchCategoryData();
+  },[]);
 
   const handleCategoryClick = (category) => {
     if (type === 'book') {
@@ -175,10 +166,10 @@ const SeeAllPage = () => {
   const handlePhotoClick = (id) => {
     if (type === 'book') {
       // localStorage.setItem('selectedBookId', id);
-      navigate('/read-book',{ state: { selectedBookId: id } });
+      navigate(`/read-book/${id}`,{ state: { selectedBookId: id } });
     } else if (type === 'audiobook') {
       // localStorage.setItem('selectedSeriesAudioId', id);
-      navigate('/play-audio', { state: { selectedSeriesAudioId: id } });
+      navigate(`/play-audio/${id}`, { state: { selectedSeriesAudioId: id } });
     }
   };
 
@@ -200,6 +191,10 @@ const SeeAllPage = () => {
       ? getPageNumbers(index, filteredBookData.length)
       : getPageNumbers(audioIndex, filteredAudioBookData.length);
 
+  if (loading) {
+    return <ScreenLoading />;
+  }
+
   return (
       <div>
         <NavBar style={{display: 'fixed'}}/>
@@ -209,7 +204,7 @@ const SeeAllPage = () => {
           </p>
         </div>
 
-        <div className='outer'>
+        <div className='outer' style={{background: bgColor}}>
           <br/><br/>
 
           <div className="ebook-search-outer">
