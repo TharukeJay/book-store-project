@@ -58,15 +58,15 @@ const ViewNews = () => {
         return <div>No news available</div>;
     }
 
-    const shareUrl = "http://github.com";
+    const shareUrl = `https://readlanka.com/read-news/${selectedNewsId}`;
     // const shareUrl = "http://localhost:3000/read-book";
-    const title = "GitHub";
+    const title = "Read Lanka";
 
   return (
       <>
           <div className="top__bar">
               <p>
-                  <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize: "40px", margin: '10px', color: "white"}}/>
+                  <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize: "40px", margin: '3px', color: "white"}}/>
               </p>
           </div>
 
@@ -75,31 +75,34 @@ const ViewNews = () => {
                   <img src={news.thumbnail_url} alt={news.newsTitle}/>
               </div>
               <div className="right-news-desc-outer">
-                  <br/><br/>
-                  <h2>{news.newsTitle}</h2>
-                  <p>{news.description}</p>
+                  <div className='topic'>
+                      <h2 style={{fontSize:'25px'}}>{news.newsTitle}</h2>
+                  </div>
+                  <div className='news-description-body'>
+                    <p style={{fontSize:'15px'}}>{news.description}</p>
+                  </div>
               </div>
               <div className="Demo__container">
-                  <p style={{fontSize:'25px'}}>Share</p>
+                  <p style={{fontSize:'25px', color:'red'}}>Share</p>
                   <div className="Demo__some-network">
                       <FacebookShareButton
                           url={shareUrl}
                           className="Demo__some-network__share-button"
                       >
-                          <FacebookIcon size={50} round />
+                          <FacebookIcon size={30} round />
                       </FacebookShareButton>
                       <TwitterShareButton
                           url={shareUrl}
                           className="Demo__some-network__share-button"
                       >
-                          <TwitterIcon size={50} round/>
+                          <TwitterIcon size={30} round/>
                       </TwitterShareButton>
 
                       <WhatsappShareButton
                           url={shareUrl}
                           className="Demo__some-network__share-button"
                       >
-                          <WhatsappIcon size={50} round/>
+                          <WhatsappIcon size={30} round/>
                       </WhatsappShareButton>
 
                   </div>

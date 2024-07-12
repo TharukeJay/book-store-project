@@ -9,6 +9,7 @@ import API_ENDPOINT from '../../apis/httpAxios';
 import ScreenLoading from '../loading/Loading'
 import { SlArrowLeftCircle } from "react-icons/sl";
 import EbookTopBar from '../ebook-context/EbbokTopBar'
+import { FaCircleArrowLeft } from "react-icons/fa6";
 import toast, {Toaster} from "react-hot-toast";
 
 const url = `//cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
@@ -91,7 +92,7 @@ const ReadPreview = () =>{
                 reverseOrder={false}
             />
             <div className="bar" onContextMenu={(e) => e.preventDefault()}>
-            <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"50px", margin:'10px',color: "white"}}/>
+            <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize:"40px" ,margin:'3px',color: "white"}}/>
                 {/* <EbookTopBar/> */}
             </div> 
             <div className="wrap" onContextMenu={(e) => e.preventDefault()} ref={containerRef}>

@@ -3,7 +3,7 @@ const TopBar = () => {
 
   const RedirectPage = async(id) =>{
     localStorage.removeItem('selectedAudioId');
-    window.location.href="/";
+    window.location.href="/audio-books";
   }
     return (
       <div className="top__bar">

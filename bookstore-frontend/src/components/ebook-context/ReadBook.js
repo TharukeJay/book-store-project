@@ -155,51 +155,53 @@ const ReadBook = () => {
                   </div>
                   <div className="right-desc-outer-ebook">
                       <br/><br/>
-                      <p style={{color: "blue", fontSize: "45px", paddingBottom: "20px"}}>{book.title}</p>
-                      <p>{book.description}</p>
+                      <p style={{color: "blue", fontSize: "20px", paddingBottom: "10px"}}>{book.title}</p>
+                      <p style={{fontSize: "15px", paddingBottom: "1px"}}>{book.description}</p>
                       <br/>
 
                       <div className="pricing-card">
-                          <span>LKR {book.price} </span>
+                          <span> {book.price} /- LKR </span>
                       </div>
-                      <div style={{height: "40px"}}></div>
+                      <div style={{height: "10px"}}></div>
                       <div className="read-button-outer">
                           <button><a href="/read-preview">Read preview</a></button>
-                          {/*<button onClick={CheckoutBalnce}>*/}
-                          {/*    Buy Now*/}
-                          {/*</button> */}
-                          <button><a
+                          <button>
+                              <a
                               href={`/checkout-order?price=${book.price}&title=${encodeURIComponent(book.title)}`}> Buy
-                              Now</a></button>
+                              Now
+                              </a>
+                          </button>
                       </div>
-                      <div style={{height: "40px"}}></div>
+                      <div style={{height: "20px"}}></div>
                       <div className="Demo__container">
+                          <p> Share </p>
                           <div className="Demo__some-network">
                               <FacebookShareButton
                                   url={shareUrl}
                                   className="Demo__some-network__share-button"
                               >
-                                  <FacebookIcon size={50} round/>
+                                  <FacebookIcon size={30} round/>
                               </FacebookShareButton>
 
                               <TwitterShareButton
                                   url={shareUrl}
                                   className="Demo__some-network__share-button"
                               >
-                                  <TwitterIcon size={50} round/>
+                                  <TwitterIcon size={30} round/>
                               </TwitterShareButton>
 
                               <WhatsappShareButton
                                   url={shareUrl}
                                   className="Demo__some-network__share-button"
                               >
-                                  <WhatsappIcon size={50} round/>
+                                  <WhatsappIcon size={30} round/>
                               </WhatsappShareButton>
 
                           </div>
                       </div>
                   </div>
               </div>
+                  <h3 style={{color:'blue', textAlign:'center'}}> Mirror Wall</h3>
               <div className="comments-section">
                   {comments.map((comment, index) => (
                       <div className="comments-list">
@@ -207,17 +209,17 @@ const ReadBook = () => {
                               <div className="comment-header">
                                   {/*{data.map((uData, i) => (*/}
                                       <div className="comment-header-left">
-                                          <p><RiAccountCircleFill style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
+                                          <p style={{fontSize: '10px', color: 'black'}}><RiAccountCircleFill style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
                                       </div>
                                   {/*))}*/}
                                   <div className="comment-header-right">
-                                      <p style={{fontSize: '10px', color: 'yellowgreen'}}>
+                                      <p style={{fontSize: '10px', color: 'black'}}>
                                           {formatDate(comment.createdAt)}
                                       </p>
                                   </div>
                               </div>
                               <div className="comment-descriptions">
-                                  <p>
+                                  <p >
                                     {/*{truncateDescription(comment.comment)}*/}
                                     {comment.comment}
                                   </p>
@@ -235,10 +237,11 @@ const ReadBook = () => {
                                   value={formData.comment}
                                   onChange={handleChange}
                                   placeholder="Write a comment..."
+                                  style={{border:'1px solid blue'}}
                                   required
                               />
                               <Button variant="outline-secondary" type="submit" id="button-addon2"
-                                      style={{border: '1px solid white', borderRadius: '8px', paddingTop: '-90px', marginLeft:'10px'}}>
+                                      style={{border: '1px solid black', borderRadius: '8px', paddingTop: '-90px', marginLeft:'10px',color:'black'}}>
                                   Post
                               </Button>
                           </InputGroup>

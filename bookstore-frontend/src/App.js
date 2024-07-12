@@ -18,6 +18,8 @@ import PrivacyPolicy from './components/privacy/PrivacyPolicy';
 import Checkout from "./components/cheeckout/checkout";
 import NewsContext from "./components/news-context/NewsContext";
 import SeeAllPage from "./components/seeAll/SeeAllPage";
+import EBookPage from "./views/ebook/EBookPage";
+import Audio from "./routes/Audio";
 const App =() => {
 
   const PrivateRoute = ({ children }) => {
@@ -28,7 +30,15 @@ const App =() => {
   return (
     <>
        <Routes>
-        {/* Home page / DashBoard */}
+           {/* Authentication */}
+           <Route path="/about" element={<About/>}/>
+           <Route path="/forgot-password" element={<ForgetPassword/>}/>
+           <Route path="/reset-password/:id" element={<ConfirmPassword/>}/>
+           <Route path="/register" element={<Register/>}/>
+
+           <Route path="/login" element={<Login />} />
+
+           {/* Home page / DashBoard */}
           <Route path="/" element={<Home/>}/>
 
           {/* Purchase library */}
@@ -37,22 +47,17 @@ const App =() => {
           {/* All books */}
           <Route path="/details/all-book" element={<SeeAllPage/>}/>
 
-          {/* Authentication */}
-          <Route path="/about" element={<About/>}/>
-          <Route path="/forgot-password" element={<ForgetPassword/>}/>
-          <Route path="/reset-password/:id" element={<ConfirmPassword/>}/>
-          <Route path="/register" element={<Register/>}/>
-          <Route path="/login" element={<Login />} />
-
-          {/* Pdf */}
+          {/* e-Books */}
+          <Route path="/e-books" element={<EBookPage />} />
           <Route path="/read-book/:id" element={<ReadBook />} />
-          <Route path="/read-preview" element={<PrivateRoute><ReadPreview /></PrivateRoute>} />
-          <Route path="/read-news" element={<ViewNews />} />
+          <Route path="/read-preview" element={<ReadPreview />} />
 
-          {/* News aper*/}
+          {/* News paper*/}
           <Route path="/news-papers" element={<NewsContext/>} />
+          <Route path="/read-news/:id" element={<ViewNews />} />
 
           {/* Audio Book */}
+          <Route path="/audio-books" element={<Audio />} />
           <Route path="/play-audio/:id" element={<AudioPlayer />} />
 
           {/* Privacy & Policy */}

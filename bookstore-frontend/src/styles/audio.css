@@ -8,14 +8,18 @@
   }
   
   .main-outer-audio{
+    width: 100%;
+    height:auto;
     display: flex;
-    width : 100%;
-    height: auto;
-    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
   }
   .left-audio-outer{
-    /*height:100vh;*/
-    width: 50%;
+    height:auto;
+    min-width: 50%;
+    display: block;
+    position: sticky;
     margin-top: 20px;
   }
   .left-audio-outer p{
@@ -28,10 +32,15 @@
 
   .right-desc-outer{
     flex: content;
+    height: auto;
+    padding:10px 10px 20px 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+  }
+.right-desc-outer p{
+    text-align: start;
   }
   .right-photo{
     display:flex;
@@ -42,20 +51,39 @@
     width: auto;
     cursor: pointer;
   }
+.pricing-card{
+  font-size: 20px;
+}
 .audio-book-list{
   width: 70%;
-  max-height: 500px;
+  max-height: 220px;
   overflow-y: auto;
   /*border: 1px solid #2a58ef;*/
-
 }
-  .right-photo img{
-    width: 100px;
-    height: 110px;
-  }
-  .right-photo p{
-      margin: 25px 15px ;
-  }
+.audio-book-list::-webkit-scrollbar {
+  display: none;
+}
+.audio-book-list {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.right-photo img{
+  width: 50px;
+  height: 50px;
+}
+.right-photo p{
+    margin: 25px 15px ;
+    color: black !important;
+}
+.audio-description{
+  width: 100%;
+  flex: content;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border: 1px solid red;
+}
 .read-button-outer button{
   width: auto;
   padding: 10px;
@@ -65,17 +93,92 @@
 a{
   text-decoration: none;
 }
+p{
+  color: black;
+}
+.comments-section {
+  width: 100%;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  background-color: #ffffff;
+  overflow-y: auto;
+  /*overflow-y: hidden;*/
+  padding: 10px;
+  box-sizing: border-box;
+}
 
+.comments-section::-webkit-scrollbar {
+  display: none;
+}
+
+.comments-section {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.comments-list {
+  background-color: #f3eeee;
+  width: 60%;
+  height: auto;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  border-radius: 12px;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+  flex-direction: column;
+}
+
+.comment {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.comment-header {
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.comment-header-left{
+  width: 50%;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+}
+
+.comment-descriptions{
+  width: inherit;
+  /*padding-left: 60px;*/
+  display: flex;
+  align-items: start;
+  justify-content: start;
+}
+.comment-descriptions p{
+  text-align: start;
+}
 
   /* Phones: less than 768px */
     @media (max-width: 768px) {
       .left-audio-outer, .right-desc-outer {
           width: 100%;  
           margin-left: 0; 
-          height: auto; 
+          height: auto;
       }
       .right-photo p{
         font-size: 20px;
+      }
+      .main-outer-audio{
+        flex-direction: column;
       }
     }
 /*@media (min-width: 768px) {*/
@@ -252,7 +355,7 @@ a{
       font-size:15px;
     }
   }
-  @media (max-width: 1024px) {
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
     .controls{
       width: 100%;  
       margin-left: 0; 
@@ -264,10 +367,27 @@ a{
       /* padding-left: 30px; */
     }
     .volume{
-      width: 10% !important;  
-      margin-left: 10px; 
+      width: 10% !important;
+      margin-left:70%;
+      padding-left:20px;
+      /*border: 1px solid red;*/
+    }
+  }
+@media (min-width: 1024px) {
+    .controls{
+      width: 100%;
+      margin-left: 0;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+    }
+    .volume{
+      margin-left: 70%;
       height: auto;
       padding-left:20px;
+      width: 10% !important;
     }
   }
 
@@ -276,8 +396,9 @@ a{
     font-size: 0.875rem;
     max-width: 100%;
     padding-bottom: .5rem;
-    background-color: #3f3e3e;
+    background-color: #f6bfbf;
     flex-direction: column;
+    position: sticky;
     align-items: flex-start;
     display: flex;
     padding-left: 20px;

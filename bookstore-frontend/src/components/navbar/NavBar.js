@@ -57,10 +57,12 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
                               {userData && (
                                 <Nav.Link  style={{fontSize:"10px" , color:"white"}}> {userData.email}</Nav.Link>
                               )}
-                              {showMyRack &&(
-                                <Nav.Link href="/my-books">My Book Rack</Nav.Link>
-                              )}
-                              <Nav.Link href="/">Books</Nav.Link>
+                              {/*{showMyRack &&(*/}
+                              {/*  <Nav.Link href="/my-books">My Book Rack</Nav.Link>*/}
+                              {/*)}*/}
+                              <Nav.Link href="/">Home</Nav.Link>
+                              <Nav.Link href="/e-books">e-Books</Nav.Link>
+                              <Nav.Link href="/audio-books">Audio-Books</Nav.Link>
                               <Nav.Link href="/news-papers">News</Nav.Link>
 
                               {showSignOut &&(

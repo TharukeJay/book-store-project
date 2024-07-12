@@ -1,5 +1,4 @@
 import React from 'react'
-import '../../styles/ebookcontext.css'
 import { useState,useEffect, useRef } from 'react';
 import {
   FETCH_ALL_AUDIO_BOOK,
@@ -25,6 +24,7 @@ import {RiAccountCircleFill} from "react-icons/ri";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
+import '../../styles/audio.css'
 
 const AudioPlayer  = () => {
   const Navigate = useNavigate();
@@ -304,6 +304,8 @@ const AudioPlayer  = () => {
             </div>
 
             <div className="right-desc-outer">
+              <h3 style={{color: 'blue'}}>{seriesData.seriesTitle}</h3>
+              <div style={{height: "10px"}}></div>
               <div className="audio-book-list">
                 {bookData.sort((a, b) => a.chapter - b.chapter).map((audioBookItem, i) => (
                     <div key={i} onClick={() => handlePhotoClick(audioBookItem.id)} className='right-photo'>
@@ -312,14 +314,16 @@ const AudioPlayer  = () => {
                     </div>
                 ))}
               </div>
-
-              {/*{seriesData.map((series, i) => (*/}
+              <div style={{height: "20px"}}></div>
+              {/*<div className="audio-description" >*/}
+              <p style={{fontSize: '15px'}}> {seriesData.description} </p>
+              {/*</div>*/}
               <div className="pricing-card">
-                <span>LKR {seriesData.seriesPrice} </span>
+                <span> {seriesData.seriesPrice} /- LKR </span>
               </div>
               {/*))}*/}
 
-              <div style={{height: "40px"}}></div>
+              {/*<div style={{height: "40px"}}></div>*/}
 
               <div className="read-button-outer">
                 <button><a
@@ -327,29 +331,30 @@ const AudioPlayer  = () => {
                   Now</a></button>
               </div>
 
-              <div style={{height: "40px"}}></div>
+              <div style={{height: "10px"}}></div>
 
               <div className="Demo__container">
+                <p style={{fontSize: "20px", marginLeft:"50px"}}> Share</p>
                 <div className="Demo__some-network">
                   <FacebookShareButton
                       url={shareUrl}
                       htmlTitle={title}
                       className="Demo__some-network__share-button"
                   >
-                    <FacebookIcon size={50} round/>
+                    <FacebookIcon size={30} round/>
                   </FacebookShareButton>
                   <TwitterShareButton
                       url={shareUrl}
                       className="Demo__some-network__share-button"
                   >
-                    <TwitterIcon size={50} round/>
+                    <TwitterIcon size={30} round/>
                   </TwitterShareButton>
 
                   <WhatsappShareButton
                       url={shareUrl}
                       className="Demo__some-network__share-button"
                   >
-                    <WhatsappIcon size={50} round/>
+                    <WhatsappIcon size={30} round/>
                   </WhatsappShareButton>
                 </div>
               </div>
@@ -361,10 +366,10 @@ const AudioPlayer  = () => {
                   <div className="comment">
                     <div className="comment-header">
                       <div className="comment-header-left">
-                        <p><RiAccountCircleFill style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
+                        <p style={{fontSize: '10px', color: 'black'}}><RiAccountCircleFill style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
                       </div>
                       <div className="comment-header-right">
-                        <p style={{fontSize: '10px', color: 'yellowgreen'}}>
+                        <p style={{fontSize: '10px', color: 'black'}}>
                           {formatDate(comment.createdAt)}
                         </p>
                       </div>
@@ -378,8 +383,7 @@ const AudioPlayer  = () => {
                 </div>
             ))}
           </div>
-
-            <div className="comments-form-outer">
+          <div className="comments-form-outer">
               <div className="comments-form">
                 <Form onSubmit={handleCommentSubmit}>
                 <InputGroup className="mb-3">
@@ -387,11 +391,12 @@ const AudioPlayer  = () => {
                       name='comment'
                       value={formData.comment}
                       onChange={handleChange}
+                      style={{border:'1px solid blue'}}
                       placeholder="Write a comment..."
                       required
                   />
                   <Button variant="outline-secondary" type="submit" id="button-addon2"
-                          style={{border: '1px solid white', borderRadius: '8px', marginLeft:'10px', paddingTop: '-90px'}}>
+                          style={{border: '1px solid black', borderRadius: '8px', marginLeft:'10px', paddingTop: '-90px'}}>
                     Post
                   </Button>
                 </InputGroup>
