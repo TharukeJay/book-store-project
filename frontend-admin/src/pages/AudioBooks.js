@@ -52,6 +52,8 @@ const Series = () => {
     const [chapter, setChapter] = useState(1)
     const [bookType, setBookType] = useState('Audio Book')
     const [id, setId] = useState('')
+    const [selectedSeriesTitle, setSlectedSeriesTitle] = useState('')
+    const [searchTerm, setSearchTerm] = useState('');
 
     const incrementChapter = () => {
         setChapter(prevChapter => prevChapter + 1);
@@ -103,6 +105,7 @@ const Series = () => {
         getBookContents()
         getAuthor()
         getCategory()
+        getBookSeries()
     }, [])
 
 
@@ -194,10 +197,12 @@ const Series = () => {
         setAuthorName('')
         setVisible(false)
         setSelectedImage(null)
-        // setHide(false)
-        // setFeaturedContent(false)
-        // setDisplayFeaturedContent('')
         setEditVisible(false)
+    }
+
+    const handleChangeSeries = (event) => {
+        const { name, value } = event.target
+        setBookSeriesTitle(event.target.value);
     }
 
     const mp3Change = (e) => {
@@ -208,14 +213,19 @@ const Series = () => {
         }
     }
 
-
     const handleAddNew = () => {
         setAuthorName('')
         setVisible(!visible)
     }
+
+    const filteredBooks = booksData.filter(data =>
+        data.data.isSeries === true && data.data.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     if (loading) {
         return <ScreenLoading />
     }
+
 
     return (
         <>
@@ -373,7 +383,17 @@ const Series = () => {
                     </form>
                 </ModalBody>
             </Modal>
-
+            <Row className="mb-3">
+                <Col>
+                    <Form.Control
+                        type="text"
+                        placeholder="Search by book title..."
+                        style={{color:"green"}}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </Col>
+            </Row>
             {/* react - Table sub categories list */}
             <Table>
                 <thead color="light">
@@ -389,7 +409,7 @@ const Series = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {booksData.filter(data => data.data.isSeries === true).map((data, index) => {
+                {filteredBooks.map((data, index) => {
                     return (
                         <tr key={data.id}>
                             <th scope="row">{index + 1}</th>

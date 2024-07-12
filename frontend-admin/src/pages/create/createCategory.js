@@ -31,6 +31,9 @@ function Categories() {
     const [loading, setLoading] = useState(true)
     const [editVisible, setEditVisible] = useState(false)
     const [error, setError] = useState('');
+    const [selectedImage, setSelectedImage] = useState('')
+    const [thumbnail, setThumbnail] = useState('')
+    const [thumbnailName, setThumbnailName] = useState('')
 
     const getCategory = async () => {
         setLoading(true)
@@ -47,8 +50,13 @@ function Categories() {
             setError("Please enter a category name");
             return;
         }
+
+        const formData = new FormData();
+        formData.append('categoryName', categoryName);
+        formData.append('thumbnail', thumbnail);
+
         try {
-            const response = await executeCreateCategory(categoryName);
+            const response = await executeCreateCategory(formData);
             const data = response.data;
             setCategoryName(categoryName);
             setLoading(false);
@@ -61,6 +69,19 @@ function Categories() {
         }
     };
 
+    const imageChange = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setSelectedImage(URL.createObjectURL(e.target.files[0]))
+            setThumbnail(e.target.files[0]);
+        }
+    }
+    const imageChangeUpdate = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setSelectedImage(URL.createObjectURL(e.target.files[0]))
+            setThumbnail(e.target.files[0]);
+        }
+    }
+
 
     useEffect(() => {
         getCategory()
@@ -72,18 +93,20 @@ function Categories() {
         setVisible(true)
     }
 
-    const edit = async (categoryId,categoryName) => {
+    const edit = async (categoryId,categoryName,thumbnail_url,thumbnail_fileName) => {
         if(categoryId != ''){
             setError('')
             setCategoryId(categoryId)
             setCategoryName(categoryName)
+            setThumbnail(thumbnail_url)
             setEditVisible(true)
+            setThumbnailName(thumbnail_fileName)
         }
     }
 
     const updateMedia = async (e) => {
         // setUploadNow(true)
-        const categoryExists = categoryData.some(data => data.data.categoryName === categoryName);
+        const categoryExists = categoryData.some(data => (data.data.categoryId !== categoryId) && data.data.categoryName === categoryName);
         e.preventDefault();
 
         if (categoryName == '') {
@@ -95,7 +118,7 @@ function Categories() {
             return;
         }
         try {
-            const data = await executeUpdateCategory(categoryId, categoryName);
+            const data = await executeUpdateCategory(categoryId, categoryName,thumbnail);
             console.log('Series updated successfully:', data);
             await getCategory();
             setEditVisible(false)
@@ -122,6 +145,7 @@ function Categories() {
         setCategoryName('')
         setVisible(false)
         setEditVisible(false)
+        setSelectedImage(null)
     }
 
     return (
@@ -153,7 +177,16 @@ function Categories() {
                             </Form.Group>
                         </Col>
                     </Row>
-
+                    {selectedImage ? (
+                        <Row className="mb-3">
+                            <Image  align="center" rounded src={selectedImage} />
+                        </Row>
+                    ) : null}
+                    <Row className="mb-2">
+                        <Col md={12} className="position-relative">
+                            <input type="file" onChange={imageChange} required />
+                        </Col>
+                    </Row>
                 </ModalBody>
                 <ModalFooter>
                     <Button color="secondary" onClick={() => setVisible(false)}>
@@ -181,8 +214,24 @@ function Categories() {
                             </Form.Group>
                         </Col>
                     </Row>
-
+                    {selectedImage ? (
+                        <Row className="mb-3">
+                            <Image align="center" rounded src={selectedImage} />
+                        </Row>
+                    ) : (<Row className="mb-3">
+                        <Image  align="center" rounded src={thumbnail} />
+                    </Row>)}
+                    <Row className="mb-2">
+                        <Col md={12} className="position-relative">
+                            {thumbnailName ? thumbnailName : ''}
+                        </Col>
+                    </Row>
                     <form onSubmit={updateMedia}>
+                        <Row className="mb-2">
+                            <Col md={12} className="position-relative">
+                                <input type="file" onChange={imageChangeUpdate}  />
+                            </Col>
+                        </Row>
                         <div className="row justify-content-md-center">
                             <Col xs lg={9}>
                                 <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">
@@ -202,19 +251,22 @@ function Categories() {
 
             <Table>
                 <thead color="light">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">CATEGORY NAME</th>
-                        <th scope="col">ACTION</th>
-                    </tr>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">THUMBNAIL</th>
+                    <th scope="col">CATEGORY NAME</th>
+                    <th scope="col">ACTION</th>
+                </tr>
                 </thead>
                 <tbody>
                     {categoryData.map((data, index) => {
                         return (
                             <tr key={data.data}>
                                 <td scope="row">{index + 1}</td>
+                                <td>
+                                    <img width={100} src={data.data.thumbnail_url}/>
+                                </td>
                                 <td>{data.data.categoryName}</td>
-
                                 <td>
                                     <Button
                                         color="success"
@@ -224,6 +276,8 @@ function Categories() {
                                         onClick={() => edit(
                                             data.data.categoryId,
                                             data.data.categoryName,
+                                            data.data.thumbnail_url,
+                                            data.data.thumbnail_fileName,
                                         )}
                                     >
                                         Edit
@@ -237,6 +291,7 @@ function Categories() {
         </>
     );
 }
+
 const Validation = () => {
     return (
         <Row>
