@@ -7,10 +7,9 @@ import { useNavigate  } from 'react-router-dom';
 import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_BOOK, FETCH_ALL_CATEGORY} from '../../apis/endpoints.js';
 import API_ENDPOINT from '../../apis/httpAxios';
 import ScreenLoading from '../loading/Loading';
-import { FcNext } from "react-icons/fc";
-import { FcPrevious } from "react-icons/fc";
-import Carousel from 'react-bootstrap/Carousel';
 import {bgColor, seeAllBtn} from "../../common/commonColors";
+import { IoSearchOutline } from "react-icons/io5";
+import {MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight} from "react-icons/md";
 
 const EBookContext = () => {
   const Navigate = useNavigate();
@@ -31,10 +30,12 @@ const EBookContext = () => {
   const [showAllFeatureBooks, setShowAllFeatureBooks] = useState(false);
   const [audiobookData, setAudioBookData] = useState([]);
   const [filteredAudioBookData, setFilteredAudioBookData] = useState([]);
+  const itemsPerPage = 6;
 
   const handleSelect = (selectedIndex) => {
     setIndexNext(selectedIndex);
   };
+
   const handleSelectAudio = (selectedIndex) => {
     setIndexNextAudio(selectedIndex);
   };
@@ -75,9 +76,13 @@ const EBookContext = () => {
     fetchCategoryData();
   }, []);
 
+  useEffect(() => {
+    filterBooks(selectedCategory, searchInput);
+  }, [searchInput, selectedCategory]);
+
   const handlePhotoClick = (id) => {
     localStorage.setItem('selectedBookId', id);
-    Navigate(`/read-book/${id}`, { state: { selectedBookId: id } });
+    Navigate(/read-book/${id}, { state: { selectedBookId: id } });
   };
 
   const handleCategoryClick = (category) => {
@@ -119,183 +124,78 @@ const EBookContext = () => {
   };
 
   const handleNext = () => {
-    if (index + 14 < filteredBookData.length) {
-      setIndex(index + 14);
+    if (index + itemsPerPage < bookData.length) {
+      setIndex(index + itemsPerPage);
     }
   };
 
   const handlePrevious = () => {
-    if (index - 14 >= 0) {
-      setIndex(index - 14);
+    if (index - itemsPerPage >= 0) {
+      setIndex(index - itemsPerPage);
     }
   };
 
-  const SeeAllBook = () => {
-    navigate("/details/all-book", { state: { type: 'book' } });
+  const getPageNumbers = (currentIndex, dataLength) => {
+    const totalPages = Math.ceil(dataLength / itemsPerPage);
+    const currentPage = Math.floor(currentIndex / itemsPerPage) + 1;
+    return { currentPage, totalPages };
   };
 
-  const SeeAllAudioBook = () => {
-    navigate("/details/all-book", { state: { type: 'audiobook' } });
-  };
-
-  const chunkArray = (array, chunkSize) => {
-    const results = [];
-    for (let i = 0; i < array.length; i += chunkSize) {
-      results.push(array.slice(i, i + chunkSize));
-    }
-    return results;
-  };
-
-  const bookChunks = chunkArray(filteredBookData, 3);
-
-
-  //  Audio Book
-  useEffect(() => {
-    console.log('Audio Data Execute start');
-    const fetchData = async () => {
-      try {
-        const response = await API_ENDPOINT.get(FETCH_ALL_AUDIO_BOOK);
-        console.log('Audio Data Execute Midle', response);
-        const allAudioBookData = response.data.data;
-        console.log('allAudioBookData===========>>', allAudioBookData);
-        setAudioBookData(allAudioBookData);
-        setFilteredAudioBookData(allAudioBookData);
-        setLoading(false)
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  console.log('Audio Book Data:', filteredAudioBookData);
-
-  const handlePhotoClickAudio = (seriesId) => {
-    localStorage.setItem('selectedSeriesAudioId', seriesId);
-    navigate(`/play-audio/${seriesId}`, { state: { selectedSeriesAudioId: seriesId }});
-  };
-
-  const filterAudio = (category, searchTerm) => {
-    let filteredBooks = audiobookData;
-
-    if (category !== 'All') {
-      filteredBooks = filteredBooks.filter(audio => audio.category === category);
-    }
-    if (searchTerm) {
-      filteredBooks = filteredBooks.filter(audio =>
-          audio.seriesTitle && audio.seriesTitle.toLowerCase().includes(searchTerm.toLowerCase()));
-    }
-    setFilteredAudioBookData(filteredBooks);
-  };
-
-  const handleSearchInputChangeAudio = (event) => {
-    setSearchInput(event.target.value);
-  };
-
-  const handleSearchSubmitAudio = (event) => {
-    event.preventDefault();
-    filterAudio(selectedCategory, searchInput);
-  };
-
-  const handleKeyPressAudio = (event) => {
-    if (event.key === 'Enter') {
-      handleSearchSubmitAudio(event);
-    }
-  };
-
-  const ShowAllBooks = async() =>{
-    setShowAllBooks(!showAllBooks);
-    setShowAllAudioBooks(false);
-    setShowAllFeatureBooks(false);
-  }
-
-  const ShowAllAudioBooks = async() =>{
-    setShowAllBooks(false);
-    setShowAllAudioBooks(!showAllAudioBooks);
-    setShowAllFeatureBooks(false);
-    setHideAllBooks(false);
-  }
-
-  const audioBbookChunks = chunkArray(filteredAudioBookData, 2);
-
-  const RedirectBooksPage = () =>{
-        navigate("/details/all-book", { state: { type: 'book' } });
-  }
-
-  const RedirectAudioBooksPage = () =>{
-    navigate("/details/all-book", { state: { type: 'audiobook' } });
-  }
+  const { currentPage, totalPages } =getPageNumbers(index, bookData.length)
 
   if (loading) {
     return <ScreenLoading />
   }
 
   return (
-      <div className='outer' style={{background:bgColor}}>
+      <div className='outer' style={{background: bgColor}}>
         <br/>
-        <div className="">
-          <button className='btn btn-primary' onClick={RedirectBooksPage}>Books</button>
-          <button className='btn btn-primary' onClick={RedirectAudioBooksPage}>Audio Book</button>
+        <div className="ebook-search-outer">
+          <Stack direction="horizontal" gap={3} className='search-outer'>
+            <Form.Control className="me-auto"
+                          placeholder="Search by title..."
+                          value={searchInput}
+                          onChange={handleSearchInputChange}
+                          style={{border:'1px solid blue'}}
+                          onKeyPress={handleKeyPress}
+            />
+            <Button variant="secondary" onClick={handleSearchSubmit}
+                    className="btn btn-primary search-button"><IoSearchOutline style={{color:'white'}}/></Button>
+          </Stack>
         </div>
-        <br/><br/>
-        <div>
-          <div className='title-outer'>
-            <div className='left-ttle'>
-              <h2 style={{color: " Blue"}}>Trending Books</h2>
-            </div>
-            <div className='right-btn'>
-              <button onClick={SeeAllBook} style={{borderRadius: '10px', background: seeAllBtn, color: 'white'}}>See All
-              </button>
-            </div>
-          </div>
-
-          <Carousel activeIndex={indexNext} onSelect={handleSelect}>
-            {bookChunks.map((chunk, idx) => (
-                <Carousel.Item key={idx}>
-                  <div className="book-list">
-                    {chunk.map((bookItem, i) => (
-                        <div key={i} onClick={() => handlePhotoClick(bookItem.id)}
-                             className='photo'>
-                          <img src={bookItem.thumbnail_url} alt={`Thumbnail of ${bookItem.title}`}/>
-                        </div>
-                    ))}
-                  </div>
-                </Carousel.Item>
-            ))}
-          </Carousel>
-
+        <br/>
+        <div className="category-buttons">
+          {categories.map(category => (
+              <Button
+                  key={category}
+                  variant={selectedCategory === category ? 'primary' : 'secondary'}
+                  onClick={() => handleCategoryClick(category)}
+                  className="btn btn-primary button"
+                  style={{margin: "5px", borderRadius:'15px'}}
+              >
+                {category}
+              </Button>
+          ))}
         </div>
-        <div>
-          <br/>
-          <div className='title-outer'>
-            <div className='left-ttle'>
-              <h2 style={{color: " Blue"}}>Trending Audio Books</h2>
-            </div>
-            <div className='right-btn'>
-              <button onClick={SeeAllAudioBook}
-                      style={{borderRadius: '10px', background: seeAllBtn, color: 'white'}}>See
-                All
-              </button>
-                </div>
-              </div>
-
-              <Carousel activeIndex={indexNextAudio} onSelect={handleSelectAudio}>
-                {audioBbookChunks.map((chunk, idx) => (
-                    <Carousel.Item key={idx}>
-                      <div className="book-list">
-                        {chunk.map((audioBookItem, i) => (
-                            <div key={i} onClick={() => handlePhotoClickAudio(audioBookItem.seriesId)}
-                                 className='photo'>
-                              <img src={audioBookItem.thumbnail_url} alt={`Thumbnail of ${audioBookItem.title}`}/>
-                            </div>
-                        ))}
+        <div style={{height: '100px'}}></div>
+        <div className="gallery-container">
+              <>
+                <div className="book-list">
+                  {filteredBookData.slice(index, index + itemsPerPage).map(item => (
+                      <div key={item.id} onClick={() => handlePhotoClick(item.id)} className='photo'>
+                        <img src={item.thumbnail_url} alt={Thumbnail of ${item.title}}/>
                       </div>
-                    </Carousel.Item>
-                ))}
-              </Carousel>
+                  ))}
+                </div>
 
-            </div>
-        <br/>
+                <div className="buttons">
+                  <button onClick={handlePrevious} disabled={index === 0}><MdKeyboardDoubleArrowLeft/></button>
+                  {currentPage}/{totalPages}
+                  <button onClick={handleNext} disabled={index + 6 >= bookData.length}><MdKeyboardDoubleArrowRight/>
+                  </button>
+                </div>
+              </>
+        </div>
       </div>
   )
 }

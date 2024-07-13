@@ -1,5 +1,4 @@
 import React from 'react'
-import '../../styles/ebookcontext.css'
 import { useState,useEffect, useRef } from 'react';
 import {
   FETCH_ALL_AUDIO_BOOK,
@@ -25,6 +24,7 @@ import {RiAccountCircleFill} from "react-icons/ri";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
+import '../../styles/audio.css'
 
 const AudioPlayer  = () => {
   const Navigate = useNavigate();
@@ -61,7 +61,7 @@ const AudioPlayer  = () => {
 
   const fetchLastPlayedTrackIndex = async () => {
     try {
-      const response = await API_ENDPOINT.get(`${FETCH_LISTNING_AUDIO}/${userId}_${selectedBookId}`);
+      const response = await API_ENDPOINT.get(${FETCH_LISTNING_AUDIO}/${userId}_${selectedBookId});
       if (response.status === 200) {
         return response.data.data;
       }
@@ -76,7 +76,7 @@ const AudioPlayer  = () => {
       // console.log('selected Book Data Execute start');
       const fetchData = async () => {
         try {
-          const response = await API_ENDPOINT.get(`${FETCH_ALL_BOOK_SERIES_ID}/${selectedBookId}`);
+          const response = await API_ENDPOINT.get(${FETCH_ALL_BOOK_SERIES_ID}/${selectedBookId});
           if (response.status == 200) {
             const selectedBookData = response.data.data;
             // console.log('Selected Book Data for Id new:', selectedBookData);
@@ -193,7 +193,7 @@ const AudioPlayer  = () => {
   useEffect(() =>{
     const getUsersForComments = async () =>{
       try {
-        const userResponse = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
+        const userResponse = await API_ENDPOINT.get(${GET_USER_DATA}/${userId});
         const getData = userResponse.data;
         setUsersData(getData.data);
         console.log('user data ==============>>>>:',usersData);
@@ -206,7 +206,7 @@ const AudioPlayer  = () => {
 
   const commentData = async () => {
     try {
-      const response = await API_ENDPOINT.get(`${GET_COMMENTS_AUDIO}/${selectedBookId}`);
+      const response = await API_ENDPOINT.get(${GET_COMMENTS_AUDIO}/${selectedBookId});
       if (response.status == 200) {
         const selectedSeriesData = response.data.data;
         console.log('Selected series Data:', selectedSeriesData);
@@ -255,8 +255,12 @@ const AudioPlayer  = () => {
     commentData();
   }, []);
 
+  const HandleCheckout =() => {
+    Navigate(/checkout-order?AudioBookid=${selectedBookId}, { state: { type: "audio" } })
+  }
+
   // const shareUrl = "http://github.com";
-  const shareUrl = `https://readlanka.com/play-audio/${selectedBookId}`;
+  const shareUrl = https://readlanka.com/play-audio/${selectedBookId};
   const title = "#Read Lanka";
 
   function formatDate(timestamp) {
@@ -304,52 +308,59 @@ const AudioPlayer  = () => {
             </div>
 
             <div className="right-desc-outer">
+              <h3 style={{color: 'blue'}}>{seriesData.seriesTitle}</h3>
+              <div style={{height: "10px"}}></div>
               <div className="audio-book-list">
                 {bookData.sort((a, b) => a.chapter - b.chapter).map((audioBookItem, i) => (
                     <div key={i} onClick={() => handlePhotoClick(audioBookItem.id)} className='right-photo'>
-                      <img src={audioBookItem.thumbnail_url} alt={`Thumbnail of ${audioBookItem.seriesTitle}`}/>
+                      <img src={audioBookItem.thumbnail_url} alt={Thumbnail of ${audioBookItem.seriesTitle}}/>
                       <p>{audioBookItem.title}</p>
                     </div>
                 ))}
               </div>
-
-              {/*{seriesData.map((series, i) => (*/}
+              <div style={{height: "20px"}}></div>
+              {/<div className="audio-description" >/}
+              <p style={{fontSize: '15px'}}> {seriesData.description} </p>
+              {/</div>/}
               <div className="pricing-card">
-                <span>LKR {seriesData.seriesPrice} </span>
+                <span> {seriesData.seriesPrice} /- LKR </span>
               </div>
-              {/*))}*/}
+              {/))}/}
 
-              <div style={{height: "40px"}}></div>
+              {/<div style={{height: "40px"}}></div>/}
 
               <div className="read-button-outer">
-                <button><a
-                    href={`/checkout-order?price=${seriesData.seriesPrice}&title=${encodeURIComponent(seriesData.seriesTitle)}`}> Buy
-                  Now</a></button>
+              {/*  <button><a*/}
+              {/*      href={/checkout-order?AudioBookid=${selectedBookId}}> Buy*/}
+              {/*    Now</a></button>*/}
+              {/</div>/}
+              <button onClick={HandleCheckout}><a> Buy Now</a></button>
               </div>
 
-              <div style={{height: "40px"}}></div>
+              <div style={{height: "10px"}}></div>
 
               <div className="Demo__container">
+                <p style={{fontSize: "20px", marginLeft:"50px"}}> Share</p>
                 <div className="Demo__some-network">
                   <FacebookShareButton
                       url={shareUrl}
                       htmlTitle={title}
-                      className="Demo__some-network__share-button"
+                      className="Demo_some-network_share-button"
                   >
-                    <FacebookIcon size={50} round/>
+                    <FacebookIcon size={30} round/>
                   </FacebookShareButton>
                   <TwitterShareButton
                       url={shareUrl}
-                      className="Demo__some-network__share-button"
+                      className="Demo_some-network_share-button"
                   >
-                    <TwitterIcon size={50} round/>
+                    <TwitterIcon size={30} round/>
                   </TwitterShareButton>
 
                   <WhatsappShareButton
                       url={shareUrl}
-                      className="Demo__some-network__share-button"
+                      className="Demo_some-network_share-button"
                   >
-                    <WhatsappIcon size={50} round/>
+                    <WhatsappIcon size={30} round/>
                   </WhatsappShareButton>
                 </div>
               </div>
@@ -361,10 +372,10 @@ const AudioPlayer  = () => {
                   <div className="comment">
                     <div className="comment-header">
                       <div className="comment-header-left">
-                        <p><RiAccountCircleFill style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
+                        <p style={{fontSize: '10px', color: 'black'}}><RiAccountCircleFill style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
                       </div>
                       <div className="comment-header-right">
-                        <p style={{fontSize: '10px', color: 'yellowgreen'}}>
+                        <p style={{fontSize: '10px', color: 'black'}}>
                           {formatDate(comment.createdAt)}
                         </p>
                       </div>
@@ -378,8 +389,7 @@ const AudioPlayer  = () => {
                 </div>
             ))}
           </div>
-
-            <div className="comments-form-outer">
+          <div className="comments-form-outer">
               <div className="comments-form">
                 <Form onSubmit={handleCommentSubmit}>
                 <InputGroup className="mb-3">
@@ -387,11 +397,12 @@ const AudioPlayer  = () => {
                       name='comment'
                       value={formData.comment}
                       onChange={handleChange}
+                      style={{border:'1px solid blue'}}
                       placeholder="Write a comment..."
                       required
                   />
                   <Button variant="outline-secondary" type="submit" id="button-addon2"
-                          style={{border: '1px solid white', borderRadius: '8px', marginLeft:'10px', paddingTop: '-90px'}}>
+                          style={{border: '1px solid black', borderRadius: '8px', marginLeft:'10px', paddingTop: '-90px'}}>
                     Post
                   </Button>
                 </InputGroup>
@@ -404,4 +415,3 @@ const AudioPlayer  = () => {
 };
 
 export default AudioPlayer
-
