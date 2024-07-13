@@ -54,9 +54,7 @@ const Series = () => {
     const [editVisible, setEditVisible] = useState(false)
     const [subcategory, setSubcategory] = useState()
     const [editId, setEditId] = useState()
-
-
-
+    const [searchTerm, setSearchTerm] = useState('');
 
     const getAuthor = async () => {
         setLoading(true)
@@ -207,7 +205,9 @@ const Series = () => {
         setAuthorName('')
         setVisible(!visible)
     }
-
+    const filteredBooks = booksData.filter(data =>
+        data.data.isSeries === false && data.data.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     if (loading) {
         return <ScreenLoading />
@@ -343,7 +343,17 @@ const Series = () => {
                     </form>
                 </ModalBody>
             </Modal>
-
+            <Row className="mb-3">
+                <Col>
+                    <Form.Control
+                        type="text"
+                        placeholder="Search by book title..."
+                        style={{color:"green"}}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </Col>
+            </Row>
             {/* react - Table sub categories list */}
             <Table>
                 <thead color="light">
@@ -357,7 +367,7 @@ const Series = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {booksData.filter(data => data.data.isSeries === false).map((data, index) => {
+                {filteredBooks.map((data, index) => {
                     return (
                         <tr key={data.id}>
                             <th scope="row">{index + 1}</th>

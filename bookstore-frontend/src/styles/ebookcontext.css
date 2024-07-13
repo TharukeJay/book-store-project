@@ -22,7 +22,7 @@
     margin:7px 0 30px 0;
 }
 .photo img{
-    /*border: 1px solid blue;*/
+    /border: 1px solid blue;/
     border-radius: 10px;
     cursor: pointer;
 }
@@ -112,8 +112,8 @@
 .left-photo-outer img{
     height:500px;
     width: 350px;
-    /*padding-top: 50px;*/
-    /*padding-left: 50px;*/
+    /padding-top: 50px;/
+    /padding-left: 50px;/
     border-radius: 10px;
 }
 
@@ -227,7 +227,7 @@ span{
 
 .comment-descriptions{
     width: inherit;
-    /*padding-left: 60px;*/
+    /padding-left: 60px;/
     display: flex;
     align-items: start;
     justify-content: start;
@@ -302,13 +302,13 @@ span{
     user-select: none;
 }
 
-/*.pdf-page {*/
+/.pdf-page {/
 /*    height: 100%;*/
 /*    display: flex;*/
 /*    align-items: center;*/
 /*    justify-content: center;*/
 /*    width: 100%;*/
-/*}*/
+/}/
 
 .pdf-container {
     display: flex;

@@ -72,6 +72,7 @@ function Login() {
             const data = response.data;
             console.log('login successful:', data);
             localStorage.setItem('token',data.token)
+            localStorage.setItem('email', formData.email);
             setLoggedIn(true);
             navigate('/upload');
         } catch (error) {

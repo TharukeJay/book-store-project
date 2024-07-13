@@ -41,7 +41,7 @@ const ReadBook = () => {
 
     const fetchData = async () => {
         try {
-          const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_BOOK}/${selectedBookId}`);
+          const response = await API_ENDPOINT.get(${FETCH_ALL_READ_BOOK}/${selectedBookId});
           if (response.status == 200) {
             const selectedBookData = response.data.data;
             console.log('Selected Book Data:', selectedBookData);
@@ -53,11 +53,11 @@ const ReadBook = () => {
         } catch (error) {
           console.error('Error:', error);
         }
-      };
+    };
 
     const commentData = async () => {
         try {
-          const response = await API_ENDPOINT.get(`${GET_COMMENTS}/${selectedBookId}`);
+          const response = await API_ENDPOINT.get(${GET_COMMENTS}/${selectedBookId});
           if (response.status == 200) {
             const selectedCommentData = response.data.data;
             console.log('Selected comments Data:', selectedCommentData);
@@ -106,7 +106,7 @@ const ReadBook = () => {
     useEffect(() =>{
         const getUsersForComments = async () =>{
             try {
-                const userResponse = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
+                const userResponse = await API_ENDPOINT.get(${GET_USER_DATA}/${userId});
                 const getData = userResponse.data;
                 setUsersData(getData.data);
                 console.log('user data ==============>>>>:', usersData);
@@ -117,7 +117,7 @@ const ReadBook = () => {
         getUsersForComments();
     },[])
 
-    const shareUrl = `https://readlanka.com/read-book/${selectedBookId}`;
+    const shareUrl = https://readlanka.com/read-book/${selectedBookId};
     const title = "Read Lanka";
 
     // const CheckoutBalnce = () => {
@@ -165,34 +165,38 @@ const ReadBook = () => {
                       <div style={{height: "10px"}}></div>
                       <div className="read-button-outer">
                           <button><a href="/read-preview">Read preview</a></button>
-                          <button>
+                          <button >
+                              {/<a/}
+                              {/*href={/checkout-order?price=${book.price}&title=${encodeURIComponent(book.title)}}> Buy*/}
+                              {/Now/}
+                              {/*</a> */}
                               <a
-                              href={`/checkout-order?price=${book.price}&title=${encodeURIComponent(book.title)}`}> Buy
+                              href={/checkout-order?id=${selectedBookId}}> Buy
                               Now
                               </a>
                           </button>
                       </div>
                       <div style={{height: "20px"}}></div>
                       <div className="Demo__container">
-                          <p> Share </p>
+                          <p style={{marginLeft:'50px'}}> Share </p>
                           <div className="Demo__some-network">
                               <FacebookShareButton
                                   url={shareUrl}
-                                  className="Demo__some-network__share-button"
+                                  className="Demo_some-network_share-button"
                               >
                                   <FacebookIcon size={30} round/>
                               </FacebookShareButton>
 
                               <TwitterShareButton
                                   url={shareUrl}
-                                  className="Demo__some-network__share-button"
+                                  className="Demo_some-network_share-button"
                               >
                                   <TwitterIcon size={30} round/>
                               </TwitterShareButton>
 
                               <WhatsappShareButton
                                   url={shareUrl}
-                                  className="Demo__some-network__share-button"
+                                  className="Demo_some-network_share-button"
                               >
                                   <WhatsappIcon size={30} round/>
                               </WhatsappShareButton>
@@ -207,11 +211,11 @@ const ReadBook = () => {
                       <div className="comments-list">
                           <div className="comment">
                               <div className="comment-header">
-                                  {/*{data.map((uData, i) => (*/}
+                                  {/{data.map((uData, i) => (/}
                                       <div className="comment-header-left">
                                           <p style={{fontSize: '10px', color: 'black'}}><RiAccountCircleFill style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
                                       </div>
-                                  {/*))}*/}
+                                  {/))}/}
                                   <div className="comment-header-right">
                                       <p style={{fontSize: '10px', color: 'black'}}>
                                           {formatDate(comment.createdAt)}
@@ -220,7 +224,7 @@ const ReadBook = () => {
                               </div>
                               <div className="comment-descriptions">
                                   <p >
-                                    {/*{truncateDescription(comment.comment)}*/}
+                                    {/{truncateDescription(comment.comment)}/}
                                     {comment.comment}
                                   </p>
                               </div>
@@ -255,4 +259,3 @@ const ReadBook = () => {
 };
 
 export default ReadBook
-

@@ -27,7 +27,7 @@ const ViewNews = () => {
       console.log('selected News Data Execute start');
       const fetchData = async () => {
         try {
-          const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_NEWS}/${selectedNewsId}`);
+          const response = await API_ENDPOINT.get(${FETCH_ALL_READ_NEWS}/${selectedNewsId});
           console.log('Selected News Data:', response);
           if (response.status == 200) {
               const selectedNewsData = response.data.data;
@@ -58,7 +58,7 @@ const ViewNews = () => {
         return <div>No news available</div>;
     }
 
-    const shareUrl = `https://readlanka.com/read-news/${selectedNewsId}`;
+    const shareUrl = https://readlanka.com/read-news/${selectedNewsId};
     // const shareUrl = "http://localhost:3000/read-book";
     const title = "Read Lanka";
 
@@ -87,20 +87,20 @@ const ViewNews = () => {
                   <div className="Demo__some-network">
                       <FacebookShareButton
                           url={shareUrl}
-                          className="Demo__some-network__share-button"
+                          className="Demo_some-network_share-button"
                       >
                           <FacebookIcon size={30} round />
                       </FacebookShareButton>
                       <TwitterShareButton
                           url={shareUrl}
-                          className="Demo__some-network__share-button"
+                          className="Demo_some-network_share-button"
                       >
                           <TwitterIcon size={30} round/>
                       </TwitterShareButton>
 
                       <WhatsappShareButton
                           url={shareUrl}
-                          className="Demo__some-network__share-button"
+                          className="Demo_some-network_share-button"
                       >
                           <WhatsappIcon size={30} round/>
                       </WhatsappShareButton>

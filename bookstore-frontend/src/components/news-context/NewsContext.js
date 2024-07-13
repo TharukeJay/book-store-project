@@ -107,7 +107,7 @@ const NewsContext = () => {
 
   const handleNewsClick = (id) => {
     localStorage.setItem('selectedNewsId', id);
-    Navigate(`/read-news/${id}`);
+    Navigate(/read-news/${id});
   };
 
   const handleNext = () => {
@@ -197,11 +197,11 @@ const NewsContext = () => {
               ))}
             </div>
             <div className="buttons">
-              {/*<button onClick={handlePrevious} disabled={index === 0}><FcPrevious/></button>*/}
+              {/<button onClick={handlePrevious} disabled={index === 0}><FcPrevious/></button>/}
               <button onClick={handlePrevious} disabled={index === 0}><MdKeyboardDoubleArrowLeft /></button>
               {currentPage}/{totalPages}
               <button onClick={handleNext} disabled={index + 8 >= newsData.length}><MdKeyboardDoubleArrowRight /></button>
-              {/*<button onClick={handleNext} disabled={index + 4 >= newsData.length}><FcNext/></button>*/}
+              {/<button onClick={handleNext} disabled={index + 4 >= newsData.length}><FcNext/></button>/}
             </div>
           </div>
         </div>
