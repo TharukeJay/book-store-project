@@ -32,10 +32,17 @@ export const executeGetCategory = ( ) => {
     });
 };
 
-export const executeCreateCategory = (categoryName) => {
-    return API_ENDPOINT.post(CREATE_CATEGORY, {
-        categoryName:categoryName
-    });
+export const executeCreateCategory = async (formData) => {
+    try {
+        const response = await fetch(CREATE_CATEGORY, {
+            method: 'POST',
+            body: formData,
+        });
+        return response;
+    } catch (error) {
+        console.error("Error creating book series:", error);
+        throw error;
+    }
 };
 
 export const executeGetAuthor = ( ) => {
@@ -234,11 +241,31 @@ export const executeSetAdmin = (userId,isAdmin) => {
     });
 };
 
-export const executeUpdateCategory = async (categoryId,categoryName) => {
-    return API_ENDPOINT.post(UPDATE_CATEGORY, {
-        categoryId: categoryId,
-        categoryName:categoryName
-    });
+// export const executeUpdateCategory = async (categoryId,categoryName,imageFile) => {
+//     return API_ENDPOINT.post(UPDATE_CATEGORY, {
+//         categoryId: categoryId,
+//         categoryName:categoryName
+//     });
+// };
+
+export const executeUpdateCategory = async (categoryId,categoryName,imageFile) => {
+    try {
+        const formData = new FormData();
+        formData.append('categoryId', categoryId);
+        formData.append('categoryName', categoryName);
+        if (imageFile) {
+            formData.append('thumbnail', imageFile);
+        }
+
+        const response = await fetch(UPDATE_CATEGORY, {
+            method: 'POST',
+            body: formData,
+        });
+        return response;
+    } catch (error) {
+        console.error("Error updating book series:", error);
+        throw error;
+    }
 };
 
 export const executeDeleteCategory = (categoryId) => {
@@ -265,17 +292,37 @@ export const executeGetNewsCategory = ( ) => {
     });
 };
 
-export const executeCreateNewsCategory = (categoryName) => {
-    return API_ENDPOINT.post(CREATE_NEWS_CATEGORY, {
-        categoryName:categoryName
-    });
+export const executeCreateNewsCategory = async (formData) => {
+    try {
+        const response = await fetch(CREATE_NEWS_CATEGORY, {
+            method: 'POST',
+            body: formData,
+        });
+        return response;
+    } catch (error) {
+        console.error("Error creating book series:", error);
+        throw error;
+    }
 };
 
-export const executeUpdateNewsCategory = async (categoryId,categoryName) => {
-    return API_ENDPOINT.post(UPDATE_NEWS_CATEGORY, {
-        categoryId: categoryId,
-        categoryName:categoryName
-    });
+export const executeUpdateNewsCategory = async (categoryId,categoryName,imageFile) => {
+    try {
+        const formData = new FormData();
+        formData.append('categoryId', categoryId);
+        formData.append('categoryName', categoryName);
+        if (imageFile) {
+            formData.append('thumbnail', imageFile);
+        }
+
+        const response = await fetch(UPDATE_NEWS_CATEGORY, {
+            method: 'POST',
+            body: formData,
+        });
+        return response;
+    } catch (error) {
+        console.error("Error updating book series:", error);
+        throw error;
+    }
 };
 
 export const executeDeleteNewsCategory = (categoryId) => {

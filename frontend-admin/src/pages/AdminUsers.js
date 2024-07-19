@@ -34,20 +34,7 @@ const Series = () => {
     const [progress, setProgress] = useState(0)
     const [loading, setLoading] = useState(true)
     const [visible, setVisible] = useState(false)
-    const [seriesID, setSeriesID] = useState('')
-
-
     const [editVisible, setEditVisible] = useState(false)
-    const [subcategory, setSubcategory] = useState()
-    const [editId, setEditId] = useState()
-
-    const [episodes, setEpisodes] = useState()
-    const [hide, setHide] = useState(false)
-    const [displayFeaturedContent, setDisplayFeaturedContent] = useState('')
-    const [featuredContent, setFeaturedContent] = useState(false)
-    const [contentProvider, setContentProvider] = useState('')
-    const [contentProviderData, setContentProviderData] = useState([])
-    const [contentProviderTitle, setContentProviderTitle] = useState('')
 
 
 
@@ -67,21 +54,6 @@ const Series = () => {
         getUsers()
     }, [])
 
-
-    //
-    // const Delete = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const response = await executeDeleteBookSeries(seriesID);
-    //         const data = response.data;
-    //         setLoading(false);
-    //         getBookSeries();
-    //         setEditVisible(false)
-    //     } catch (error) {
-    //         setLoading(false);
-    //         console.error('Error creating author:', error);
-    //     }
-    // }
 
     const handleClose = () => {
         setAuthorName('')

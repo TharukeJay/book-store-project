@@ -74,7 +74,7 @@ const EBookContext = () => {
 
   const handlePhotoClick = (id) => {
     localStorage.setItem('selectedBookId', id);
-    Navigate(`/read-book/${id}`, { state: { selectedBookId: id } });
+    Navigate(/read-book/${id}, { state: { selectedBookId: id } });
   };
 
   const handleCategoryClick = (category) => {
@@ -175,7 +175,7 @@ const EBookContext = () => {
                 <div className="book-list">
                   {filteredBookData.slice(index, index + itemsPerPage).map(item => (
                       <div key={item.id} onClick={() => handlePhotoClick(item.id)} className='photo'>
-                        <img src={item.thumbnail_url} alt={`Thumbnail of ${item.title}`}/>
+                        <img src={item.thumbnail_url} alt={Thumbnail of ${item.title}}/>
                       </div>
                   ))}
                 </div>

@@ -12,7 +12,7 @@ import EbookTopBar from '../ebook-context/EbbokTopBar'
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import toast, {Toaster} from "react-hot-toast";
 
-const url = `//cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
+const url = //cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js
 
 pdfjs.GlobalWorkerOptions.workerSrc = url;
 
@@ -29,7 +29,7 @@ const ReadPreview = () =>{
     useEffect(() => {
         const fetchData = async () => {
             try {
-             const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_BOOK_PDF}/${selectedBookId}`);
+             const response = await API_ENDPOINT.get(${FETCH_ALL_READ_BOOK_PDF}/${selectedBookId});
                 console.log('selected Book Pdf Data Execute start');
             const selectedBookData = response.data;
             console.log('Selected Book Pdf Data:', selectedBookData);
@@ -67,7 +67,7 @@ const ReadPreview = () =>{
         }
     }
     const RedirectPage= ()=> {
-        window.location.href= `/read-book/${selectedBookId}`
+        window.location.href= /read-book/${selectedBookId}
     }
     useEffect(() => {
         const handleResize = () => {
@@ -109,7 +109,7 @@ const ReadPreview = () =>{
                         </p>
                 {pdfData  && (
                     <Document 
-                        file={`data:application/pdf;base64,${pdfData}`} 
+                        file={data:application/pdf;base64,${pdfData}} 
                         onLoadSuccess={onDocumentLoadSuccess}
                         onContextMenu={(e) => e.preventDefault()}
                         className="pdf-container" >

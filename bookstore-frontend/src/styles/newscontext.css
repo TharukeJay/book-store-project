@@ -9,6 +9,7 @@
     height: auto;
 }
 .news-strip{
+    background-color: #dcd7d7;
     width: 80%;
     height: auto;
     margin-bottom: 20px;
@@ -135,7 +136,6 @@
     .left-news-outer{
         width: 30% !important;
         height: auto;
-        /*border: 1px solid red;*/
     }
     .right-news-outer{
         margin-top: 40px;
@@ -158,8 +158,8 @@
     }
     .picture-rim{
         margin-left: 60%;
-        width: 300px !important;
-        height: 300px !important;
+        width: 200px;
+        height: 200px;
     }
 }
 
