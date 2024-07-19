@@ -27,7 +27,7 @@ const ViewNews = () => {
       console.log('selected News Data Execute start');
       const fetchData = async () => {
         try {
-          const response = await API_ENDPOINT.get(${FETCH_ALL_READ_NEWS}/${selectedNewsId});
+          const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_NEWS}/${selectedNewsId}`);
           console.log('Selected News Data:', response);
           if (response.status == 200) {
               const selectedNewsData = response.data.data;
@@ -58,7 +58,7 @@ const ViewNews = () => {
         return <div>No news available</div>;
     }
 
-    const shareUrl = https://readlanka.com/read-news/${selectedNewsId};
+    const shareUrl = 'https://readlanka.com/read-news/${selectedNewsId';
     // const shareUrl = "http://localhost:3000/read-book";
     const title = "Read Lanka";
 

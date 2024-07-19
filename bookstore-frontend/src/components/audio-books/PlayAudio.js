@@ -193,7 +193,7 @@ const AudioPlayer  = () => {
   useEffect(() =>{
     const getUsersForComments = async () =>{
       try {
-        const userResponse = await API_ENDPOINT.get(${GET_USER_DATA}/${userId});
+        const userResponse = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
         const getData = userResponse.data;
         setUsersData(getData.data);
         console.log('user data ==============>>>>:',usersData);
@@ -206,7 +206,7 @@ const AudioPlayer  = () => {
 
   const commentData = async () => {
     try {
-      const response = await API_ENDPOINT.get(${GET_COMMENTS_AUDIO}/${selectedBookId});
+      const response = await API_ENDPOINT.get(`${GET_COMMENTS_AUDIO}/${selectedBookId}`);
       if (response.status == 200) {
         const selectedSeriesData = response.data.data;
         console.log('Selected series Data:', selectedSeriesData);
