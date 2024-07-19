@@ -18,11 +18,12 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
 
 
      useEffect(() => {
-         console.log('Audio Data Execute start');
+         // console.log('Audio Data Execute start');
          const fetchUserData = async () => {
-             try { console.log("execute Function========>>>>")
+             try {
+                 // console.log("execute Function========>>>>")
                  const response = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
-                 console.log('user Data Execute Midle', response);
+                 // console.log('user Data Execute Midle', response);
                  const getData = response.data.data;
                  setUserData(getData);
                  if(getData.userId != "") {
@@ -30,7 +31,7 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
                      setShowMyRack(!showMyRack);
                      setShowLoginSignup(!showLoginSignup);
                  }
-                 console.log("userData========>>>>", userData)
+                 console.log("userData Nav Bar========>>>>", userData);
              } catch (error) {
                  console.error('Error:', error);
              }

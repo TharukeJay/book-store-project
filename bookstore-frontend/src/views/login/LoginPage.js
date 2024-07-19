@@ -90,12 +90,12 @@ const LoginPage = () => {
             required
           />
         </Form.Group>
-        <a href="/forgot-password">Forgot Password</a>
+        <a href="/forgot-password" style={{color:'blue'}}>Forgot Password</a>
         <br /><br />
         <Button className='btn button-style' variant="primary" type="submit" >
           Login
         </Button>
-        <p>Don't have an account? <a href="/register"> SignUp</a></p>
+        <p>Don't have an account? <a href="/register" style={{color:'blue'}}> SignUp</a></p>
       </Form>
     </div>
 

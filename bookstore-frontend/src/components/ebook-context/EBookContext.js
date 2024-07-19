@@ -32,14 +32,6 @@ const EBookContext = () => {
   const [filteredAudioBookData, setFilteredAudioBookData] = useState([]);
   const itemsPerPage = 6;
 
-  const handleSelect = (selectedIndex) => {
-    setIndexNext(selectedIndex);
-  };
-
-  const handleSelectAudio = (selectedIndex) => {
-    setIndexNextAudio(selectedIndex);
-  };
-
   useEffect(() => {
     console.log('Book Data Execute start');
     const fetchData = async () => {

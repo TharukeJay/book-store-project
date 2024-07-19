@@ -13,13 +13,18 @@ import AudioBooks from './components/audio-books/AudioBooks';
 import AudioPlayer  from './components/audio-books/PlayAudio';
 import About from './views/about/About';
 import SeeAll from './components/seeAll/SeeAllPage';
-import MyLibrary from './components/library/MyLibrary';
+import MyLibraryEBook from './components/library/MyLibraryEBook';
 import PrivacyPolicy from './components/privacy/PrivacyPolicy';
-import Checkout from "./components/cheeckout/checkout";
+import Checkout from "./components/checkout/checkout";
 import NewsContext from "./components/news-context/NewsContext";
 import SeeAllPage from "./components/seeAll/SeeAllPage";
 import EBookPage from "./views/ebook/EBookPage";
 import Audio from "./routes/Audio";
+import PictureRim from "./components/pictureRim/PictureRim";
+import ReadPictureRim from "./components/pictureRim/ReadPictureRim";
+import MyLibraryAudio from "./components/library/MyLibraryAudio";
+import MyAudioBookPlay from "./components/library/MyAudioBookPlay";
+import MyBookRead from "./components/library/MyBookRead";
 const App =() => {
 
   const PrivateRoute = ({ children }) => {
@@ -42,7 +47,11 @@ const App =() => {
           <Route path="/" element={<Home/>}/>
 
           {/* Purchase library */}
-          <Route path="/my-books" element={<MyLibrary/>}/>
+          <Route path="/myBooks/eBook" element={<MyLibraryEBook/>}/>
+           <Route path="/my-book-read/:id" element={<MyBookRead />} />
+           {/*<Route path="/my-book-read/:id" element={<MyBooRead />} />*/}
+          <Route path="/myBooks/audio" element={<MyLibraryAudio/>}/>
+           <Route path="/my-audio-play/:id" element={<MyAudioBookPlay />} />
 
           {/* All books */}
           <Route path="/details/all-book" element={<SeeAllPage/>}/>
@@ -55,6 +64,10 @@ const App =() => {
           {/* News paper*/}
           <Route path="/news-papers" element={<NewsContext/>} />
           <Route path="/read-news/:id" element={<ViewNews />} />
+
+          {/* Picture Rim*/}
+           <Route path="/pictureRim/:id" element={<PictureRim/>} />
+           <Route path="/read-pictureRim/:id" element={<ReadPictureRim/>} />
 
           {/* Audio Book */}
           <Route path="/audio-books" element={<Audio />} />

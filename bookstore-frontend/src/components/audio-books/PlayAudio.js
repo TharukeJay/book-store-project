@@ -255,6 +255,10 @@ const AudioPlayer  = () => {
     commentData();
   }, []);
 
+  const HandleCheckout =() => {
+    Navigate(`/checkout-order?id=${selectedBookId}`, { state: { type: "audio" } })
+  }
+
   // const shareUrl = "http://github.com";
   const shareUrl = `https://readlanka.com/play-audio/${selectedBookId}`;
   const title = "#Read Lanka";
@@ -326,9 +330,7 @@ const AudioPlayer  = () => {
               {/*<div style={{height: "40px"}}></div>*/}
 
               <div className="read-button-outer">
-                <button><a
-                    href={`/checkout-order?price=${seriesData.seriesPrice}&title=${encodeURIComponent(seriesData.seriesTitle)}`}> Buy
-                  Now</a></button>
+              <button onClick={HandleCheckout}><a style={{color:'white'}}> Buy Now</a></button>
               </div>
 
               <div style={{height: "10px"}}></div>

@@ -17,7 +17,7 @@ import {
 } from "react-share";
 import { RiAccountCircleFill } from "react-icons/ri";
 import EbookTopBar from '../ebook-context/EbbokTopBar';
-import {Navigate, useLocation} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import {AiFillInstagram} from "react-icons/ai";
 import {BsInstagram} from "react-icons/bs";
 import {bgColor} from "../../common/commonColors";
@@ -28,6 +28,7 @@ import Footer from "../footer/Footer";
 
 const ReadBook = () => {
     const location = useLocation();
+    const Navigate = useNavigate();
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [newComment, setNewComment] = useState('');
@@ -46,22 +47,23 @@ const ReadBook = () => {
             const selectedBookData = response.data.data;
             console.log('Selected Book Data:', selectedBookData);
             setBook(selectedBookData);
-            setLoading(false)
+            setLoading(false);
           }else{
             window.location.href="/login"
           }
         } catch (error) {
           console.error('Error:', error);
         }
-      };
+    };
 
     const commentData = async () => {
         try {
           const response = await API_ENDPOINT.get(`${GET_COMMENTS}/${selectedBookId}`);
           if (response.status == 200) {
             const selectedCommentData = response.data.data;
-            console.log('Selected comments Data:', selectedCommentData);
+            console.log(' comments Data:', selectedCommentData);
               setComments(selectedCommentData.commentList || []);
+            console.log('Selectedcomments Data:', comments);
           }else{
             window.location.href="/login"
           }
@@ -140,6 +142,11 @@ const ReadBook = () => {
         return description;
     };
 
+
+    const HandleCheckoutBook =() => {
+        Navigate(`/checkout-order?id=${selectedBookId}`, { state: { type: "book" } })
+    }
+
     if (loading) {
       return <ScreenLoading />
     }
@@ -165,16 +172,17 @@ const ReadBook = () => {
                       <div style={{height: "10px"}}></div>
                       <div className="read-button-outer">
                           <button><a href="/read-preview">Read preview</a></button>
-                          <button>
-                              <a
-                              href={`/checkout-order?price=${book.price}&title=${encodeURIComponent(book.title)}`}> Buy
-                              Now
-                              </a>
-                          </button>
+                          {/*<button >*/}
+                          {/*    <a*/}
+                          {/*    href={`/checkout-order?id=${selectedBookId}`}> Buy*/}
+                          {/*    Now*/}
+                          {/*    </a>*/}
+                          {/*</button>*/}
+                          <button onClick={HandleCheckoutBook}><a style={{color: 'white'}}> Buy Now</a></button>
                       </div>
                       <div style={{height: "20px"}}></div>
                       <div className="Demo__container">
-                          <p> Share </p>
+                          <p style={{marginLeft:'50px'}}> Share </p>
                           <div className="Demo__some-network">
                               <FacebookShareButton
                                   url={shareUrl}

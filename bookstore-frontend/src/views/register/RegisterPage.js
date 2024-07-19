@@ -97,7 +97,7 @@ const RegisterPage = () => {
           <Button className='btn button-style' variant="primary" type="submit" >
             Register
           </Button>
-          <p>already have an account?  <a href="/login">signIn</a>  </p>
+          <p>already have an account?  <a href="/login" style={{color:'blue'}}>signIn</a>  </p>
         </Form>
       </div>
     </>

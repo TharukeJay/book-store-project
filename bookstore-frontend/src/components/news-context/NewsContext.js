@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import '../../styles/newscontext.css';
 import { useNavigate  } from 'react-router-dom';
-import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_CATEGORY, FETCH_ALL_NEWS, FETCH_NEWS_CATEGORY} from "../../apis/endpoints";
+import {
+  FETCH_ALL_AUDIO_BOOK,
+  FETCH_ALL_CATEGORY,
+  FETCH_ALL_NEWS, FETCH_ALL_NEWS_PICTURE_RIM,
+  FETCH_ALL_NEWS_SCRIPTS,
+  FETCH_NEWS_CATEGORY
+} from "../../apis/endpoints";
 import API_ENDPOINT from '../../apis/httpAxios';
 import { FcNext } from "react-icons/fc";
 import { FcPrevious } from "react-icons/fc";
@@ -19,7 +25,9 @@ import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 
 const NewsContext = () => {
   const [newsData, setNewsData] = useState([]);
-  const [index, setIndex] = useState(0); 
+  const [newsScriptData, setNewsScriptData] = useState([]);
+  const [newsPictureRimData, setNewsPictureRimData] = useState([]);
+  const [index, setIndex] = useState(0);
   const Navigate = useNavigate();
   const [categories, setCategories] = useState(['All']);
   const [loading, setLoading] = useState(true);
@@ -28,40 +36,63 @@ const NewsContext = () => {
   const [searchInput, setSearchInput] = useState('');
   const itemsPerPage = 8;
 
+  const fetchData = async () => {
+    try {
+      const response = await API_ENDPOINT.get(FETCH_ALL_NEWS);
+      const newsData = response.data.data;
+      console.log('News Data:', newsData);
+      setNewsData(newsData);
+      setFilteredNewsData(newsData);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const fetchCategoryData = async () => {
+    try {
+      const response = await API_ENDPOINT.get(FETCH_NEWS_CATEGORY);
+      const allCategoryData = response.data.data;
+      const otherCategories = Array.from(new Set(allCategoryData.map(categoryList => categoryList.categoryName)));
+      setCategories(['All', ...otherCategories]);
+      console.log('Category Data:', categories);
+
+      setLoading(false)
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const getnNewsScript = async () => {
+    try {
+      const response = await API_ENDPOINT.get(FETCH_ALL_NEWS_SCRIPTS);
+      const scriptData = response.data.data;
+      setNewsScriptData(scriptData);
+      console.log('News script Data:', newsScriptData);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const latestNewsScript = newsScriptData.length > 0 ? newsScriptData[newsScriptData.length - 1] : null;
+
+  const getnNewsPictureRim = async () => {
+    try {
+      const response = await API_ENDPOINT.get(FETCH_ALL_NEWS_PICTURE_RIM);
+      const PictureRimDataData = response.data.data;
+      setNewsPictureRimData(PictureRimDataData);
+      console.log('newsPictureRimData:', newsPictureRimData);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  const latestPicture = newsPictureRimData.length > 0 ? newsPictureRimData[newsPictureRimData.length - 1] : null;
+
   useEffect(() => {
-    console.log('News Data Execute start');
-    const fetchData = async () => {
-      try {
-        const response = await API_ENDPOINT.get(FETCH_ALL_NEWS);
-        const newsData = response.data.data;
-        console.log('News Data:', newsData);
-        setNewsData(newsData);
-        setFilteredNewsData(newsData);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
     fetchData();
-  }, [])
-
-  useEffect(() => {
-    console.log('Category Data Execute start');
-    const fetchCategoryData = async () => {
-      try {
-        const response = await API_ENDPOINT.get(FETCH_NEWS_CATEGORY);
-        const allCategoryData = response.data.data;
-        const otherCategories = Array.from(new Set(allCategoryData.map(categoryList => categoryList.categoryName)));
-        setCategories(['All', ...otherCategories]);
-        console.log('Category Data:', categories);
-
-        setLoading(false)
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-
     fetchCategoryData();
-  }, []);
+    getnNewsScript();
+    getnNewsPictureRim();
+  },[])
 
   useEffect(() => {
     filterNews(selectedCategory, searchInput);
@@ -141,6 +172,10 @@ const NewsContext = () => {
     return description;
   };
 
+  const ClickedPictureRim = (id) => {
+    Navigate(`/pictureRim/${id}`, {state:{pictureRimId: id }});
+  };
+
   return (
       <div style={{background: bgColor}}>
         <NavBar/>
@@ -175,15 +210,20 @@ const NewsContext = () => {
         <br/>
           <div className='title-outer-news'></div>
           <div className="gallery-container">
-            <div className= 'news-strip'>
-              <p> රත්නපුර අහස කළු කර ගෙන ආවේ ය. මම සැහැල්ලු කපු කලිසමක් හා කෙටි ටී කමිසයක් හැඳ ගෙන කාමරයෙන් එළියට ආවෙමි. සීතල සුළඟක් දෙවන මහළේ සේද තිර රෙදි අහසේ පා කරමින් ගෙතුළට වැද දගයක් කළේය. මට සිනහවක් නැගිණ. " වැස්සක් අත ළඟ කෙල්ලේ " දෙවන මහලේ ආලින්දයේ සෝෆා කට්ටලයෙහි හිඳ කකුල් දෙකද පුටුව උඩට ගෙන උන් තාත්තම්මා කාලගුණ නිවේදනය නිකුත් කළාය. " වහින එක පායන එක අපිට නතර කරන්න පුළුවන් ද තාත්තම්මා...'' මා ඈ අස හිඳ ගනිමින්</p>
-            </div>
-            <div className= 'picture-rim'>
-              <h1>  Picture Rim </h1>
-            </div>
+            {latestNewsScript && (
+                <div className='news-strip'>
+                  <p> {latestNewsScript.description}</p>
+                </div>
+            )}
+
+            {latestPicture && (
+                <div className='picture-rim' onClick={() =>ClickedPictureRim(latestPicture.id)}>
+                  <img src={latestPicture.thumbnail_url} alt="Latest Picture" />
+                </div>
+            )}
             <div className="news-list">
               {filteredNewsData.slice(index, index + itemsPerPage).map((newsItem, i) => (
-                  <div  className='news-outer'>
+                  <div className='news-outer'>
                     <div key={i} onClick={() => handleNewsClick(newsItem.id)} className='left-news-outer'>
                       <img src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
                     </div>
@@ -197,11 +237,9 @@ const NewsContext = () => {
               ))}
             </div>
             <div className="buttons">
-              {/*<button onClick={handlePrevious} disabled={index === 0}><FcPrevious/></button>*/}
               <button onClick={handlePrevious} disabled={index === 0}><MdKeyboardDoubleArrowLeft /></button>
               {currentPage}/{totalPages}
               <button onClick={handleNext} disabled={index + 8 >= newsData.length}><MdKeyboardDoubleArrowRight /></button>
-              {/*<button onClick={handleNext} disabled={index + 4 >= newsData.length}><FcNext/></button>*/}
             </div>
           </div>
         </div>
