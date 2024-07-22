@@ -4,7 +4,7 @@ import {Document, Page, pdfjs} from "react-pdf"
 import 'react-pdf/dist/esm/Page/TextLayer.css'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 import '../../styles/ebookcontext.css'
-import { FETCH_ALL_READ_BOOK_PDF } from '../../apis/endpoints';
+import {FETCH__READ_MY_BOOK_PDF, FETCH_ALL_READ_BOOK_PDF} from '../../apis/endpoints';
 import API_ENDPOINT from '../../apis/httpAxios';
 import ScreenLoading from '../loading/Loading'
 import { SlArrowLeftCircle } from "react-icons/sl";
@@ -12,9 +12,9 @@ import EbookTopBar from '../ebook-context/EbbokTopBar'
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import toast, {Toaster} from "react-hot-toast";
 
-const url = //cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js
+const url = `//cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
 
-pdfjs.GlobalWorkerOptions.workerSrc
+pdfjs.GlobalWorkerOptions.workerSrc = url;
 
 const ReadPreview = () =>{
     const [numPages, setNumPages] = useState()
@@ -29,7 +29,7 @@ const ReadPreview = () =>{
     useEffect(() => {
         const fetchData = async () => {
             try {
-             const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_BOOK_PDF}/${selectedBookId}`);
+             const response = await API_ENDPOINT.get(`${FETCH__READ_MY_BOOK_PDF}/${selectedBookId}`);
                 console.log('selected Book Pdf Data Execute start');
             const selectedBookData = response.data;
             console.log('Selected Book Pdf Data:', selectedBookData);
@@ -49,7 +49,7 @@ const ReadPreview = () =>{
             window.location.href="/login";
           }
         };
-        
+
         fetchData();
       }, []);
 
@@ -67,7 +67,7 @@ const ReadPreview = () =>{
         }
     }
     const RedirectPage= ()=> {
-        window.location.href= `/read-book/${selectedBookId}`
+        window.location.href= '/myBooks/eBook'
     }
     useEffect(() => {
         const handleResize = () => {
@@ -94,7 +94,7 @@ const ReadPreview = () =>{
             <div className="bar" onContextMenu={(e) => e.preventDefault()}>
             <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize:"40px" ,margin:'3px',color: "white"}}/>
                 {/* <EbookTopBar/> */}
-            </div> 
+            </div>
             <div className="wrap" onContextMenu={(e) => e.preventDefault()} ref={containerRef}>
                 <div className="controls" onContextMenu={(e) => e.preventDefault()}>
                     <button onClick={prevPage} >
@@ -108,15 +108,15 @@ const ReadPreview = () =>{
                             Page {pageNumber} of {numPages}
                         </p>
                 {pdfData  && (
-                    <Document 
+                    <Document
                         file={`data:application/pdf;base64,${pdfData}`}
                         onLoadSuccess={onDocumentLoadSuccess}
                         onContextMenu={(e) => e.preventDefault()}
                         className="pdf-container" >
                         <Page pageNumber={pageNumber} width={width} className="pdf-page"/>
                     </Document>
-                )} 
-            </div> 
+                )}
+            </div>
         </>
     )
 }

@@ -17,7 +17,7 @@ import {
 } from "react-share";
 import { RiAccountCircleFill } from "react-icons/ri";
 import EbookTopBar from '../ebook-context/EbbokTopBar';
-import {Navigate, useLocation} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import {AiFillInstagram} from "react-icons/ai";
 import {BsInstagram} from "react-icons/bs";
 import {bgColor} from "../../common/commonColors";
@@ -28,6 +28,7 @@ import Footer from "../footer/Footer";
 
 const ReadBook = () => {
     const location = useLocation();
+    const Navigate = useNavigate();
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [newComment, setNewComment] = useState('');
@@ -41,12 +42,12 @@ const ReadBook = () => {
 
     const fetchData = async () => {
         try {
-          const response = await API_ENDPOINT.get(${FETCH_ALL_READ_BOOK}/${selectedBookId});
+          const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_BOOK}/${selectedBookId}`);
           if (response.status == 200) {
             const selectedBookData = response.data.data;
             console.log('Selected Book Data:', selectedBookData);
             setBook(selectedBookData);
-            setLoading(false)
+            setLoading(false);
           }else{
             window.location.href="/login"
           }
@@ -57,11 +58,12 @@ const ReadBook = () => {
 
     const commentData = async () => {
         try {
-          const response = await API_ENDPOINT.get(${GET_COMMENTS}/${selectedBookId});
+          const response = await API_ENDPOINT.get(`${GET_COMMENTS}/${selectedBookId}`);
           if (response.status == 200) {
             const selectedCommentData = response.data.data;
-            console.log('Selected comments Data:', selectedCommentData);
+            console.log(' comments Data:', selectedCommentData);
               setComments(selectedCommentData.commentList || []);
+            console.log('Selectedcomments Data:', comments);
           }else{
             window.location.href="/login"
           }
@@ -106,7 +108,7 @@ const ReadBook = () => {
     useEffect(() =>{
         const getUsersForComments = async () =>{
             try {
-                const userResponse = await API_ENDPOINT.get(${GET_USER_DATA}/${userId});
+                const userResponse = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
                 const getData = userResponse.data;
                 setUsersData(getData.data);
                 console.log('user data ==============>>>>:', usersData);
@@ -117,7 +119,7 @@ const ReadBook = () => {
         getUsersForComments();
     },[])
 
-    const shareUrl = https://readlanka.com/read-book/${selectedBookId};
+    const shareUrl = `https://readlanka.com/read-book/${selectedBookId}`;
     const title = "Read Lanka";
 
     // const CheckoutBalnce = () => {
@@ -139,6 +141,11 @@ const ReadBook = () => {
         }
         return description;
     };
+
+
+    const HandleCheckoutBook =() => {
+        Navigate(`/checkout-order?id=${selectedBookId}`, { state: { type: "book" } })
+    }
 
     if (loading) {
       return <ScreenLoading />
@@ -165,16 +172,13 @@ const ReadBook = () => {
                       <div style={{height: "10px"}}></div>
                       <div className="read-button-outer">
                           <button><a href="/read-preview">Read preview</a></button>
-                          <button >
-                              {/<a/}
-                              {/*href={/checkout-order?price=${book.price}&title=${encodeURIComponent(book.title)}}> Buy*/}
-                              {/Now/}
-                              {/*</a> */}
-                              <a
-                              href={/checkout-order?id=${selectedBookId}}> Buy
-                              Now
-                              </a>
-                          </button>
+                          {/*<button >*/}
+                          {/*    <a*/}
+                          {/*    href={`/checkout-order?id=${selectedBookId}`}> Buy*/}
+                          {/*    Now*/}
+                          {/*    </a>*/}
+                          {/*</button>*/}
+                          <button onClick={HandleCheckoutBook}><a style={{color: 'white'}}> Buy Now</a></button>
                       </div>
                       <div style={{height: "20px"}}></div>
                       <div className="Demo__container">
@@ -182,21 +186,21 @@ const ReadBook = () => {
                           <div className="Demo__some-network">
                               <FacebookShareButton
                                   url={shareUrl}
-                                  className="Demo_some-network_share-button"
+                                  className="Demo__some-network__share-button"
                               >
                                   <FacebookIcon size={30} round/>
                               </FacebookShareButton>
 
                               <TwitterShareButton
                                   url={shareUrl}
-                                  className="Demo_some-network_share-button"
+                                  className="Demo__some-network__share-button"
                               >
                                   <TwitterIcon size={30} round/>
                               </TwitterShareButton>
 
                               <WhatsappShareButton
                                   url={shareUrl}
-                                  className="Demo_some-network_share-button"
+                                  className="Demo__some-network__share-button"
                               >
                                   <WhatsappIcon size={30} round/>
                               </WhatsappShareButton>
@@ -211,11 +215,11 @@ const ReadBook = () => {
                       <div className="comments-list">
                           <div className="comment">
                               <div className="comment-header">
-                                  {/{data.map((uData, i) => (/}
+                                  {/*{data.map((uData, i) => (*/}
                                       <div className="comment-header-left">
                                           <p style={{fontSize: '10px', color: 'black'}}><RiAccountCircleFill style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
                                       </div>
-                                  {/))}/}
+                                  {/*))}*/}
                                   <div className="comment-header-right">
                                       <p style={{fontSize: '10px', color: 'black'}}>
                                           {formatDate(comment.createdAt)}
@@ -224,7 +228,7 @@ const ReadBook = () => {
                               </div>
                               <div className="comment-descriptions">
                                   <p >
-                                    {/{truncateDescription(comment.comment)}/}
+                                    {/*{truncateDescription(comment.comment)}*/}
                                     {comment.comment}
                                   </p>
                               </div>
@@ -259,3 +263,4 @@ const ReadBook = () => {
 };
 
 export default ReadBook
+

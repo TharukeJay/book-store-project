@@ -61,7 +61,7 @@ const AudioPlayer  = () => {
 
   const fetchLastPlayedTrackIndex = async () => {
     try {
-      const response = await API_ENDPOINT.get(${FETCH_LISTNING_AUDIO}/${userId}_${selectedBookId});
+      const response = await API_ENDPOINT.get(`${FETCH_LISTNING_AUDIO}/${userId}_${selectedBookId}`);
       if (response.status === 200) {
         return response.data.data;
       }
@@ -76,7 +76,7 @@ const AudioPlayer  = () => {
       // console.log('selected Book Data Execute start');
       const fetchData = async () => {
         try {
-          const response = await API_ENDPOINT.get(${FETCH_ALL_BOOK_SERIES_ID}/${selectedBookId});
+          const response = await API_ENDPOINT.get(`${FETCH_ALL_BOOK_SERIES_ID}/${selectedBookId}`);
           if (response.status == 200) {
             const selectedBookData = response.data.data;
             // console.log('Selected Book Data for Id new:', selectedBookData);
@@ -193,7 +193,7 @@ const AudioPlayer  = () => {
   useEffect(() =>{
     const getUsersForComments = async () =>{
       try {
-        const userResponse = await API_ENDPOINT.get(${GET_USER_DATA}/${userId});
+        const userResponse = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
         const getData = userResponse.data;
         setUsersData(getData.data);
         console.log('user data ==============>>>>:',usersData);
@@ -206,7 +206,7 @@ const AudioPlayer  = () => {
 
   const commentData = async () => {
     try {
-      const response = await API_ENDPOINT.get(${GET_COMMENTS_AUDIO}/${selectedBookId});
+      const response = await API_ENDPOINT.get(`${GET_COMMENTS_AUDIO}/${selectedBookId}`);
       if (response.status == 200) {
         const selectedSeriesData = response.data.data;
         console.log('Selected series Data:', selectedSeriesData);
@@ -256,11 +256,11 @@ const AudioPlayer  = () => {
   }, []);
 
   const HandleCheckout =() => {
-    Navigate(/checkout-order?AudioBookid=${selectedBookId}, { state: { type: "audio" } })
+    Navigate(`/checkout-order?id=${selectedBookId}`, { state: { type: "audio" } })
   }
 
   // const shareUrl = "http://github.com";
-  const shareUrl = https://readlanka.com/play-audio/${selectedBookId};
+  const shareUrl = `https://readlanka.com/play-audio/${selectedBookId}`;
   const title = "#Read Lanka";
 
   function formatDate(timestamp) {
@@ -313,28 +313,24 @@ const AudioPlayer  = () => {
               <div className="audio-book-list">
                 {bookData.sort((a, b) => a.chapter - b.chapter).map((audioBookItem, i) => (
                     <div key={i} onClick={() => handlePhotoClick(audioBookItem.id)} className='right-photo'>
-                      <img src={audioBookItem.thumbnail_url} alt={Thumbnail of ${audioBookItem.seriesTitle}}/>
+                      <img src={audioBookItem.thumbnail_url} alt={`Thumbnail of ${audioBookItem.seriesTitle}`}/>
                       <p>{audioBookItem.title}</p>
                     </div>
                 ))}
               </div>
               <div style={{height: "20px"}}></div>
-              {/<div className="audio-description" >/}
+              {/*<div className="audio-description" >*/}
               <p style={{fontSize: '15px'}}> {seriesData.description} </p>
-              {/</div>/}
+              {/*</div>*/}
               <div className="pricing-card">
                 <span> {seriesData.seriesPrice} /- LKR </span>
               </div>
-              {/))}/}
+              {/*))}*/}
 
-              {/<div style={{height: "40px"}}></div>/}
+              {/*<div style={{height: "40px"}}></div>*/}
 
               <div className="read-button-outer">
-              {/*  <button><a*/}
-              {/*      href={/checkout-order?AudioBookid=${selectedBookId}}> Buy*/}
-              {/*    Now</a></button>*/}
-              {/</div>/}
-              <button onClick={HandleCheckout}><a> Buy Now</a></button>
+              <button onClick={HandleCheckout}><a style={{color:'white'}}> Buy Now</a></button>
               </div>
 
               <div style={{height: "10px"}}></div>
@@ -345,20 +341,20 @@ const AudioPlayer  = () => {
                   <FacebookShareButton
                       url={shareUrl}
                       htmlTitle={title}
-                      className="Demo_some-network_share-button"
+                      className="Demo__some-network__share-button"
                   >
                     <FacebookIcon size={30} round/>
                   </FacebookShareButton>
                   <TwitterShareButton
                       url={shareUrl}
-                      className="Demo_some-network_share-button"
+                      className="Demo__some-network__share-button"
                   >
                     <TwitterIcon size={30} round/>
                   </TwitterShareButton>
 
                   <WhatsappShareButton
                       url={shareUrl}
-                      className="Demo_some-network_share-button"
+                      className="Demo__some-network__share-button"
                   >
                     <WhatsappIcon size={30} round/>
                   </WhatsappShareButton>
@@ -415,3 +411,4 @@ const AudioPlayer  = () => {
 };
 
 export default AudioPlayer
+
