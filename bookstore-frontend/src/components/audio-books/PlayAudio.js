@@ -25,6 +25,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import '../../styles/audio.css'
+import Modal from "react-bootstrap/Modal";
 
 const AudioPlayer  = () => {
   const Navigate = useNavigate();
@@ -46,18 +47,14 @@ const AudioPlayer  = () => {
   const [seriesData, setSeriesData] = useState([]);
   const [usersData, setUsersData] = useState([]);
   const [audioBookDataId, setAudioBookDataId] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const handleNext = () => {
     if (trackIndex === 0) {
-      // Check if user is logged in
       const userId = localStorage.getItem('userId');
-      if (userId !='') {
-      // if (!userId) {
-        alert('Please Buy to continue listening.');
+        setShowModal(true);
         setIsPlaying(false);
-        // window.location.href = "/login";
         return;
-      }
     }
     if (trackIndex >= tracks.length - 1) {
       setTrackIndex(0);
@@ -263,6 +260,10 @@ const AudioPlayer  = () => {
     return date.toLocaleDateString();
 
   }
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
     return (
         <>
           <TopBar/>
@@ -401,6 +402,18 @@ const AudioPlayer  = () => {
               </Form>
              </div>
             </div>
+
+          <Modal show={showModal} onHide={closeModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>OOPS!</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Please Buy to continue listening.</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={closeModal}>
+                Ok
+              </Button>
+            </Modal.Footer>
+          </Modal>
           <Footer/>
         </>
     );
