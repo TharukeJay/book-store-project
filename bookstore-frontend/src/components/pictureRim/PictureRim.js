@@ -20,6 +20,7 @@ import {
 import {SlArrowLeftCircle} from "react-icons/sl";
 import {MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight} from "react-icons/md";
 import ScreenLoading from "../loading/Loading";
+import Footer from "../footer/Footer";
 
 const PictureRim =()=>{
     const location = useLocation();
@@ -193,6 +194,7 @@ const PictureRim =()=>{
                     </button>
                 </div>
             </div>
+            <Footer/>
         </>
     )
 }

@@ -10,7 +10,7 @@ const TopBar = () => {
       <div className="top__bar">
         <p>
           {/*<SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"40px", color:"white"}}/>*/}
-          <FaCircleArrowLeft  onClick={RedirectPage} style={{fontSize:"40px", color:"white"}}/>
+          <FaCircleArrowLeft  onClick={RedirectPage} style={{fontSize:"40px", color:"white", paddingTop:'5px'}}/>
         </p>
       </div>
     );

@@ -182,7 +182,7 @@ const AudioPlayer  = () => {
     },[])
 
     const RedirectPage =()=>{
-        window.location.href="/my-books-audio";
+        window.location.href="/myBookRack/audio";
     }
 
     return (

@@ -10,6 +10,7 @@ const RegisterPage = () => {
   const [formData, setFormData] = useState({
     email:"" ,
     password:"" ,
+    userName:""
   });
 
   const handleChange = (e) => {
@@ -80,6 +81,17 @@ const RegisterPage = () => {
               value={formData.email}
               onChange={handleChange}
               required 
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicUserName">
+            <Form.Label className='form-lable'>User Name</Form.Label>
+            <Form.Control
+              name='userName'
+              type="text"
+              placeholder="Enter User Name"
+              value={formData.userName}
+              onChange={handleChange}
+              required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">

@@ -13,12 +13,13 @@ import {
     FETCH_ALL_AUDIO_BOOK,
     ADD_TO_PURCHASE_BOOK,
     FETCH_ALL_READ_BOOK,
-    GET_COMMENTS_AUDIO
+    GET_COMMENTS_AUDIO, GET_USER_DATA
 } from "../../apis/endpoints";
 import ScreenLoading from "../loading/Loading";
 import {MdArrowBackIos} from "react-icons/md";
 import {map} from "react-bootstrap/ElementChildren";
 import toast, {Toaster} from "react-hot-toast";
+import {confirmationBtn} from "../../common/commonColors";
 // toast.configure();
 
 const Checkout = () => {
@@ -29,33 +30,31 @@ const Checkout = () => {
     const params = new URLSearchParams(location.search);
     const bookId = params.get('id');
     // const AudioBookid = params.get('AudioBookid');
-    const { type } = location.state;
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [showModalBuy, setShowModalBuy] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [selectedAudioId, setSelectedAudioId] = useState(null);
     const userId = localStorage.getItem('userId');
+    const { type } = location.state;
+    const { BookDataId } = location.state;
 
 
     console.log("userId=======================>>>", userId);
     console.log('Bookid========>>>', bookId);
-
-    // console.log('type ========>>>', type)
+    console.log('BookDataId  ========>>>', BookDataId);
 
     const fetchData = async () => {
         try {
             if(type =='audio'){
                 const response = await API_ENDPOINT.get(`${GET_COMMENTS_AUDIO}/${bookId}`);
                     const selectedSeriesData = response.data.data;
-                    // console.log('response =====================>>>> :', selectedSeriesData);
                     setAudioBook(selectedSeriesData);
                     // console.log('seriesData =====================>>>> :', audioBook);
                     setLoading(false);
             }else{
                 const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_BOOK}/${bookId}`);
-                // console.log('Hi Book');
                     const selectedBookData = response.data;
-                    // console.log('response =====>>>>>>>:', response);
                     setBook(selectedBookData.data);
                     // console.log('response Book Data =====>>>>>>>:', book);
                     setLoading(false);
@@ -70,14 +69,23 @@ const Checkout = () => {
         fetchData();
     },[type, bookId]);
 
+    const pdfDataId = BookDataId.map(book=> book.bookId);
     const openModal = (id) => {
-        setSelectedId(id);
-        setShowModal(true);
+        if ( pdfDataId.includes(id)) {
+            setShowModalBuy(true);
+        } else {
+            setSelectedId(id);
+            setShowModal(true);
+        }
     };
 
     const openModalAudio = (id) => {
-        setSelectedAudioId(id);
-        setShowModal(true);
+        if ( pdfDataId.includes(id)) {
+            setShowModalBuy(true);
+        } else {
+            setSelectedAudioId(id);
+            setShowModal(true);
+        }
     };
 
     console.log('selectedId=======>>>>>', selectedId)
@@ -101,7 +109,7 @@ const Checkout = () => {
                     className: 'toaster',
                     duration: 5000,
                 });
-                Navigate('/myBooks/eBook');
+                Navigate('/myBookRack/eBook');
             }else{
                 await API_ENDPOINT.post(ADD_TO_PURCHASE_BOOK, {
                     bookid: selectedAudioId,
@@ -118,7 +126,7 @@ const Checkout = () => {
                     className: 'toaster',
                     duration: 5000,
                 });
-                Navigate('/myBooks/audio');
+                Navigate('/myBookRack/audio');
             }
 
         } catch (error) {
@@ -128,6 +136,14 @@ const Checkout = () => {
 
     const closeModal = () => {
         setShowModal(false);
+    };
+    const closeModalBuy = () => {
+        setShowModalBuy(false);
+        if(type ==="audio"){
+            Navigate('/audio-books');
+        }else{
+            Navigate('/e-books');
+        }
     };
 
     const handleBackClick  = () => {
@@ -171,7 +187,7 @@ const Checkout = () => {
                                             <p>Title: <span>{audioBook.seriesTitle}</span></p>
                                             <p>Price: <span>{audioBook.seriesPrice} LKR/-</span></p>
                                             <div className='checkout-button-outer'>
-                                                <Button className='btn button' variant='primary' type='submit'
+                                                <Button style={{background:confirmationBtn}} className='btn button' variant='primary' type='submit'
                                                         onClick={() => openModalAudio(audioBook.seriesId)}>
                                                     Confirm Purchase Book
                                                 </Button>
@@ -191,7 +207,7 @@ const Checkout = () => {
                                 <p>Title: <span>{book.title}</span></p>
                                 <p>Price: <span>{book.price} LKR/-</span></p>
                                 <div className='checkout-button-outer'>
-                                    <Button className='btn button' variant='primary' onClick={() => openModal(book.id)}>
+                                    <Button style={{background:confirmationBtn}} className='btn button' variant='primary' onClick={() => openModal(book.id)}>
                                         Confirm Purchase Book
                                     </Button>
                                 </div>
@@ -212,6 +228,20 @@ const Checkout = () => {
                     <Button variant="primary" onClick={handleConfirmOrder}>
                         Confirm
                     </Button>
+                </Modal.Footer>
+            </Modal>
+            <Modal show={showModalBuy} onHide={closeModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Thank You!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>You have already purchased this book.</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={closeModalBuy}>
+                        Ok
+                    </Button>
+                    {/*<Button variant="primary" onClick={handleConfirmAlert}>*/}
+                    {/*    Confirm*/}
+                    {/*</Button>*/}
                 </Modal.Footer>
             </Modal>
         </>

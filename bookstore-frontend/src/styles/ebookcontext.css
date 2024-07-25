@@ -158,7 +158,7 @@
     width: auto !important;
     padding: 5px !important;
     font-size: 15px !important;
-    background-color: #40ba51 !important;
+    /*background-color: #40ba51 !important;*/
     border-radius: 7px !important;
     border: 1px solid white;
 }
@@ -299,7 +299,7 @@ span{
 .bar{
     max-width: 100%;
     height: auto;
-    background-color: #f6bfbf;
+    background-color: #989595;
     flex-direction: column;
     display: flex;
     align-items: flex-start;
@@ -311,15 +311,11 @@ span{
 .wrap{
     width: 100%;
     user-select: none;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    flex-direction: column;
 }
-
-/*.pdf-page {*/
-    /*    height: 100%;*/
-    /*    display: flex;*/
-    /*    align-items: center;*/
-    /*    justify-content: center;*/
-    /*    width: 100%;*/
-/*}*/
 
 .pdf-container {
     display: flex;
@@ -339,15 +335,15 @@ span{
 }
 .controls {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 900px;
+    justify-content:center;
+    align-items: center;
+    max-width: 100%;
     margin: 10px auto;
 }
 
 .controls button {
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 10px;
     cursor: pointer;
 }
 

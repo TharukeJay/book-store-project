@@ -19,7 +19,7 @@ const HomeWindow = () => {
         navigate('/news-papers');
     }
     const HandleClickMyBook = () =>{
-        navigate('/myBooks/eBook');
+        navigate('/myBookRack');
     }
     return (
         <div className='outer' style={{background:bgColor}}>

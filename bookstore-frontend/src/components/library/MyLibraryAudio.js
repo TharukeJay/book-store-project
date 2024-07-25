@@ -38,34 +38,27 @@ const MyLibraryEBook = () => {
     const [categories, setCategories] = useState(['All']);
     const [selectedCategory, setSelectedCategory] = useState('All');
 
-    console.log('userId ===============>>>>:', userId);
-
     const fetchUserData = async () => {
         try {
             const response = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
             const getData = response.data.data;
             setUserData(getData);
             setAudioBookId(getData.purchaseBookListAudio || []);
+            fetchDataBook(getData.purchaseBookListAudio);
             setLoading(false)
-            console.log("getData========>>>>", getData);
-            console.log("audioBook Data for Id========>>>>", audioBookId);
-            console.log("userData========>>>>", userData);
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
-    const fetchDataBook = async () => {
+    const fetchDataBook = async (ABookData) => {
         try {
             const response=await API_ENDPOINT.get(FETCH_ALL_AUDIO_BOOK);
             const allAudioBookData = response.data.data;
-            console.log('allAudioBookData ===============>>>>:' , allAudioBookData);
-            const audioBookIds = audioBookId.map(book => book.bookId);
+            const audioBookIds = ABookData.map(book => book.bookId);
             const PurchaseBook = allAudioBookData.filter(book => audioBookIds.includes(book.id));
-            console.log('PurchaseBook ===============>>>>:',PurchaseBook);
             setBookData(PurchaseBook);
             setFilteredAudioBookData(PurchaseBook);
-            console.log('setFilteredAudioBookData ===============>>>>:', filteredAudioBookData);
             setLoading(false);
         } catch (error) {
             console.error('Error:', error);
@@ -158,13 +151,6 @@ const MyLibraryEBook = () => {
 
     const { currentPage, totalPages } = getPageNumbers(audioIndex, filteredAudioBookData.length);
 
-    const handleSelectChange = (event) => {
-        const selectedValue = event.target.value;
-        if (selectedValue) {
-            window.location.href = selectedValue;
-        }
-    };
-
     if (loading) {
         return <ScreenLoading />
     }
@@ -188,15 +174,6 @@ const MyLibraryEBook = () => {
                     </Stack>
                 </div>
                 <div style={{height: '30px'}}></div>
-
-                <div className="select-type">
-                    <select className="select-type-select" aria-label="Default select example" onChange={handleSelectChange}>
-                        <option value=""> Select Book Type</option>
-                        <option value="/myBooks/eBook">E-Book</option>
-                        <option value="/myBooks/audio">Audio-Book</option>
-                    </select>
-                </div>
-
                 <div className="category-buttons">
                     {categories.map(category => (
                         <Button

@@ -36,42 +36,35 @@ const MyLibraryEBook = () => {
     const [categories, setCategories] = useState(['All']);
     const [selectedCategory, setSelectedCategory] = useState('All');
 
-    console.log('userId ===============>>>>:', userId);
-
-
-    useEffect(() => {
-        fetchUserData();
-        fetchDataBook();
-        fetchCategoryData();
-    }, []);
-
-
     const fetchUserData = async () => {
-        try {
+        // try {
             const response = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
             const getData = response.data.data;
             setUserData(getData);
+            console.log('userData ===============>>>>:',userData);
             setPdfBookDataId(getData.purchaseBookListPDF|| []);
+            fetchDataBook(getData.purchaseBookListPDF);
             setLoading(false)
-            console.log("getData========>>>>",  getData);
-            console.log("userData========>>>>", userData);
-        } catch (error) {
-            console.error('Error:', error);
-        }
+        // } catch (error) {
+        //     console.error('Error:', error);
+        // }
     };
 
-    const fetchDataBook = async () => {
+    const fetchDataBook = async (pdfBookData) => {
         try {
             const response = await API_ENDPOINT.get(FETCH_ALL_BOOK);
             const allBookData = response.data.data.filter(book => book.bookType === 'PDF');
+            console.log('allBookData Book  ===============>>>>:' ,allBookData);
 
-            const pdfBookIds = pdfBookDataId.map(book => book.bookId);
-            const PurchaseBook = allBookData.filter(book => pdfBookIds.includes(book.id));
+            const pdfBookIds = pdfBookData.map(book => book.bookId);
+            console.log('pdfBookData ===============>>>>:',pdfBookData);
+            console.log('pdfBookIds ===============>>>> :',pdfBookIds);
+
+            const PurchaseBook = allBookData.filter(books => pdfBookIds.includes(books.id));
             console.log('PurchaseBook ===============>>>>:',PurchaseBook);
             setBookData(PurchaseBook);
             setFilteredBookData(PurchaseBook);
             setLoading(false);
-            console.log('allBookData Book===============>>>>:',allBookData);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -90,6 +83,11 @@ const MyLibraryEBook = () => {
             console.error('Error:', error);
         }
     };
+
+    useEffect(() => {
+        fetchUserData();
+        fetchCategoryData();
+    }, []);
 
     useEffect(() => {
         filterBooks(selectedCategory, searchInput);
@@ -112,7 +110,7 @@ const MyLibraryEBook = () => {
         }
         if (searchTerm) {
             filteredBooks = filteredBooks.filter(book => book.title.toLowerCase().includes(searchTerm.toLowerCase()));
-            console.log("filteredBooks=================", filteredBooks);
+            // console.log("filteredBooks=================", filteredBooks);
         }
         setFilteredBookData(filteredBooks);
     };
@@ -158,18 +156,9 @@ const MyLibraryEBook = () => {
 
     const { currentPage, totalPages } = getPageNumbers(index, filteredBookData.length);
 
-    const handleSelectChange = (event) => {
-        const selectedValue = event.target.value;
-        if (selectedValue) {
-            window.location.replace(selectedValue);
-            // Navigate(selectedValue);
-        }
-    };
-
     if (loading) {
         return <ScreenLoading />
     }
-
   return (
       <>
           <Navbar/>
@@ -188,17 +177,7 @@ const MyLibraryEBook = () => {
                               className="btn btn-primary search-button"><IoSearchOutline style={{color:'white'}}/></Button>
                   </Stack>
               </div>
-
               <div style={{height: '30px'}}></div>
-
-              <div className="select-type">
-                  <select className='select-type-select' aria-label="Default select example" onChange={handleSelectChange}>
-                      <option value=""> Select Book Type</option>
-                      <option value="/myBooks/eBook">E-Book</option>
-                      <option value="/myBooks/audio">Audio-Book</option>
-                  </select>
-              </div>
-
               <div className="category-buttons">
                   {categories.map(category => (
                       <Button
@@ -212,7 +191,6 @@ const MyLibraryEBook = () => {
                       </Button>
                   ))}
               </div>
-
               <div className="gallery-container">
                   <div className="book-list">
                       {filteredBookData.slice(index, index + itemsPerPage).map(item => (

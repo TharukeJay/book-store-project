@@ -67,7 +67,7 @@ const ReadPreview = () =>{
         }
     }
     const RedirectPage= ()=> {
-        window.location.href= '/myBooks/eBook'
+        window.location.href= '/myBookRack/eBook'
     }
     useEffect(() => {
         const handleResize = () => {

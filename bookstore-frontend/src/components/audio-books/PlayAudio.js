@@ -18,7 +18,7 @@ import {
   FacebookShareButton,
   FacebookIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon,
 } from "react-share";
-import {bgColor} from "../../common/commonColors";
+import {bgColor, buyNowButton, readButton} from "../../common/commonColors";
 import Footer from "../footer/Footer";
 import {RiAccountCircleFill} from "react-icons/ri";
 import Form from "react-bootstrap/Form";
@@ -39,14 +39,26 @@ const AudioPlayer  = () => {
   const [tracks, setTracks] = useState([]);
   const audioRef = useRef();
   const progressBarRef = useRef();
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [selectedTrackId, setSelectedTrackId]= useState("");
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
   const [usersData, setUsersData] = useState([]);
+  const [audioBookDataId, setAudioBookDataId] = useState([]);
 
   const handleNext = () => {
+    if (trackIndex === 0) {
+      // Check if user is logged in
+      const userId = localStorage.getItem('userId');
+      if (userId !='') {
+      // if (!userId) {
+        alert('Please Buy to continue listening.');
+        setIsPlaying(false);
+        // window.location.href = "/login";
+        return;
+      }
+    }
     if (trackIndex >= tracks.length - 1) {
       setTrackIndex(0);
       setCurrentTrack(tracks[0]);
@@ -55,6 +67,7 @@ const AudioPlayer  = () => {
       setCurrentTrack(tracks[trackIndex + 1]);
     }
   };
+
   const { selectedSeriesAudioId } = location.state;
   const selectedBookId = selectedSeriesAudioId;
   const userId = localStorage.getItem('userId');
@@ -65,7 +78,6 @@ const AudioPlayer  = () => {
       if (response.status === 200) {
         return response.data.data;
       }
-      console.log("fetchLastPlayedTrackIndex =============>>>", response.data);
     } catch (error) {
       console.error('Error fetching last played track index:', error);
     }
@@ -114,17 +126,16 @@ const AudioPlayer  = () => {
     }, []);
 
   useEffect(() => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.load();
-        if (isPlaying) {
-          audioRef.current.play();
-        }
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.load();
+      if (isPlaying) {
+        audioRef.current.play();
       }
-    }, [currentTrack, isPlaying]);
+    }
+  }, [currentTrack, isPlaying]);
 
-  // useEffect(() => {
-    const saveProgress = async () => {
+  const saveProgress = async () => {
       try {
         await API_ENDPOINT.post(SET_LISTNING_AUDIO, {
           userId: userId,
@@ -137,7 +148,6 @@ const AudioPlayer  = () => {
         console.error('Error saving progress:', error);
       }
     };
-  // }, []);
 
   useEffect(() => {
     window.addEventListener('beforeunload', saveProgress);
@@ -153,25 +163,6 @@ const AudioPlayer  = () => {
     }; 
 
   const selectedAudioId = localStorage.getItem('selectedAudioId');
-
-  // useEffect(() => {
-  //   console.log('selected Book Data Execute start');
-  //   const fetchSeriesData = async () => {
-  //     try {
-  //       const response = await API_ENDPOINT.get(FETCH_ALL_AUDIO_BOOK);
-  //       const allAudioBookData = response.data.data;
-  //       console.log('allAudioBookData===============>>>', allAudioBookData);
-  //       const filteredData = allAudioBookData.filter(book => book.seriesId === selectedBookId);
-  //       setSeriesBookData(filteredData);
-  //       console.log('setSeriesBookData data===============>>>', filteredData);
-  //       console.log('setSeriesBookData description===============>>>', seriesBookData);
-  //
-  //     } catch (error) {
-  //       console.error('Error:', error);
-  //     }
-  //   };
-  //   fetchSeriesData();
-  // }, []);
     
   useEffect(() => {
       const fetchAudioData = async () => {
@@ -194,9 +185,11 @@ const AudioPlayer  = () => {
     const getUsersForComments = async () =>{
       try {
         const userResponse = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
-        const getData = userResponse.data;
-        setUsersData(getData.data);
-        console.log('user data ==============>>>>:',usersData);
+        const getData = userResponse.data.data;
+        setUsersData(getData);
+        console.log('getData==============>>>>:', getData);
+        setAudioBookDataId(getData.purchaseBookListAudio || []);
+        console.log('audioBookDataId ======== ======>>>>:', audioBookDataId);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -231,11 +224,13 @@ const AudioPlayer  = () => {
   const [formData, setFormData] = useState({
     comment: "",
   });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({...formData, [name]: value });
     console.log('newComment ===================>>>>>', formData)
   };
+
   const handleCommentSubmit = async(e) => {
     e.preventDefault();
     try {
@@ -243,7 +238,7 @@ const AudioPlayer  = () => {
         formData,
         userId: userId,
         seriesId: selectedBookId,
-        name: usersData.email,
+        name: usersData.userName
       });
       setFormData({ comment: "" });
     } catch (error) {
@@ -255,8 +250,8 @@ const AudioPlayer  = () => {
     commentData();
   }, []);
 
-  const HandleCheckout =() => {
-    Navigate(`/checkout-order?id=${selectedBookId}`, { state: { type: "audio" } })
+  const HandleCheckout = async () => {
+    Navigate(`/checkout-order?id=${selectedBookId}`, { state: { type: "audio" ,BookDataId:audioBookDataId } })
   }
 
   // const shareUrl = "http://github.com";
@@ -281,6 +276,7 @@ const AudioPlayer  = () => {
                         audioRef,
                         setDuration,
                         progressBarRef,
+                        // setTimeProgress,
                         handleNext,
                       }}
                   />
@@ -292,13 +288,13 @@ const AudioPlayer  = () => {
                         audioRef,
                         progressBarRef,
                         duration,
-                        setTimeProgress,
                         tracks,
                         trackIndex,
                         setTrackIndex,
                         setCurrentTrack,
                         isPlaying,
                         setIsPlaying,
+                        setTimeProgress,
                         handleNext,
                       }}
                   />
@@ -322,7 +318,7 @@ const AudioPlayer  = () => {
               {/*<div className="audio-description" >*/}
               <p style={{fontSize: '15px'}}> {seriesData.description} </p>
               {/*</div>*/}
-              <div className="pricing-card">
+              <div className="pricing-card" style={{marginLeft:'-25px'}}>
                 <span> {seriesData.seriesPrice} /- LKR </span>
               </div>
               {/*))}*/}
@@ -330,7 +326,7 @@ const AudioPlayer  = () => {
               {/*<div style={{height: "40px"}}></div>*/}
 
               <div className="read-button-outer">
-              <button onClick={HandleCheckout}><a style={{color:'white'}}> Buy Now</a></button>
+              <button style={{background:buyNowButton}} onClick={HandleCheckout}><a style={{color:'white'}}> Buy Now</a></button>
               </div>
 
               <div style={{height: "10px"}}></div>
