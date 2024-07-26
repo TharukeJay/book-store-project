@@ -41,27 +41,51 @@ const Controls = ({
       
         const playAnimationRef = useRef();
       
+        // const repeat = useCallback(() => {
+        //   const currentTime = audioRef.current.currentTime;
+        //   setTimeProgress(currentTime);
+        //   progressBarRef.current.value = currentTime;
+        //   progressBarRef.current.style.setProperty(
+        //     '--range-progress',
+        //     `${(progressBarRef.current.value / duration) * 100}%`
+        //   );
+        //
+        //   playAnimationRef.current = requestAnimationFrame(repeat);
+        // }, [audioRef, duration, progressBarRef, setTimeProgress]);
+
         const repeat = useCallback(() => {
-          const currentTime = audioRef.current.currentTime;
-          setTimeProgress(currentTime);
-          progressBarRef.current.value = currentTime;
-          progressBarRef.current.style.setProperty(
-            '--range-progress',
-            `${(progressBarRef.current.value / duration) * 100}%`
-          );
-      
-          playAnimationRef.current = requestAnimationFrame(repeat);
+            if (audioRef.current) {
+                const currentTime = audioRef.current.currentTime;
+                setTimeProgress(currentTime);
+                progressBarRef.current.value = currentTime;
+                progressBarRef.current.style.setProperty(
+                    '--range-progress',
+                    `${(progressBarRef.current.value / duration) * 100}%`
+                );
+                playAnimationRef.current = requestAnimationFrame(repeat);
+            }
         }, [audioRef, duration, progressBarRef, setTimeProgress]);
-      
+
+        // useEffect(() => {
+        //   if (isPlaying) {
+        //     audioRef.current.play();
+        //   } else {
+        //     audioRef.current.pause();
+        //   }
+        //   playAnimationRef.current = requestAnimationFrame(repeat);
+        // }, [isPlaying, audioRef, repeat]);
+
         useEffect(() => {
-          if (isPlaying) {
-            audioRef.current.play();
-          } else {
-            audioRef.current.pause();
-          }
-          playAnimationRef.current = requestAnimationFrame(repeat);
+            if (audioRef.current) {
+                if (isPlaying) {
+                    audioRef.current.play().catch(error => console.error('Play error:', error));
+                } else {
+                    audioRef.current.pause();
+                }
+                playAnimationRef.current = requestAnimationFrame(repeat);
+            }
         }, [isPlaying, audioRef, repeat]);
-      
+
         const skipForward = () => {
           audioRef.current.currentTime += 15;
         };

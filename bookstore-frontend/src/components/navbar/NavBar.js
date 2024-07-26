@@ -18,26 +18,28 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
 
 
      useEffect(() => {
-         // console.log('Audio Data Execute start');
-         const fetchUserData = async () => {
-             try {
-                 // console.log("execute Function========>>>>")
-                 const response = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
-                 // console.log('user Data Execute Midle', response);
-                 const getData = response.data.data;
-                 setUserData(getData);
-                 if(getData.userId != "") {
-                     setShowSignOut(!showSignOut);
-                     setShowMyRack(!showMyRack);
-                     setShowLoginSignup(!showLoginSignup);
-                 }
-                 console.log("userData Nav Bar========>>>>", userData);
-             } catch (error) {
-                 console.error('Error:', error);
-             }
-         };
          fetchUserData();
      }, [userId]);
+
+     // console.log('Audio Data Execute start');
+     const fetchUserData = async () => {
+         try {
+             // console.log("execute Function========>>>>")
+             const response = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
+             // console.log('user Data Execute Midle', response);
+             const getData = response.data.data;
+             setUserData(getData);
+             if(getData.userId != "") {
+                 setShowSignOut(!showSignOut);
+                 setShowMyRack(!showMyRack);
+                 setShowLoginSignup(!showLoginSignup);
+             }
+             console.log("userData Nav Bar========>>>>", userData);
+         } catch (error) {
+             console.error('Error:', error);
+         }
+     };
+
 
      const SignOut=()=>{
          localStorage.clear();
@@ -49,18 +51,17 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
           <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer">
               <Container className='nav-container'>
                   <Navbar.Brand href="/" style={{fontSize:"20px" , color:"white",paddingLeft:"2px"} }>
-                              Read Lanka
+                      {userData && (
+                          <Nav.Link  style={{fontSize:"17px" , color:"white"}}> {userData.email}</Nav.Link>
+                      )}
                   </Navbar.Brand>
                   <Navbar.Toggle aria-controls="responsive-navbar-nav togs " />
                   <Navbar.Collapse id="responsive-navbar-nav tog-border">
                       <div className='right-outer'>
                           <Nav className='link-page'>
-                              {userData && (
-                                <Nav.Link  style={{fontSize:"10px" , color:"white"}}> {userData.email}</Nav.Link>
+                              {showMyRack &&(
+                                <Nav.Link href="/myBookRack">My Book Rack</Nav.Link>
                               )}
-                              {/*{showMyRack &&(*/}
-                              {/*  <Nav.Link href="/my-books">My Book Rack</Nav.Link>*/}
-                              {/*)}*/}
                               <Nav.Link href="/">Home</Nav.Link>
                               <Nav.Link href="/e-books">e-Books</Nav.Link>
                               <Nav.Link href="/audio-books">Audio-Books</Nav.Link>

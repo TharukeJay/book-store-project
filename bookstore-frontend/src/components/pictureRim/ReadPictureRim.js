@@ -15,6 +15,7 @@ import {
 import React from "react";
 import {SlArrowLeftCircle} from "react-icons/sl";
 import ScreenLoading from "../loading/Loading";
+import Footer from "../footer/Footer";
 
 const ReadPictureRim=()=> {
     const location = useLocation();
@@ -110,6 +111,7 @@ const ReadPictureRim=()=> {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </>
     )
 }

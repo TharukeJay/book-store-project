@@ -97,18 +97,17 @@ const ReadPreview = () =>{
             </div> 
             <div className="wrap" onContextMenu={(e) => e.preventDefault()} ref={containerRef}>
                 <div className="controls" onContextMenu={(e) => e.preventDefault()}>
-                    <button onClick={prevPage} >
+                    <button onClick={prevPage}>
                         Prev
                     </button>
-                    <button onClick={nextPage} >
+                    <p style={{marginTop:'10px'}}>Page {pageNumber} of {numPages}</p>
+                    <button onClick={nextPage}>
                         Next
                     </button>
                 </div>
-                        <p>
-                            Page {pageNumber} of {numPages}
-                        </p>
-                {pdfData  && (
-                    <Document 
+
+                {pdfData && (
+                    <Document
                         file={`data:application/pdf;base64,${pdfData}`}
                         onLoadSuccess={onDocumentLoadSuccess}
                         onContextMenu={(e) => e.preventDefault()}

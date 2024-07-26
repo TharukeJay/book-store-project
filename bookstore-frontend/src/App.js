@@ -25,6 +25,7 @@ import ReadPictureRim from "./components/pictureRim/ReadPictureRim";
 import MyLibraryAudio from "./components/library/MyLibraryAudio";
 import MyAudioBookPlay from "./components/library/MyAudioBookPlay";
 import MyBookRead from "./components/library/MyBookRead";
+import MyLibrary from "./components/library/MyLibrary";
 const App =() => {
 
   const PrivateRoute = ({ children }) => {
@@ -46,11 +47,11 @@ const App =() => {
           <Route path="/" element={<Home/>}/>
 
           {/* Purchase library */}
-          <Route path="/myBooks/eBook" element={<MyLibraryEBook/>}/>
-           <Route path="/my-book-read/:id" element={<MyBookRead />} />
-           {/*<Route path="/my-book-read/:id" element={<MyBooRead />} />*/}
-          <Route path="/myBooks/audio" element={<MyLibraryAudio/>}/>
-           <Route path="/my-audio-play/:id" element={<MyAudioBookPlay />} />
+          <Route path="/myBookRack" element={<MyLibrary/>}/>
+          <Route path="/myBookRack/eBook" element={<MyLibraryEBook/>}/>
+          <Route path="/my-book-read/:id" element={<MyBookRead />} />
+          <Route path="/myBookRack/audio" element={<MyLibraryAudio/>}/>
+          <Route path="/my-audio-play/:id" element={<MyAudioBookPlay />} />
 
           {/* All books */}
           <Route path="/details/all-book" element={<SeeAllPage/>}/>

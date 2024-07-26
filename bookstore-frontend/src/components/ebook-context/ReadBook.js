@@ -20,7 +20,7 @@ import EbookTopBar from '../ebook-context/EbbokTopBar';
 import {useNavigate, useLocation} from "react-router-dom";
 import {AiFillInstagram} from "react-icons/ai";
 import {BsInstagram} from "react-icons/bs";
-import {bgColor} from "../../common/commonColors";
+import {bgColor, buyNowButton, readButton} from "../../common/commonColors";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -34,6 +34,7 @@ const ReadBook = () => {
     const [newComment, setNewComment] = useState('');
     const [comments, setComments] = useState([]);
     const [usersData, setUsersData] = useState([]);
+    const [pdfBookDataId, setPdfBookDataId] =useState([]);
 
     const selectedBookId = localStorage.getItem('selectedBookId');
     const userId = localStorage.getItem('userId');
@@ -79,11 +80,13 @@ const ReadBook = () => {
     const [formData, setFormData] = useState({
         comment: "",
     });
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({...formData, [name]: value });
     console.log('newComment ===================>>>>>', formData)
     };
+
     const handleCommentSubmit = async(e) => {
         e.preventDefault();
             try {
@@ -91,7 +94,7 @@ const ReadBook = () => {
                     formData,
                     userId: userId,
                     bookId: selectedBookId,
-                    name: usersData.email,
+                    name: usersData.userName,
                 });
                 setFormData({ comment: "" });
                 console.log('usersData.email======>>>:', usersData.email);
@@ -109,9 +112,9 @@ const ReadBook = () => {
         const getUsersForComments = async () =>{
             try {
                 const userResponse = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
-                const getData = userResponse.data;
-                setUsersData(getData.data);
-                console.log('user data ==============>>>>:', usersData);
+                const getData = userResponse.data.data;
+                setUsersData(getData);
+                setPdfBookDataId(getData.purchaseBookListPDF|| []);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -144,7 +147,7 @@ const ReadBook = () => {
 
 
     const HandleCheckoutBook =() => {
-        Navigate(`/checkout-order?id=${selectedBookId}`, { state: { type: "book" } })
+        Navigate(`/checkout-order?id=${selectedBookId}`, { state: { type: "book" , BookDataId:pdfBookDataId} })
     }
 
     if (loading) {
@@ -171,14 +174,8 @@ const ReadBook = () => {
                       </div>
                       <div style={{height: "10px"}}></div>
                       <div className="read-button-outer">
-                          <button><a href="/read-preview">Read preview</a></button>
-                          {/*<button >*/}
-                          {/*    <a*/}
-                          {/*    href={`/checkout-order?id=${selectedBookId}`}> Buy*/}
-                          {/*    Now*/}
-                          {/*    </a>*/}
-                          {/*</button>*/}
-                          <button onClick={HandleCheckoutBook}><a style={{color: 'white'}}> Buy Now</a></button>
+                          <button style={{background:readButton}}><a href="/read-preview">Read preview</a></button>
+                          <button onClick={HandleCheckoutBook} style={{background:buyNowButton}}><a style={{color: 'white'}}> Buy Now</a></button>
                       </div>
                       <div style={{height: "20px"}}></div>
                       <div className="Demo__container">
