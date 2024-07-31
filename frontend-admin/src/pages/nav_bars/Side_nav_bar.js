@@ -53,6 +53,8 @@ const  SideNavbar = () => {
                {label: "Book Series", key:"/createBookSeries"},
                {label: "News", key:"/createNews"},
                {label: "News Category", key:"/createNewsCategory"},
+               {label: "News Stript", key:"/createNewsStript"},
+               {label: "Picture Rim", key:"/createPictureRim"},
                 ],},
             {label: "View",key:"view",type:"group",children:[
                     {label: "Books",key:"/books"},

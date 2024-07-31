@@ -187,6 +187,7 @@ const Series = () => {
             setEditVisible(false)
             alert('Content deleted successfully!')
             getBookSeries();
+            getBookContents();
         } catch (error) {
             setLoading(false);
             console.error('Error creating author:', error);

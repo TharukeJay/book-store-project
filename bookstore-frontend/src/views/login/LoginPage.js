@@ -28,7 +28,7 @@ const LoginPage = () => {
       const data = response.data;
       localStorage.setItem('token', data.token);
       localStorage.setItem('userId', data.userId);
-      
+
       toast.success(" Welcome ! ...Login Succesfully", {
         style: {
           minWidth: '300px',
@@ -38,7 +38,7 @@ const LoginPage = () => {
         className: 'toaster',
         duration: 5000,
       });
-      if (response.status==200) {
+      if (response.status == 200) {
         window.location.href="/"
       }
       window.location.href = "/";
@@ -56,10 +56,10 @@ const LoginPage = () => {
       });
     }
   };
-  
+
   return (
     <>
-    <Toaster  
+    <Toaster
       position="top-center"
       reverseOrder={false}
     />
@@ -69,22 +69,22 @@ const LoginPage = () => {
         <br /><hr /><br />
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label className='form-lable'>Email address</Form.Label>
-          <Form.Control 
-            name='email' 
-            type="email" 
+          <Form.Control
+            name='email'
+            type="email"
             placeholder="Enter email"
             value={formData.email}
             onChange={handleChange}
-            required 
+            required
           />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label className='form-lable'>Password</Form.Label>
-          <Form.Control 
-            name='password' 
-            type="password" 
-            placeholder="Password" 
+          <Form.Control
+            name='password'
+            type="password"
+            placeholder="Password"
             value={formData.password}
             onChange={handleChange}
             required

@@ -2,16 +2,16 @@ import {
     CREATE_AUTHOR,
     CREATE_BOOK_SERIES,
     CREATE_CATEGORY,
-    CREATE_NEWS, CREATE_NEWS_CATEGORY,
+    CREATE_NEWS, CREATE_NEWS_CATEGORY, CREATE_NEWS_STRIPT, CREATE_PICTURE_RIM,
     DELETE_AUTHOR,
     DELETE_BOOK_SERIES,
     DELETE_CATEGORY, DELETE_CONTENT,
-    DELETE_NEWS, DELETE_NEWS_CATEGORY,
+    DELETE_NEWS, DELETE_NEWS_CATEGORY, DELETE_NEWS_STRIPT, DELETE_PICTURE_RIM,
     GET_AUTHOR,
     GET_BOOK_SERIES,
     GET_CATEGORY,
     GET_CONTENT,
-    GET_NEWS, GET_NEWS_CATEGORY,
+    GET_NEWS, GET_NEWS_CATEGORY, GET_NEWS_STRIPT, GET_PICTURE_RIM,
     GET_SELECTED_BOOK_SERIES,
     GET_SELECTED_NEWS,
     GET_USERS,
@@ -20,7 +20,7 @@ import {
     UPDATE_AUTHOR,
     UPDATE_BOOK_SERIES,
     UPDATE_CATEGORY, UPDATE_CONTENT,
-    UPDATE_NEWS, UPDATE_NEWS_CATEGORY,
+    UPDATE_NEWS, UPDATE_NEWS_CATEGORY, UPDATE_NEWS_STRIPT, UPDATE_PICTURE_RIM,
     UPLOAD_CONTENT,
 } from "../configs/commomConfigs";
 import API_ENDPOINT from "./httpEndpoint";
@@ -340,5 +340,82 @@ export const executeDeleteContent = (contentId) => {
 export const executeRestPassword = (email) => {
     return API_ENDPOINT.post(REQUEST_RESET_PASSWORD, {
         email: email
+    });
+};
+
+export const executeGetPictureRim= ( ) => {
+    return API_ENDPOINT.post(GET_PICTURE_RIM, {
+    });
+};
+
+export const executeCreatePictureRim = async (formData) => {
+    try {
+        const response = await fetch(CREATE_PICTURE_RIM, {
+            method: 'POST',
+            body: formData,
+        });
+        return response;
+    } catch (error) {
+        console.error("Error creating book series:", error);
+        throw error;
+    }
+};
+
+export const executeUpdatePictureRim = async (pictureRimID,pictureRimTitle, description,imageFile) => {
+    try {
+        const formData = new FormData();
+        formData.append('pictureRimId', pictureRimID);
+        formData.append('title', pictureRimTitle);
+        formData.append('description', description);
+        if (imageFile) {
+            formData.append('thumbnail', imageFile);
+        }
+
+        const response = await fetch(UPDATE_PICTURE_RIM, {
+            method: 'POST',
+            body: formData,
+        });
+
+        // if (response.ok) {
+        //     const data = await response.json();
+        return response;
+        // } else {
+        //     throw new Error(`Error: ${response.status} ${response.statusText}`);
+        // }
+    } catch (error) {
+        console.error("Error updating book series:", error);
+        throw error;
+    }
+};
+
+export const executeDeletePictureRim = (pictureRimID) => {
+    return API_ENDPOINT.post(DELETE_PICTURE_RIM, {
+        pictureRimId: pictureRimID
+    });
+};
+
+export const executeGetNewsStript= ( ) => {
+    return API_ENDPOINT.post(GET_NEWS_STRIPT, {
+    });
+};
+
+export const executeCreateNewsStript = (newsStriptTitle,description) => {
+    return API_ENDPOINT.post( CREATE_NEWS_STRIPT, {
+        newsScriptTitle:newsStriptTitle,
+        description:description,
+    });
+};
+
+export const executeUpdateNewsStript = async (newsStriptId,newsStriptTitle,description) => {
+    return API_ENDPOINT.post(UPDATE_NEWS_STRIPT, {
+        newsScriptId: newsStriptId,
+        newsScriptTitle:newsStriptTitle,
+        description:description
+    });
+};
+
+export const executeDeleteNewsStript = (newsStriptId ) => {
+    return API_ENDPOINT.post(DELETE_NEWS_STRIPT, {
+        newsScriptId: newsStriptId,
     });
 };
