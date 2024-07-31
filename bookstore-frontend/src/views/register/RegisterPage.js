@@ -43,7 +43,7 @@ const RegisterPage = () => {
           className: 'toaster',
           duration: 1000,
         });
-        window.location.href='/login'
+        window.location.href='/'
       } else {
         const data = await response.json();
         console.error(data.message);

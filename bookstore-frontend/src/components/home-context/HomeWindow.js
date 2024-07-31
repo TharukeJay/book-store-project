@@ -1,13 +1,37 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import NavBar from '../navbar/NavBar';
 import Footer from '../footer/Footer';
 import {bgColor} from "../../common/commonColors";
 import '../../styles/context.css';
 import {useNavigate} from "react-router-dom";
+import API_ENDPOINT from "../../apis/httpAxios";
+import {GET_USER_DATA} from "../../apis/endpoints";
 
 
 const HomeWindow = () => {
     const navigate = useNavigate();
+    const [userData, setUserData] =useState("");
+    const [showMyRack, setShowMyRack] =useState(false);
+    const userId  = localStorage.getItem('userId');
+
+    const fetchUserData = async () => {
+        try {
+            const response = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
+            const getData = response.data.data;
+            setUserData(getData);
+            if(getData.userId != "") {
+                setShowMyRack(!showMyRack);
+            }
+            console.log("userData Home Window========>>>>", userData);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchUserData();
+    }, [userId]);
+
 
     const HandleClickEBook = () =>{
         navigate('/e-books');
@@ -36,10 +60,12 @@ const HomeWindow = () => {
                         <img src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2FFeatured.jpeg?alt=media&token=907cb122-a09a-45ac-a911-3f908db18d06'/>
                         <h2>News</h2>
                     </div>
-                    <div className='category-outer' onClick={HandleClickMyBook}>
-                        <img src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2FShortStorie.jpeg?alt=media&token=a7038133-016b-4132-b7ee-3b5dce4c7619'/>
-                        <h2>My Book Rack</h2>
-                    </div>
+                    {showMyRack &&(
+                        <div className='category-outer' onClick={HandleClickMyBook}>
+                            <img src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2FShortStorie.jpeg?alt=media&token=a7038133-016b-4132-b7ee-3b5dce4c7619'/>
+                            <h2>Book Rack</h2>
+                        </div>
+                    )}
                 </div>
         </div>
     )

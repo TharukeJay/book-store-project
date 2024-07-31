@@ -43,16 +43,26 @@ const AudioPlayer  = () => {
     const [selectedTrackId, setSelectedTrackId]= useState("");
     const [seriesData, setSeriesData] = useState([]);
     const [usersData, setUsersData] = useState([]);
+    const relaxMusic = 'https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/audio%2F%2Fmixkit-rain-and-thunder-crash-1258.wav?alt=media&token=8238fa5e-de09-486c-bc65-74b7ba2bd901';
+
+    const [isRelaxMusicPlaying, setIsRelaxMusicPlaying] = useState(true);
 
     const handleNext = () => {
-        if (trackIndex >= tracks.length - 1) {
-            setTrackIndex(0);
-            setCurrentTrack(tracks[0]);
+        if (isRelaxMusicPlaying) {
+            setIsRelaxMusicPlaying(false);
+            // setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
         } else {
-            setTrackIndex((prev) => prev + 1);
-            setCurrentTrack(tracks[trackIndex + 1]);
+            setIsRelaxMusicPlaying(true);
+            if (trackIndex >= tracks.length - 1) {
+                setTrackIndex(0);
+                setCurrentTrack(tracks[0]);
+            } else {
+                setTrackIndex((prev) => prev + 1);
+                setCurrentTrack(tracks[trackIndex + 1]);
+            }
         }
     };
+
     const { selectedSeriesAudioId } = location.state;
     const selectedBookId = selectedSeriesAudioId;
     const userId = localStorage.getItem('userId');
@@ -97,8 +107,15 @@ const AudioPlayer  = () => {
                     const lastPlayedAudioId = lastPlayedData.selectedAudioId;
 
                     setTrackIndex(lastPlayedTrackIndex);
-                    setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
-                    setSelectedTrackId(lastPlayedAudioId);
+                    // setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
+                    // setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
+                    // setSelectedTrackId(lastPlayedAudioId);
+
+                    if(lastPlayedTrackIndex >= 0){
+                        setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
+                    }else{
+                        setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
+                    }
                 }else{
                     window.location.href="/login"
                 }
@@ -248,7 +265,7 @@ const AudioPlayer  = () => {
             </div>
             <Footer/>
         </>
-    );
+    )
 };
 
 export default AudioPlayer

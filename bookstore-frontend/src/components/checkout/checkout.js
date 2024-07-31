@@ -109,7 +109,7 @@ const Checkout = () => {
                     className: 'toaster',
                     duration: 5000,
                 });
-                Navigate('/myBookRack/eBook');
+                Navigate('/payment-success',{state:{type:'book'}});
             }else{
                 await API_ENDPOINT.post(ADD_TO_PURCHASE_BOOK, {
                     bookid: selectedAudioId,
@@ -126,7 +126,8 @@ const Checkout = () => {
                     className: 'toaster',
                     duration: 5000,
                 });
-                Navigate('/myBookRack/audio');
+                Navigate('/payment-success',{state:{type:'audio'}});
+                // Navigate('/payment-success',{state:{type:'audio'}});
             }
 
         } catch (error) {
@@ -220,7 +221,7 @@ const Checkout = () => {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm Purchase</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Are you sure you want to purchase this book? Please Check My Book Rack</Modal.Body>
+                <Modal.Body>Are you sure you want to purchase this book? </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={closeModal}>
                         Cancel
@@ -236,7 +237,7 @@ const Checkout = () => {
                 </Modal.Header>
                 <Modal.Body>You have already purchased this book.</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={closeModalBuy}>
+                    <Button variant="warning" onClick={closeModalBuy}>
                         Ok
                     </Button>
                     {/*<Button variant="primary" onClick={handleConfirmAlert}>*/}

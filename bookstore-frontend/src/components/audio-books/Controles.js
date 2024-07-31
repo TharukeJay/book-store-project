@@ -103,6 +103,7 @@ const Controls = ({
             setTrackIndex((prev) => prev - 1);
             setCurrentTrack(tracks[trackIndex - 1]);
           }
+
         };
       
         useEffect(() => {

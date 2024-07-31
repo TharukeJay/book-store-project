@@ -16,13 +16,19 @@ import NavBar from "../navbar/NavBar";
 import Stack from "react-bootstrap/Stack";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Carousel from "react-bootstrap/Carousel";
 import Footer from "../footer/Footer";
 import {bgColor} from "../../common/commonColors";
 import {IoSearchOutline} from "react-icons/io5";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
+import Carousel from 'react-bootstrap/Carousel';
+import * as PropTypes from "prop-types";
 
+function ExampleCarouselImage(props) {
+  return null;
+}
+
+ExampleCarouselImage.propTypes = {text: PropTypes.string};
 const NewsContext = () => {
   const [newsData, setNewsData] = useState([]);
   const [newsScriptData, setNewsScriptData] = useState([]);
@@ -209,6 +215,7 @@ const NewsContext = () => {
         </div>
         <br/>
           <div className='title-outer-news'></div>
+
           <div className="gallery-container">
             {latestNewsScript && (
                 <div className='news-strip'>
@@ -216,11 +223,18 @@ const NewsContext = () => {
                 </div>
             )}
 
-            {latestPicture && (
-                <div className='picture-rim' onClick={() =>ClickedPictureRim(latestPicture.id)}>
-                  <img src={latestPicture.thumbnail_url} alt="Latest Picture" />
-                </div>
-            )}
+            <div style={{height:'40px'}}></div>
+          <div className='picture-rim' >
+            <Carousel>
+              {newsPictureRimData.map((photo, index) => (
+                  <Carousel.Item>
+                      <img src={photo.thumbnail_url} alt="Latest Picture" onClick={() =>ClickedPictureRim(photo.id)}/>
+                    <Carousel.Caption>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+              ))}
+            </Carousel>
+          </div>
             <div className="news-list">
               {filteredNewsData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                   <div className='news-outer'>

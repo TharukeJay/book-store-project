@@ -35,12 +35,6 @@ const PictureRim =()=>{
 
     console.log("pictureRimId=============>>>>>>>>" , pictureRimId);
 
-
-    useEffect(() => {
-        fetchPictureRimForIdData();
-        getnNewsPictureRim();
-    }, []);
-
     const getnNewsPictureRim = async () => {
         try {
             const response = await API_ENDPOINT.get(FETCH_ALL_NEWS_PICTURE_RIM);
@@ -70,6 +64,12 @@ const PictureRim =()=>{
     };
 
     // console.log('selected newsPictureRim Data:', newsPictureRimIdData);
+
+    useEffect(() => {
+        fetchPictureRimForIdData();
+        getnNewsPictureRim();
+    }, []);
+
 
     const RedirectPage =() =>{
         Navigate('/news-papers');

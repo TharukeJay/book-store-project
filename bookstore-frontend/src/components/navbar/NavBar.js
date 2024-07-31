@@ -16,17 +16,9 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
      const [showLoginSignup, setShowLoginSignup] =useState(true)
      const userId  = localStorage.getItem('userId');
 
-
-     useEffect(() => {
-         fetchUserData();
-     }, [userId]);
-
-     // console.log('Audio Data Execute start');
      const fetchUserData = async () => {
          try {
-             // console.log("execute Function========>>>>")
              const response = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
-             // console.log('user Data Execute Midle', response);
              const getData = response.data.data;
              setUserData(getData);
              if(getData.userId != "") {
@@ -40,6 +32,9 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
          }
      };
 
+     useEffect(() => {
+         fetchUserData();
+     }, [userId]);
 
      const SignOut=()=>{
          localStorage.clear();
