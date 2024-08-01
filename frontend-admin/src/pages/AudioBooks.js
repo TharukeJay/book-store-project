@@ -360,7 +360,7 @@ const Series = () => {
                         </Row>
                         <Row>
                             <Col sm={8}>
-                                {audioFileName ? audioFileName : ''}{audioFileName ? audioFileName : ''}
+                                {audioFileName ? audioFileName : ''}
                                 <Form.Control
                                     type="file"
                                     accept="audio/*"
@@ -459,7 +459,7 @@ const Index = () => {
     return (
         <Row>
             <Col xs={12}>
-                <Card className="mb-4">
+                <Card className="mb-4"style={{marginRight:90, marginLeft:0}}>
                     <CardHeader>
                         <h2>AUDIO BOOKS LIST</h2>
                     </CardHeader>

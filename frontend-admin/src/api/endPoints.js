@@ -113,7 +113,7 @@ export const executeGetContent = ( ) => {
 };
 
 
-export const executeUpdateBookSeries = async (seriesId, authorName, seriesTitle, description, imageFile,seriesPrice) => {
+export const executeUpdateBookSeries = async (seriesId, authorName, seriesTitle, description, imageFile,seriesPrice,audioFile,chapterLimit) => {
     try {
         const formData = new FormData();
         formData.append('seriesId', seriesId);
@@ -121,8 +121,12 @@ export const executeUpdateBookSeries = async (seriesId, authorName, seriesTitle,
         formData.append('seriesTitle', seriesTitle);
         formData.append('description', description);
         formData.append('seriesPrice', seriesPrice);
+        formData.append('chapterLimit', chapterLimit);
         if (imageFile) {
             formData.append('thumbnail', imageFile);
+        }
+        if (audioFile) {
+            formData.append('audioFile', audioFile);
         }
 
         const response = await fetch(UPDATE_BOOK_SERIES, {

@@ -250,7 +250,7 @@ const Validation = () => {
     return (
         <Row>
             <Col xs={12}>
-                <Card className="mb-4">
+                <Card className="mb-4"style={{marginRight:90, marginLeft:0}}>
                     <CardHeader>
                         <h2>AUTHOR LIST</h2>
                     </CardHeader>

@@ -37,6 +37,7 @@ export const GET_BOOK_SERIES = `${baseUrl}/series/get-bookSeries`;
 export const UPDATE_BOOK_SERIES = `${baseUrl}/series/update-bookSeries`;
 export const DELETE_BOOK_SERIES = `${baseUrl}/series/delete-bookSeries`;
 export const GET_SELECTED_BOOK_SERIES = `${baseUrl}/series/get-selected-bookSeries`;
+
 export const UPLOAD_CONTENT = `${baseUrl}/content/upload-content`;
 export const UPDATE_CONTENT = `${baseUrl}/content/update-content`;
 export const DELETE_CONTENT = `${baseUrl}/content/delete-content`;

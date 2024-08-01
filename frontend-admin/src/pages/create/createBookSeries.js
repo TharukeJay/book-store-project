@@ -20,6 +20,7 @@ import {
     Row, Table
 } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
+import Mp3Image from "../../assets/mp3-file-format-symbol.png";
 
 
 const Series = () => {
@@ -33,25 +34,15 @@ const Series = () => {
     const [selectedImage, setSelectedImage] = useState('')
     const [thumbnail, setThumbnail] = useState('')
     const [uploadNow, setUploadNow] = useState(false)
-    const [progress, setProgress] = useState(0)
     const [loading, setLoading] = useState(true)
     const [visible, setVisible] = useState(false)
     const [seriesID, setSeriesID] = useState('')
     const [seriesPrice, setSeriesPrice] = useState('')
-
+    const [audioFile, setAudioFile] = useState(null)
+    const [chapterLimit, setChapterLimit] = useState(0)
+    const [audioFileName, setAudioFileName] = useState(null)
 
     const [editVisible, setEditVisible] = useState(false)
-    const [subcategory, setSubcategory] = useState()
-    const [editId, setEditId] = useState()
-
-    const [episodes, setEpisodes] = useState()
-    const [hide, setHide] = useState(false)
-    const [displayFeaturedContent, setDisplayFeaturedContent] = useState('')
-    const [featuredContent, setFeaturedContent] = useState(false)
-    const [contentProvider, setContentProvider] = useState('')
-    const [contentProviderData, setContentProviderData] = useState([])
-    const [contentProviderTitle, setContentProviderTitle] = useState('')
-
 
 
     const getAuthor = async () => {
@@ -99,6 +90,8 @@ const Series = () => {
         formData.append('description', description);
         formData.append('thumbnail', thumbnail);
         formData.append('seriesPrice', seriesPrice);
+        formData.append('chapterLimit', chapterLimit);
+        formData.append('audioFile', audioFile);
 
         try {
             const response = await executeCreateBookSeries(formData).then(function (response) {
@@ -124,7 +117,7 @@ const Series = () => {
             return;
         }
         try {
-            const data = await executeUpdateBookSeries(seriesID, authorName, bookSeriesTitle, description, thumbnail,seriesPrice);
+            const data = await executeUpdateBookSeries(seriesID, authorName, bookSeriesTitle, description, thumbnail,seriesPrice,audioFile,chapterLimit);
             console.log('Series updated successfully:', data);
             getBookSeries();
             setEditVisible(false)
@@ -146,7 +139,7 @@ const Series = () => {
         }
     }
 
-    const edit = async (id,seriesTitle,description,authorName, thumbnail_url,seriesPrice) => {
+    const edit = async (id,seriesTitle,description,authorName, thumbnail_url,seriesPrice,audioFile_url,audioFile_name,chapterLimit) => {
         if(id != ''){
             setSeriesID(id)
             setAuthorName(authorName)
@@ -155,6 +148,9 @@ const Series = () => {
             setThumbnail(thumbnail_url)
             setEditVisible(true)
             setSeriesPrice(seriesPrice)
+            setAudioFile(audioFile_url)
+            setAudioFileName(audioFile_name)
+            setChapterLimit(chapterLimit)
         }
     }
 
@@ -163,6 +159,7 @@ const Series = () => {
         try {
             const response = await executeDeleteBookSeries(seriesID);
             const data = response.data;
+            alert('Series deleted successfully!')
             setLoading(false);
             getBookSeries();
             setEditVisible(false)
@@ -185,8 +182,18 @@ const Series = () => {
 
     const handleAddNew = () => {
         setAuthorName('')
+        setAudioFile(null)
+        setThumbnail(null)
         setVisible(!visible)
     }
+    const   mp3Change = (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0];
+            // setSelectedFileImage(Mp3Image);
+            setAudioFile(file);
+        }
+    }
+
     if (loading) {
         return <ScreenLoading />
     }
@@ -219,7 +226,7 @@ const Series = () => {
                                     value={authorName}
                                 >
                                     <option value="">Choose..</option>
-                                    {console.log('authorData==>',authorData)}
+                                    {/*{console.log('authorData==>',authorData)}*/}
                                     {authorData.map((item) => {
                                         return (
                                             <option key={item.data.id} value={item.id}>
@@ -251,6 +258,16 @@ const Series = () => {
                             </Form.Group>
                         </Col>
                     </Row>
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                           Chapter Limit
+                        </FormLabel>
+                        <Col sm={8}>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="name" placeholder="Enter chapter limit" onChange={(e) => setChapterLimit(e.target.value)}  />
+                            </Form.Group>
+                        </Col>
+                    </Row>
 
                     <Row className="mb-3">
                         <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
@@ -261,7 +278,7 @@ const Series = () => {
                             <Form.Control as="textarea" aria-label="With textarea" onChange={(e) => setDescription(e.target.value)} />
                         </Col>
                     </Row>
-
+                    <Row><FormLabel>Upload Image</FormLabel></Row>
                     {selectedImage ? (
                         <Row className="mb-3">
                             <Image  align="center" rounded src={selectedImage} />
@@ -285,11 +302,19 @@ const Series = () => {
                                 <input type="file" onChange={imageChange} required />
                             </Col>
                         </Row>
-
+                        <br/>
+                        <Col style={{backgroundColor:"grey" ,padding:10}}>
+                        <Row><FormLabel>Upload Audio</FormLabel></Row>
+                        <Row className="position-relative">
+                            <input type="file" accept=".mp3" onChange={mp3Change} required />
+                        </Row></Col>
+                        <br/>
+                        <Col  style={{margin:10}}>
+                            <Row>
                         {/*{uploadNow == false ? (*/}
-                            <Button type="submit" accept=".webp" variant="dark" id="inputGroupFileAddon04">
+                            <Button type="submit" accept=".webp" variant="success" id="inputGroupFileAddon04">
                                 Upload now
-                            </Button>
+                            </Button></Row></Col>
                         {/*) : null}*/}
                     </form>
                 </ModalBody>
@@ -346,6 +371,16 @@ const Series = () => {
                             </Form.Group>
                         </Col>
                     </Row>
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                            Chapter Limit
+                        </FormLabel>
+                        <Col sm={8}>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="name" placeholder="Enter name" value={chapterLimit} onChange={(e) => setChapterLimit(e.target.value)}  />
+                            </Form.Group>
+                        </Col>
+                    </Row>
 
                     <Row className="mb-3">
                         <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
@@ -356,7 +391,7 @@ const Series = () => {
                             <Form.Control as="textarea" aria-label="With textarea" value={description} onChange={(e) => setDescription(e.target.value)} />
                         </Col>
                     </Row>
-
+                    <Row><FormLabel>Upload Image</FormLabel></Row>
                     {selectedImage ? (
                         <Row className="mb-3">
                             <Image align="center" rounded src={selectedImage} />
@@ -371,16 +406,28 @@ const Series = () => {
                                 <input type="file" onChange={imageChangeUpdate}  />
                             </Col>
                         </Row>
-
+<br/>
+                        <Row>
+                            <Col style={{backgroundColor:"grey",padding:10}}>
+                                <Row><FormLabel>Upload Audio</FormLabel></Row>
+                                {audioFileName ? audioFileName : ''}
+                                <Form.Control
+                                    type="file"
+                                    accept="audio/*"
+                                    onChange={mp3Change}
+                                />
+                            </Col>
+                        </Row>
+<br/>
                         <div className="row justify-content-md-center">
                             <Col xs lg={9}>
-                                <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">
+                                <Button type="submit" variant={"success"}  id="inputGroupFileAddon04">
                                     UPDATE
                                 </Button>
                             </Col>
 
                             <Col>
-                                <Button color="danger" onClick={() => Delete()}>
+                                <Button variant={"dark"}  onClick={() => Delete()}>
                                     DELETE
                                 </Button>
                             </Col>
@@ -422,6 +469,9 @@ const Series = () => {
                                             data.data.authorName,
                                             data.data.thumbnail_url,
                                             data.data.seriesPrice,
+                                            data.data.audio_url,
+                                            data.data.audio_FileName,
+                                            data.data.chapterLimit,
                                         )}
                                     >
                                         Edit
@@ -439,8 +489,8 @@ const Series = () => {
 const Index = () => {
     return (
         <Row>
-            <Col xs={12}>
-                <Card className="mb-4">
+            <Col xs={12} >
+                <Card className="mb-4"style={{marginRight:90, marginLeft:0}} >
                     <CardHeader>
                         <h2>BOOK SERIES LIST</h2>
                     </CardHeader>
