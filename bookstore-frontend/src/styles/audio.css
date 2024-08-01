@@ -275,7 +275,6 @@ p{
   }
   .controls{
     width: 65%;
-
   }
   .volume{
     flex: 1;
@@ -326,7 +325,7 @@ p{
   
   @media (max-width: 768px) {
     .controls{
-      width: 100%;  
+      width: 100%;
       margin-left: 0; 
       height: auto;
       display: flex;
@@ -334,6 +333,12 @@ p{
       justify-content: flex-start;
       flex-direction: row;
       /* padding-left: 30px; */
+    }
+    .controls button{
+      border: none;
+      background: hsl(0, 0%, 78%);
+      margin-right: 1px;
+      cursor: pointer;
     }
     .volume{
       width: 10% !important;  

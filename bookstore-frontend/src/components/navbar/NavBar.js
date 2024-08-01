@@ -8,6 +8,8 @@ import Logo from '../../assest/img/VLogo.mp4'
 import API_ENDPOINT from "../../apis/httpAxios";
 import { VscSignOut } from "react-icons/vsc";
 import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../apis/endpoints";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
  const NavBar= () => {
      const [userData, setUserData] =useState("")
@@ -15,6 +17,7 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
      const [showMyRack, setShowMyRack] =useState(false)
      const [showLoginSignup, setShowLoginSignup] =useState(true)
      const userId  = localStorage.getItem('userId');
+     const [showModal, setShowModal] = useState(false);
 
      const fetchUserData = async () => {
          try {
@@ -35,11 +38,17 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
      useEffect(() => {
          fetchUserData();
      }, [userId]);
-
-     const SignOut=()=>{
+     const handleConfirmOrder = async () => {
          localStorage.clear();
          window.location.href='/';
      }
+     const SignOut=()=>{
+        setShowModal(!showModal);
+     }
+
+     const closeModal = () => {
+         setShowModal(false);
+     };
   return (
     <>
       <div className='nav-bar'>
@@ -73,6 +82,20 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
                   </Navbar.Collapse>
               </Container>
           </Navbar>
+          <Modal show={showModal} onHide={closeModal}>
+              <Modal.Header closeButton>
+                  <Modal.Title>Confirm Purchase</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>Are you sure you want to SignOut? </Modal.Body>
+              <Modal.Footer>
+                  <Button variant="secondary" onClick={closeModal}>
+                      No
+                  </Button>
+                  <Button variant="primary" onClick={handleConfirmOrder}>
+                      Yes
+                  </Button>
+              </Modal.Footer>
+          </Modal>
       </div>
     </>
   )

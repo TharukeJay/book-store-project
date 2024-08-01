@@ -172,11 +172,11 @@ const PictureRim =()=>{
                 <div className="news-list">
                     {newsPictureRimData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                         <div className='news-outer'>
-                            <div key={i} onClick={() => handleNewsClick(newsItem.id)} className='left-news-outer'>
+                            <div key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)} className='left-news-outer'>
                                 <img src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
                             </div>
                             <div className='right-news-outer'>
-                                <h2 key={i} onClick={() => handleNewsClick(newsItem.id)}>{newsItem.title}</h2>
+                                <h2 key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)}>{newsItem.title}</h2>
                                 <br/>
                                 <p>{truncateDescription(newsItem.description)} </p>
                                 <button className='btn btn-default'
