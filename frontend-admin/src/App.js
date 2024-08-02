@@ -8,6 +8,8 @@ import Upload from "./pages/Upload";
 import CreateCategory from "./pages/create/createCategory";
 import CreateAuthor from "./pages/create/createAuthor";
 import BookSeries from "./pages/create/createBookSeries";
+import CreateNewsStript from "./pages/create/createNewsStript";
+import CreatePictureRim from "./pages/create/createPictureRim";
 import News from "./pages/create/createNews";
 import Users from "./pages/Users";
 import Books from "./pages/Books";
@@ -52,6 +54,8 @@ const App = () => {
                     <Route path="/createBookSeries" element={<BookSeries />} />
                     <Route path="/createNews" element={<News />} />
                     <Route path="/createNewsCategory" element={<CreateNewsCategory />} />
+                    <Route path="/createNewsStript" element={<CreateNewsStript />} />
+                    <Route path="/createPictureRim" element={<CreatePictureRim  />} />
                 </Routes>
             </Col>
         </Row>

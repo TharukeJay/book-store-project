@@ -13,117 +13,102 @@ import {
     Modal,
     ModalHeader,
     ModalTitle,
-    ModalBody, FormLabel, ModalFooter, Table, InputGroup, FormSelect, Image
+    ModalBody, FormLabel, ModalFooter, Table
 } from 'react-bootstrap';
 import {executeLoginUser} from "../../api/loginUser";
 import {
-    executeCreateNewsCategory,
-    executeDeleteNewsCategory,
-    executeGetNewsCategory,
-    executeUpdateNewsCategory
+    executeCreateNewsStript,
+    executeDeleteNewsStript,
+    executeGetNewsStript,
+    executeUpdateNewsStript
 } from "../../api/endPoints";
 
 
-function Categories() {
-    const [categoryData, setCategoryData] = useState([]);
-    const [categoryName, setCategoryName] = useState('');
-    const [categoryId, setCategoryId] = useState('');
-    const [visible, setVisible] = useState(false)
-    const [loading, setLoading] = useState(true)
-    const [editVisible, setEditVisible] = useState(false)
-    const [error, setError] = useState('');
-    const [thumbnail, setThumbnail] = useState('')
-    const [thumbnailName, setThumbnailName] = useState('')
-    const [selectedImage, setSelectedImage] = useState('')
 
-    const getNewsCategory = async () => {
+
+function Categories() {
+    const [newsStriptData, setNewsStriptData] = useState([]);
+    const [newsStriptTitle, setNewsStriptTitle] = useState('');
+    const [visible, setVisible] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [editVisible, setEditVisible] = useState(false)
+    const [newsStriptId, setNewsStriptId] = useState('');
+    const [description, setDescription] = useState('');
+    const [error, setError] = useState('');
+
+
+    const getNewsStript = async () => {
         setLoading(true)
-        const response = await executeGetNewsCategory();
+        const response = await executeGetNewsStript();
         const data = response.data;
-        setCategoryData(data)
+        setNewsStriptData(data)
         setLoading(false)
 
     }
-    const createNewsCategory = async () => {
+    const createNewsStript = async () => {
         setLoading(true);
-        if (categoryName == '') {
-            setError("Please enter a category name");
+        // if (NewsStriptTitle == '') {
+        //     setError("Please enter a NewsStript title");
+        //     return;
+        // }
+        if (description == '') {
+            setError("Please enter a description");
             return;
         }
-        const formData = new FormData();
-        formData.append('categoryName', categoryName);
-        formData.append('thumbnail', thumbnail);
         try {
-            const response = await executeCreateNewsCategory(formData);
-            const data = response.data;
-            setCategoryName(categoryName);
+            const response = await executeCreateNewsStript(newsStriptTitle,description);
+            const data2 = response.data;
+            setNewsStriptTitle(newsStriptTitle);
+            setDescription(description);
+            alert('News stript added successfully!')
             setLoading(false);
-            alert('Category updated successfully:');
-            getNewsCategory();
+            await getNewsStript();
             setVisible(false)
+
         } catch (error) {
             setLoading(false);
-            console.error('Error creating category:', error);
+            console.error('Error creating getNewsStripts:', error);
             setError(error.response.data.error)
         }
     };
 
-    const imageChange = (e) => {
-        if (e.target.files && e.target.files.length > 0) {
-            setSelectedImage(URL.createObjectURL(e.target.files[0]))
-            setThumbnail(e.target.files[0]);
-        }
-    }
-    const imageChangeUpdate = (e) => {
-        if (e.target.files && e.target.files.length > 0) {
-            setSelectedImage(URL.createObjectURL(e.target.files[0]))
-            setThumbnail(e.target.files[0]);
-        }
-    }
-
 
     useEffect(() => {
-        getNewsCategory()
+        getNewsStript()
     }, [])
 
     // if (loading) {
     //     return <Loading />
     // }
     const handleVisible = () => {
+        setNewsStriptTitle('')
+        setDescription('')
         setError('')
         setVisible(true)
-        setThumbnail('')
-        setSelectedImage('')
     }
 
-    const edit = async (categoryId,categoryName,thumbnail_url,thumbnail_fileName) => {
-        if(categoryId != ''){
+    const edit = async (newsStriptId,newsStriptTitle,description) => {
+        if(newsStriptId != ''){
             setError('')
-            setCategoryId(categoryId)
-            setCategoryName(categoryName)
+            setNewsStriptId(newsStriptId)
+            setNewsStriptTitle(newsStriptTitle)
+            setDescription(description)
             setEditVisible(true)
-            setThumbnail(thumbnail_url)
-            setThumbnailName(thumbnail_fileName)
         }
     }
 
     const updateMedia = async (e) => {
-        const categoryExists = categoryData.some(data => (data.data.categoryId !== categoryId) && data.data.categoryName === categoryName);
-        // setUploadNow(true)
+        // const newsStriptExists = authorData.some(data => data.data.authorName === authorName);
         e.preventDefault();
-        if (categoryName == '') {
-            setError("Please enter a category name");
-            return;
-        }
-        if(categoryExists){
-            setError("Category with the same name already exists.");
+
+        if (description == '') {
+            setError("Please enter a description");
             return;
         }
         try {
-            const data = await executeUpdateNewsCategory(categoryId, categoryName,thumbnail);
-            console.log('Series updated successfully:', data);
-            alert('Category updated successfully:');
-            await getNewsCategory();
+            const data = await executeUpdateNewsStript(newsStriptId, newsStriptTitle,description);
+            console.log('author updated successfully:', data);
+            await getNewsStript();
             setEditVisible(false)
         } catch (error) {
             console.error('Error updating series:', error);
@@ -133,10 +118,10 @@ function Categories() {
     const Delete = async () => {
         setLoading(true);
         try {
-            const response = await executeDeleteNewsCategory(categoryId);
+            const response = await executeDeleteNewsStript(newsStriptId);
             const data = response.data;
             setLoading(false);
-            await getNewsCategory();
+            await getNewsStript();
             setEditVisible(false)
         } catch (error) {
             setLoading(false);
@@ -145,13 +130,15 @@ function Categories() {
     }
 
     const handleClose = () => {
-        setCategoryName('')
+        setNewsStriptTitle('')
         setVisible(false)
         setEditVisible(false)
     }
 
+
     return (
         <>
+            {console.log('authorData==>',newsStriptData)}
             {/*<Button*/}
             {/*    variant="primary"*/}
             {/*    onClick={handleVisible}*/}
@@ -164,76 +151,68 @@ function Categories() {
 
             <Modal alignment="center" show={visible} onClose={() => setVisible(false)}>
                 <ModalHeader>
-                    <ModalTitle>New News Category</ModalTitle>
+                    <ModalTitle>New Stript</ModalTitle>
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
                         <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
-                            CATEGORY NAME
+                            Stript Title
                         </FormLabel>
                         <Col sm={8}>
-                            {/*<FormInput type="text" onChange={(e) => setCategoryName(e.target.value)} />*/}
+                            {/*<FormInput type="text" onChange={(e) => setAuthorName(e.target.value)} />*/}
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Control type="name" placeholder="Enter name" onChange={(e) =>{setCategoryName(e.target.value);setError('')}} style={{ borderColor: error ? 'red' : '' }} />
-                                {error && <Form.Text className="text-danger" style={{fontSize:14,fontWeight:"bold"}}>{error}</Form.Text>}
+                                <Form.Control type="name" placeholder="Enter name" onChange={(e) =>  {setNewsStriptTitle(e.target.value);}} />
                             </Form.Group>
                         </Col>
                     </Row>
-                    {selectedImage ? (
-                        <Row className="mb-3">
-                            <Image  align="center" rounded src={selectedImage} />
-                        </Row>
-                    ) : null}
-                    <Row className="mb-2">
-                        <Col md={12} className="position-relative">
-                            <input type="file" onChange={imageChange} required />
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                            Description
+                        </FormLabel>
+                        <Col sm={8}>
+                            {/*<Form.Text type="text" onChange={(e) => setDescription(e.target.value)} />*/}
+                            <Form.Control as="textarea" aria-label="With textarea" value={description} onChange={(e) => {setDescription(e.target.value);setError('')}} style={{ borderColor: error ? 'red' : '' }} />
+                            {error && <Form.Text className="text-danger" style={{fontSize:14,fontWeight:"bold"}}>{error}</Form.Text>}
                         </Col>
                     </Row>
-
                 </ModalBody>
                 <ModalFooter>
                     <Button color="secondary" onClick={() => setVisible(false)}>
                         Close
                     </Button>
-                    <Button color="primary" onClick={() => createNewsCategory(categoryName)}>
+                    <Button color="primary" onClick={createNewsStript}>
                         Save
                     </Button>
                 </ModalFooter>
             </Modal>
-
             <Modal alignment="center" show={editVisible} onClose={() => handleClose()}>
                 <ModalHeader closeButton onClick={handleClose}>
-                    <ModalTitle>UPDATE NEWS CATEGORY</ModalTitle>
+                    <ModalTitle>UPDATE NEWS STRIPT</ModalTitle>
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
                         <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
-                            Category Name
+                            News Stript Title
                         </FormLabel>
                         <Col sm={8}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Control type="name" placeholder="Enter name" value={categoryName} onChange={(e) =>{setCategoryName(e.target.value);setError('')}} style={{ borderColor: error ? 'red' : '' }}  />
-                                {error && <Form.Text className="text-danger" style={{fontSize:14,fontWeight:"bold"}}>{error}</Form.Text>}
+                                <Form.Control type="name" placeholder="Enter name" value={newsStriptTitle} onChange={(e) => {setNewsStriptTitle(e.target.value);}}   />
+
                             </Form.Group>
                         </Col>
                     </Row>
-                    {selectedImage ? (
-                        <Row className="mb-3">
-                            <Image  align="center" rounded src={selectedImage} />
-                        </Row>
-                    ) : null}
-                    <Row className="mb-2">
-                        <Col md={12} className="position-relative">
-                            {thumbnailName ? thumbnailName : ''}
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                            Description
+                        </FormLabel>
+                        <Col sm={8}>
+                            {/*<Form.Text type="text" onChange={(e) => setDescription(e.target.value)} />*/}
+                            <Form.Control as="textarea" aria-label="With textarea" value={description} onChange={(e) => {setDescription(e.target.value);setError('')}} style={{ borderColor: error ? 'red' : '' }}/>
+                            {error && <Form.Text className="text-danger" style={{fontSize:14,fontWeight:"bold"}}>{error}</Form.Text>}
                         </Col>
                     </Row>
 
                     <form onSubmit={updateMedia}>
-                        <Row className="mb-2">
-                            <Col md={12} className="position-relative">
-                                <input type="file" onChange={imageChangeUpdate}  />
-                            </Col>
-                        </Row>
                         <div className="row justify-content-md-center">
                             <Col xs lg={9}>
                                 <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">
@@ -255,20 +234,17 @@ function Categories() {
                 <thead color="light">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">THUMBNAIL</th>
-                    <th scope="col">CATEGORY NAME</th>
-                    <th scope="col">ACTION</th>
+                    <th scope="col">SCRIPT TITLE</th>
+                    <th scope="col">DESCRIPTION</th>
                 </tr>
                 </thead>
                 <tbody>
-                {categoryData.map((data, index) => {
+                {newsStriptData.map((data, index) => {
                     return (
                         <tr key={data.data}>
                             <td scope="row">{index + 1}</td>
-                            <td>
-                                <img width={100} src={data.data.thumbnail_url}/>
-                            </td>
-                            <td>{data.data.categoryName}</td>
+                            <td>{data.data.newsScriptTitle ? data.data.newsScriptTitle :'N/A' }</td>
+                            <td>{data.data.description}</td>
 
                             <td>
                                 <Button
@@ -277,10 +253,9 @@ function Categories() {
                                     active
                                     tabIndex={-1}
                                     onClick={() => edit(
-                                        data.data.categoryId,
-                                        data.data.categoryName,
-                                        data.data.thumbnail_url,
-                                        data.data.thumbnail_fileName,
+                                        data.data.newsScriptId,
+                                        data.data.newsScriptTitle,
+                                        data.data.description,
                                     )}
                                 >
                                     Edit
@@ -294,14 +269,13 @@ function Categories() {
         </>
     );
 }
-
 const Validation = () => {
     return (
         <Row>
             <Col xs={12}>
                 <Card className="mb-4"style={{marginRight:90, marginLeft:0}}>
                     <CardHeader>
-                        <h2>NEWS CATEGORY LIST</h2>
+                        <h2>NEWS STRIPT LIST</h2>
                     </CardHeader>
                     <CardBody>{Categories()}</CardBody>
                 </Card>
@@ -312,4 +286,3 @@ const Validation = () => {
 
 
 export default Validation;
-

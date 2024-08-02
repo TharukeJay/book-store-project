@@ -1,6 +1,6 @@
 
-// export const baseUrl = "http://localhost:3001/api";
-export const baseUrl = "https://bookstore-backend-97qw.onrender.com/api";
+export const baseUrl = "http://localhost:3001/api";
+// export const baseUrl = "https://bookstore-backend-97qw.onrender.com/api";
 
 const token = window.location.href.split('/reset-password/')[1];
 
@@ -17,6 +17,16 @@ export const GET_NEWS_CATEGORY = `${baseUrl}/newsCategory/get-news-category`;
 export const UPDATE_NEWS_CATEGORY = `${baseUrl}/newsCategory/update-news-category`;
 export const DELETE_NEWS_CATEGORY = `${baseUrl}/newsCategory/delete-news-category`;
 
+export const CREATE_NEWS_STRIPT = `${baseUrl}/newsScript/create-newsScript`;
+export const GET_NEWS_STRIPT  = `${baseUrl}/newsScript/get-newsScript`;
+export const UPDATE_NEWS_STRIPT = `${baseUrl}/newsScript/update-newsScript`;
+export const DELETE_NEWS_STRIPT = `${baseUrl}/newsScript/delete-newsScript`;
+
+export const CREATE_PICTURE_RIM = `${baseUrl}/pictureRim/create-pictureRim`;
+export const GET_PICTURE_RIM = `${baseUrl}/pictureRim/get-pictureRim`;
+export const UPDATE_PICTURE_RIM = `${baseUrl}/pictureRim/update-pictureRim`;
+export const DELETE_PICTURE_RIM = `${baseUrl}/pictureRim/delete-pictureRim`;
+
 export const GET_AUTHOR = `${baseUrl}/author/get-author`;
 export const CREATE_AUTHOR = `${baseUrl}/author/create-author`;
 export const UPDATE_AUTHOR = `${baseUrl}/author/update-author`;
@@ -27,6 +37,7 @@ export const GET_BOOK_SERIES = `${baseUrl}/series/get-bookSeries`;
 export const UPDATE_BOOK_SERIES = `${baseUrl}/series/update-bookSeries`;
 export const DELETE_BOOK_SERIES = `${baseUrl}/series/delete-bookSeries`;
 export const GET_SELECTED_BOOK_SERIES = `${baseUrl}/series/get-selected-bookSeries`;
+
 export const UPLOAD_CONTENT = `${baseUrl}/content/upload-content`;
 export const UPDATE_CONTENT = `${baseUrl}/content/update-content`;
 export const DELETE_CONTENT = `${baseUrl}/content/delete-content`;
