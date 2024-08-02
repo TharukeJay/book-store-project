@@ -4,15 +4,13 @@ import Register from './routes/Register'
 import ForgetPassword from './routes/ForgetPassword'
 import ConfirmPassword from './routes/ConfirmPassword'
 import Home from './routes/Home'
-import PrivateRoute from './components/private-route/PrivateRoute';
+import Success from './components/success/Success';
 import React,  { useState, useEffect } from 'react'
 import ReadBook from './components/ebook-context/ReadBook';
 import ViewNews from './components/news-context/ViewNews';
 import ReadPreview from './components/ebook-context/ReadPreview';
-import AudioBooks from './components/audio-books/AudioBooks';
 import AudioPlayer  from './components/audio-books/PlayAudio';
 import About from './views/about/About';
-import SeeAll from './components/seeAll/SeeAllPage';
 import MyLibraryEBook from './components/library/MyLibraryEBook';
 import PrivacyPolicy from './components/privacy/PrivacyPolicy';
 import Checkout from "./components/checkout/checkout";
@@ -28,10 +26,6 @@ import MyBookRead from "./components/library/MyBookRead";
 import MyLibrary from "./components/library/MyLibrary";
 const App =() => {
 
-  const PrivateRoute = ({ children }) => {
-    const token = localStorage.getItem('token');
-    return token ? children : <Navigate to="/login" />;
-  };
   
   return (
     <>
@@ -78,6 +72,7 @@ const App =() => {
 
            {/*  Payment pages  */}
            <Route path="/checkout-order" element={<Checkout />} />
+           <Route path="/payment-success" element={<Success />} />
        </Routes>
     </>
   );

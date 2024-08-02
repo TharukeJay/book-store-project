@@ -35,12 +35,6 @@ const PictureRim =()=>{
 
     console.log("pictureRimId=============>>>>>>>>" , pictureRimId);
 
-
-    useEffect(() => {
-        fetchPictureRimForIdData();
-        getnNewsPictureRim();
-    }, []);
-
     const getnNewsPictureRim = async () => {
         try {
             const response = await API_ENDPOINT.get(FETCH_ALL_NEWS_PICTURE_RIM);
@@ -70,6 +64,12 @@ const PictureRim =()=>{
     };
 
     // console.log('selected newsPictureRim Data:', newsPictureRimIdData);
+
+    useEffect(() => {
+        fetchPictureRimForIdData();
+        getnNewsPictureRim();
+    }, []);
+
 
     const RedirectPage =() =>{
         Navigate('/news-papers');
@@ -172,11 +172,11 @@ const PictureRim =()=>{
                 <div className="news-list">
                     {newsPictureRimData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                         <div className='news-outer'>
-                            <div key={i} onClick={() => handleNewsClick(newsItem.id)} className='left-news-outer'>
+                            <div key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)} className='left-news-outer'>
                                 <img src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
                             </div>
                             <div className='right-news-outer'>
-                                <h2 key={i} onClick={() => handleNewsClick(newsItem.id)}>{newsItem.title}</h2>
+                                <h2 key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)}>{newsItem.title}</h2>
                                 <br/>
                                 <p>{truncateDescription(newsItem.description)} </p>
                                 <button className='btn btn-default'

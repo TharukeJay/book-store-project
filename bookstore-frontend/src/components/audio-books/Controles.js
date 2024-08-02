@@ -27,7 +27,8 @@ const Controls = ({
     setCurrentTrack,
     isPlaying,
     setIsPlaying,
-    handleNext
+    handleNext,
+    handlePrevious
 
   }) => {
 
@@ -92,17 +93,6 @@ const Controls = ({
       
         const skipBackward = () => {
           audioRef.current.currentTime -= 15;
-        };
-      
-        const handlePrevious = () => {
-          if (trackIndex === 0) {
-            let lastTrackIndex = tracks.length - 1;
-            setTrackIndex(lastTrackIndex);
-            setCurrentTrack(tracks[lastTrackIndex]);
-          } else {
-            setTrackIndex((prev) => prev - 1);
-            setCurrentTrack(tracks[trackIndex - 1]);
-          }
         };
       
         useEffect(() => {

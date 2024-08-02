@@ -23,15 +23,15 @@ const ReadPictureRim=()=> {
     const [loading, setLoading] = useState(true);
     const [newsPictureRimData,setNewsPictureRimData] = useState([])
     const [selectedData, setSelectedData] = useState(null);
-    const { id } = location.state;
+    // const { id } = location.state;
     const { pictureRimId } = location.state;
 
-    console.log("id=============>>>>>>>>" , id);
+    // console.log("id=============>>>>>>>>" , id);
     console.log("pictureRimId=============>>>>>>>>" , pictureRimId);
 
     const fetchPictureRimForIdData = async () => {
         try {
-            const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_NEWS_PICTURE_RIM_ID}/${id}`);
+            const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_NEWS_PICTURE_RIM_ID}/${pictureRimId}`);
             console.log('Selected News Data:', response);
             if (response.status == 200) {
                 const selectedNewsData = response.data.data;
@@ -54,7 +54,7 @@ const ReadPictureRim=()=> {
         Navigate(`/pictureRim/${pictureRimId}`, {state:{pictureRimId:pictureRimId}});
     }
 
-    const shareUrl = `https://readlanka.com/read-pictureRim/${id}`;
+    const shareUrl = `https://readlanka.com/read-pictureRim/${pictureRimId}`;
     // const shareUrl = "http://localhost:3000/read-book";
     const title = "Read Lanka";
 

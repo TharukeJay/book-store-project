@@ -8,6 +8,8 @@ import Logo from '../../assest/img/VLogo.mp4'
 import API_ENDPOINT from "../../apis/httpAxios";
 import { VscSignOut } from "react-icons/vsc";
 import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../apis/endpoints";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
  const NavBar= () => {
      const [userData, setUserData] =useState("")
@@ -15,18 +17,11 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
      const [showMyRack, setShowMyRack] =useState(false)
      const [showLoginSignup, setShowLoginSignup] =useState(true)
      const userId  = localStorage.getItem('userId');
+     const [showModal, setShowModal] = useState(false);
 
-
-     useEffect(() => {
-         fetchUserData();
-     }, [userId]);
-
-     // console.log('Audio Data Execute start');
      const fetchUserData = async () => {
          try {
-             // console.log("execute Function========>>>>")
              const response = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
-             // console.log('user Data Execute Midle', response);
              const getData = response.data.data;
              setUserData(getData);
              if(getData.userId != "") {
@@ -40,11 +35,20 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
          }
      };
 
-
-     const SignOut=()=>{
+     useEffect(() => {
+         fetchUserData();
+     }, [userId]);
+     const handleConfirmOrder = async () => {
          localStorage.clear();
          window.location.href='/';
      }
+     const SignOut=()=>{
+        setShowModal(!showModal);
+     }
+
+     const closeModal = () => {
+         setShowModal(false);
+     };
   return (
     <>
       <div className='nav-bar'>
@@ -78,6 +82,20 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
                   </Navbar.Collapse>
               </Container>
           </Navbar>
+          <Modal show={showModal} onHide={closeModal}>
+              <Modal.Header closeButton>
+                  <Modal.Title>Confirm Purchase</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>Are you sure you want to SignOut? </Modal.Body>
+              <Modal.Footer>
+                  <Button variant="secondary" onClick={closeModal}>
+                      No
+                  </Button>
+                  <Button variant="primary" onClick={handleConfirmOrder}>
+                      Yes
+                  </Button>
+              </Modal.Footer>
+          </Modal>
       </div>
     </>
   )
