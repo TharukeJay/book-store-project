@@ -13,7 +13,7 @@ import {useNavigate, useLocation, useParams} from 'react-router-dom';
 import DisplayTrack from './DisplayTrack';
 import Controls from './Controles';
 import ProgressBar from './ProgressBar';
-import TopBar from './TopBar';
+// import TopBar from './TopBar';
 import {
     FacebookShareButton,
     FacebookIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon,

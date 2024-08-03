@@ -1,19 +1,21 @@
 import { SlArrowLeftCircle } from "react-icons/sl";
+import API_ENDPOINT from "../../apis/httpAxios";
+import {SET_LISTNING_AUDIO} from "../../apis/endpoints";
 const TopBar = ({ userId, selectedBookId, selectedTrackId, trackIndex }) => {
 
-  const saveProgress = async () => {
-    try {
-      await API_ENDPOINT.post(SET_LISTNING_AUDIO, {
-        userId: userId,
-        seriesAudioId: selectedBookId,
-        selectedAudioId: selectedTrackId,
-        lastPlayedTrackIndex: trackIndex,
-      });
-      console.log('Progress saved successfully');
-    } catch (error) {
-      console.error('Error saving progress:', error);
-    }
-  };
+  // const saveProgress = async () => {
+  //   try {
+  //     await API_ENDPOINT.post(SET_LISTNING_AUDIO, {
+  //       userId: userId,
+  //       seriesAudioId: selectedBookId,
+  //       selectedAudioId: selectedTrackId,
+  //       lastPlayedTrackIndex: trackIndex,
+  //     });
+  //     console.log('Progress saved successfully');
+  //   } catch (error) {
+  //     console.error('Error saving progress:', error);
+  //   }
+  // };
 
   const RedirectPage = async(id) =>{
     localStorage.removeItem('selectedAudioId');
@@ -27,5 +29,5 @@ const TopBar = ({ userId, selectedBookId, selectedTrackId, trackIndex }) => {
       </div>
     );
   };
-  
+
   export default TopBar;
