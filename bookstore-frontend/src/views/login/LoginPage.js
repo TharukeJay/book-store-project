@@ -65,7 +65,7 @@ const LoginPage = () => {
     />
     <div className='main-outer'>
       <Form className='form-controler' onSubmit={handleSubmit}>
-        <h1> Login Here</h1>
+        <h1 style={{color:'#6a2bf4'}}> Login Here</h1>
         <br /><hr /><br />
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label className='form-lable'>Email address</Form.Label>

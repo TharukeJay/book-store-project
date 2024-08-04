@@ -61,7 +61,7 @@ const ForgetPasswordPage = () => {
       </div>
       <Form className='form-controler' onSubmit={handleSubmit}>
         <p style={{textAlign:'start', fontSize:'20px'}}><a href='/login' style={{color:'black'}}><MdArrowBackIos/></a></p>
-        <h1> Find your account</h1>
+        <h1 style={{color:'#6a2bf4'}}> Find your account</h1>
         <br/>
         <hr/>
         <br/>
