@@ -79,7 +79,7 @@ const ViewNews = () => {
                       <h2 style={{fontSize:'25px'}}>{news.newsTitle}</h2>
                   </div>
                   <div className='news-description-body'>
-                    <p style={{fontSize:'15px'}}>{news.description}</p>
+                    <p >{news.description}</p>
                   </div>
               </div>
               <div className="Demo__container">

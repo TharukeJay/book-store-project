@@ -137,7 +137,7 @@ const PictureRim =()=>{
                                 <h2 style={{fontSize: '25px'}}>{newsPictureRimIdData.title}</h2>
                             </div>
                             <div className='news-description-body'>
-                                <p style={{fontSize: '15px'}}>{newsPictureRimIdData.description}</p>
+                                <p >{newsPictureRimIdData.description}</p>
                             </div>
                         </div>
                         <div className="Demo__container">

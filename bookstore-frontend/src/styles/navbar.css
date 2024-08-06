@@ -1,5 +1,5 @@
 .nav-bar{
-  height: 70px;
+  max-height: 70px !important;
   max-width: 100%;
   /*position: fixed;*/
   background:rgb(63, 63, 63)  !important;
