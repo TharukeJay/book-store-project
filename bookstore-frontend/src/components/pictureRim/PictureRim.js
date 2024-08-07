@@ -21,6 +21,7 @@ import {SlArrowLeftCircle} from "react-icons/sl";
 import {MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight} from "react-icons/md";
 import ScreenLoading from "../loading/Loading";
 import Footer from "../footer/Footer";
+import {Helmet} from "react-helmet-async";
 
 const PictureRim =()=>{
     const location = useLocation();
@@ -112,6 +113,7 @@ const PictureRim =()=>{
 
 
     const shareUrl = `https://readlanka.com/pictureRim/${pictureRimId}`;
+    const currentURL = "https://readlanka.com" + window.location.pathname;
     // const shareUrl = "http://localhost:3000/read-book";
     const title = "Read Lanka";
 
@@ -127,10 +129,13 @@ const PictureRim =()=>{
                 </p>
             </div>
             <div className='main-outer-picture-rim'>
+                <Helmet>
+                    <title>{newsPictureRimIdData.title}</title>
+                </Helmet>
                 <div className='inner-top-outer-picture-rim' style={{display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}>
                     <div className='view-news-outer' style={{background: bgColor}}>
                         <div className="left-news-outer">
-                            <img src={newsPictureRimIdData.thumbnail_url} alt='' style={{width:'100%', height:'300px'}}/>
+                            <img id="image" src={newsPictureRimIdData.thumbnail_url} alt='' style={{width:'100%', height:'300px'}}/>
                         </div>
                         <div className="right-news-desc-outer">
                             <div className='topic'>
@@ -144,20 +149,20 @@ const PictureRim =()=>{
                             <p style={{fontSize: '25px', color: 'red'}}>Share</p>
                             <div className="Demo__some-network">
                                 <FacebookShareButton
-                                    url={shareUrl}
+                                    url={currentURL}
                                     className="Demo__some-network__share-button"
                                 >
                                     <FacebookIcon size={30} round/>
                                 </FacebookShareButton>
                                 <TwitterShareButton
-                                    url={shareUrl}
+                                    url={currentURL}
                                     className="Demo__some-network__share-button"
                                 >
                                     <TwitterIcon size={30} round/>
                                 </TwitterShareButton>
 
                                 <WhatsappShareButton
-                                    url={shareUrl}
+                                    url={currentURL}
                                     className="Demo__some-network__share-button"
                                 >
                                     <WhatsappIcon size={30} round/>
@@ -173,7 +178,7 @@ const PictureRim =()=>{
                     {newsPictureRimData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                         <div className='news-outer'>
                             <div key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)} className='left-news-outer'>
-                                <img src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
+                                <img id="image" src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
                             </div>
                             <div className='right-news-outer'>
                                 <h2 key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)}>{newsItem.title}</h2>

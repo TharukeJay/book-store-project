@@ -73,7 +73,7 @@ const ReadPictureRim=()=> {
                      style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
                     <div className='view-news-outer' style={{background: bgColor}}>
                         <div className="left-news-outer">
-                            <img src={selectedData.thumbnail_url} alt='' style={{width: '100%', height: '300px'}}/>
+                            <img id="image" src={selectedData.thumbnail_url} alt='' style={{width: '100%', height: '300px'}}/>
                         </div>
                         <div className="right-news-desc-outer">
                             <div className='topic'>

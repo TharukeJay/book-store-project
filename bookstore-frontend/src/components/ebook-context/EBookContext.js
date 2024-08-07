@@ -20,7 +20,7 @@ const EBookContext = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState(['All']);
-  const [index, setIndex] = useState(0); 
+  const [index, setIndex] = useState(0);
   const [searchInput, setSearchInput] = useState('');
   const [indexNext, setIndexNext] = useState(0);
   const [indexNextAudio, setIndexNextAudio] = useState(0);
@@ -175,7 +175,7 @@ const EBookContext = () => {
                 <div className="book-list">
                   {filteredBookData.slice(index, index + itemsPerPage).map(item => (
                       <div key={item.id} onClick={() => handlePhotoClick(item.id)} className='photo'>
-                        <img src={item.thumbnail_url} alt={`Thumbnail of ${item.title}`}/>
+                        <img id="image" src={item.thumbnail_url} alt={`Thumbnail of ${item.title}`}/>
                       </div>
                   ))}
                 </div>

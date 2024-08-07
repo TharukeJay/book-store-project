@@ -229,7 +229,7 @@ const NewsContext = () => {
                         <Carousel>
                             {newsPictureRimData.map((photo, index) => (
                                 <Carousel.Item>
-                                    <img src={photo.thumbnail_url} alt="Latest Picture"
+                                    <img id="image" src={photo.thumbnail_url} alt="Latest Picture"
                                          onClick={() => ClickedPictureRim(photo.pictureRimId)}/>
                                     <Carousel.Caption>
                                     </Carousel.Caption>
@@ -242,7 +242,7 @@ const NewsContext = () => {
                         {filteredNewsData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                             <div className='news-outer'>
                                 <div key={i} onClick={() => handleNewsClick(newsItem.id)} className='left-news-outer'>
-                                    <img src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
+                                    <img id="image" src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
                                 </div>
                                 <div className='right-news-outer'>
                                     <h2 key={i} onClick={() => handleNewsClick(newsItem.id)}>{newsItem.newsTitle}</h2>

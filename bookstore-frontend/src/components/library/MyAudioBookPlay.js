@@ -331,7 +331,7 @@ const AudioPlayer = () => {
                     <div className="audio-book-list">
                         {bookData.sort((a, b) => a.chapter - b.chapter).map((audioBookItem, i) => (
                             <div key={i} onClick={() => handlePhotoClick(audioBookItem.id, i)} className='right-photo'>
-                                <img src={audioBookItem.thumbnail_url}
+                                <img id="image" src={audioBookItem.thumbnail_url}
                                      alt={`Thumbnail of ${audioBookItem.seriesTitle}`}/>
                                 <p>{audioBookItem.title}</p>
                             </div>

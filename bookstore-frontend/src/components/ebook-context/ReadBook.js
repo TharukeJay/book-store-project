@@ -25,6 +25,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Footer from "../footer/Footer";
+import {Helmet} from "react-helmet-async";
 
 const ReadBook = () => {
     const location = useLocation();
@@ -123,6 +124,7 @@ const ReadBook = () => {
     },[])
 
     const shareUrl = `https://readlanka.com/read-book/${selectedBookId}`;
+    const currentURL = "https://readlanka.com" + window.location.pathname;
     const title = "Read Lanka";
 
     // const CheckoutBalnce = () => {
@@ -159,9 +161,12 @@ const ReadBook = () => {
         {/* <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"50px", margin:'10px'}}/> */}
         <EbookTopBar/>
           <div style={{background: bgColor, height: 'auto'}}>
+              <Helmet>
+                  <title>{book.title}</title>
+              </Helmet>
               <div className='view-novel-outer-ebook'>
                   <div className="left-photo-outer">
-                      <img src={book.thumbnail_url} alt="Book Thumbnail"/>
+                      <img id="image" src={book.thumbnail_url} alt="Book Thumbnail"/>
                   </div>
                   <div className="right-desc-outer-ebook">
                       <br/><br/>
@@ -182,21 +187,21 @@ const ReadBook = () => {
                           <p style={{marginLeft:'50px'}}> Share </p>
                           <div className="Demo__some-network">
                               <FacebookShareButton
-                                  url={shareUrl}
+                                  url={currentURL}
                                   className="Demo__some-network__share-button"
                               >
                                   <FacebookIcon size={30} round/>
                               </FacebookShareButton>
 
                               <TwitterShareButton
-                                  url={shareUrl}
+                                  url={currentURL}
                                   className="Demo__some-network__share-button"
                               >
                                   <TwitterIcon size={30} round/>
                               </TwitterShareButton>
 
                               <WhatsappShareButton
-                                  url={shareUrl}
+                                  url={currentURL}
                                   className="Demo__some-network__share-button"
                               >
                                   <WhatsappIcon size={30} round/>

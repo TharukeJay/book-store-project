@@ -1,15 +1,15 @@
-import { Route, Routes, Navigate  } from 'react-router-dom';
+import {Route, Routes, Navigate, BrowserRouter} from 'react-router-dom';
 import Login from './routes/Login'
 import Register from './routes/Register'
 import ForgetPassword from './routes/ForgetPassword'
 import ConfirmPassword from './routes/ConfirmPassword'
 import Home from './routes/Home'
 import Success from './components/success/Success';
-import React,  { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import ReadBook from './components/ebook-context/ReadBook';
 import ViewNews from './components/news-context/ViewNews';
 import ReadPreview from './components/ebook-context/ReadPreview';
-import AudioPlayer  from './components/audio-books/PlayAudio';
+import AudioPlayer from './components/audio-books/PlayAudio';
 import About from './views/about/About';
 import MyLibraryEBook from './components/library/MyLibraryEBook';
 import PrivacyPolicy from './components/privacy/PrivacyPolicy';
@@ -24,58 +24,64 @@ import MyLibraryAudio from "./components/library/MyLibraryAudio";
 import MyAudioBookPlay from "./components/library/MyAudioBookPlay";
 import MyBookRead from "./components/library/MyBookRead";
 import MyLibrary from "./components/library/MyLibrary";
-const App =() => {
+import {HelmetProvider} from "react-helmet-async";
 
-  
-  return (
-    <>
-       <Routes>
-           {/* Authentication */}
-           <Route path="/about" element={<About/>}/>
-           <Route path="/forgot-password" element={<ForgetPassword/>}/>
-           <Route path="/reset-password/:id" element={<ConfirmPassword/>}/>
-           <Route path="/register" element={<Register/>}/>
-           <Route path="/login" element={<Login />} />
+const App = () => {
 
-           {/* Home page / DashBoard */}
-          <Route path="/" element={<Home/>}/>
 
-          {/* Purchase library */}
-          <Route path="/myBookRack" element={<MyLibrary/>}/>
-          <Route path="/myBookRack/eBook" element={<MyLibraryEBook/>}/>
-          <Route path="/my-book-read/:id" element={<MyBookRead />} />
-          <Route path="/myBookRack/audio" element={<MyLibraryAudio/>}/>
-          <Route path="/my-audio-play/:id" element={<MyAudioBookPlay />} />
+    return (
+        <>
+            <HelmetProvider>
+                <BrowserRouter>
+                    <Routes>
+                        {/* Authentication */}
+                        <Route path="/about" element={<About/>}/>
+                        <Route path="/forgot-password" element={<ForgetPassword/>}/>
+                        <Route path="/reset-password/:id" element={<ConfirmPassword/>}/>
+                        <Route path="/register" element={<Register/>}/>
+                        <Route path="/login" element={<Login/>}/>
 
-          {/* All books */}
-          <Route path="/details/all-book" element={<SeeAllPage/>}/>
+                        {/* Home page / DashBoard */}
+                        <Route path="/" element={<Home/>}/>
 
-          {/* e-Books */}
-          <Route path="/e-books" element={<EBookPage />} />
-          <Route path="/read-book/:id" element={<ReadBook />} />
-          <Route path="/read-preview" element={<ReadPreview />} />
+                        {/* Purchase library */}
+                        <Route path="/myBookRack" element={<MyLibrary/>}/>
+                        <Route path="/myBookRack/eBook" element={<MyLibraryEBook/>}/>
+                        <Route path="/my-book-read/:id" element={<MyBookRead/>}/>
+                        <Route path="/myBookRack/audio" element={<MyLibraryAudio/>}/>
+                        <Route path="/my-audio-play/:id" element={<MyAudioBookPlay/>}/>
 
-          {/* News paper*/}
-          <Route path="/news-papers" element={<NewsContext/>} />
-          <Route path="/read-news/:id" element={<ViewNews />} />
+                        {/* All books */}
+                        <Route path="/details/all-book" element={<SeeAllPage/>}/>
 
-          {/* Picture Rim*/}
-           <Route path="/pictureRim/:id" element={<PictureRim/>} />
-           <Route path="/read-pictureRim/:id" element={<ReadPictureRim/>} />
+                        {/* e-Books */}
+                        <Route path="/e-books" element={<EBookPage/>}/>
+                        <Route path="/read-book/:id" element={<ReadBook/>}/>
+                        <Route path="/read-preview" element={<ReadPreview/>}/>
 
-          {/* Audio Book */}
-          <Route path="/audio-books" element={<Audio />} />
-          <Route path="/play-audio/:id" element={<AudioPlayer />} />
+                        {/* News paper*/}
+                        <Route path="/news-papers" element={<NewsContext/>}/>
+                        <Route path="/read-news/:id" element={<ViewNews/>}/>
 
-          {/* Privacy & Policy */}
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                        {/* Picture Rim*/}
+                        <Route path="/pictureRim/:id" element={<PictureRim/>}/>
+                        <Route path="/read-pictureRim/:id" element={<ReadPictureRim/>}/>
 
-           {/*  Payment pages  */}
-           <Route path="/checkout-order" element={<Checkout />} />
-           <Route path="/payment-success" element={<Success />} />
-       </Routes>
-    </>
-  );
+                        {/* Audio Book */}
+                        <Route path="/audio-books" element={<Audio/>}/>
+                        <Route path="/play-audio/:id" element={<AudioPlayer/>}/>
+
+                        {/* Privacy & Policy */}
+                        <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
+
+                        {/*  Payment pages  */}
+                        <Route path="/checkout-order" element={<Checkout/>}/>
+                        <Route path="/payment-success" element={<Success/>}/>
+                    </Routes>
+                </BrowserRouter>
+            </HelmetProvider>
+        </>
+    );
 }
 
 export default App;

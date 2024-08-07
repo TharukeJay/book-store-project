@@ -14,15 +14,16 @@ import {
 } from "react-share";
 import {bgColor} from "../../common/commonColors";
 import Footer from "../footer/Footer";
+import {Helmet} from "react-helmet-async";
 
 const ViewNews = () => {
     const [news, setNews] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    
+
     const selectedNewsId = localStorage.getItem('selectedNewsId');
     console.log("selectedNewsId : ", selectedNewsId);
-    
+
     useEffect(() => {
       console.log('selected News Data Execute start');
       const fetchData = async () => {
@@ -59,6 +60,7 @@ const ViewNews = () => {
     }
 
     const shareUrl = 'https://readlanka.com/read-news/${selectedNewsId';
+    const currentURL = "https://readlanka.com" + window.location.pathname;
     // const shareUrl = "http://localhost:3000/read-book";
     const title = "Read Lanka";
 
@@ -71,8 +73,11 @@ const ViewNews = () => {
           </div>
 
           <div className='view-news-outer' style={{background: bgColor}}>
+              <Helmet>
+                  <title>{news.newsTitle}</title>
+              </Helmet>
               <div className="left-news-outer">
-                  <img src={news.thumbnail_url} alt={news.newsTitle}/>
+                  <img id="image" src={news.thumbnail_url} alt={news.newsTitle}/>
               </div>
               <div className="right-news-desc-outer">
                   <div className='topic'>
@@ -86,20 +91,20 @@ const ViewNews = () => {
                   <p style={{fontSize:'25px', color:'red'}}>Share</p>
                   <div className="Demo__some-network">
                       <FacebookShareButton
-                          url={shareUrl}
+                          url={currentURL}
                           className="Demo_some-network_share-button"
                       >
                           <FacebookIcon size={30} round />
                       </FacebookShareButton>
                       <TwitterShareButton
-                          url={shareUrl}
+                          url={currentURL}
                           className="Demo_some-network_share-button"
                       >
                           <TwitterIcon size={30} round/>
                       </TwitterShareButton>
 
                       <WhatsappShareButton
-                          url={shareUrl}
+                          url={currentURL}
                           className="Demo_some-network_share-button"
                       >
                           <WhatsappIcon size={30} round/>

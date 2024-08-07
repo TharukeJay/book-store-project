@@ -373,7 +373,7 @@ const Series = () => {
                         <tr key={data.id}>
                             <th scope="row">{index + 1}</th>
                             <th>
-                                <img width={100} src={data.data.thumbnail_url} />
+                                <img id="image" width={100} src={data.data.thumbnail_url} />
                             </th>
                             <th>{data.data.title}</th>
                             <th>{data.data.authorName}</th>

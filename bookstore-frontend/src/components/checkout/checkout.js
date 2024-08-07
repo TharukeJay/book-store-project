@@ -178,7 +178,7 @@ const Checkout = () => {
                     {type ==='audio' ? (
                         <div   className='checkout-body'>
                                         <div className='checkout-photo-outer'>
-                                            <img src={audioBook.thumbnail_url} alt="Book Thumbnail"/>
+                                            <img id="image" src={audioBook.thumbnail_url} alt="Book Thumbnail"/>
                                         </div>
                                         <div className='description-checkout'>
                                             <h4 style={{color: 'blue', paddingLeft: '70px', textAlign: 'center'}}>Book
@@ -199,7 +199,7 @@ const Checkout = () => {
                     {(type === 'book') ? (
                         <div className='checkout-body'>
                             <div className='checkout-photo-outer'>
-                                <img src={book.thumbnail_url} alt="Book Thumbnail"/>
+                                <img id="image" src={book.thumbnail_url} alt="Book Thumbnail"/>
                             </div>
                             <div className='description-checkout'>
                                 <h4 style={{color: 'blue',  textAlign: 'center'}}>Book Details</h4>

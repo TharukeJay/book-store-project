@@ -27,6 +27,7 @@ import Button from "react-bootstrap/Button";
 import '../../styles/audio.css'
 import Modal from "react-bootstrap/Modal";
 import {SlArrowLeftCircle} from "react-icons/sl";
+import {Helmet} from "react-helmet-async";
 
 const AudioPlayer = () => {
     const Navigate = useNavigate();
@@ -348,6 +349,7 @@ const AudioPlayer = () => {
 
     // const shareUrl = "http://github.com";
     const shareUrl = `https://readlanka.com/play-audio/${selectedBookId}`;
+    const currentURL = "https://readlanka.com" + window.location.pathname;
     const title = "#Read Lanka";
 
     function formatDate(timestamp) {
@@ -375,6 +377,9 @@ const AudioPlayer = () => {
                 </p>
             </div>
             <div className="main-outer-audio" style={{background: bgColor}}>
+                <Helmet>
+                    <title>{title}</title>
+                </Helmet>
                 <div className="left-audio-outer">
                     <div className="audio-player">
                         <div className="inner">
@@ -418,7 +423,7 @@ const AudioPlayer = () => {
                     <div className="audio-book-list">
                         {bookData.sort((a, b) => a.chapter - b.chapter).map((audioBookItem, i) => (
                             <div key={i} onClick={() => handlePhotoClick(audioBookItem.id, i)} className='right-photo'>
-                                <img src={audioBookItem.thumbnail_url}
+                                <img id="image" src={audioBookItem.thumbnail_url}
                                      alt={`Thumbnail of ${audioBookItem.seriesTitle}`}/>
                                 <p>{audioBookItem.title}</p>
                             </div>
@@ -446,21 +451,21 @@ const AudioPlayer = () => {
                         <p style={{fontSize: "20px", marginLeft: "50px"}}> Share</p>
                         <div className="Demo__some-network">
                             <FacebookShareButton
-                                url={shareUrl}
+                                url={currentURL}
                                 htmlTitle={title}
                                 className="Demo__some-network__share-button"
                             >
                                 <FacebookIcon size={30} round/>
                             </FacebookShareButton>
                             <TwitterShareButton
-                                url={shareUrl}
+                                url={currentURL}
                                 className="Demo__some-network__share-button"
                             >
                                 <TwitterIcon size={30} round/>
                             </TwitterShareButton>
 
                             <WhatsappShareButton
-                                url={shareUrl}
+                                url={currentURL}
                                 className="Demo__some-network__share-button"
                             >
                                 <WhatsappIcon size={30} round/>

@@ -20,8 +20,8 @@ const About = () => {
         <h4> Board Members </h4>
       </div>
       <div className="photo-outer">
-            <img src={A1} alt="" />
-            <img src={A2} alt="" />
+            <img id="image" src={A1} alt="" />
+            <img id="image" src={A2} alt="" />
       </div>
       <Footer/>
     </>
