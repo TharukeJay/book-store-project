@@ -33,6 +33,7 @@ const Checkout = () => {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [showModalBuy, setShowModalBuy] = useState(false);
+    const [showModalNavigate, setShowModalNavigate] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [selectedAudioId, setSelectedAudioId] = useState(null);
     const userId = localStorage.getItem('userId');
@@ -70,6 +71,7 @@ const Checkout = () => {
     },[type, bookId]);
 
     const pdfDataId = BookDataId.map(book=> book.bookId);
+
     const openModal = (id) => {
         if ( pdfDataId.includes(id)) {
             setShowModalBuy(true);
@@ -92,6 +94,10 @@ const Checkout = () => {
     console.log('selectedAudioId=======>>>>>', selectedAudioId)
 
     const handleConfirmOrder = async () => {
+        if (!userId) {
+            setShowModalNavigate(true);
+            return;
+        }
         try {
             if(type =='book') {
                 await API_ENDPOINT.post(ADD_TO_PURCHASE_BOOK, {
@@ -138,6 +144,7 @@ const Checkout = () => {
     const closeModal = () => {
         setShowModal(false);
     };
+
     const closeModalBuy = () => {
         setShowModalBuy(false);
         if(type ==="audio"){
@@ -156,6 +163,15 @@ const Checkout = () => {
 
         }
     }
+
+    const closeModalNavigate = () => {
+        setShowModalNavigate(false);
+    };
+
+    const NavigateLogin = () => {
+        Navigate('/login');
+    };
+
 
     if (loading) {
         return <ScreenLoading />
@@ -218,7 +234,7 @@ const Checkout = () => {
                 </div>
             </div>
             <Modal show={showModal} onHide={closeModal}>
-                <Modal.Header closeButton>
+                <Modal.Header >
                     <Modal.Title>Confirm Purchase</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>Are you sure you want to purchase this book? </Modal.Body>
@@ -232,7 +248,7 @@ const Checkout = () => {
                 </Modal.Footer>
             </Modal>
             <Modal show={showModalBuy} onHide={closeModal}>
-                <Modal.Header closeButton>
+                <Modal.Header >
                     <Modal.Title>Thank You!</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>You have already purchased this book.</Modal.Body>
@@ -240,9 +256,18 @@ const Checkout = () => {
                     <Button variant="warning" onClick={closeModalBuy}>
                         Ok
                     </Button>
-                    {/*<Button variant="primary" onClick={handleConfirmAlert}>*/}
-                    {/*    Confirm*/}
-                    {/*</Button>*/}
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={showModalNavigate} onHide={closeModalNavigate}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Thank You!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Please login first.</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="warning" onClick={NavigateLogin}>
+                        Ok
+                    </Button>
                 </Modal.Footer>
             </Modal>
         </>
