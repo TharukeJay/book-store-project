@@ -170,15 +170,14 @@ const AudioBooks = () => {
                   variant={selectedCategory === category ? 'primary' : 'secondary'}
                   onClick={() => handleCategoryClick(category)}
                   className="btn btn-primary button"
-                  style={{margin: "5px", borderRadius:'15px'}}
+                  // style={{margin: "5px", borderRadius:'15px'}}
               >
                 {category}
               </Button>
           ))}
         </div>
-        {/*<div style={{height: '100px'}}></div>*/}
 
-        <div style={{height: '100px'}}></div>
+        <div style={{height: '60px'}}></div>
         <div className="gallery-container">
           <>
             <div className="book-list">

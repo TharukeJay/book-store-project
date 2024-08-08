@@ -76,7 +76,7 @@ const ViewNews = () => {
               <Helmet>
                   <title>{news.newsTitle}</title>
               </Helmet>
-              <div className="left-news-outer">
+              <div className="left-news-outer-view">
                   <img id="image" src={news.thumbnail_url} alt={news.newsTitle}/>
               </div>
               <div className="right-news-desc-outer">

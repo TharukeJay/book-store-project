@@ -163,7 +163,7 @@ const EBookContext = () => {
                   variant={selectedCategory === category ? 'primary' : 'secondary'}
                   onClick={() => handleCategoryClick(category)}
                   className="btn btn-primary button"
-                  style={{margin: "5px", borderRadius:'15px'}}
+                  // style={{margin: "5px", borderRadius:'15px'}}
               >
                 {category}
               </Button>
