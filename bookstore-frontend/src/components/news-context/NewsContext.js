@@ -207,7 +207,7 @@ const NewsContext = () => {
                             key={category}
                             variant={selectedCategory === category ? 'primary' : 'secondary'}
                             className="btn btn-primary button"
-                            style={{margin: "5px", borderRadius: '15px'}}
+                            // style={{margin: "5px", borderRadius: '15px'}}
                             onClick={() => handleCategoryClick(category)}
                         >
                             {category}
@@ -241,8 +241,8 @@ const NewsContext = () => {
                     <div className="news-list">
                         {filteredNewsData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                             <div className='news-outer'>
-                                <div key={i} onClick={() => handleNewsClick(newsItem.id)} className='left-news-outer'>
-                                    <img id="image" src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
+                                <div key={i} onClick={() => handleNewsClick(newsItem.id)} className='left-news-outer-img'>
+                                    <img id="image" src={newsItem.thumbnail_url} alt="News" className="photo-item" style={{width:'100%'}}/>
                                 </div>
                                 <div className='right-news-outer'>
                                     <h2 key={i} onClick={() => handleNewsClick(newsItem.id)}>{newsItem.newsTitle}</h2>

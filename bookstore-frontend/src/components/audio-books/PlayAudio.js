@@ -102,7 +102,7 @@ const AudioPlayer = () => {
                 selectedBookData.sort((a, b) => a.chapter - b.chapter);
                 setBookData(selectedBookData);
                 setLoading(false)
-                console.log('book Data list=======>>>', bookData)
+                console.log('book Data list =======>>>', bookData)
                 const updatedTracks = selectedBookData.map(book => ({
                     id: book.id,
                     title: book.title,
@@ -439,14 +439,13 @@ const AudioPlayer = () => {
                     {/*))}*/}
 
                     {/*<div style={{height: "40px"}}></div>*/}
-
                     <div className="read-button-outer">
                         <button style={{background: buyNowButton}} onClick={HandleCheckout}><a
-                            style={{color: 'white'}}> Buy Now</a></button>
+                            style={{color: 'white'}}> Buy Now</a>
+                        </button>
                     </div>
 
                     <div style={{height: "10px"}}></div>
-
                     <div className="Demo__container">
                         <p style={{fontSize: "20px", marginLeft: "50px"}}> Share</p>
                         <div className="Demo__some-network">

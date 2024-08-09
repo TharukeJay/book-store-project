@@ -94,10 +94,10 @@ const Checkout = () => {
     console.log('selectedAudioId=======>>>>>', selectedAudioId)
 
     const handleConfirmOrder = async () => {
-        if (!userId) {
-            setShowModalNavigate(true);
-            return;
-        }
+        // if (!userId) {
+        //     setShowModalNavigate(true);
+        //     return;
+        // }
         try {
             if(type =='book') {
                 await API_ENDPOINT.post(ADD_TO_PURCHASE_BOOK, {
@@ -138,6 +138,9 @@ const Checkout = () => {
 
         } catch (error) {
             console.error('Error adding to user collection:', error);
+                setShowModalNavigate(true);
+                return;
+
         }
     };
 
