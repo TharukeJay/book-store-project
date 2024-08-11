@@ -134,8 +134,10 @@ const PictureRim =()=>{
                 </Helmet>
                 <div className='inner-top-outer-picture-rim' style={{display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}>
                     <div className='view-news-outer' style={{background: bgColor}}>
-                        <div className="left-news-outer">
-                            <img id="image" src={newsPictureRimIdData.thumbnail_url} alt='' style={{width:'100%', height:'300px'}}/>
+                        <div className="left-news-outer-pictureRim">
+                            <img id="image" src={newsPictureRimIdData.thumbnail_url} alt=''
+                                 // style={{width:'100%', height:'300px'}}
+                            />
                         </div>
                         <div className="right-news-desc-outer">
                             <div className='topic'>
@@ -177,7 +179,7 @@ const PictureRim =()=>{
                 <div className="news-list">
                     {newsPictureRimData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                         <div className='news-outer'>
-                            <div key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)} className='left-news-outer'>
+                            <div key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)} className='left-news-outer-list'>
                                 <img id="image" src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
                             </div>
                             <div className='right-news-outer'>
