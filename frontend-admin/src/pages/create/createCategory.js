@@ -15,7 +15,6 @@ import {
     ModalTitle,
     ModalBody, FormLabel, ModalFooter, Table, InputGroup, FormSelect, Image
 } from 'react-bootstrap';
-import {executeLoginUser} from "../../api/loginUser";
 import {
     executeCreateCategory, executeDeleteBookSeries, executeDeleteCategory,
     executeGetCategory,
@@ -296,7 +295,7 @@ const Validation = () => {
     return (
         <Row>
             <Col xs={12}>
-                <Card className="mb-4"style={{marginRight:90, marginLeft:0}}>
+                <Card className="mb-4"style={{marginRight:90, marginLeft:20}}>
                     <CardHeader>
                         <h2>CATEGORY LIST</h2>
                     </CardHeader>

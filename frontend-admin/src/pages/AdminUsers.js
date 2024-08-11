@@ -148,7 +148,7 @@ const Index = () => {
     return (
         <Row>
             <Col xs={12}>
-                <Card className="mb-4"style={{marginRight:90, marginLeft:0}}>
+                <Card className="mb-4"style={{marginRight:90, marginLeft:20}}>
                     <CardHeader>
                         <h2>ADMINS LIST</h2>
                     </CardHeader>

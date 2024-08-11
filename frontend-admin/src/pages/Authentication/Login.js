@@ -17,16 +17,6 @@ function Login() {
     const [error, setError] = useState('');
     const [error2, setError2] = useState('');
 
-    // const getBookSeries = async () => {
-    //     setLoading(true)
-    //     const response = await executeGetBookSeries();
-    //     const data = response.data;
-    //     setBookSeriesData(data)
-    //     setLoading(false)
-    //     console.log('print getBookserie===>',bookSeriesData);
-    //
-    // }
-    //
     const getUsers = async () => {
         const response = await executeGetUsers();
         const data = response.data;
@@ -49,6 +39,9 @@ function Login() {
         console.log('print userData===>',userData)
         const userExists = userData.some(user => user.email === formData.email && user.isAdmin === true);
         const user = userData.find(user => (user.data.email === formData.email) && user.data.isAdmin === false);
+        const validUser = userData.find(user => (user.data.email === formData.email) && user.data.isAdmin === true);
+        console.log('user==>',user)
+
         if (formData.email == '' ) {
             setError('Enter email address');
             return;
@@ -58,6 +51,25 @@ function Login() {
         }else if (user) {
             setError('You have requested an admin user, but your request has not been confirmed. Please try again later.');
             return;
+        } else if(validUser){
+            try {
+
+                const response = await executeLoginUser(formData.email, formData.password);
+                const data = response.data;
+                console.log('login successful:', data);
+                localStorage.setItem('token',data.token)
+                localStorage.setItem('email', formData.email);
+                setLoggedIn(true);
+                navigate('/upload');
+            } catch (error) {
+                console.error('Error:', error);
+                setError(error.response.data)
+                // if(error=='Request failed with status code 401')navigate('/login-error');
+                // else{navigate('/login');}
+            }
+        } else {
+            setError('An error occurred, unable to Login');
+            return;
         }
 
         // console.log('user data====>',user.data)
@@ -66,21 +78,7 @@ function Login() {
         //     return;
         // }
 
-        try {
 
-            const response = await executeLoginUser(formData.email, formData.password);
-            const data = response.data;
-            console.log('login successful:', data);
-            localStorage.setItem('token',data.token)
-            localStorage.setItem('email', formData.email);
-            setLoggedIn(true);
-            navigate('/upload');
-        } catch (error) {
-            console.error('Error:', error);
-            setError(error.response.data)
-            // if(error=='Request failed with status code 401')navigate('/login-error');
-            // else{navigate('/login');}
-        }
     };
 
     return (
