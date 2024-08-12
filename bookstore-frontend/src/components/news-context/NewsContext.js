@@ -46,7 +46,6 @@ const NewsContext = () => {
         try {
             const response = await API_ENDPOINT.get(FETCH_ALL_NEWS);
             const newsData = response.data.data;
-            console.log('News Data:', newsData);
             setNewsData(newsData);
             setFilteredNewsData(newsData);
         } catch (error) {
@@ -109,7 +108,7 @@ const NewsContext = () => {
         if (category === 'All') {
             setFilteredNewsData(newsData);
         } else {
-            setFilteredNewsData(newsData.filter(news => news.category === category));
+            setFilteredNewsData(newsData.filter(news => news.newsCategory === category));
         }
     };
 
@@ -117,7 +116,7 @@ const NewsContext = () => {
         let filteredNews = newsData;
 
         if (category !== 'All') {
-            filteredNews = filteredNews.filter(news => news.category === category);
+            filteredNews = filteredNews.filter(news => news.newsCategory  === category);
         }
         if (searchTerm) {
             filteredNews = filteredNews.filter(news =>
@@ -241,16 +240,16 @@ const NewsContext = () => {
                     <div className="news-list">
                         {filteredNewsData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                             <div className='news-outer'>
-                                <div key={i} onClick={() => handleNewsClick(newsItem.id)} className='left-news-outer-img'>
+                                <div key={i} onClick={() => handleNewsClick(newsItem.newsId)} className='left-news-outer-img'>
                                     <img id="image" src={newsItem.thumbnail_url} alt="News" className="photo-item" style={{width:'100%'}}/>
                                 </div>
                                 <div className='right-news-outer'>
-                                    <h2 key={i} onClick={() => handleNewsClick(newsItem.id)}>{newsItem.newsTitle}</h2>
+                                    <h2 key={i} onClick={() => handleNewsClick(newsItem.newsId)}>{newsItem.newsTitle}</h2>
                                     <br/>
                                     <p>{truncateDescription(newsItem.description)} </p>
                                     <button className='btn btn-default'
                                             style={{fontSize: '15px', border: '1px solid black'}} key={i}
-                                            onClick={() => handleNewsClick(newsItem.id)}>READ MORE
+                                            onClick={() => handleNewsClick(newsItem.newsId)}>READ MORE
                                     </button>
                                 </div>
                             </div>

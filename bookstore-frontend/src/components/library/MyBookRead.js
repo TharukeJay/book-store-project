@@ -11,6 +11,7 @@ import { SlArrowLeftCircle } from "react-icons/sl";
 import EbookTopBar from '../ebook-context/EbbokTopBar'
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import toast, {Toaster} from "react-hot-toast";
+import {useNavigate} from "react-router-dom";
 
 const url = `//cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
 
@@ -22,7 +23,8 @@ const ReadPreview = () =>{
     const [pdfData, setPdfData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [width, setWidth] = useState(0)
-    const containerRef = useRef(null)
+    const containerRef = useRef(null);
+    const Navigate = useNavigate();
 
     const selectedBookId = localStorage.getItem('selectedBookId');
 
@@ -46,7 +48,7 @@ const ReadPreview = () =>{
                     className: 'toaster',
                     duration: 2000,
                 });
-            window.location.href="/login";
+                Navigate("/login");
           }
         };
 
@@ -67,7 +69,7 @@ const ReadPreview = () =>{
         }
     }
     const RedirectPage= ()=> {
-        window.location.href= '/myBookRack/eBook'
+        Navigate('/myBookRack/eBook')
     }
     useEffect(() => {
         const handleResize = () => {
@@ -92,7 +94,7 @@ const ReadPreview = () =>{
                 reverseOrder={false}
             />
             <div className="bar" onContextMenu={(e) => e.preventDefault()}>
-            <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize:"40px" ,margin:'3px',color: "white"}}/>
+                <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize:"40px" ,margin:'3px',color: "white"}}/>
                 {/* <EbookTopBar/> */}
             </div>
             <div className="wrap" onContextMenu={(e) => e.preventDefault()} ref={containerRef}>

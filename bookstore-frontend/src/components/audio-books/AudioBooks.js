@@ -93,7 +93,6 @@ const AudioBooks = () => {
     }
   };
 
-
   const filterAudio = (category, searchTerm) => {
     let filteredBooks = audiobookData;
 
@@ -182,7 +181,7 @@ const AudioBooks = () => {
           <>
             <div className="book-list">
               {filteredAudioBookData.slice(index, index + itemsPerPage).map(item => (
-                  <div key={item.id} onClick={() => handlePhotoClickAudio(item.id)} className='photo'>
+                  <div key={item.seriesId} onClick={() => handlePhotoClickAudio(item.seriesId)} className='photo'>
                     <img id="image" src={item.thumbnail_url} alt={`Thumbnail of ${item.title}`}/>
                   </div>
               ))}

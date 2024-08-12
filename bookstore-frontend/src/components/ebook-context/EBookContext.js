@@ -33,12 +33,10 @@ const EBookContext = () => {
   const itemsPerPage = 6;
 
   useEffect(() => {
-    console.log('Book Data Execute start');
     const fetchData = async () => {
       try {
         const response = await API_ENDPOINT.get(FETCH_ALL_BOOK);
         const allBookData = response.data.data.filter(book => book.bookType === 'PDF');
-        console.log('Book Data:==============>>>', allBookData);
         setBookData(allBookData);
         setFilteredBookData(allBookData);
         setLoading(false);
@@ -50,12 +48,10 @@ const EBookContext = () => {
   }, []);
 
   useEffect(() => {
-    console.log('Category Data Execute start');
     const fetchCategoryData = async () => {
       try {
         const response = await API_ENDPOINT.get(FETCH_ALL_CATEGORY);
         const allCategoryData = response.data;
-        console.log('Category Data:', allCategoryData);
         const otherCategories = Array.from(new Set(allCategoryData.data.map(categoryList => categoryList.categoryName)));
         setCategories(['All', ...otherCategories]);
 
