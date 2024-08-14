@@ -175,9 +175,9 @@ const SeeAllPage = () => {
 
   const RedirectPage =() => {
     if (type === 'book') {
-      navigate('/');
+      navigate('/home');
     } else if (type === 'audiobook') {
-      navigate('/');
+      navigate('/home');
     }
   }
 

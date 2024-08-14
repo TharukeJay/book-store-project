@@ -40,7 +40,7 @@ const NavBar = () => {
     }, [userId]);
     const handleConfirmOrder = async () => {
         localStorage.clear();
-        window.location.href = '/';
+        window.location.href = '/home';
     }
     const SignOut = () => {
         setShowModal(!showModal);
@@ -54,7 +54,7 @@ const NavBar = () => {
             <div className='nav-bar'>
                 <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer">
                     <Container className='nav-container'>
-                        <Navbar.Brand href="/" style={{fontSize: "20px", color: "white", paddingLeft: "2px"}}>
+                        <Navbar.Brand href="/home" style={{fontSize: "20px", color: "white", paddingLeft: "2px"}}>
                             <Nav.Link style={{fontSize: "17px", color: "white"}}> Read Lanka</Nav.Link>
                         </Navbar.Brand>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav togs "/>
@@ -64,7 +64,7 @@ const NavBar = () => {
                                     {showMyRack && (
                                         <Nav.Link href="/myBookRack">My Book Rack</Nav.Link>
                                     )}
-                                    <Nav.Link href="/">Home</Nav.Link>
+                                    <Nav.Link href="/home">Home</Nav.Link>
                                     <Nav.Link href="/e-books">e-Books</Nav.Link>
                                     <Nav.Link href="/audio-books">Audio-Books</Nav.Link>
                                     <Nav.Link href="/news-papers">News</Nav.Link>

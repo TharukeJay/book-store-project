@@ -30,12 +30,12 @@ const App = () => {
             <Row>
                 <Top_nav_bar/>
             </Row>
-            {location.pathname !== '/' && location.pathname !== '/signup' && location.pathname !== '/login' && location.pathname !== '/forgotPassword' && location.pathname !== `/reset-password/${token}` && (
+            {location.pathname !== '/home' && location.pathname !== '/signup' && location.pathname !== '/login' && location.pathname !== '/forgotPassword' && location.pathname !== `/reset-password/${token}` && (
                 <Col xs={2}>
                     <SideNavbar />
                 </Col>
             )}
-            <Col xs={location.pathname !== '/' && location.pathname !== '/signup' && location.pathname !== '/login' && location.pathname !== '/forgotPassword'&& location.pathname !== `/reset-password/${token}`  ? 10 : 12} >
+            <Col xs={location.pathname !== '/home' && location.pathname !== '/signup' && location.pathname !== '/login' && location.pathname !== '/forgotPassword'&& location.pathname !== `/reset-password/${token}`  ? 10 : 12} >
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/login" element={<Login />} />

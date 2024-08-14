@@ -42,7 +42,8 @@ const App = () => {
                         <Route path="/login" element={<Login/>}/>
 
                         {/* Home page / DashBoard */}
-                        <Route path="/" element={<Home/>}/>
+                        <Route path="/" element={<About/>}/>
+                        <Route path="/home" element={<Home/>}/>
 
                         {/* Purchase library */}
                         <Route path="/myBookRack" element={<MyLibrary/>}/>
