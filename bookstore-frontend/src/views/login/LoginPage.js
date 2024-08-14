@@ -39,9 +39,9 @@ const LoginPage = () => {
         duration: 5000,
       });
       if (response.status == 200) {
-        window.location.href="/"
+        window.location.href="/home"
       }
-      window.location.href = "/";
+      window.location.href = "/home";
 
     } catch (error) {
       console.error('Error:', error);

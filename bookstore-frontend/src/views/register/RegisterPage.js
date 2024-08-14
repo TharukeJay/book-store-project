@@ -23,7 +23,7 @@ const RegisterPage = () => {
     e.preventDefault();
     console.log(formData);
     // console.log(authApi.registerAPI);
-  
+
       try {
         const response = await fetch(apiUrl, {
         method: 'POST',
@@ -43,7 +43,7 @@ const RegisterPage = () => {
           className: 'toaster',
           duration: 1000,
         });
-        window.location.href='/'
+        window.location.href='/home'
       } else {
         const data = await response.json();
         console.error(data.message);
@@ -64,7 +64,7 @@ const RegisterPage = () => {
 
   return (
     <>
-    <Toaster  
+    <Toaster
       position="top-center"
       reverseOrder={false}
     />
@@ -74,13 +74,13 @@ const RegisterPage = () => {
           <br /><hr /><br />
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label className='form-lable'>Email address</Form.Label>
-            <Form.Control 
-              name='email' 
-              type="email" 
+            <Form.Control
+              name='email'
+              type="email"
               placeholder="Enter email"
               value={formData.email}
               onChange={handleChange}
-              required 
+              required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicUserName">
@@ -96,13 +96,13 @@ const RegisterPage = () => {
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label className='form-lable'>Password</Form.Label>
-            <Form.Control 
-              name='password' 
-              type="password" 
+            <Form.Control
+              name='password'
+              type="password"
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              required 
+              required
             />
           </Form.Group>
           <br />

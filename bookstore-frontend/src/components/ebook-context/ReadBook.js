@@ -75,7 +75,7 @@ const ReadBook = () => {
       };
 
     const RedirectPage =()=>{
-        window.location.href="/";
+        window.location.href="/home";
     }
 
     const [formData, setFormData] = useState({

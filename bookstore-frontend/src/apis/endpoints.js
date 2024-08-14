@@ -1,7 +1,7 @@
 // import API_ENDPOINT from "../apis/httpAxios";
 
-// export const baseUrl = "https://bookstore-backend-97qw.onrender.com/api/";
-export const baseUrl = "http://localhost:3001/api/";
+export const baseUrl = "https://bookstore-backend-97qw.onrender.com/api/";
+// export const baseUrl = "http://localhost:3001/api/";
 
 // Auth
 export const SIGN_UP = `${baseUrl}auth/register`;
@@ -46,6 +46,7 @@ export const FETCH_ALL_NEWS = `${baseUrl}books/get-news`;
 export const FETCH_ALL_READ_NEWS = `${baseUrl}books/read-news`;
 
 //news scipt
+
 export const FETCH_ALL_NEWS_PICTURE_RIM = `${baseUrl}books/get-News-PictureRim`;
 export const FETCH_ALL_READ_NEWS_PICTURE_RIM_ID = `${baseUrl}books/read-news-PictureRim`;
 

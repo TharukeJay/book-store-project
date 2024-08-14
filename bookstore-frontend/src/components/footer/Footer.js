@@ -8,7 +8,7 @@ import { LuTwitter } from "react-icons/lu";
 import { MdOutlineEmail } from "react-icons/md";
 
 const Footer = () => {
-    return (   
+    return (
     <>
         <div className="footer-top mt-3">
             <div className="row">
@@ -17,13 +17,15 @@ const Footer = () => {
                     <p>58/7, Ranasinha Mv,Meegahawaththa</p>
                     {/*<p>Meegahawaththa,</p>*/}
                     <p>Siyambalape</p>
-                    <p>Tel : 0112 978238</p>
+                    <p>Tel : 0711222045</p>
                     <p>editor@readlanka.com</p>
                 </div>
                 <div className=" footer-links-midle">
                     <p className="f-text"></p>
-                    <p><a href='/privacy-policy'> privacy & policy  </a></p>
+                    <p><a href='/privacy-policy'> privacy & policy </a></p>
                     <p></p>
+                    <p className="f-text"></p>
+                    <p><a href='/about'> Contact us </a></p>
                     <p></p>
                     <p></p>
                 </div>
@@ -35,11 +37,11 @@ const Footer = () => {
                 </div>
             </div>
         </div>
-        <hr></hr>        
+        <hr></hr>
         <div className="footer-bottum ">
             <p> © 2024.  All rights reserved By CodeMode Pvt Ltd.</p>
-        </div>            
-    </>  
+        </div>
+    </>
     );
   }
   export default Footer;
