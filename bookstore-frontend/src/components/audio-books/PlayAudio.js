@@ -53,12 +53,13 @@ const AudioPlayer = () => {
     const [isRelaxMusicPlaying, setIsRelaxMusicPlaying] = useState(true);
     const [playRelaxMusic, setPlayRelaxMusic] = useState(true);
     const userId = localStorage.getItem('userId');
+    const [relaxMusic, setRelaxMusic] = useState('')
 
-    const relaxMusic = 'https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/audio%2F%2Fmixkit-rain-and-thunder-crash-1258.wav?alt=media&token=8238fa5e-de09-486c-bc65-74b7ba2bd901';
+    // const relaxMusic = 'https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/audio%2F%2Fmixkit-rain-and-thunder-crash-1258.wav?alt=media&token=8238fa5e-de09-486c-bc65-74b7ba2bd901';
 
     const {selectedSeriesAudioId} = location.state;
     const selectedBookId = selectedSeriesAudioId;
-    console.log('selectedBookId =====>>>>>>>>', selectedBookId);
+    console.log('relaxMusic =====>>>>>>>>', relaxMusic);
 
     const commentData = async () => {
         try {
@@ -66,8 +67,9 @@ const AudioPlayer = () => {
             if (response.status == 200) {
                 const selectedSeriesData = response.data.data;
                 setSeriesData(selectedSeriesData);
+                setRelaxMusic(selectedSeriesData.audio_url);
                 setComments(selectedSeriesData.commentList || []);
-                console.log('setSeriesData =========>>>>>',seriesData);
+                // console.log('setSeriesData =========>>>>>',seriesData);
                 setLoading(false);
             } else {
                 console.log('No comments');
@@ -102,7 +104,7 @@ const AudioPlayer = () => {
                 selectedBookData.sort((a, b) => a.chapter - b.chapter);
                 setBookData(selectedBookData);
                 setLoading(false)
-                console.log('book Data list =======>>>', bookData)
+                // console.log('book Data list =======>>>', bookData)
                 const updatedTracks = selectedBookData.map(book => ({
                     id: book.id,
                     title: book.title,
@@ -117,13 +119,13 @@ const AudioPlayer = () => {
                 const lastPlayedTrackIndex = lastPlayedData.lastPlayedTrackIndex;
                 const lastPlayedAudioId = lastPlayedData.selectedAudioId;
 
-                console.log('lastPlayedData=======>>>', lastPlayedData)
-                console.log('book data=======>>>', bookData)
+                // console.log('lastPlayedData=======>>>', lastPlayedData)
+                // console.log('book data=======>>>', bookData)
 
                 setTrackIndex(lastPlayedTrackIndex);
                 setSelectedTrackId(lastPlayedAudioId);
 
-                console.log('Track Index=======>>>', trackIndex)
+                // console.log('Track Index=======>>>', trackIndex)
                 // if(lastPlayedTrackIndex > 0){
                 //   console.log('First play LastUpdatedTrack');
                 //   setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
@@ -231,7 +233,7 @@ const AudioPlayer = () => {
                 setShowModal(true);
             } else {
                 setTrackIndex((prev) => prev - 1);
-                console.log('set previous Last played Track=============>>>>', trackIndex)
+                // console.log('set previous Last played Track=============>>>>', trackIndex)
                 setCurrentTrack(tracks[trackIndex - 1]);
             }
         }

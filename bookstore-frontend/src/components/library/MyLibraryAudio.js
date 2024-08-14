@@ -191,8 +191,8 @@ const MyLibraryEBook = () => {
                 <div className="gallery-container">
                     <div className="book-list">
                         {filteredAudioBookData.slice(index, index + itemsPerPage).map(item => (
-                            <div key={item.id} onClick={() => handlePhotoClick(item.seriesId)} className='photo'>
-                                <img id="image" src={item.thumbnail_url} alt={`Thumbnail of ${item.title}`}/>
+                            <div key={item.seriesId} onClick={() => handlePhotoClick(item.seriesId)} className='photo'>
+                                <img id="image" src={item.thumbnail_url} alt={`Thumbnail of ${item.seriesTitle}`}/>
                             </div>
                         ))}
                     </div>

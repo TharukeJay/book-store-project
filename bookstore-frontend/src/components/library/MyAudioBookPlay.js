@@ -40,7 +40,9 @@ const AudioPlayer = () => {
     const [usersData, setUsersData] = useState([]);
     const [isRelaxMusicPlaying, setIsRelaxMusicPlaying] = useState(true);
     const [playRelaxMusic, setPlayRelaxMusic] = useState(true);
-    const relaxMusic = 'https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/audio%2F%2Fmixkit-rain-and-thunder-crash-1258.wav?alt=media&token=8238fa5e-de09-486c-bc65-74b7ba2bd901';
+    const [relaxMusic, setRelaxMusic] = useState('');
+
+    console.log("relaxMusic =============>>>",relaxMusic);
 
     const {selectedSeriesAudioId} = location.state;
     const selectedBookId = selectedSeriesAudioId;
@@ -52,7 +54,6 @@ const AudioPlayer = () => {
             if (response.status === 200) {
                 return response.data.data;
             }
-            console.log("fetchLastPlayedTrackIndex =============>>>", response.data);
         } catch (error) {
             console.error('Error fetching last played track index:', error);
         }
@@ -67,6 +68,8 @@ const AudioPlayer = () => {
                 selectedBookData.sort((a, b) => a.chapter - b.chapter);
                 // console.log('Selected Book Data for Id new:', selectedBookData);
                 setBookData(selectedBookData);
+                setRelaxMusic(selectedBookData.audio_url);
+                console.log("selectedBookData =============>>>",selectedBookData);
                 setLoading(false)
 
                 const updatedTracks = selectedBookData.map(book => ({
@@ -273,7 +276,7 @@ const AudioPlayer = () => {
     }, [])
 
     const RedirectPage = () => {
-        window.location.href = "/myBookRack/audio";
+        Navigate("/myBookRack/audio");
     }
 
     const closeModal = () => {
