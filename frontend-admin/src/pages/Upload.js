@@ -125,11 +125,15 @@ const ContentData = () => {
         let nextChapter = 0;
         try {
             const filteredSeriesData = booksData.filter(item => item.data['seriesTitle'] === seriesName);
-            let lastContentChapter = filteredSeriesData[filteredSeriesData.length - 1]['data']['chapter']
-            nextChapter = lastContentChapter -1 + 2;
-            console.log('lastContentChapter===>',lastContentChapter );
-            console.log('filteredSeriesData===>',filteredSeriesData );
-            console.log('filteredSeriesData length===>',filteredSeriesData.length );
+            if(filteredSeriesData.length >= 1) {
+                let lastContentChapter = filteredSeriesData[filteredSeriesData.length - 1]['data']['chapter']
+                nextChapter = lastContentChapter - 1 + 2;
+                console.log('lastContentChapter===>', lastContentChapter);
+                console.log('filteredSeriesData===>', filteredSeriesData);
+                console.log('filteredSeriesData length===>', filteredSeriesData.length);
+            }else{
+                nextChapter = 1;
+            }
         } catch (error) {
             console.error('Error fetching or processing data:', error);
         }
