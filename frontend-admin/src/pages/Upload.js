@@ -125,7 +125,11 @@ const ContentData = () => {
         let nextChapter = 0;
         try {
             const filteredSeriesData = booksData.filter(item => item.data['seriesTitle'] === seriesName);
-            nextChapter = filteredSeriesData.length + 1;
+            let lastContentChapter = filteredSeriesData[filteredSeriesData.length - 1]['data']['chapter']
+            nextChapter = lastContentChapter -1 + 2;
+            console.log('lastContentChapter===>',lastContentChapter );
+            console.log('filteredSeriesData===>',filteredSeriesData );
+            console.log('filteredSeriesData length===>',filteredSeriesData.length );
         } catch (error) {
             console.error('Error fetching or processing data:', error);
         }
@@ -181,11 +185,16 @@ const ContentData = () => {
 
     const uploadContent = async (e) => {
         e.preventDefault();
-
+        setLoading(true)
         if (!categoryName || !authorName || !bookType || !bookName || !thumbnail || (!audioFile && !previewPdfFile && !fullPdfFile)) {
             alert("Please fill all required fields and upload the necessary files.");
             return;
         }
+       if(bookType == 'Audio Book' && !selecteBookSeries){
+          alert("Please enter book series");
+          return;
+        }
+
 
         setLoading(true);
 
@@ -211,11 +220,20 @@ const ContentData = () => {
         try {
             console.log('form data===>', formData);
             const response = await executeUploadContent(formData);
-            console.log('Content uploaded successfully:', response.data);
-            alert('Content uploaded successfully!')
+            console.log('RES===>', response.ok);
+            // console.log('Content uploaded successfully:', response.data);
+            setLoading(false)
+            if (response.ok == false) {
+                alert(`An Error Occurred!! Couldn't Upload the content`)
+            }
+            else{
+                alert('Content uploaded successfully!')
+            }
+
             reset();
         } catch (error) {
             console.error('Error uploading content:', error);
+            setLoading(false)
         } finally {
             setLoading(false);
         }
@@ -371,7 +389,7 @@ const ContentData = () => {
                     <FormSelect onChange={handleBookType}>
                         <option value="">Choose...</option>
                         <option value="Audio Book"> Audio Book </option>
-                        <option value="PDF"> PDF </option>
+                        <option value="PDF"> E-Book </option>
                     </FormSelect>
                 </Col>
 

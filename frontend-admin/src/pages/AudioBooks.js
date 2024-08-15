@@ -56,7 +56,8 @@ const Series = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const incrementChapter = () => {
-        setChapter(prevChapter => prevChapter + 1);
+
+        setChapter(prevChapter => (prevChapter -1 +2));
     };
 
     const decrementChapter = () => {
@@ -139,6 +140,7 @@ const Series = () => {
                 console.log('Content uploaded successfully:', response.data);
                 alert('Content uploaded successfully!')
                 setEditVisible(false)
+                getBookContents()
             } catch (error) {
                 console.error('Error uploading content:', error);
             } finally {
@@ -274,7 +276,7 @@ const Series = () => {
                     <Row className="mb-3">
                         <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
                             Chapter
-     c                   </FormLabel>
+                      </FormLabel>
                         <Col sm={8}>
                             <div className="d-flex align-items-center">
                                 <Button variant="outline-secondary" onClick={decrementChapter}>-</Button>
@@ -405,7 +407,7 @@ const Series = () => {
                     <th scope="col">BOOK SERIES NAME</th>
                     <th scope="col">CHAPTER</th>
                     <th scope="col">AUTHOR</th>
-                    <th scope="col">PRICE (LKR)</th>
+                    {/*<th scope="col">PRICE (LKR)</th>*/}
                     <th scope="col">ACTION</th>
                 </tr>
                 </thead>
@@ -421,7 +423,7 @@ const Series = () => {
                             <th>{data.data.seriesTitle}</th>
                             <th>{data.data.chapter}</th>
                             <th>{data.data.authorName}</th>
-                            <th>{data.data.price}</th>
+                            {/*<th>{data.data.price}</th>*/}
 
                             <th>
                                 <Button
