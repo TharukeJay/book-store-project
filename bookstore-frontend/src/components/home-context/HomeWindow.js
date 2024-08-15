@@ -53,11 +53,11 @@ const HomeWindow = () => {
                         <h2>e-Books </h2>
                     </div>
                     <div className='category-outer' onClick={HandleClickAudioBook}>
-                        <img src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2FE%20book.png?alt=media&token=f988ca3e-472b-4d2f-995c-8c3c16d7ccc8'/>
+                        <img src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2Faudio%20book%202.png?alt=media&token=8709654f-527a-42db-ba50-5f73871290cf'/>
                         <h2> Audio-Books</h2>
                     </div>
                     <div className='category-outer' onClick={HandleClickNews}>
-                        <img src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2FE%20book.png?alt=media&token=f988ca3e-472b-4d2f-995c-8c3c16d7ccc8'/>
+                        <img src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2F%E0%B6%B4%E0%B6%AD%E0%B7%8A%E0%B6%AD%E0%B6%BB%E0%B7%9A.png?alt=media&token=4ec23b88-fb6a-4936-b1fe-da3e7925ea94'/>
                         <h2>News</h2>
                     </div>
                     {showMyRack &&(

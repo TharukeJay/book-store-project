@@ -14,13 +14,9 @@ const Footer = () => {
             <div className="row">
                 <div className=" footer-links-left">
                     <p className="f-text"></p>
-                    <p>58/7, Ranasinha Mv,Meegahawaththa</p>
-                    {/*<p>Meegahawaththa,</p>*/}
-                    <p>Siyambalape</p>
-                    <p>Tel : 0711222045</p>
-                    <p>editor@readlanka.com</p>
+                    <p>Contact Us : <a href='mailto:editor@readlanka.com'>editor@readlanka.com</a> </p>
                 </div>
-                <div className=" footer-links-midle">
+                <div className=" footer-links-left">
                     <p className="f-text"></p>
                     <p><a href='/privacy-policy'> privacy & policy </a></p>
                     <p></p>
