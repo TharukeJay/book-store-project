@@ -68,16 +68,16 @@ const ReadPictureRim=()=> {
                     <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize: "40px", margin: '3px', color: "white"}}/>
                 </p>
             </div>
-            <div className='main-outer-picture-rim'>
+            <div className='main-outer-picture-rim' style={{userSelect:'none'}}>
                 <div className='inner-top-outer-picture-rim'
                      style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-                    <div className='view-news-outer' style={{background: bgColor}}>
+                    <div className='view-news-outer' style={{background: bgColor, userSelect:'none'}}>
                         <div className="left-news-outer-view">
                             <img id="image" src={selectedData.thumbnail_url} alt=''
                                  // style={{width: '100%', height: '300px'}}
                             />
                         </div>
-                        <div className="right-news-desc-outer">
+                        <div className="right-news-desc-outer" style={{userSelect:'none'}}>
                             <div className='topic'>
                                 <h2 style={{fontSize: '25px'}}>{selectedData.title}</h2>
                             </div>

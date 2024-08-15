@@ -53,35 +53,13 @@ const AudioPlayer = () => {
     const [isRelaxMusicPlaying, setIsRelaxMusicPlaying] = useState(true);
     const [playRelaxMusic, setPlayRelaxMusic] = useState(true);
     const userId = localStorage.getItem('userId');
-    const [relaxMusic, setRelaxMusic] = useState('')
+    // const [relaxMusic, setRelaxMusic] = useState('');
 
-    // const relaxMusic = 'https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/audio%2F%2Fmixkit-rain-and-thunder-crash-1258.wav?alt=media&token=8238fa5e-de09-486c-bc65-74b7ba2bd901';
+
+    const relaxMusic = 'https://storage.googleapis.com/readlanka-c7718.appspot.com/series_Audio/Hima%20sela%20bird%2001.mp3?GoogleAccessId=firebase-adminsdk-pqukl%40readlanka-c7718.iam.gserviceaccount.com&Expires=16447017600&Signature=hrzn3IpC6gdOHDOua2o9lg2tavbEstXCys8piDVTHRfUvG4brbdHijpS4xZPvHGKJg9YjFOgSGZNYKuEjy7h3Xn%2Fhj05QtFTXb6Oqv48nHRHJcsO0nZrR6y8dTDAqADmRujnSM3pBbREsHG3LpC8urXQ7mu0ipBCD7OdeIymoBCwELyjzrqDwZ1valn%2B8Q4JNKjxIjiD86dWxXUOdwsmn4oUJts0f09wltXk29GsYnkaPSvht6xEfHmdjOhHvYV%2BfUodenWRT%2FeVjwYvKlHByTVJfOLq2D8EjIog1wRGoALl93IygUxT%2Btcmajm0PpV%2FnMZsKhS3h3gz%2Ffafk0xBVg%3D%3D';
 
     const {selectedSeriesAudioId} = location.state;
     const selectedBookId = selectedSeriesAudioId;
-    console.log('relaxMusic =====>>>>>>>>', relaxMusic);
-
-    const commentData = async () => {
-        try {
-            const response = await API_ENDPOINT.get(`${GET_COMMENTS_AUDIO}/${selectedBookId}`);
-            if (response.status == 200) {
-                const selectedSeriesData = response.data.data;
-                setSeriesData(selectedSeriesData);
-                setRelaxMusic(selectedSeriesData.audio_url);
-                setComments(selectedSeriesData.commentList || []);
-                // console.log('setSeriesData =========>>>>>',seriesData);
-                setLoading(false);
-            } else {
-                console.log('No comments');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
-    useEffect(() => {
-        commentData();
-    }, [selectedBookId]);
 
     const fetchLastPlayedTrackIndex = async () => {
         try {
@@ -95,6 +73,27 @@ const AudioPlayer = () => {
         }
         return {lastPlayedTrackIndex: '', selectedAudioId: ""};
     };
+
+    const commentData = async () => {
+        try {
+            const response = await API_ENDPOINT.get(`${GET_COMMENTS_AUDIO}/${selectedBookId}`);
+            if (response.status == 200) {
+                const selectedSeriesData = response.data.data;
+                setSeriesData(selectedSeriesData);
+                // setRelaxMusic(selectedSeriesData.audio_url);
+                setComments(selectedSeriesData.commentList || []);
+                console.log('setSeriesData ========= >>>>>',seriesData);
+                setLoading(false);
+            } else {
+                console.log('No comments');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+    useEffect(() => {
+        commentData();
+    }, [selectedBookId]);
 
     const fetchData = async () => {
         try {
@@ -119,39 +118,15 @@ const AudioPlayer = () => {
                 const lastPlayedTrackIndex = lastPlayedData.lastPlayedTrackIndex;
                 const lastPlayedAudioId = lastPlayedData.selectedAudioId;
 
-                // console.log('lastPlayedData=======>>>', lastPlayedData)
-                // console.log('book data=======>>>', bookData)
-
                 setTrackIndex(lastPlayedTrackIndex);
                 setSelectedTrackId(lastPlayedAudioId);
-
-                // console.log('Track Index=======>>>', trackIndex)
-                // if(lastPlayedTrackIndex > 0){
-                //   console.log('First play LastUpdatedTrack');
-                //   setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
-                // }else{
-                //   console.log('Second play Strat array');
-                //   setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
-                //   setCurrentTrack(updatedTracks[0]);
-                // }
-
-                // if (lastPlayedTrackIndex > 0) {
-                //     setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
-                //     setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
-                // } else {
-                //     setCurrentTrack({id: 'relaxMusic', title: 'Relax Music', src: relaxMusic});
-                //     setCurrentTrack(updatedTracks[0]);
-                // }
-
                 //  start
                 const relaxMusicTrack = {
                     id: 'relaxMusic',
                     title: 'Relax Music',
                     src: relaxMusic
                 };
-
                 const audioElement = new Audio(relaxMusicTrack.src);
-
                 audioElement.onended = () => {
                     if (lastPlayedTrackIndex > 0) {
                         setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
@@ -202,6 +177,7 @@ const AudioPlayer = () => {
         if (playRelaxMusic) {
             setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
             setPlayRelaxMusic(false);
+            if (audioRef.current)  audioRef.current.play();
         } else {
             setPlayRelaxMusic(true);
             if (trackIndex == seriesData.ListningChapter) {
@@ -217,6 +193,7 @@ const AudioPlayer = () => {
                 setTrackIndex((prev) => prev + 1);
                 setCurrentTrack(tracks[trackIndex + 1]);
             }
+            if (audioRef.current)  audioRef.current.play();
         }
     };
 
@@ -224,6 +201,7 @@ const AudioPlayer = () => {
         if (playRelaxMusic) {
             setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
             setPlayRelaxMusic(false);
+            if (audioRef.current)  audioRef.current.play();
         } else {
             setPlayRelaxMusic(true);
             if (trackIndex === 0) {
@@ -237,6 +215,7 @@ const AudioPlayer = () => {
                 setCurrentTrack(tracks[trackIndex - 1]);
             }
         }
+        if (audioRef.current)  audioRef.current.play();
     };
 
     const handlePhotoClick = (id, index) => {
@@ -436,7 +415,7 @@ const AudioPlayer = () => {
                     <p style={{fontSize: '15px'}}> {seriesData.description} </p>
                     {/*</div>*/}
                     <div className="pricing-card" style={{marginLeft: '-25px'}}>
-                        <span> {seriesData.seriesPrice} /- LKR </span>
+                        <span> {seriesData.seriesPrice}/- LKR </span>
                     </div>
                     {/*))}*/}
 

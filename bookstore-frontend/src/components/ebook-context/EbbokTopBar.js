@@ -1,10 +1,12 @@
 import { SlArrowLeftCircle } from "react-icons/sl";
 import { FaCircleArrowLeft } from "react-icons/fa6";
+import {useNavigate} from "react-router-dom";
 const TopBar = () => {
+  const navgate = useNavigate();
 
   const RedirectPage = async(id) =>{
     // localStorage.clear('selectedAudioId', id);
-    window.location.href="/e-books";
+    navgate("/e-books");
   }
     return (
       <div className="top__bar">

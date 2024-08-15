@@ -72,7 +72,7 @@ const ViewNews = () => {
               </p>
           </div>
 
-          <div className='view-news-outer' style={{background: bgColor}}>
+          <div className='view-news-outer' style={{background: bgColor, userSelect:'none'}}>
               <Helmet>
                   <title>{news.newsTitle}</title>
               </Helmet>
@@ -81,7 +81,7 @@ const ViewNews = () => {
               </div>
               <div className="right-news-desc-outer">
                   <div className='topic'>
-                      <h2 style={{fontSize:'25px'}}>{news.newsTitle}</h2>
+                      <h2 style={{fontSize:'25px',marginBottom:'20px' }}>{news.newsTitle}</h2>
                   </div>
                   <div className='news-description-body'>
                     <p >{news.description}</p>

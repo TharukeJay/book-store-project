@@ -175,7 +175,7 @@ const ReadBook = () => {
                       <br/>
 
                       <div className="pricing-card">
-                          <span> {book.price} /- LKR </span>
+                          <span> {book.price}/- LKR </span>
                       </div>
                       <div style={{height: "10px"}}></div>
                       <div className="read-button-outer">

@@ -176,7 +176,7 @@ const PictureRim =()=>{
                 </div>
             </div>
             <div className='inner-bottum-outer-picture-rim' style={{display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}>
-                <div className="news-list">
+                <div className="news-list" style={{userSelect:'none'}}>
                     {newsPictureRimData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                         <div className='news-outer'>
                             <div key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)} className='left-news-outer-list'>
