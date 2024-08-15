@@ -1,366 +1,271 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import '../../styles/newscontext.css';
-import { useNavigate  } from 'react-router-dom';
-import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_CATEGORY, FETCH_ALL_NEWS} from "../../apis/endpoints";
+import {useNavigate} from 'react-router-dom';
+import {
+    FETCH_ALL_AUDIO_BOOK,
+    FETCH_ALL_CATEGORY,
+    FETCH_ALL_NEWS, FETCH_ALL_NEWS_PICTURE_RIM,
+    FETCH_ALL_NEWS_SCRIPTS,
+    FETCH_NEWS_CATEGORY
+} from "../../apis/endpoints";
 import API_ENDPOINT from '../../apis/httpAxios';
-import { FcNext } from "react-icons/fc";
-import { FcPrevious } from "react-icons/fc";
+import {FcNext} from "react-icons/fc";
+import {FcPrevious} from "react-icons/fc";
 import ScreenLoading from "../loading/Loading";
 import NavBar from "../navbar/NavBar";
 import Stack from "react-bootstrap/Stack";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Carousel from "react-bootstrap/Carousel";
 import Footer from "../footer/Footer";
 import {bgColor} from "../../common/commonColors";
+import {IoSearchOutline} from "react-icons/io5";
+import {MdKeyboardDoubleArrowRight} from "react-icons/md";
+import {MdKeyboardDoubleArrowLeft} from "react-icons/md";
+import Carousel from 'react-bootstrap/Carousel';
+import * as PropTypes from "prop-types";
 
+function ExampleCarouselImage(props) {
+    return null;
+}
+
+ExampleCarouselImage.propTypes = {text: PropTypes.string};
 const NewsContext = () => {
-  const [newsData, setNewsData] = useState([]);
-  const [index, setIndex] = useState(0); 
-  const Navigate = useNavigate();
-  const [categories, setCategories] = useState(['All']);
-  const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [filteredNewsData, setFilteredNewsData] = useState([]);
-  const [searchInput, setSearchInput] = useState('');
-  const itemsPerPage = 8;
+    const [newsData, setNewsData] = useState([]);
+    const [newsScriptData, setNewsScriptData] = useState([]);
+    const [newsPictureRimData, setNewsPictureRimData] = useState([]);
+    const [index, setIndex] = useState(0);
+    const Navigate = useNavigate();
+    const [categories, setCategories] = useState(['All']);
+    const [loading, setLoading] = useState(true);
+    const [selectedCategory, setSelectedCategory] = useState('All');
+    const [filteredNewsData, setFilteredNewsData] = useState([]);
+    const [searchInput, setSearchInput] = useState('');
+    const itemsPerPage = 8;
 
-  useEffect(() => {
-    console.log('News Data Execute start');
     const fetchData = async () => {
-      try {
-        const response = await API_ENDPOINT.get(FETCH_ALL_NEWS);
-        const newsData = response.data.data;
-        console.log('News Data:', newsData);
-        setNewsData(newsData);
-        setFilteredNewsData(newsData);
-      } catch (error) {
-        console.error('Error:', error);
-      }
+        try {
+            const response = await API_ENDPOINT.get(FETCH_ALL_NEWS);
+            const newsData = response.data.data;
+            setNewsData(newsData);
+            setFilteredNewsData(newsData);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
-    fetchData();
-  }, [])
 
-  useEffect(() => {
-    console.log('Category Data Execute start');
     const fetchCategoryData = async () => {
-      try {
-        const response = await API_ENDPOINT.get(FETCH_ALL_CATEGORY);
-        const allCategoryData = response.data.data;
-        const otherCategories = Array.from(new Set(allCategoryData.map(categoryList => categoryList.categoryName)));
-        setCategories(['All', ...otherCategories]);
-        console.log('Category Data:', categories);
+        try {
+            const response = await API_ENDPOINT.get(FETCH_NEWS_CATEGORY);
+            const allCategoryData = response.data.data;
+            const otherCategories = Array.from(new Set(allCategoryData.map(categoryList => categoryList.categoryName)));
+            setCategories(['All', ...otherCategories]);
+            console.log('Category Data:', categories);
 
-        setLoading(false)
-      } catch (error) {
-        console.error('Error:', error);
-      }
+            setLoading(false)
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
-    fetchCategoryData();
-  }, []);
+    const getnNewsScript = async () => {
+        try {
+            const response = await API_ENDPOINT.get(FETCH_ALL_NEWS_SCRIPTS);
+            const scriptData = response.data.data;
+            setNewsScriptData(scriptData);
+            console.log('News script Data:', newsScriptData);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-    if (category === 'All') {
-      setFilteredNewsData(newsData);
-    } else {
-      setFilteredNewsData(newsData.filter(news => news.category === category));
-    }
-  };
+    const latestNewsScript = newsScriptData.length > 0 ? newsScriptData[newsScriptData.length - 1] : null;
 
-  const filterNews = (category, searchTerm) => {
-    let filteredNews = newsData;
+    const getnNewsPictureRim = async () => {
+        try {
+            const response = await API_ENDPOINT.get(FETCH_ALL_NEWS_PICTURE_RIM);
+            const PictureRimDataData = response.data.data;
+            setNewsPictureRimData(PictureRimDataData);
+            console.log('newsPictureRimData:', newsPictureRimData);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+    const latestPicture = newsPictureRimData.length > 0 ? newsPictureRimData[newsPictureRimData.length - 1] : null;
 
-    if (category !== 'All') {
-      filteredNews = filteredNews.filter(news => news.category === category);
-    }
-    if (searchTerm) {
-      filteredNews = filteredNews.filter(news =>
-          news.newsTitle && news.newsTitle.toLowerCase().includes(searchTerm.toLowerCase()));
-      console.log("filteredBooks=================", filteredNews);
-    }
-    setFilteredNewsData(filteredNews);
-  };
+    useEffect(() => {
+        fetchData();
+        fetchCategoryData();
+        getnNewsScript();
+        getnNewsPictureRim();
+    }, [])
 
-  const handleSearchInputChangeNews = (event) => {
-    setSearchInput(event.target.value);
-  };
+    useEffect(() => {
+        filterNews(selectedCategory, searchInput);
+    }, [searchInput, selectedCategory]);
 
-  const handleSearchSubmitNews = (event) => {
-    event.preventDefault();
-    filterNews(selectedCategory, searchInput);
-  };
+    const handleCategoryClick = (category) => {
+        setSelectedCategory(category);
+        if (category === 'All') {
+            setFilteredNewsData(newsData);
+        } else {
+            setFilteredNewsData(newsData.filter(news => news.newsCategory === category));
+        }
+    };
 
-  const handleKeyPressNews = (event) => {
-    if (event.key === 'Enter') {
-      handleSearchSubmitNews(event);
-    }
-  };
+    const filterNews = (category, searchTerm) => {
+        let filteredNews = newsData;
 
-  const handleNewsClick = (id) => {
-    localStorage.setItem('selectedNewsId', id);
-    Navigate('/read-news');
-  };
+        if (category !== 'All') {
+            filteredNews = filteredNews.filter(news => news.newsCategory  === category);
+        }
+        if (searchTerm) {
+            filteredNews = filteredNews.filter(news =>
+                news.newsTitle && news.newsTitle.toLowerCase().includes(searchTerm.toLowerCase()));
+            console.log("filteredBooks=================", filteredNews);
+        }
+        setFilteredNewsData(filteredNews);
+    };
 
-  const handleNext = () => {
-    if (index + itemsPerPage < newsData.length) {
-      setIndex(index + itemsPerPage);
-    }
-  };
+    const handleSearchInputChangeNews = (event) => {
+        setSearchInput(event.target.value);
+    };
 
-  const handlePrevious = () => {
-    if (index - itemsPerPage >= 0) {
-      setIndex(index - itemsPerPage);
-    }
-  };
+    const handleSearchSubmitNews = (event) => {
+        event.preventDefault();
+        filterNews(selectedCategory, searchInput);
+    };
 
-  const getPageNumbers = (currentIndex, dataLength) => {
-    const totalPages = Math.ceil(dataLength / itemsPerPage);
-    const currentPage = Math.floor(currentIndex / itemsPerPage) + 1;
-    return { currentPage, totalPages };
-  };
+    const handleKeyPressNews = (event) => {
+        if (event.key === 'Enter') {
+            handleSearchSubmitNews(event);
+        }
+    };
 
-  const { currentPage, totalPages } =getPageNumbers(index, newsData.length)
+    const handleNewsClick = (id) => {
+        localStorage.setItem('selectedNewsId', id);
+        Navigate(`/read-news/${id}`);
+    };
 
-  const truncateDescription = (description) => {
-    if (!description) {
-      return '';
-    }
-    const words = description.split(' ');
-    if (words.length > 15) {
-      return words.slice(0,50).join(' ') + '...';
-    }
-    return description;
-  };
+    const handleNext = () => {
+        if (index + itemsPerPage < newsData.length) {
+            setIndex(index + itemsPerPage);
+        }
+    };
 
-  // --------------------------------------------
-//   const Navigate = useNavigate();
-//   const [audiobookData, setAudioBookData] = useState([]);
-//   const [categoryData, setCategoryData] = useState([]);
-//   const [filteredAudioBookData, setFilteredAudioBookData] = useState([]);
-//   const [selectedCategory, setSelectedCategory] = useState('All');
-//   const [loading, setLoading] = useState(true);
-//   const [categories, setCategories] = useState(['All']);
-//   const [index, setIndex] = useState(0);
-//   const [searchInput, setSearchInput] = useState('');
-//   const [indexNext, setIndexNext] = useState(0);
-//
-//   useEffect(() => {
-//     console.log('Audio Data Execute start');
-//     const fetchData = async () => {
-//       try {
-//         const response = await API_ENDPOINT.get(FETCH_ALL_AUDIO_BOOK);
-//         console.log('Audio Data Execute Midle', response);
-//         const allAudioBookData = response.data.data;
-//         console.log('allAudioBookData===========>>', allAudioBookData);
-//         setAudioBookData(allAudioBookData);
-//         setFilteredAudioBookData(allAudioBookData);
-//         setLoading(false)
-//       } catch (error) {
-//         console.error('Error:', error);
-//       }
-//     };
-//     fetchData();
-//   }, []);
-//   console.log('Audio Book Data:', filteredAudioBookData);
-//
-//   useEffect(() => {
-//     // console.log('Category Data Execute start');
-//     const fetchCategoryData = async () => {
-//       try {
-//         const response = await API_ENDPOINT.get(FETCH_ALL_CATEGORY);
-//         const allCategoryData = response.data;
-//         console.log('Category Data:', allCategoryData);
-//         const otherCategories = Array.from(new Set(allCategoryData.data.map(categoryList => categoryList.categoryName)));
-//         setCategories(['All', ...otherCategories]);
-//
-//         setLoading(false)
-//       } catch (error) {
-//         console.error('Error:', error);
-//       }
-//     };
-//
-//     fetchCategoryData();
-//   }, []);
-//
-//   const handlePhotoClick = (seriesId) => {
-//     localStorage.setItem('selectedSeriesAudioId', seriesId);
-//     Navigate('/play-audio');
-//   };
-//
-//   const handleCategoryClick = (category) => {
-//     setSelectedCategory(category);
-//     if (category === 'All') {
-//       setFilteredAudioBookData(audiobookData);
-//     } else {
-//       setFilteredAudioBookData(audiobookData.filter(audio => audio.category === category));
-//     }
-//   };
-//   const filterAudio = (category, searchTerm) => {
-//     // let filteredAudioBooks = audiobookData.filter(audio => audio.bookType === 'Audio Book');
-//     let filteredBooks = audiobookData;
-//
-//     if (category !== 'All') {
-//       filteredBooks = filteredBooks.filter(audio => audio.category === category);
-//     }
-//     if (searchTerm) {
-//       filteredBooks = filteredBooks.filter(audio =>
-//           audio.seriesTitle && audio.seriesTitle.toLowerCase().includes(searchTerm.toLowerCase()));
-//     }
-//     setFilteredAudioBookData(filteredBooks);
-//   };
-//
-//   const handleSearchInputChange = (event) => {
-//     setSearchInput(event.target.value);
-//   };
-//
-//   const handleSearchSubmit = (event) => {
-//     event.preventDefault();
-//     filterAudio(selectedCategory, searchInput);
-//   };
-//
-//   const handleKeyPress = (event) => {
-//     if (event.key === 'Enter') {
-//       handleSearchSubmit(event);
-//     }
-//   };
-//
-//   const handleSelect = (selectedIndex) => {
-//     setIndexNext(selectedIndex);
-//   };
-//
-//   const chunkArray = (array, chunkSize) => {
-//     const results = [];
-//     for (let i = 0; i < array.length; i += chunkSize) {
-//       results.push(array.slice(i, i + chunkSize));
-//     }
-//     return results;
-//   };
-//   const bookChunks = chunkArray(filteredAudioBookData, 5);
-//
-//   if (loading) {
-//     return <ScreenLoading />
-//   }
-//
-//   return (
-//       <>
-//         <div className='outer' >
-//           <NavBar/>
-//           <br /><br />
-//           <div className="ebook-context-outer">
-//             <Stack direction="horizontal" gap={3} className='search-outer'>
-//               <Form.Control className="me-auto"
-//                             placeholder="Search by title..."
-//                             value={searchInput}
-//                             onChange={handleSearchInputChange}
-//                             onKeyPress={handleKeyPress}
-//               />
-//               <Button variant="secondary"  onClick={handleSearchSubmit}>Submit</Button>
-//             </Stack>
-//           </div>
-//           <br />
-//
-//           <div className="category-buttons">
-//             {categories.map(category => (
-//                 <Button
-//                     key={category}
-//                     variant={selectedCategory === category ? 'primary' : 'secondary'}
-//                     className="btn btn-primary"  style={{margin:"5px"}}
-//                     onClick={() => handleCategoryClick(category)}
-//                 >
-//                   {category}
-//                 </Button>
-//             ))}
-//           </div>
-//           <br />
-//
-//           <div className="book-list">
-//
-//             <Carousel activeIndex={indexNext} onSelect={handleSelect}>
-//               {bookChunks.map((chunk, idx) => (
-//                   <Carousel.Item key={idx}>
-//                     <div className="book-list">
-//                       {chunk.map((audioBookItem, i) => (
-//                           <div key={i} onClick={() => handlePhotoClick(audioBookItem.seriesId)} className='photo'>
-//                             <img src={audioBookItem.thumbnail_url} alt={`Thumbnail of ${audioBookItem.seriesTitle}`} />
-//                           </div>
-//                       ))}
-//                     </div>
-//                   </Carousel.Item>
-//               ))}
-//             </Carousel>
-//
-//           </div>
-//         </div>
-//         <Footer/>
-//
-//       </>
-//   )
-// }
+    const handlePrevious = () => {
+        if (index - itemsPerPage >= 0) {
+            setIndex(index - itemsPerPage);
+        }
+    };
 
-return (
-    <>
-      <NavBar/>
-      <div className='outer' style={{background: bgColor, height: 'auto'}}>
-      <br/><br/>
-      <div className="ebook-search-outer-news">
-        <Stack direction="horizontal" gap={3} className='search-outer'>
-          <Form.Control className="me-auto"
-                        placeholder="Search by title..."
-                        value={searchInput}
-                        onChange={handleSearchInputChangeNews}
-                        onKeyPress={handleKeyPressNews}
-          />
-          <Button variant="secondary" onClick={handleSearchSubmitNews}>Submit</Button>
-        </Stack>
-      </div>
-      <br/>
-      <div className="category-buttons-news">
-        {categories.map((category,index) => (
-            <Button
-                key={category}
-                variant={selectedCategory === category ? 'primary' : 'secondary'}
-                className="btn btn-primary button" style={{margin: "5px"}}
-                onClick={() => handleCategoryClick(category)}
-            >
-              {category}
-            </Button>
-        ))}
-      </div>
-      <br/>
-        <div className='title-outer-news'></div>
-        <div className="gallery-container">
-          <div className= 'news-strip'>
-            <h1> News Stript</h1>
-          </div>
-          <div className= 'picture-rim'>
-            <h1>  Picture Rim </h1>
-          </div>
-          <div className="news-list">
-            {filteredNewsData.slice(index, index + itemsPerPage).map((newsItem, i) => (
-                <div key={i} onClick={() => handleNewsClick(newsItem.id)} className='news-outer'>
-                  <div className='left-news-outer'>
-                    <img src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
-                  </div>
-                  <div className='right-news-outer'>
-                    <h2>{newsItem.newsTitle}</h2>
-                    <br/>
-                    <p>{truncateDescription(newsItem.description)} <span style={{color:"blue", fontWeight:'100', fontSize:'17px'}}>Read  More</span></p>
-                  </div>
+    const getPageNumbers = (currentIndex, dataLength) => {
+        const totalPages = Math.ceil(dataLength / itemsPerPage);
+        const currentPage = Math.floor(currentIndex / itemsPerPage) + 1;
+        return {currentPage, totalPages};
+    };
+
+    const {currentPage, totalPages} = getPageNumbers(index, newsData.length)
+
+    const truncateDescription = (description) => {
+        if (!description) {
+            return '';
+        }
+        const words = description.split(' ');
+        if (words.length > 15) {
+            return words.slice(0, 50).join(' ') + '...';
+        }
+        return description;
+    };
+
+    const ClickedPictureRim = (id) => {
+        Navigate(`/pictureRim/${id}`, {state: {pictureRimId: id}});
+    };
+
+    return (
+        <div style={{background: bgColor}}>
+            <NavBar/>
+            <div className='outer' style={{background: bgColor, height: 'auto'}}>
+                <br/><br/>
+                <div className="ebook-search-outer">
+                    <Stack direction="horizontal" gap={3} className='search-outer'>
+                        <Form.Control className="me-auto"
+                                      placeholder="Search by title..."
+                                      value={searchInput}
+                                      onChange={handleSearchInputChangeNews}
+                                      onKeyPress={handleKeyPressNews}
+                                      style={{border: '1px solid blue'}}
+                        />
+                        <Button variant="secondary" onClick={handleSearchSubmitNews}><IoSearchOutline
+                            style={{color: 'white'}}/></Button>
+                    </Stack>
                 </div>
-            ))}
-          </div>
-          <div className="buttons">
-            <button onClick={handlePrevious} disabled={index === 0}><FcPrevious/></button>
-            <span>{currentPage} {currentPage + 1} {currentPage + 2}...</span>
-            <button onClick={handleNext} disabled={index + 4 >= newsData.length}><FcNext/></button>
-          </div>
+                <br/>
+                <div className="category-buttons-news">
+                    {categories.map((category, index) => (
+                        <Button
+                            key={category}
+                            variant={selectedCategory === category ? 'primary' : 'secondary'}
+                            className="btn btn-primary button"
+                            // style={{margin: "5px", borderRadius: '15px'}}
+                            onClick={() => handleCategoryClick(category)}
+                        >
+                            {category}
+                        </Button>
+                    ))}
+                </div>
+                <br/>
+                <div className='title-outer-news'></div>
+
+                <div className="gallery-container">
+                    {latestNewsScript && (
+                        <div className='news-strip'>
+                            <p> {latestNewsScript.description}</p>
+                        </div>
+                    )}
+
+                    <div style={{height: '40px'}}></div>
+                    <div className='picture-rim'>
+                        <Carousel>
+                            {newsPictureRimData.map((photo, index) => (
+                                <Carousel.Item>
+                                    <img id="image" src={photo.thumbnail_url} alt="Latest Picture"
+                                         onClick={() => ClickedPictureRim(photo.pictureRimId)}/>
+                                    <Carousel.Caption>
+                                    </Carousel.Caption>
+                                </Carousel.Item>
+                            ))}
+                        </Carousel>
+                    </div>
+                    <div style={{height: '40px'}}></div>
+                    <div className="news-list">
+                        {filteredNewsData.slice(index, index + itemsPerPage).map((newsItem, i) => (
+                            <div className='news-outer'>
+                                <div key={i} onClick={() => handleNewsClick(newsItem.newsId)} className='left-news-outer-img'>
+                                    <img id="image" src={newsItem.thumbnail_url} alt="News" className="photo-item" style={{width:'100%'}}/>
+                                </div>
+                                <div className='right-news-outer'>
+                                    <h2 key={i} onClick={() => handleNewsClick(newsItem.newsId)}>{newsItem.newsTitle}</h2>
+                                    <br/>
+                                    <p>{truncateDescription(newsItem.description)} </p>
+                                    <button className='btn btn-default'
+                                            style={{fontSize: '15px', border: '1px solid black'}} key={i}
+                                            onClick={() => handleNewsClick(newsItem.newsId)}>READ MORE
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="buttons">
+                        <button onClick={handlePrevious} disabled={index === 0}><MdKeyboardDoubleArrowLeft/></button>
+                        {currentPage}/{totalPages}
+                        <button onClick={handleNext} disabled={index + 8 >= newsData.length}>
+                            <MdKeyboardDoubleArrowRight/></button>
+                    </div>
+                </div>
+            </div>
+            <Footer/>
         </div>
-      </div>
-      <Footer/>
-    </>
-)
+    )
 }
 
 export default NewsContext

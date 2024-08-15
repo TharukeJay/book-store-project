@@ -17,22 +17,25 @@ import {
 } from "react-share";
 import { RiAccountCircleFill } from "react-icons/ri";
 import EbookTopBar from '../ebook-context/EbbokTopBar';
-import {Navigate, useLocation} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import {AiFillInstagram} from "react-icons/ai";
 import {BsInstagram} from "react-icons/bs";
-import {bgColor} from "../../common/commonColors";
+import {bgColor, buyNowButton, readButton} from "../../common/commonColors";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Footer from "../footer/Footer";
+import {Helmet} from "react-helmet-async";
 
 const ReadBook = () => {
     const location = useLocation();
+    const Navigate = useNavigate();
     const [book, setBook] = useState(null);
     const [loading, setLoading] = useState(true);
     const [newComment, setNewComment] = useState('');
     const [comments, setComments] = useState([]);
     const [usersData, setUsersData] = useState([]);
+    const [pdfBookDataId, setPdfBookDataId] =useState([]);
 
     const selectedBookId = localStorage.getItem('selectedBookId');
     const userId = localStorage.getItem('userId');
@@ -46,22 +49,23 @@ const ReadBook = () => {
             const selectedBookData = response.data.data;
             console.log('Selected Book Data:', selectedBookData);
             setBook(selectedBookData);
-            setLoading(false)
+            setLoading(false);
           }else{
             window.location.href="/login"
           }
         } catch (error) {
           console.error('Error:', error);
         }
-      };
+    };
 
     const commentData = async () => {
         try {
           const response = await API_ENDPOINT.get(`${GET_COMMENTS}/${selectedBookId}`);
           if (response.status == 200) {
             const selectedCommentData = response.data.data;
-            console.log('Selected comments Data:', selectedCommentData);
+            console.log(' comments Data:', selectedCommentData);
               setComments(selectedCommentData.commentList || []);
+            console.log('Selectedcomments Data:', comments);
           }else{
             window.location.href="/login"
           }
@@ -71,17 +75,19 @@ const ReadBook = () => {
       };
 
     const RedirectPage =()=>{
-        window.location.href="/";
+        window.location.href="/home";
     }
 
     const [formData, setFormData] = useState({
         comment: "",
     });
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({...formData, [name]: value });
     console.log('newComment ===================>>>>>', formData)
     };
+
     const handleCommentSubmit = async(e) => {
         e.preventDefault();
             try {
@@ -89,7 +95,7 @@ const ReadBook = () => {
                     formData,
                     userId: userId,
                     bookId: selectedBookId,
-                    name: usersData.email,
+                    name: usersData.userName,
                 });
                 setFormData({ comment: "" });
                 console.log('usersData.email======>>>:', usersData.email);
@@ -107,9 +113,9 @@ const ReadBook = () => {
         const getUsersForComments = async () =>{
             try {
                 const userResponse = await API_ENDPOINT.get(`${GET_USER_DATA}/${userId}`);
-                const getData = userResponse.data;
-                setUsersData(getData.data);
-                console.log('user data ==============>>>>:', usersData);
+                const getData = userResponse.data.data;
+                setUsersData(getData);
+                setPdfBookDataId(getData.purchaseBookListPDF|| []);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -118,6 +124,7 @@ const ReadBook = () => {
     },[])
 
     const shareUrl = `https://readlanka.com/read-book/${selectedBookId}`;
+    const currentURL = "https://readlanka.com" + window.location.pathname;
     const title = "Read Lanka";
 
     // const CheckoutBalnce = () => {
@@ -140,6 +147,11 @@ const ReadBook = () => {
         return description;
     };
 
+
+    const HandleCheckoutBook =() => {
+        Navigate(`/checkout-order?id=${selectedBookId}`, { state: { type: "book" , BookDataId:pdfBookDataId} })
+    }
+
     if (loading) {
       return <ScreenLoading />
     }
@@ -149,57 +161,57 @@ const ReadBook = () => {
         {/* <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"50px", margin:'10px'}}/> */}
         <EbookTopBar/>
           <div style={{background: bgColor, height: 'auto'}}>
+              <Helmet>
+                  <title>{book.title}</title>
+              </Helmet>
               <div className='view-novel-outer-ebook'>
                   <div className="left-photo-outer">
-                      <img src={book.thumbnail_url} alt="Book Thumbnail"/>
+                      <img id="image" src={book.thumbnail_url} alt="Book Thumbnail"/>
                   </div>
                   <div className="right-desc-outer-ebook">
                       <br/><br/>
-                      <p style={{color: "blue", fontSize: "45px", paddingBottom: "20px"}}>{book.title}</p>
-                      <p>{book.description}</p>
+                      <p style={{color: "blue", fontSize: "20px", paddingBottom: "10px"}}>{book.title}</p>
+                      <p style={{fontSize: "15px", paddingBottom: "1px"}}>{book.description}</p>
                       <br/>
 
                       <div className="pricing-card">
-                          <span>LKR {book.price} </span>
+                          <span> {book.price} /- LKR </span>
                       </div>
-                      <div style={{height: "40px"}}></div>
+                      <div style={{height: "10px"}}></div>
                       <div className="read-button-outer">
-                          <button><a href="/read-preview">Read preview</a></button>
-                          {/*<button onClick={CheckoutBalnce}>*/}
-                          {/*    Buy Now*/}
-                          {/*</button> */}
-                          <button><a
-                              href={`/checkout-order?price=${book.price}&title=${encodeURIComponent(book.title)}`}> Buy
-                              Now</a></button>
+                          <button style={{background:readButton}}><a href="/read-preview">Read preview</a></button>
+                          <button onClick={HandleCheckoutBook} style={{background:buyNowButton}}><a style={{color: 'white'}}> Buy Now</a></button>
                       </div>
-                      <div style={{height: "40px"}}></div>
+                      <div style={{height: "20px"}}></div>
                       <div className="Demo__container">
+                          <p style={{marginLeft:'50px'}}> Share </p>
                           <div className="Demo__some-network">
                               <FacebookShareButton
-                                  url={shareUrl}
+                                  url={currentURL}
                                   className="Demo__some-network__share-button"
                               >
-                                  <FacebookIcon size={50} round/>
+                                  <FacebookIcon size={30} round/>
                               </FacebookShareButton>
 
                               <TwitterShareButton
-                                  url={shareUrl}
+                                  url={currentURL}
                                   className="Demo__some-network__share-button"
                               >
-                                  <TwitterIcon size={50} round/>
+                                  <TwitterIcon size={30} round/>
                               </TwitterShareButton>
 
                               <WhatsappShareButton
-                                  url={shareUrl}
+                                  url={currentURL}
                                   className="Demo__some-network__share-button"
                               >
-                                  <WhatsappIcon size={50} round/>
+                                  <WhatsappIcon size={30} round/>
                               </WhatsappShareButton>
 
                           </div>
                       </div>
                   </div>
               </div>
+                  <h3 style={{color:'blue', textAlign:'center'}}> Mirror Wall</h3>
               <div className="comments-section">
                   {comments.map((comment, index) => (
                       <div className="comments-list">
@@ -207,17 +219,17 @@ const ReadBook = () => {
                               <div className="comment-header">
                                   {/*{data.map((uData, i) => (*/}
                                       <div className="comment-header-left">
-                                          <p><RiAccountCircleFill style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
+                                          <p style={{fontSize: '10px', color: 'black'}}><RiAccountCircleFill style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
                                       </div>
                                   {/*))}*/}
                                   <div className="comment-header-right">
-                                      <p style={{fontSize: '10px', color: 'yellowgreen'}}>
+                                      <p style={{fontSize: '10px', color: 'black'}}>
                                           {formatDate(comment.createdAt)}
                                       </p>
                                   </div>
                               </div>
                               <div className="comment-descriptions">
-                                  <p>
+                                  <p >
                                     {/*{truncateDescription(comment.comment)}*/}
                                     {comment.comment}
                                   </p>
@@ -235,10 +247,11 @@ const ReadBook = () => {
                                   value={formData.comment}
                                   onChange={handleChange}
                                   placeholder="Write a comment..."
+                                  style={{border:'1px solid blue'}}
                                   required
                               />
                               <Button variant="outline-secondary" type="submit" id="button-addon2"
-                                      style={{border: '1px solid white', borderRadius: '8px', paddingTop: '-90px', marginLeft:'10px'}}>
+                                      style={{border: '1px solid black', borderRadius: '8px', paddingTop: '-90px', marginLeft:'10px',color:'black'}}>
                                   Post
                               </Button>
                           </InputGroup>

@@ -1,6 +1,7 @@
 .nav-bar{
-  height: 70px;
+  max-height: 70px !important;
   max-width: 100%;
+  /*position: fixed;*/
   background:rgb(63, 63, 63)  !important;
   /*border: 1px solid red;*/
 }
@@ -21,28 +22,29 @@
 }
 
 .link-page a{
-  font-size: 20px !important;
+  font-size: 17px !important;
   color: hsl(0, 17%, 98%);
   margin: 0 20px;
 }
 .link-page a:hover{
-  font-size: 20px;
+  font-size: 15px;
   color: #f9f5f5;
 }
 .togs{
   background-color:rgb(252, 251, 251)  !important;
   border: 1px solid rgb(251, 247, 247) !important;
 }
-@media screen and (min-width:1140px) {
-  .right-outer{
-      margin-left: 35vw;
-  }
-}
+/*@media screen and (min-width:1140px) {*/
+/*  .right-outer{*/
+/*      margin-left: 35vw;*/
+/*  }*/
+/*}*/
 @media screen and (max-width:768px) {
   p,h1{
       font-size: 8px;
   }
 }
+
 .link-page a{
   font-size: 8px;
 }
@@ -52,3 +54,9 @@ span{
 .nav-bar{
   width: 100% !important;
 }
+
+/*@media  screen and  (min-width: 768px) and (max-width: 1024px){*/
+/*  p,h1{*/
+/*    font-size: 15px;*/
+/*  }*/
+/*}*/

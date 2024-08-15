@@ -10,7 +10,7 @@ function TopNavbar() {
     const navigate = useNavigate();
     const handleClick = () => {
         localStorage.clear();
-        navigate('/');
+        navigate('/home');
     };
     return (
         <Navbar bg="dark" variant="dark" style={{width:'100%'}}>

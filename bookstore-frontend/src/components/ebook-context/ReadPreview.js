@@ -9,11 +9,12 @@ import API_ENDPOINT from '../../apis/httpAxios';
 import ScreenLoading from '../loading/Loading'
 import { SlArrowLeftCircle } from "react-icons/sl";
 import EbookTopBar from '../ebook-context/EbbokTopBar'
+import { FaCircleArrowLeft } from "react-icons/fa6";
 import toast, {Toaster} from "react-hot-toast";
 
-const url = `//cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`
+const url = //cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js
 
-pdfjs.GlobalWorkerOptions.workerSrc = url;
+pdfjs.GlobalWorkerOptions.workerSrc
 
 const ReadPreview = () =>{
     const [numPages, setNumPages] = useState()
@@ -91,31 +92,30 @@ const ReadPreview = () =>{
                 reverseOrder={false}
             />
             <div className="bar" onContextMenu={(e) => e.preventDefault()}>
-            <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"50px", margin:'10px',color: "white"}}/>
+            <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize:"40px" ,margin:'3px',color: "white"}}/>
                 {/* <EbookTopBar/> */}
-            </div> 
+            </div>
             <div className="wrap" onContextMenu={(e) => e.preventDefault()} ref={containerRef}>
                 <div className="controls" onContextMenu={(e) => e.preventDefault()}>
-                    <button onClick={prevPage} >
+                    <button onClick={prevPage}>
                         Prev
                     </button>
-                    <button onClick={nextPage} >
+                    <button onClick={nextPage}>
                         Next
                     </button>
                 </div>
-                        <p>
-                            Page {pageNumber} of {numPages}
-                        </p>
-                {pdfData  && (
-                    <Document 
-                        file={`data:application/pdf;base64,${pdfData}`} 
+                <p style={{marginTop: '10px'}}>Page {pageNumber} of {numPages}</p>
+
+                {pdfData && (
+                    <Document
+                        file={`data:application/pdf;base64,${pdfData}`}
                         onLoadSuccess={onDocumentLoadSuccess}
                         onContextMenu={(e) => e.preventDefault()}
-                        className="pdf-container" >
+                        className="pdf-container">
                         <Page pageNumber={pageNumber} width={width} className="pdf-page"/>
                     </Document>
-                )} 
-            </div> 
+                )}
+            </div>
         </>
     )
 }

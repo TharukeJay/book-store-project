@@ -33,7 +33,7 @@ const  SideNavbar = () => {
         onClick={({key})=>{
             if(key==="signOut"){
                 localStorage.clear();
-                navigate('/');
+                navigate('/home');
             }else{
                 navigate(key)
             }

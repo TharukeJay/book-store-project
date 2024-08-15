@@ -9,8 +9,7 @@ import toast, {Toaster} from "react-hot-toast";
 
 const ChangePassword = () => {
   const [formData, setFormData] = useState({
-    password: "",
-    repassword:"" ,
+    nwPassword: "",
   });
 
   const handleChange = (e) => {
@@ -19,19 +18,15 @@ const ChangePassword = () => {
   };
 
   const token = window.location.href.split('/reset-password/')[1];
-  console.log('User ID:', token); 
+  console.log('Token ID:', token);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    if (formData.password !== formData.repassword) {
-      alert('Passwords do not match');
-    }
     try {
       console.log("Execute Start");
       const response = await axios.post(`${CONFIRM_RESET_PASSWORD}/${token}`, formData);
       console.log("response=======", response);
-      const data = response.data;
 
       toast.success("Password Change Successfully", {
         style: {
@@ -70,24 +65,12 @@ const ChangePassword = () => {
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label className='form-lable'>Password</Form.Label>
           <Form.Control 
-            name='password' 
+            name='newPassword'
             type="password" 
-            placeholder="Enter password"
-            value={formData.password}
+            placeholder="Enter New password"
+            value={formData.newPassword}
             onChange={handleChange}
             required 
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label className='form-lable'>Re-Password</Form.Label>
-          <Form.Control 
-            name='repassword' 
-            type="password" 
-            placeholder="confirm Password" 
-            value={formData.repassword}
-            onChange={handleChange}
-            required
           />
         </Form.Group>
         <br /><br />

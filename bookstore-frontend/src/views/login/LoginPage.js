@@ -39,9 +39,9 @@ const LoginPage = () => {
         duration: 5000,
       });
       if (response.status == 200) {
-        window.location.href="/"
+        window.location.href="/home"
       }
-      window.location.href = "/";
+      window.location.href = "/home";
 
     } catch (error) {
       console.error('Error:', error);
@@ -65,7 +65,7 @@ const LoginPage = () => {
     />
     <div className='main-outer'>
       <Form className='form-controler' onSubmit={handleSubmit}>
-        <h1> Login Here</h1>
+        <h1 style={{color:'#6a2bf4'}}> Login Here</h1>
         <br /><hr /><br />
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label className='form-lable'>Email address</Form.Label>
@@ -90,12 +90,12 @@ const LoginPage = () => {
             required
           />
         </Form.Group>
-        <a href="/forgot-password">Forgot Password</a>
+        <a href="/forgot-password" style={{color:'blue'}}>Forgot Password</a>
         <br /><br />
         <Button className='btn button-style' variant="primary" type="submit" >
           Login
         </Button>
-        <p>Don't have an account? <a href="/register"> SignUp</a></p>
+        <p>Don't have an account? <a href="/register" style={{color:'blue'}}> SignUp</a></p>
       </Form>
     </div>
 

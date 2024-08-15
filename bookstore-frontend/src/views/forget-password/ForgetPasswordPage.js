@@ -5,6 +5,7 @@ import '../../styles/authentication-page.css';
 import { REQUEST_RESET_PASSWORD_EMAIL } from "../../apis/endpoints";
 import API_ENDPOINT from '../../apis/httpAxios';
 import toast, {Toaster} from "react-hot-toast";
+import { MdArrowBackIos } from "react-icons/md";
 
 const ForgetPasswordPage = () => {
   const [formData, setFormData] = useState({
@@ -34,7 +35,7 @@ const ForgetPasswordPage = () => {
         duration: 1000,
       });
 
-      window.location.href="/login";
+      // window.location.href="/login";
     } catch (error) {
       console.error('Error:', error);
       toast.error(" Link send faild", {
@@ -56,23 +57,28 @@ const ForgetPasswordPage = () => {
       reverseOrder={false}
     />
     <div className='main-outer'>
+      <div>
+      </div>
       <Form className='form-controler' onSubmit={handleSubmit}>
-        <h1> Find your account</h1>
-        <br /><hr /><br />
+        <p style={{textAlign:'start', fontSize:'20px'}}><a href='/login' style={{color:'black'}}><MdArrowBackIos/></a></p>
+        <h1 style={{color:'#6a2bf4'}}> Find your account</h1>
+        <br/>
+        <hr/>
+        <br/>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label className='form-lable'>Enter your email </Form.Label>
-          <Form.Control 
-            name='email' 
-            type="email" 
-            placeholder="Enter Email "
-            value={formData.email}
-            onChange={handleChange}
-            required 
+          <Form.Control
+              name='email'
+              type="email"
+              placeholder="Enter Email "
+              value={formData.email}
+              onChange={handleChange}
+              required
           />
         </Form.Group>
         <p>You may recieve Email from us for secuirity and login purposes.</p>
-        <br />
-        <Button className='btn button-style' variant="primary" type="submit" >
+        <br/>
+        <Button className='btn button-style' variant="primary" type="submit">
           Continue
         </Button>
       </Form>

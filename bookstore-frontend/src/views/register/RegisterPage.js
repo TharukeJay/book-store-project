@@ -10,6 +10,7 @@ const RegisterPage = () => {
   const [formData, setFormData] = useState({
     email:"" ,
     password:"" ,
+    userName:""
   });
 
   const handleChange = (e) => {
@@ -22,7 +23,7 @@ const RegisterPage = () => {
     e.preventDefault();
     console.log(formData);
     // console.log(authApi.registerAPI);
-  
+
       try {
         const response = await fetch(apiUrl, {
         method: 'POST',
@@ -42,7 +43,7 @@ const RegisterPage = () => {
           className: 'toaster',
           duration: 1000,
         });
-        window.location.href='/login'
+        window.location.href='/home'
       } else {
         const data = await response.json();
         console.error(data.message);
@@ -63,41 +64,52 @@ const RegisterPage = () => {
 
   return (
     <>
-    <Toaster  
+    <Toaster
       position="top-center"
       reverseOrder={false}
     />
       <div className='main-outer'>
         <Form className='form-controler' onSubmit={handleSubmit}>
-          <h1> Register Here</h1>
+          <h1 style={{color:'#6a2bf4'}}> Register Here</h1>
           <br /><hr /><br />
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label className='form-lable'>Email address</Form.Label>
-            <Form.Control 
-              name='email' 
-              type="email" 
+            <Form.Control
+              name='email'
+              type="email"
               placeholder="Enter email"
               value={formData.email}
               onChange={handleChange}
-              required 
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicUserName">
+            <Form.Label className='form-lable'>User Name</Form.Label>
+            <Form.Control
+              name='userName'
+              type="text"
+              placeholder="Enter User Name"
+              value={formData.userName}
+              onChange={handleChange}
+              required
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label className='form-lable'>Password</Form.Label>
-            <Form.Control 
-              name='password' 
-              type="password" 
+            <Form.Control
+              name='password'
+              type="password"
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              required 
+              required
             />
           </Form.Group>
           <br />
           <Button className='btn button-style' variant="primary" type="submit" >
             Register
           </Button>
-          <p>already have an account?  <a href="/login">signIn</a>  </p>
+          <p>already have an account?  <a href="/login" style={{color:'blue'}}>signIn</a>  </p>
         </Form>
       </div>
     </>

@@ -14,15 +14,16 @@ import {
 } from "react-share";
 import {bgColor} from "../../common/commonColors";
 import Footer from "../footer/Footer";
+import {Helmet} from "react-helmet-async";
 
 const ViewNews = () => {
     const [news, setNews] = useState();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    
+
     const selectedNewsId = localStorage.getItem('selectedNewsId');
     console.log("selectedNewsId : ", selectedNewsId);
-    
+
     useEffect(() => {
       console.log('selected News Data Execute start');
       const fetchData = async () => {
@@ -58,48 +59,55 @@ const ViewNews = () => {
         return <div>No news available</div>;
     }
 
-    const shareUrl = "http://github.com";
+    const shareUrl = 'https://readlanka.com/read-news/${selectedNewsId';
+    const currentURL = "https://readlanka.com" + window.location.pathname;
     // const shareUrl = "http://localhost:3000/read-book";
-    const title = "GitHub";
+    const title = "Read Lanka";
 
   return (
       <>
           <div className="top__bar">
               <p>
-                  <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize: "40px", margin: '10px', color: "white"}}/>
+                  <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize: "40px", margin: '3px', color: "white"}}/>
               </p>
           </div>
 
           <div className='view-news-outer' style={{background: bgColor}}>
-              <div className="left-news-outer">
-                  <img src={news.thumbnail_url} alt={news.newsTitle}/>
+              <Helmet>
+                  <title>{news.newsTitle}</title>
+              </Helmet>
+              <div className="left-news-outer-view">
+                  <img id="image" src={news.thumbnail_url} alt={news.newsTitle}/>
               </div>
               <div className="right-news-desc-outer">
-                  <br/><br/>
-                  <h2>{news.newsTitle}</h2>
-                  <p>{news.description}</p>
+                  <div className='topic'>
+                      <h2 style={{fontSize:'25px'}}>{news.newsTitle}</h2>
+                  </div>
+                  <div className='news-description-body'>
+                    <p >{news.description}</p>
+                  </div>
               </div>
               <div className="Demo__container">
-                  <p style={{fontSize:'25px'}}>Share</p>
+                  <p style={{fontSize:'25px', color:'red'}}>Share</p>
                   <div className="Demo__some-network">
                       <FacebookShareButton
-                          url={shareUrl}
-                          className="Demo__some-network__share-button"
+                          url={currentURL}
+                          className="Demo_some-network_share-button"
                       >
-                          <FacebookIcon size={50} round />
+                          <FacebookIcon size={30} round />
                       </FacebookShareButton>
                       <TwitterShareButton
-                          url={shareUrl}
-                          className="Demo__some-network__share-button"
+                          url={currentURL}
+                          className="Demo_some-network_share-button"
                       >
-                          <TwitterIcon size={50} round/>
+                          <TwitterIcon size={30} round/>
                       </TwitterShareButton>
 
                       <WhatsappShareButton
-                          url={shareUrl}
-                          className="Demo__some-network__share-button"
+                          url={currentURL}
+                          className="Demo_some-network_share-button"
                       >
-                          <WhatsappIcon size={50} round/>
+                          <WhatsappIcon size={30} round/>
                       </WhatsappShareButton>
 
                   </div>

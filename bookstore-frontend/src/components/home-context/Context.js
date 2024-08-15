@@ -4,20 +4,21 @@ import '../../styles/context.css';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import NewsContext from '../news-context/NewsContext';
-import EBookContext from '../ebook-context/EBookContext';
+import HomeWindow from '../home-context/HomeWindow';
 import NavBar from '../navbar/NavBar';
 import Footer from '../footer/Footer';
+import HomePage from "../../views/home/HomePage";
+import {bgColor} from "../../common/commonColors";
 
 
 const Context = () => {
   return (
     <>
-        <NavBar/>
-         <div className="container" style={{maxWidth: "100%"}}>
-            <EBookContext/>
-            {/*<NewsContext/>*/}
-          </div> 
-        <Footer/>
+         <div className="container" style={{background:bgColor, maxWidth: "100%"}} >
+            <NavBar/>
+            <HomeWindow/>
+            <Footer/>
+          </div>
     </>
   )
 }
