@@ -31,10 +31,11 @@ const PrivacyPolicy = () => {
                     <div style={{height: '30px'}}></div>
                     <div className='privacy-inner-outer'>
                         <p>
-                            www.readlanka.com වෙබ් අඩවිවේ අඩංගු සියලුම වරෙෘත්ති, ලිපි, විවේෂ ංංග සහ අවෙකුත්තත සියලුම වේ
-                            Read Lanka Media හි ලිඛිත වඅසරයකින් ෙත වර උපුට ගැනීම, වංංැවංත රක ශණය කිරීම, වෙද හැරීම,
-                            රදවශෙය කිරීම, වික වශය කිරීම ඇතුළුවං කුවම අයුරකින් ෙවහෝ භ විත කිරීම බුවං ං මය වේපල වපත
-                            යටෙත්තත සිරදඬුවංම් ලැබිය හැකි වංරදකි.
+                            www.readlanka.com වෙබ් අඩවියේ අඩංගු සියලුම ප්‍රවෘත්ති, විශේෂාංග ලිපි මෙන්ම
+                            අනෙකුත් සියලුම ලිපි ද ඊ මුද්‍රිත පොත් සහ ශ්‍රවණ පොත් ද ඇතුළත් අන්තර්ගතය Read
+                            Lanka Media හි ලිඛිත අවසරයකින් තොරව උපුටා ගැනීම, ප්‍රකාශය කිරීම, බෙදා හැරීම
+                            සහ විකාශය කිරීම ඇතුළුව කුමන අන්දමකින් හෝ භාවිත කිරීම බුද්ධිමය දේපොළ
+                            පනත යටතේ දඬුවම් ලැබිය හැකි වරදකි.
                         </p>
                         <div style={{height: '40px'}}></div>
                         <h2><b>Terms & Conditions</b></h2>
@@ -96,6 +97,13 @@ const PrivacyPolicy = () => {
                                 unenforceable, the remaining provisions will remain in full force and effect.
                             </li>
                             <div style={{height: '20px'}}></div>
+                            <li>Payments and Refund Policy:
+                                We may provide paid products and/or services within Service. In that case, we use third-party
+                                services for payment processing.
+                                We sell digital products such as eBooks and audio books. Due to the nature of digital products, we do
+                                not offer refunds once a purchase is completed. It is your responsibility to ensure that you have selected
+                                the correct item before making a purchase.
+                            </li>                            <div style={{height: '20px'}}></div>
                             <li>Contact Us: If you have any questions or concerns about these terms and conditions,
                                 please
                                 contact us at admin@readlanka.com
