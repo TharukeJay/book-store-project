@@ -15,6 +15,7 @@ import {
 import {bgColor} from "../../common/commonColors";
 import Footer from "../footer/Footer";
 import {Helmet} from "react-helmet-async";
+import {FaCircleArrowLeft} from "react-icons/fa6";
 
 const ViewNews = () => {
     const [news, setNews] = useState();
@@ -66,9 +67,9 @@ const ViewNews = () => {
 
   return (
       <>
-          <div className="top__bar">
+          <div className="top__bar" style={{background:'none'}}>
               <p>
-                  <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize: "40px", margin: '3px', color: "white"}}/>
+                  <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize: "50px", margin: '3px', color: "black"}}/>
               </p>
           </div>
 
@@ -81,14 +82,14 @@ const ViewNews = () => {
               </div>
               <div className="right-news-desc-outer">
                   <div className='topic'>
-                      <h2 style={{fontSize:'25px',marginBottom:'20px' }}>{news.newsTitle}</h2>
+                      <h2 style={{fontSize:'35px',marginBottom:'20px' }}>{news.newsTitle}</h2>
                   </div>
                   <div className='news-description-body'>
                     <p >{news.description}</p>
                   </div>
               </div>
               <div className="Demo__container">
-                  <p style={{fontSize:'25px', color:'red'}}>Share</p>
+                  <p style={{fontSize:'30px', color:'red'}}>Share</p>
                   <div className="Demo__some-network">
                       <FacebookShareButton
                           url={currentURL}

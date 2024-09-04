@@ -98,49 +98,109 @@ const Checkout = () => {
         //     setShowModalNavigate(true);
         //     return;
         // }
+        // try {
+        //     if(type =='book') {
+        //         await API_ENDPOINT.post(ADD_TO_PURCHASE_BOOK, {
+        //             bookid: selectedId,
+        //             userId: userId,
+        //             type: 'book'
+        //         });
+        //         setShowModal(false);
+        //         toast.success(" Welcome ! ...Payment Successful", {
+        //             style: {
+        //                 minWidth: '300px',
+        //                 height: '50px',
+        //                 // marginRight: '200px'
+        //             },
+        //             className: 'toaster',
+        //             duration: 5000,
+        //         });
+        //         Navigate('/payment-success',{state:{type:'book'}});
+        //     }else{
+        //         await API_ENDPOINT.post(ADD_TO_PURCHASE_BOOK, {
+        //             bookid: selectedAudioId,
+        //             userId: userId,
+        //             type: 'audio'
+        //         });
+        //         setShowModal(false);
+        //         toast.success(" Welcome ! ...Payment Successful", {
+        //             style: {
+        //                 minWidth: '300px',
+        //                 height: '50px',
+        //                 // marginRight: '200px'
+        //             },
+        //             className: 'toaster',
+        //             duration: 5000,
+        //         });
+        //         Navigate('/payment-success',{state:{type:'audio'}});
+        //         // Navigate('/payment-success',{state:{type:'audio'}});
+        //     }
+        //
+        // } catch (error) {
+        //     console.error('Error adding to user collection:', error);
+        //         setShowModalNavigate(true);
+        //         return;
+        //
+        // }
+
+        // new code ========================
         try {
-            if(type =='book') {
-                await API_ENDPOINT.post(ADD_TO_PURCHASE_BOOK, {
-                    bookid: selectedId,
-                    userId: userId,
-                    type: 'book'
-                });
-                setShowModal(false);
-                toast.success(" Welcome ! ...Payment Successful", {
-                    style: {
-                        minWidth: '300px',
-                        height: '50px',
-                        // marginRight: '200px'
-                    },
-                    className: 'toaster',
-                    duration: 5000,
-                });
-                Navigate('/payment-success',{state:{type:'book'}});
-            }else{
-                await API_ENDPOINT.post(ADD_TO_PURCHASE_BOOK, {
-                    bookid: selectedAudioId,
-                    userId: userId,
-                    type: 'audio'
-                });
-                setShowModal(false);
-                toast.success(" Welcome ! ...Payment Successful", {
-                    style: {
-                        minWidth: '300px',
-                        height: '50px',
-                        // marginRight: '200px'
-                    },
-                    className: 'toaster',
-                    duration: 5000,
-                });
-                Navigate('/payment-success',{state:{type:'audio'}});
-                // Navigate('/payment-success',{state:{type:'audio'}});
+            // const orderId = type === 'book' ? selectedId : selectedAudioId;
+            const orderId = '1235';
+            // const price = type === 'book' ? book.price : audioBook.seriesPrice;
+            const price = '500';
+            // const response = await API_ENDPOINT.post('/payment-create', {
+            //     order_id: orderId,
+            //     amount: price,
+            //     userId,
+            //     currency: 'LKR'
+            // });
+
+            // const { hash, merchant_id, return_url } = response.data;
+
+            // Create an HTML form and submit it
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'https://sandbox.payhere.lk/pay/checkout';
+
+            const fields = {
+                // merchant_id,
+                merchant_id :'1228092',
+                // return_url,
+                return_url :'localhost/home',
+                cancel_url: 'http://yourdomain.com/cancel',
+                notify_url: 'http://yourdomain.com/notify',
+                order_id: orderId,
+                // items: type === 'book' ? book.title : audioBook.seriesTitle,
+                items: 'book',
+                currency: 'LKR',
+                amount: price,
+                first_name: 'CustomerFirstName', // Replace with actual customer data
+                last_name: 'CustomerLastName',  // Replace with actual customer data
+                email: 'customer@example.com',  // Replace with actual customer data
+                phone: '0771234567',            // Replace with actual customer data
+                address: 'CustomerAddress',     // Replace with actual customer data
+                city: 'CustomerCity',           // Replace with actual customer data
+                country: 'Sri Lanka',           // Replace with actual customer data
+                // hash,
+                hash:'MTc0NTAxNTQzNjEwMjc3MjMzNjkzNDkxODA5MjIzMTIxOTYwNzgwOQ==',
+            };
+
+            for (const key in fields) {
+                if (fields.hasOwnProperty(key)) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = fields[key];
+                    form.appendChild(input);
+                }
             }
 
+            document.body.appendChild(form);
+            form.submit();
         } catch (error) {
-            console.error('Error adding to user collection:', error);
-                setShowModalNavigate(true);
-                return;
-
+            console.error('Error creating payment:', error);
+            setShowModalNavigate(true);
         }
     };
 

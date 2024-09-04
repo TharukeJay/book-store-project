@@ -145,12 +145,12 @@
 }
 
 .right-news-outer h2 {
-    font-size: 25px;
+    font-size: 30px;
     font-weight: 500;
 }
 
 .right-news-outer p {
-    font-size: 17px;
+    font-size: 23px;
     text-align: start;
     line-height: 25px;
 }
@@ -334,7 +334,7 @@
 
 .news-description-body p {
     text-align: start;
-    fon-size: '18px';
+    font-size: 25px;
 }
 
 .topic {

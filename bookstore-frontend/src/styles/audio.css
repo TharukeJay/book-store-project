@@ -58,7 +58,7 @@ body {
 }
 
 .pricing-card {
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .audio-book-list {
@@ -79,7 +79,7 @@ body {
 
 .right-photo img {
     width: 50px;
-    height: 75px;
+    /*height: 75px;*/
 }
 
 .right-photo p {

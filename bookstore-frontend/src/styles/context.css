@@ -35,8 +35,8 @@
     padding-bottom:80px;
 }
 .category-outer{
-    width: 200px;
-    height: 220px;
+    width: 350px;
+    height: 370px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,7 +46,7 @@
 }
 .category-outer img{
     width: 100%;
-    height:84%;
+    height:87%;
     border-radius: 10px 10px 0px 0px;
 }
 

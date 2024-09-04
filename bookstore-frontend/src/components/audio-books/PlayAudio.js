@@ -28,6 +28,7 @@ import '../../styles/audio.css'
 import Modal from "react-bootstrap/Modal";
 import {SlArrowLeftCircle} from "react-icons/sl";
 import {Helmet} from "react-helmet-async";
+import {FaCircleArrowLeft} from "react-icons/fa6";
 
 const AudioPlayer = () => {
     const Navigate = useNavigate();
@@ -352,10 +353,10 @@ const AudioPlayer = () => {
     return (
         <>
             {/*<TopBar/>*/}
-            <div className="top__bar">
+            <div className="top__bar" style={{background:'white'}}>
                 <p>
-                    <SlArrowLeftCircle onClick={RedirectPage}
-                                       style={{fontSize: "40px", color: "white", paddingTop: '5px'}}/>
+                    <FaCircleArrowLeft onClick={RedirectPage}
+                                       style={{fontSize: "55px", color: "black", paddingTop: '5px'}}/>
                 </p>
             </div>
             <div className="main-outer-audio" style={{background: bgColor}}>
@@ -400,7 +401,7 @@ const AudioPlayer = () => {
                 </div>
 
                 <div className="right-desc-outer">
-                    <h3 style={{color: 'blue'}}>{seriesData.seriesTitle}</h3>
+                    <p style={{color: 'blue', fontSize:"35px"}}>{seriesData.seriesTitle}</p>
                     <div style={{height: "10px"}}></div>
                     <div className="audio-book-list">
                         {bookData.sort((a, b) => a.chapter - b.chapter).map((audioBookItem, i) => (
@@ -413,9 +414,9 @@ const AudioPlayer = () => {
                     </div>
                     <div style={{height: "20px"}}></div>
                     {/*<div className="audio-description" >*/}
-                    <p style={{fontSize: '15px'}}> {seriesData.description} </p>
+                    <p style={{fontSize: '25px'}}> {seriesData.description} </p>
                     {/*</div>*/}
-                    <div className="pricing-card" style={{marginLeft: '-25px'}}>
+                    <div className="pricing-card" style={{marginLeft: '-25px', marginTop:'10px'}}>
                         <span> {seriesData.seriesPrice}/- LKR </span>
                     </div>
                     {/*))}*/}
@@ -429,7 +430,7 @@ const AudioPlayer = () => {
 
                     <div style={{height: "10px"}}></div>
                     <div className="Demo__container">
-                        <p style={{fontSize: "20px", marginLeft: "50px"}}> Share</p>
+                        <p style={{fontSize: "25px", marginLeft: "50px"}}> Share</p>
                         <div className="Demo__some-network">
                             <FacebookShareButton
                                 url={currentURL}
@@ -461,11 +462,11 @@ const AudioPlayer = () => {
                         <div className="comment">
                             <div className="comment-header">
                                 <div className="comment-header-left">
-                                    <p style={{fontSize: '10px', color: 'black'}}><RiAccountCircleFill
+                                    <p style={{fontSize: '15px', color: 'black'}}><RiAccountCircleFill
                                         style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
                                 </div>
                                 <div className="comment-header-right">
-                                    <p style={{fontSize: '10px', color: 'black'}}>
+                                    <p style={{fontSize: '15px', color: 'black'}}>
                                         {formatDate(comment.createdAt)}
                                     </p>
                                 </div>

@@ -22,6 +22,7 @@ import {MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight} from "react-icons
 import ScreenLoading from "../loading/Loading";
 import Footer from "../footer/Footer";
 import {Helmet} from "react-helmet-async";
+import {FaCircleArrowLeft} from "react-icons/fa6";
 
 const PictureRim =()=>{
     const location = useLocation();
@@ -123,9 +124,9 @@ const PictureRim =()=>{
 
     return(
         <>
-            <div className="top__bar">
+            <div className="top__bar" style={{background:'none'}}>
                 <p>
-                    <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize: "40px", margin: '3px', color: "white"}}/>
+                    <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize: "50px", margin: '3px', color: "black"}}/>
                 </p>
             </div>
             <div className='main-outer-picture-rim'>
@@ -148,7 +149,7 @@ const PictureRim =()=>{
                             </div>
                         </div>
                         <div className="Demo__container">
-                            <p style={{fontSize: '25px', color: 'red'}}>Share</p>
+                            <p style={{fontSize: '30px', color: 'red'}}>Share</p>
                             <div className="Demo__some-network">
                                 <FacebookShareButton
                                     url={currentURL}
@@ -187,7 +188,7 @@ const PictureRim =()=>{
                                 <br/>
                                 <p>{truncateDescription(newsItem.description)} </p>
                                 <button className='btn btn-default'
-                                        style={{fontSize: '15px', border: '1px solid black'}} key={i}
+                                        style={{fontSize: '15px', border: '1px solid black', marginTop:'10px'}} key={i}
                                         onClick={() => handleNewsClick(newsItem.id)}>READ MORE
                                 </button>
                             </div>

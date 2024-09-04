@@ -54,26 +54,35 @@ const NavBar = () => {
             <div className='nav-bar'>
                 <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer">
                     <Container className='nav-container'>
-                        <Navbar.Brand href="/home" style={{fontSize: "20px", color: "white", paddingLeft: "2px"}}>
-                            <Nav.Link style={{fontSize: "17px", color: "white"}}> Read Lanka</Nav.Link>
+                        <Navbar.Brand href="/home" style={{fontSize: "30px", color: "black", fontFamily:"Harlow Solid Italic", paddingLeft: "2%"}}>
+                            <Nav.Link style={{fontSize: "30px", color: "black", fontFamily :"Harlow Solid Italic"}}> Read Lanka</Nav.Link>
                         </Navbar.Brand>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav togs "/>
                         <Navbar.Collapse id="responsive-navbar-nav tog-border">
                             <div className='right-outer'>
                                 <Nav className='link-page'>
-                                    {showMyRack && (
-                                        <Nav.Link href="/myBookRack">My Book Rack</Nav.Link>
-                                    )}
                                     <Nav.Link href="/home">Home</Nav.Link>
                                     <Nav.Link href="/e-books">e-Books</Nav.Link>
                                     <Nav.Link href="/audio-books">Audio-Books</Nav.Link>
                                     <Nav.Link href="/news-papers">News</Nav.Link>
-
+                                    {showMyRack && (
+                                        <Nav.Link href="/myBookRack">My Book Rack</Nav.Link>
+                                    )}
                                     {showSignOut && (
                                         <Nav.Link><VscSignOut onClick={SignOut} xlinkShow={showSignOut}/></Nav.Link>
                                     )}
                                     {showLoginSignup && (
                                         <Nav.Link href="/login">Login | Register</Nav.Link>
+                                    )}
+                                    {/*{userData && (*/}
+                                    {/*    <Nav.Link style={{fontSize: "17px", color: "red", flex: 'end'}} className='show-username'>{userData.email}</Nav.Link>*/}
+                                    {/*)}*/}
+                                </Nav>
+                            </div>
+                            <div className="last-outer">
+                                <Nav className='link-page-last'>
+                                    {userData && (
+                                        <Nav.Link style={{fontSize: "17px", color: "red", flex: 'end'}} className='show-username'>{userData.email}</Nav.Link>
                                     )}
                                 </Nav>
                             </div>
@@ -89,12 +98,12 @@ const NavBar = () => {
                 justifyContent: 'end'
             }}>
 
-                <div className='right-outer-name' style={{backgroundColor: 'white'}}>
-                    {userData && (
-                        <p
-                            style={{fontSize: "17px", color: "red", flex: 'end'}}> {userData.email}</p>
-                    )}
-                </div>
+                {/*<div className='right-outer-name' style={{backgroundColor: 'white'}}>*/}
+                {/*    {userData && (*/}
+                {/*        <p*/}
+                {/*            style={{fontSize: "17px", color: "red", flex: 'end'}}> {userData.email}</p>*/}
+                {/*    )}*/}
+                {/*</div>*/}
             </div>
             <Modal show={showModal} onHide={closeModal}>
                 <Modal.Header closeButton>

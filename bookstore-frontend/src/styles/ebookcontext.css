@@ -22,12 +22,12 @@
     margin:7px 0 30px 0;
 }
 .photo img{
-    /border: 1px solid blue;
+    /*border: 1px solid blue;*/
     border-radius: 10px;
     cursor: pointer;
 }
 .photo:hover{
-    opacity: 50%;
+    opacity: 70%;
     transition: all 0.1s;
 }
 .category-buttons{
@@ -44,7 +44,7 @@
 .button{
     border-radius: 5px;
     margin: 5px;
-    font-size:14px ;
+    font-size:17px ;
 }
 
 /* Tablets: from 768px to 1024px */
@@ -99,8 +99,8 @@
 /* Desktop and larger devices */
 @media (min-width: 1024px) {
     .photo img{
-        width: 400px !important;
-        height: 600px!important;
+        width: 420px !important;
+        height: 630px!important;
     }
     .outer{
         width: 100% !important;
@@ -130,8 +130,8 @@
 }
 
 .left-photo-outer img{
-    height:500px;
-    width: 350px;
+    height:550px;
+    width: 400px;
     padding-top: 50px;
     padding-left: 50px;
     border-radius: 10px;
@@ -148,12 +148,12 @@
 }
 
 .right-desc-outer-ebook p{
-    font-size: 20px;
+    font-size: 30px;
     text-align: start;
 }
 
 .pricing-card{
-    font-size: 20px;
+    font-size: 30px !important;
 }
 
 .read-button-outer{
@@ -167,7 +167,7 @@
 .read-button-outer button{
     width: auto !important;
     padding: 5px !important;
-    font-size: 15px !important;
+    font-size: 20px !important;
     /*background-color: #40ba51 !important;*/
     border-radius: 7px !important;
     border: 1px solid white;
@@ -248,7 +248,7 @@ span{
 
 .comment-descriptions{
     width: inherit;
-    /padding-left: 60px;
+    /*//padding-left: 60px;*/
     display: flex;
     align-items: start;
     justify-content: start;
@@ -258,7 +258,8 @@ span{
 }
 
 .comment-header-right{
-    flex: 1;    display: flex;
+    flex: 1;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -280,9 +281,9 @@ span{
 /* Phones: less than 768px */
 @media (max-width: 768px) {
     .left-photo-outer, .right-desc-outer-ebook {
-        width: 100%;  
-        margin-left: 0; 
-        height: auto; 
+        width: 100%;
+        margin-left: 0;
+        height: auto;
     }
     .left-photo-outer img{
         width: 100%;
@@ -309,7 +310,6 @@ span{
 .bar{
     max-width: 100%;
     height: auto;
-    background-color: #989595;
     flex-direction: column;
     display: flex;
     align-items: flex-start;
@@ -334,7 +334,7 @@ span{
     width: 100%;
     height: 100%;
     overflow: auto;
-    padding: 10px; 
+    padding: 10px;
 }
 
 .pdf-page {
@@ -353,7 +353,7 @@ span{
 
 .controls button {
     padding: 10px 20px;
-    font-size: 10px;
+    font-size: 20px;
     cursor: pointer;
 }
 
