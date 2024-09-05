@@ -356,7 +356,7 @@ const AudioPlayer = () => {
             <div className="top__bar" style={{background:'white'}}>
                 <p>
                     <FaCircleArrowLeft onClick={RedirectPage}
-                                       style={{fontSize: "55px", color: "black", paddingTop: '5px'}}/>
+                                       style={{fontSize: "50px", color: "black", paddingTop: '5px'}}/>
                 </p>
             </div>
             <div className="main-outer-audio" style={{background: bgColor}}>
@@ -414,7 +414,7 @@ const AudioPlayer = () => {
                     </div>
                     <div style={{height: "20px"}}></div>
                     {/*<div className="audio-description" >*/}
-                    <p style={{fontSize: '25px'}}> {seriesData.description} </p>
+                    <p style={{fontSize: '20px'}}> {seriesData.description} </p>
                     {/*</div>*/}
                     <div className="pricing-card" style={{marginLeft: '-25px', marginTop:'10px'}}>
                         <span> {seriesData.seriesPrice}/- LKR </span>

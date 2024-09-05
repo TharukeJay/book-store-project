@@ -69,7 +69,7 @@ const ViewNews = () => {
       <>
           <div className="top__bar" style={{background:'none'}}>
               <p>
-                  <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize: "50px", margin: '3px', color: "black"}}/>
+                  <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize: "45px", margin: '3px', color: "black"}}/>
               </p>
           </div>
 

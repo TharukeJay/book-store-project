@@ -66,7 +66,7 @@ const ReadPictureRim=()=> {
         <>
             <div className="top__bar" style={{background:'none'}}>
                 <p>
-                    <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize: "50px", margin: '3px', color: "black"}}/>
+                    <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize: "45px", margin: '3px', color: "black"}}/>
                 </p>
             </div>
             <div className='main-outer-picture-rim' style={{userSelect:'none'}}>
@@ -80,10 +80,10 @@ const ReadPictureRim=()=> {
                         </div>
                         <div className="right-news-desc-outer" style={{userSelect:'none'}}>
                             <div className='topic'>
-                                <h2 style={{fontSize: '35px', fontWeight:'500', marginBottom:'10px'}}>{selectedData.title}</h2>
+                                <h2 style={{fontSize: '30px', fontWeight:'500', marginBottom:'10px'}}>{selectedData.title}</h2>
                             </div>
                             <div className='news-description-body'>
-                                <p style={{fontSize: '25px'}}>{selectedData.description}</p>
+                                <p style={{fontSize: '20px'}}>{selectedData.description}</p>
                             </div>
                         </div>
                         <div className="Demo__container">

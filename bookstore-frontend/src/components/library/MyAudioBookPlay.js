@@ -20,6 +20,7 @@ import MyBookControles from "./MyBookControles";
 import {SlArrowLeftCircle} from "react-icons/sl";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import {FaCircleArrowLeft} from "react-icons/fa6";
 
 const AudioPlayer = () => {
     const Navigate = useNavigate();
@@ -285,10 +286,10 @@ const AudioPlayer = () => {
 
     return (
         <>
-            <div className="top__bar">
+            <div className="top__bar" style={{background:'none'}}>
                 <p>
-                    <SlArrowLeftCircle onClick={RedirectPage}
-                                       style={{fontSize: "40px", margin: '3px', color: "white"}}/>
+                    <FaCircleArrowLeft onClick={RedirectPage}
+                                       style={{fontSize: "40px", margin: '3px', color: "black"}}/>
                 </p>
             </div>
             <div className="main-outer-audio" style={{background: bgColor}}>

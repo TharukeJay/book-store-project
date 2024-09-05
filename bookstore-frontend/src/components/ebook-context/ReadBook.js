@@ -171,7 +171,7 @@ const ReadBook = () => {
                   <div className="right-desc-outer-ebook">
                       <br/><br/>
                       <p style={{color: "blue", fontSize: "40px", paddingBottom: "10px"}}>{book.title}</p>
-                      <p style={{fontSize: "25px", paddingBottom: "1px"}}>{book.description}</p>
+                      <p style={{fontSize: "20px", paddingBottom: "1px"}}>{book.description}</p>
                       <br/>
 
                       <div className="pricing-card">

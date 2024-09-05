@@ -7,18 +7,18 @@ const Success = () => {
     const Navigate = useNavigate();
     const type = location.state;
 
-    // const bookType = type.type;
-    // console.log('bookType ==========>>>>>>>', bookType)
+    const bookType = type.type;
+    console.log('bookType ==========>>>>>>>', bookType)
 
     const ConfirmPayment =async ()=> {
-        // if(bookType =='book'){
-        //     Navigate('/myBookRack/eBook')
-        // }
-        // if(bookType =='audio'){
-        //     Navigate('/myBookRack/audio')
-        // }
+        if(bookType =='book'){
+            Navigate('/myBookRack/eBook')
+        }
+        if(bookType =='audio'){
+            Navigate('/myBookRack/audio')
+        }
 
-        Navigate('/myBookRack')
+        // Navigate('/myBookRack')
     }
     return(
         <div style={{width:'100%', display:"flex", alignItems:'center', justifyContent:'center', marginTop:'60px'}}>

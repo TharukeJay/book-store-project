@@ -78,6 +78,8 @@
     .footer-top {
         flex-direction: column !important;
         align-items: center;
+        margin-bottom: 40px;
+
     }
 
     .footer-links-left {
