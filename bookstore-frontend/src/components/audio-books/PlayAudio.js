@@ -97,6 +97,109 @@ const AudioPlayer = () => {
         commentData();
     }, [selectedBookId]);
 
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await API_ENDPOINT.get(`${FETCH_ALL_BOOK_SERIES_ID}/${selectedBookId}`);
+    //         if (response.status == 200) {
+    //             const selectedBookData = response.data.data;
+    //             selectedBookData.sort((a, b) => a.chapter - b.chapter);
+    //             setBookData(selectedBookData);
+    //             setLoading(false)
+    //             // console.log('book Data list =======>>>', bookData)
+    //             const updatedTracks = selectedBookData.map(book => ({
+    //                 id: book.id,
+    //                 title: book.title,
+    //                 src: book.bookFile_url["fullBookUrl"],
+    //                 authorName: book.authorName,
+    //                 thumbnail_url: book.thumbnail_url,
+    //                 description: book.description,
+    //             }));
+    //             setTracks(updatedTracks);
+    //
+    //             const lastPlayedData = await fetchLastPlayedTrackIndex();
+    //             const lastPlayedTrackIndex = lastPlayedData.lastPlayedTrackIndex;
+    //             const lastPlayedAudioId = lastPlayedData.selectedAudioId;
+    //
+    //             setTrackIndex(lastPlayedTrackIndex);
+    //             setSelectedTrackId(lastPlayedAudioId);
+    //             //  start
+    //             const relaxMusicTrack = {
+    //                 id: 'relaxMusic',
+    //                 title: 'Relax Music',
+    //                 src: relaxMusic
+    //             };
+    //             const audioElement = new Audio(relaxMusicTrack.src);
+    //             audioElement.onended = () => {
+    //                 if (lastPlayedTrackIndex > 0) {
+    //                     setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
+    //                 } else {
+    //                     setCurrentTrack(updatedTracks[0]);
+    //                 }
+    //             };
+    //
+    //             setCurrentTrack(relaxMusicTrack);
+    //             audioElement.play();
+    //             //  End
+    //
+    //         } else {
+    //             window.location.href = "/login"
+    //         }
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // };
+    //
+    // useEffect(() => {
+    //     fetchData();
+    // }, [selectedBookId]);
+    //
+    // const handleNext = () => {
+    //     if (playRelaxMusic) {
+    //         setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
+    //         setPlayRelaxMusic(false);
+    //         if (audioRef.current)  audioRef.current.play();
+    //     } else {
+    //         setPlayRelaxMusic(true);
+    //         if (trackIndex == seriesData.ListningChapter) {
+    //             const userId = localStorage.getItem('userId');
+    //             setShowModal(true);
+    //             setIsPlaying(false);
+    //             return;
+    //         }
+    //         if (trackIndex >= tracks.length - 1) {
+    //             setTrackIndex(0);
+    //             setCurrentTrack(tracks[0]);
+    //         } else {
+    //             setTrackIndex((prev) => prev + 1);
+    //             setCurrentTrack(tracks[trackIndex + 1]);
+    //         }
+    //         if (audioRef.current)  audioRef.current.play();
+    //     }
+    // };
+    //
+    // const handlePrevious = () => {
+    //     if (playRelaxMusic) {
+    //         setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
+    //         setPlayRelaxMusic(false);
+    //         if (audioRef.current)  audioRef.current.play();
+    //     } else {
+    //         setPlayRelaxMusic(true);
+    //         if (trackIndex === 0) {
+    //             // let lastTrackIndex = tracks.length - 1;
+    //             setTrackIndex(trackIndex);
+    //             setCurrentTrack(tracks[trackIndex]);
+    //             setShowModal(true);
+    //         } else {
+    //             setTrackIndex((prev) => prev - 1);
+    //             // console.log('set previous Last played Track=============>>>>', trackIndex)
+    //             setCurrentTrack(tracks[trackIndex - 1]);
+    //         }
+    //     }
+    //     if (audioRef.current)  audioRef.current.play();
+    // };
+
+
+    // New Star
     const fetchData = async () => {
         try {
             const response = await API_ENDPOINT.get(`${FETCH_ALL_BOOK_SERIES_ID}/${selectedBookId}`);
@@ -104,8 +207,8 @@ const AudioPlayer = () => {
                 const selectedBookData = response.data.data;
                 selectedBookData.sort((a, b) => a.chapter - b.chapter);
                 setBookData(selectedBookData);
-                setLoading(false)
-                // console.log('book Data list =======>>>', bookData)
+                setLoading(false);
+
                 const updatedTracks = selectedBookData.map(book => ({
                     id: book.id,
                     title: book.title,
@@ -122,27 +225,11 @@ const AudioPlayer = () => {
 
                 setTrackIndex(lastPlayedTrackIndex);
                 setSelectedTrackId(lastPlayedAudioId);
-                //  start
-                const relaxMusicTrack = {
-                    id: 'relaxMusic',
-                    title: 'Relax Music',
-                    src: relaxMusic
-                };
-                const audioElement = new Audio(relaxMusicTrack.src);
-                audioElement.onended = () => {
-                    if (lastPlayedTrackIndex > 0) {
-                        setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
-                    } else {
-                        setCurrentTrack(updatedTracks[0]);
-                    }
-                };
 
-                setCurrentTrack(relaxMusicTrack);
-                audioElement.play();
-                //  End
+                setCurrentTrack(updatedTracks[lastPlayedTrackIndex > 0 ? lastPlayedTrackIndex : 0]);
 
             } else {
-                window.location.href = "/login"
+                window.location.href = "/login";
             }
         } catch (error) {
             console.error('Error:', error);
@@ -153,76 +240,35 @@ const AudioPlayer = () => {
         fetchData();
     }, [selectedBookId]);
 
-    // const handleNext = () => {
-    //     if (isRelaxMusicPlaying) {
-    //         setIsRelaxMusicPlaying(false);
-    //         if (trackIndex === 1) {
-    //             const userId = localStorage.getItem('userId');
-    //             setShowModal(true);
-    //             setIsPlaying(false);
-    //             return;
-    //         }
-    //         if (trackIndex >= tracks.length - 1) {
-    //             setTrackIndex(0);
-    //             setCurrentTrack(tracks[0]);
-    //         } else {
-    //             setTrackIndex((prev) => prev + 1);
-    //             setCurrentTrack(tracks[trackIndex + 1]);
-    //         }
-    //     } else {
-    //         setIsRelaxMusicPlaying(true);
-    //         setCurrentTrack({id: 'relaxMusic', title: 'Relax Music', src: relaxMusic});
-    //     }
-    // };
-
     const handleNext = () => {
-        if (playRelaxMusic) {
-            setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
-            setPlayRelaxMusic(false);
-            if (audioRef.current)  audioRef.current.play();
+        if (trackIndex >= seriesData.chapterLimit-1) {
+            setTrackIndex(0);
+            setCurrentTrack(tracks[0]);
+            setShowModal(true);
+            setIsPlaying(false);
         } else {
-            setPlayRelaxMusic(true);
-            if (trackIndex == seriesData.ListningChapter) {
-                const userId = localStorage.getItem('userId');
-                setShowModal(true);
-                setIsPlaying(false);
-                return;
-            }
-            if (trackIndex >= tracks.length - 1) {
-                setTrackIndex(0);
-                setCurrentTrack(tracks[0]);
-            } else {
-                setTrackIndex((prev) => prev + 1);
-                setCurrentTrack(tracks[trackIndex + 1]);
-            }
-            if (audioRef.current)  audioRef.current.play();
+            setTrackIndex((prev) => prev + 1);
+            setCurrentTrack(tracks[trackIndex + 1]);
         }
+        if (audioRef.current) audioRef.current.play();
     };
 
     const handlePrevious = () => {
-        if (playRelaxMusic) {
-            setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
-            setPlayRelaxMusic(false);
-            if (audioRef.current)  audioRef.current.play();
+        if (trackIndex === 0) {
+            setTrackIndex(trackIndex);
+            setCurrentTrack(tracks[trackIndex]);
+            setShowModal(true);
         } else {
-            setPlayRelaxMusic(true);
-            if (trackIndex === 0) {
-                // let lastTrackIndex = tracks.length - 1;
-                setTrackIndex(trackIndex);
-                setCurrentTrack(tracks[trackIndex]);
-                setShowModal(true);
-            } else {
-                setTrackIndex((prev) => prev - 1);
-                // console.log('set previous Last played Track=============>>>>', trackIndex)
-                setCurrentTrack(tracks[trackIndex - 1]);
-            }
+            setTrackIndex((prev) => prev - 1);
+            setCurrentTrack(tracks[trackIndex - 1]);
         }
-        if (audioRef.current)  audioRef.current.play();
+        if (audioRef.current) audioRef.current.play();
     };
 
+    // New End
     const handlePhotoClick = (id, index) => {
         console.log('selected index chapter track=========>>>>>>>>>>>>>>', index)
-        if (index > seriesData.ListningChapter ) {
+        if (index > seriesData.chapterLimit -1 ) {
             setShowModal(true);
             setIsPlaying(false);
         } else {
@@ -356,7 +402,7 @@ const AudioPlayer = () => {
             <div className="top__bar" style={{background:'white'}}>
                 <p>
                     <FaCircleArrowLeft onClick={RedirectPage}
-                                       style={{fontSize: "50px", color: "black", paddingTop: '5px'}}/>
+                                       style={{fontSize: "45px", color: "black", paddingTop: '5px'}}/>
                 </p>
             </div>
             <div className="main-outer-audio" style={{background: bgColor}}>
