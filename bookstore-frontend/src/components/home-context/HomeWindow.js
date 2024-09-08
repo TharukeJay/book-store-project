@@ -7,7 +7,6 @@ import {useNavigate} from "react-router-dom";
 import API_ENDPOINT from "../../apis/httpAxios";
 import {GET_USER_DATA} from "../../apis/endpoints";
 
-
 const HomeWindow = () => {
     const navigate = useNavigate();
     const [userData, setUserData] =useState("");

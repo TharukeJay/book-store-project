@@ -399,7 +399,7 @@ const AudioPlayer = () => {
     return (
         <>
             {/*<TopBar/>*/}
-            <div className="top__bar" style={{background:'white'}}>
+            <div className="top__bar" style={{background: 'white'}}>
                 <p>
                     <FaCircleArrowLeft onClick={RedirectPage}
                                        style={{fontSize: "45px", color: "black", paddingTop: '5px'}}/>
@@ -447,7 +447,7 @@ const AudioPlayer = () => {
                 </div>
 
                 <div className="right-desc-outer">
-                    <p style={{color: 'blue', fontSize:"35px"}}>{seriesData.seriesTitle}</p>
+                    <p style={{color: 'blue', fontSize: "35px"}}>{seriesData.seriesTitle}</p>
                     <div style={{height: "10px"}}></div>
                     <div className="audio-book-list">
                         {bookData.sort((a, b) => a.chapter - b.chapter).map((audioBookItem, i) => (
@@ -462,7 +462,7 @@ const AudioPlayer = () => {
                     {/*<div className="audio-description" >*/}
                     <p style={{fontSize: '20px'}}> {seriesData.description} </p>
                     {/*</div>*/}
-                    <div className="pricing-card" style={{marginLeft: '-25px', marginTop:'10px'}}>
+                    <div className="pricing-card" style={{marginLeft: '-25px', marginTop: '10px'}}>
                         <span> {seriesData.seriesPrice}/- LKR </span>
                     </div>
                     {/*))}*/}
@@ -501,6 +501,12 @@ const AudioPlayer = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div style={{height: "40px"}}></div>
+            <div className='mirror-wall'>
+                <img id="image"
+                     src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2Fmirror%20wall.jpeg?alt=media&token=5387365f-682b-45e9-a7b6-db017190cf44'
+                     alt="Mirror Wall"/>
             </div>
             <div className="comments-section">
                 {comments.map((comment, index) => (

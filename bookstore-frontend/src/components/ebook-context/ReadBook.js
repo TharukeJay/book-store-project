@@ -211,7 +211,10 @@ const ReadBook = () => {
                       </div>
                   </div>
               </div>
-                  <h3 style={{color:'blue', textAlign:'center'}}> Mirror Wall</h3>
+                  {/*<h3 style={{color:'blue', textAlign:'center'}}> Mirror Wall</h3>*/}
+              <div className='mirror-wall'>
+                  <img id="image" src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2Fmirror%20wall.jpeg?alt=media&token=5387365f-682b-45e9-a7b6-db017190cf44' alt="Mirror Wall"/>
+              </div>
               <div className="comments-section">
                   {comments.map((comment, index) => (
                       <div className="comments-list">

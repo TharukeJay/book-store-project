@@ -1,6 +1,6 @@
 .nav-bar {
     max-height: 70px !important;
-    max-width: 100%;
+    max-width: 100% !important;
 }
 
 .nav-outer {

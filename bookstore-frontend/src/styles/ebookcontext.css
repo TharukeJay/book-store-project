@@ -188,6 +188,17 @@ span{
 .Demo__container{
     margin-top: 15px;
 }
+.mirror-wall{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.mirror-wall img{
+    width: 30%;
+    height: 140px;
+    border-radius: 8px;
+}
 
 .comments-section {
     width: 100%;

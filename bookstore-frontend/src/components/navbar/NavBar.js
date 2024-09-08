@@ -55,7 +55,7 @@ const NavBar = () => {
                 <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer">
                     <Container className='nav-container'>
                         <Navbar.Brand href="/home" style={{fontSize: "30px", color: "black", fontFamily:"Harlow Solid Italic", paddingLeft: "2%"}}>
-                            <Nav.Link style={{fontSize: "35px", color: "black", fontFamily :"Harlow Solid Italic"}}> Read Lanka</Nav.Link>
+                            <Nav.Link style={{fontSize: "40px", color: "black", fontFamily :"Harlow Solid Italic"}}> Read Lanka</Nav.Link>
                         </Navbar.Brand>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav togs "/>
                         <Navbar.Collapse id="responsive-navbar-nav tog-border">
