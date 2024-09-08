@@ -28,6 +28,7 @@ import '../../styles/audio.css'
 import Modal from "react-bootstrap/Modal";
 import {SlArrowLeftCircle} from "react-icons/sl";
 import {Helmet} from "react-helmet-async";
+import {FaCircleArrowLeft} from "react-icons/fa6";
 
 const AudioPlayer = () => {
     const Navigate = useNavigate();
@@ -96,6 +97,109 @@ const AudioPlayer = () => {
         commentData();
     }, [selectedBookId]);
 
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await API_ENDPOINT.get(`${FETCH_ALL_BOOK_SERIES_ID}/${selectedBookId}`);
+    //         if (response.status == 200) {
+    //             const selectedBookData = response.data.data;
+    //             selectedBookData.sort((a, b) => a.chapter - b.chapter);
+    //             setBookData(selectedBookData);
+    //             setLoading(false)
+    //             // console.log('book Data list =======>>>', bookData)
+    //             const updatedTracks = selectedBookData.map(book => ({
+    //                 id: book.id,
+    //                 title: book.title,
+    //                 src: book.bookFile_url["fullBookUrl"],
+    //                 authorName: book.authorName,
+    //                 thumbnail_url: book.thumbnail_url,
+    //                 description: book.description,
+    //             }));
+    //             setTracks(updatedTracks);
+    //
+    //             const lastPlayedData = await fetchLastPlayedTrackIndex();
+    //             const lastPlayedTrackIndex = lastPlayedData.lastPlayedTrackIndex;
+    //             const lastPlayedAudioId = lastPlayedData.selectedAudioId;
+    //
+    //             setTrackIndex(lastPlayedTrackIndex);
+    //             setSelectedTrackId(lastPlayedAudioId);
+    //             //  start
+    //             const relaxMusicTrack = {
+    //                 id: 'relaxMusic',
+    //                 title: 'Relax Music',
+    //                 src: relaxMusic
+    //             };
+    //             const audioElement = new Audio(relaxMusicTrack.src);
+    //             audioElement.onended = () => {
+    //                 if (lastPlayedTrackIndex > 0) {
+    //                     setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
+    //                 } else {
+    //                     setCurrentTrack(updatedTracks[0]);
+    //                 }
+    //             };
+    //
+    //             setCurrentTrack(relaxMusicTrack);
+    //             audioElement.play();
+    //             //  End
+    //
+    //         } else {
+    //             window.location.href = "/login"
+    //         }
+    //     } catch (error) {
+    //         console.error('Error:', error);
+    //     }
+    // };
+    //
+    // useEffect(() => {
+    //     fetchData();
+    // }, [selectedBookId]);
+    //
+    // const handleNext = () => {
+    //     if (playRelaxMusic) {
+    //         setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
+    //         setPlayRelaxMusic(false);
+    //         if (audioRef.current)  audioRef.current.play();
+    //     } else {
+    //         setPlayRelaxMusic(true);
+    //         if (trackIndex == seriesData.ListningChapter) {
+    //             const userId = localStorage.getItem('userId');
+    //             setShowModal(true);
+    //             setIsPlaying(false);
+    //             return;
+    //         }
+    //         if (trackIndex >= tracks.length - 1) {
+    //             setTrackIndex(0);
+    //             setCurrentTrack(tracks[0]);
+    //         } else {
+    //             setTrackIndex((prev) => prev + 1);
+    //             setCurrentTrack(tracks[trackIndex + 1]);
+    //         }
+    //         if (audioRef.current)  audioRef.current.play();
+    //     }
+    // };
+    //
+    // const handlePrevious = () => {
+    //     if (playRelaxMusic) {
+    //         setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
+    //         setPlayRelaxMusic(false);
+    //         if (audioRef.current)  audioRef.current.play();
+    //     } else {
+    //         setPlayRelaxMusic(true);
+    //         if (trackIndex === 0) {
+    //             // let lastTrackIndex = tracks.length - 1;
+    //             setTrackIndex(trackIndex);
+    //             setCurrentTrack(tracks[trackIndex]);
+    //             setShowModal(true);
+    //         } else {
+    //             setTrackIndex((prev) => prev - 1);
+    //             // console.log('set previous Last played Track=============>>>>', trackIndex)
+    //             setCurrentTrack(tracks[trackIndex - 1]);
+    //         }
+    //     }
+    //     if (audioRef.current)  audioRef.current.play();
+    // };
+
+
+    // New Star
     const fetchData = async () => {
         try {
             const response = await API_ENDPOINT.get(`${FETCH_ALL_BOOK_SERIES_ID}/${selectedBookId}`);
@@ -103,8 +207,8 @@ const AudioPlayer = () => {
                 const selectedBookData = response.data.data;
                 selectedBookData.sort((a, b) => a.chapter - b.chapter);
                 setBookData(selectedBookData);
-                setLoading(false)
-                // console.log('book Data list =======>>>', bookData)
+                setLoading(false);
+
                 const updatedTracks = selectedBookData.map(book => ({
                     id: book.id,
                     title: book.title,
@@ -121,27 +225,11 @@ const AudioPlayer = () => {
 
                 setTrackIndex(lastPlayedTrackIndex);
                 setSelectedTrackId(lastPlayedAudioId);
-                //  start
-                const relaxMusicTrack = {
-                    id: 'relaxMusic',
-                    title: 'Relax Music',
-                    src: relaxMusic
-                };
-                const audioElement = new Audio(relaxMusicTrack.src);
-                audioElement.onended = () => {
-                    if (lastPlayedTrackIndex > 0) {
-                        setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
-                    } else {
-                        setCurrentTrack(updatedTracks[0]);
-                    }
-                };
 
-                setCurrentTrack(relaxMusicTrack);
-                audioElement.play();
-                //  End
+                setCurrentTrack(updatedTracks[lastPlayedTrackIndex > 0 ? lastPlayedTrackIndex : 0]);
 
             } else {
-                window.location.href = "/login"
+                window.location.href = "/login";
             }
         } catch (error) {
             console.error('Error:', error);
@@ -152,76 +240,35 @@ const AudioPlayer = () => {
         fetchData();
     }, [selectedBookId]);
 
-    // const handleNext = () => {
-    //     if (isRelaxMusicPlaying) {
-    //         setIsRelaxMusicPlaying(false);
-    //         if (trackIndex === 1) {
-    //             const userId = localStorage.getItem('userId');
-    //             setShowModal(true);
-    //             setIsPlaying(false);
-    //             return;
-    //         }
-    //         if (trackIndex >= tracks.length - 1) {
-    //             setTrackIndex(0);
-    //             setCurrentTrack(tracks[0]);
-    //         } else {
-    //             setTrackIndex((prev) => prev + 1);
-    //             setCurrentTrack(tracks[trackIndex + 1]);
-    //         }
-    //     } else {
-    //         setIsRelaxMusicPlaying(true);
-    //         setCurrentTrack({id: 'relaxMusic', title: 'Relax Music', src: relaxMusic});
-    //     }
-    // };
-
     const handleNext = () => {
-        if (playRelaxMusic) {
-            setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
-            setPlayRelaxMusic(false);
-            if (audioRef.current)  audioRef.current.play();
+        if (trackIndex >= seriesData.chapterLimit-1) {
+            setTrackIndex(0);
+            setCurrentTrack(tracks[0]);
+            setShowModal(true);
+            setIsPlaying(false);
         } else {
-            setPlayRelaxMusic(true);
-            if (trackIndex == seriesData.ListningChapter) {
-                const userId = localStorage.getItem('userId');
-                setShowModal(true);
-                setIsPlaying(false);
-                return;
-            }
-            if (trackIndex >= tracks.length - 1) {
-                setTrackIndex(0);
-                setCurrentTrack(tracks[0]);
-            } else {
-                setTrackIndex((prev) => prev + 1);
-                setCurrentTrack(tracks[trackIndex + 1]);
-            }
-            if (audioRef.current)  audioRef.current.play();
+            setTrackIndex((prev) => prev + 1);
+            setCurrentTrack(tracks[trackIndex + 1]);
         }
+        if (audioRef.current) audioRef.current.play();
     };
 
     const handlePrevious = () => {
-        if (playRelaxMusic) {
-            setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
-            setPlayRelaxMusic(false);
-            if (audioRef.current)  audioRef.current.play();
+        if (trackIndex === 0) {
+            setTrackIndex(trackIndex);
+            setCurrentTrack(tracks[trackIndex]);
+            setShowModal(true);
         } else {
-            setPlayRelaxMusic(true);
-            if (trackIndex === 0) {
-                // let lastTrackIndex = tracks.length - 1;
-                setTrackIndex(trackIndex);
-                setCurrentTrack(tracks[trackIndex]);
-                setShowModal(true);
-            } else {
-                setTrackIndex((prev) => prev - 1);
-                // console.log('set previous Last played Track=============>>>>', trackIndex)
-                setCurrentTrack(tracks[trackIndex - 1]);
-            }
+            setTrackIndex((prev) => prev - 1);
+            setCurrentTrack(tracks[trackIndex - 1]);
         }
-        if (audioRef.current)  audioRef.current.play();
+        if (audioRef.current) audioRef.current.play();
     };
 
+    // New End
     const handlePhotoClick = (id, index) => {
         console.log('selected index chapter track=========>>>>>>>>>>>>>>', index)
-        if (index > seriesData.ListningChapter ) {
+        if (index > seriesData.chapterLimit -1 ) {
             setShowModal(true);
             setIsPlaying(false);
         } else {
@@ -352,10 +399,10 @@ const AudioPlayer = () => {
     return (
         <>
             {/*<TopBar/>*/}
-            <div className="top__bar">
+            <div className="top__bar" style={{background: 'white'}}>
                 <p>
-                    <SlArrowLeftCircle onClick={RedirectPage}
-                                       style={{fontSize: "40px", color: "white", paddingTop: '5px'}}/>
+                    <FaCircleArrowLeft onClick={RedirectPage}
+                                       style={{fontSize: "45px", color: "black", paddingTop: '5px'}}/>
                 </p>
             </div>
             <div className="main-outer-audio" style={{background: bgColor}}>
@@ -400,7 +447,7 @@ const AudioPlayer = () => {
                 </div>
 
                 <div className="right-desc-outer">
-                    <h3 style={{color: 'blue'}}>{seriesData.seriesTitle}</h3>
+                    <p style={{color: 'blue', fontSize: "35px"}}>{seriesData.seriesTitle}</p>
                     <div style={{height: "10px"}}></div>
                     <div className="audio-book-list">
                         {bookData.sort((a, b) => a.chapter - b.chapter).map((audioBookItem, i) => (
@@ -413,9 +460,9 @@ const AudioPlayer = () => {
                     </div>
                     <div style={{height: "20px"}}></div>
                     {/*<div className="audio-description" >*/}
-                    <p style={{fontSize: '15px'}}> {seriesData.description} </p>
+                    <p style={{fontSize: '20px'}}> {seriesData.description} </p>
                     {/*</div>*/}
-                    <div className="pricing-card" style={{marginLeft: '-25px'}}>
+                    <div className="pricing-card" style={{marginLeft: '-25px', marginTop: '10px'}}>
                         <span> {seriesData.seriesPrice}/- LKR </span>
                     </div>
                     {/*))}*/}
@@ -429,7 +476,7 @@ const AudioPlayer = () => {
 
                     <div style={{height: "10px"}}></div>
                     <div className="Demo__container">
-                        <p style={{fontSize: "20px", marginLeft: "50px"}}> Share</p>
+                        <p style={{fontSize: "25px", marginLeft: "50px"}}> Share</p>
                         <div className="Demo__some-network">
                             <FacebookShareButton
                                 url={currentURL}
@@ -455,17 +502,23 @@ const AudioPlayer = () => {
                     </div>
                 </div>
             </div>
+            <div style={{height: "40px"}}></div>
+            <div className='mirror-wall'>
+                <img id="image"
+                     src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2Fmirror%20wall.jpeg?alt=media&token=5387365f-682b-45e9-a7b6-db017190cf44'
+                     alt="Mirror Wall"/>
+            </div>
             <div className="comments-section">
                 {comments.map((comment, index) => (
                     <div className="comments-list">
                         <div className="comment">
                             <div className="comment-header">
                                 <div className="comment-header-left">
-                                    <p style={{fontSize: '10px', color: 'black'}}><RiAccountCircleFill
+                                    <p style={{fontSize: '15px', color: 'black'}}><RiAccountCircleFill
                                         style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
                                 </div>
                                 <div className="comment-header-right">
-                                    <p style={{fontSize: '10px', color: 'black'}}>
+                                    <p style={{fontSize: '15px', color: 'black'}}>
                                         {formatDate(comment.createdAt)}
                                     </p>
                                 </div>

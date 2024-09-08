@@ -7,7 +7,6 @@ import {useNavigate} from "react-router-dom";
 import API_ENDPOINT from "../../apis/httpAxios";
 import {GET_USER_DATA} from "../../apis/endpoints";
 
-
 const HomeWindow = () => {
     const navigate = useNavigate();
     const [userData, setUserData] =useState("");
@@ -62,7 +61,7 @@ const HomeWindow = () => {
                     </div>
                     {showMyRack &&(
                         <div className='category-outer' onClick={HandleClickMyBook}>
-                            <img src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2FE%20book.png?alt=media&token=f988ca3e-472b-4d2f-995c-8c3c16d7ccc8'/>
+                            <img src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2Flibrary.jpeg?alt=media&token=1b805b63-39b9-4a5b-b99f-57218e4c92d9'/>
                             <h2>Book Rack</h2>
                         </div>
                     )}

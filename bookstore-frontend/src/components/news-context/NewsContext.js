@@ -265,7 +265,7 @@ const NewsContext = () => {
                                     <br/>
                                     <p>{truncateDescription(newsItem.description)} </p>
                                     <button className='btn btn-default'
-                                            style={{fontSize: '15px', border: '1px solid black'}} key={i}
+                                            style={{fontSize: '17px', border: '1px solid black', marginTop:'10px'}} key={i}
                                             onClick={() => handleNewsClick(newsItem.newsId)}>READ MORE
                                     </button>
                                 </div>
