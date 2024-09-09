@@ -73,7 +73,7 @@ const ViewNews = () => {
               </p>
           </div>
 
-          <div className='view-news-outer' style={{background: bgColor, userSelect:'none'}}>
+          <div className='view-news-outer' style={{background: bgColor, userSelect: 'none'}}>
               <Helmet>
                   <title>{news.newsTitle}</title>
               </Helmet>
@@ -82,20 +82,20 @@ const ViewNews = () => {
               </div>
               <div className="right-news-desc-outer">
                   <div className='topic'>
-                      <h2 style={{fontSize:'35px',marginBottom:'20px' }}>{news.newsTitle}</h2>
+                      <h2 style={{fontSize: '35px', marginBottom: '20px'}}>{news.newsTitle}</h2>
                   </div>
                   <div className='news-description-body'>
-                    <p >{news.description}</p>
+                      <p>{news.description}</p>
                   </div>
               </div>
               <div className="Demo__container">
-                  <p style={{fontSize:'30px', color:'red'}}>Share</p>
+                  <p style={{fontSize: '30px', color: 'red'}}>Share</p>
                   <div className="Demo__some-network">
                       <FacebookShareButton
                           url={currentURL}
                           className="Demo_some-network_share-button"
                       >
-                          <FacebookIcon size={30} round />
+                          <FacebookIcon size={30} round/>
                       </FacebookShareButton>
                       <TwitterShareButton
                           url={currentURL}
@@ -113,6 +113,7 @@ const ViewNews = () => {
 
                   </div>
               </div>
+              <div style={{height: "50px"}}></div>
           </div>
           <Footer/>
       </>

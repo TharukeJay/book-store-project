@@ -179,12 +179,13 @@ const ReadBook = () => {
                       </div>
                       <div style={{height: "10px"}}></div>
                       <div className="read-button-outer">
-                          <button style={{background:readButton}}><a href="/read-preview">Read preview</a></button>
-                          <button onClick={HandleCheckoutBook} style={{background:buyNowButton}}><a style={{color: 'white'}}> Buy Now</a></button>
+                          <button style={{background: readButton}}><a href="/read-preview">Read preview</a></button>
+                          <button onClick={HandleCheckoutBook} style={{background: buyNowButton}}><a
+                              style={{color: 'white'}}> Buy Now</a></button>
                       </div>
                       <div style={{height: "20px"}}></div>
                       <div className="Demo__container">
-                          <p style={{marginLeft:'50px'}}> Share </p>
+                          <p style={{marginLeft: '50px'}}> Share </p>
                           <div className="Demo__some-network">
                               <FacebookShareButton
                                   url={currentURL}
@@ -211,9 +212,11 @@ const ReadBook = () => {
                       </div>
                   </div>
               </div>
-                  {/*<h3 style={{color:'blue', textAlign:'center'}}> Mirror Wall</h3>*/}
+              {/*<h3 style={{color:'blue', textAlign:'center'}}> Mirror Wall</h3>*/}
               <div className='mirror-wall'>
-                  <img id="image" src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2Fmirror%20wall.jpeg?alt=media&token=5387365f-682b-45e9-a7b6-db017190cf44' alt="Mirror Wall"/>
+                  <img id="image"
+                       src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2Fmirror%20wall.jpeg?alt=media&token=5387365f-682b-45e9-a7b6-db017190cf44'
+                       alt="Mirror Wall"/>
               </div>
               <div className="comments-section">
                   {comments.map((comment, index) => (
@@ -221,9 +224,10 @@ const ReadBook = () => {
                           <div className="comment">
                               <div className="comment-header">
                                   {/*{data.map((uData, i) => (*/}
-                                      <div className="comment-header-left">
-                                          <p style={{fontSize: '15px', color: 'black'}}><RiAccountCircleFill style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
-                                      </div>
+                                  <div className="comment-header-left">
+                                      <p style={{fontSize: '15px', color: 'black'}}><RiAccountCircleFill
+                                          style={{fontSize: '25px', color: 'yellowgreen'}}/> {comment.name}</p>
+                                  </div>
                                   {/*))}*/}
                                   <div className="comment-header-right">
                                       <p style={{fontSize: '15px', color: 'black'}}>
@@ -232,9 +236,9 @@ const ReadBook = () => {
                                   </div>
                               </div>
                               <div className="comment-descriptions">
-                                  <p >
-                                    {/*{truncateDescription(comment.comment)}*/}
-                                    {comment.comment}
+                                  <p>
+                                      {/*{truncateDescription(comment.comment)}*/}
+                                      {comment.comment}
                                   </p>
                               </div>
                           </div>
@@ -250,17 +254,24 @@ const ReadBook = () => {
                                   value={formData.comment}
                                   onChange={handleChange}
                                   placeholder="Write a comment..."
-                                  style={{border:'1px solid blue'}}
+                                  style={{border: '1px solid blue'}}
                                   required
                               />
                               <Button variant="outline-secondary" type="submit" id="button-addon2"
-                                      style={{border: '1px solid black', borderRadius: '8px', paddingTop: '-90px', marginLeft:'10px',color:'black'}}>
+                                      style={{
+                                          border: '1px solid black',
+                                          borderRadius: '8px',
+                                          paddingTop: '-90px',
+                                          marginLeft: '10px',
+                                          color: 'black'
+                                      }}>
                                   Post
                               </Button>
                           </InputGroup>
                       </Form>
                   </div>
               </div>
+              <div style={{height: "40px"}}></div>
           </div>
           <Footer/>
       </>

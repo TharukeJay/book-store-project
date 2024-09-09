@@ -5,7 +5,7 @@ import {Navigate, useLocation, useNavigate} from "react-router-dom";
 const Success = () => {
     const location = useLocation();
     const Navigate = useNavigate();
-    const type = location.state;
+    // const type = location.state;
 
     // const bookType = type.type;
     // console.log('bookType ==========>>>>>>>', bookType)
@@ -34,7 +34,7 @@ const Success = () => {
                         <i className="checkmark">✓</i>
                     </div>
                     <h1>Success</h1>
-                    <p>Your payment has been successful<br/> e'll be in touch soon!</p>
+                    <p>Your payment has been successful<br/> We'll be in touch soon!</p>
                     <div style={{height:'40px'}}></div>
                     <div>
                         <button className='btn btn-success' style={{padding:'10px 30px', fontSize:'15px'}} onClick={ConfirmPayment}>Go Back to Book Rack</button>
