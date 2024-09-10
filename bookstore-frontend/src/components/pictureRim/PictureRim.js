@@ -176,11 +176,13 @@ const PictureRim =()=>{
                     </div>
                 </div>
             </div>
-            <div className='inner-bottum-outer-picture-rim' style={{display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}>
-                <div className="news-list" style={{userSelect:'none'}}>
+            <div className='inner-bottum-outer-picture-rim'
+                 style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+                <div className="news-list" style={{userSelect: 'none'}}>
                     {newsPictureRimData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                         <div className='news-outer'>
-                            <div key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)} className='left-news-outer-list'>
+                            <div key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)}
+                                 className='left-news-outer-list'>
                                 <img id="image" src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
                             </div>
                             <div className='right-news-outer'>
@@ -188,7 +190,7 @@ const PictureRim =()=>{
                                 <br/>
                                 <p>{truncateDescription(newsItem.description)} </p>
                                 <button className='btn btn-default'
-                                        style={{fontSize: '15px', border: '1px solid black', marginTop:'10px'}} key={i}
+                                        style={{fontSize: '15px', border: '1px solid black', marginTop: '10px'}} key={i}
                                         onClick={() => handleNewsClick(newsItem.id)}>READ MORE
                                 </button>
                             </div>
@@ -198,9 +200,11 @@ const PictureRim =()=>{
                 <div className="buttons">
                     <button onClick={handlePrevious} disabled={index === 0}><MdKeyboardDoubleArrowLeft/></button>
                     {currentPage}/{totalPages}
-                    <button onClick={handleNext} disabled={index + 4 >= newsPictureRimData.length}><MdKeyboardDoubleArrowRight/>
+                    <button onClick={handleNext} disabled={index + 4 >= newsPictureRimData.length}>
+                        <MdKeyboardDoubleArrowRight/>
                     </button>
                 </div>
+                <div style={{height: "50px"}}></div>
             </div>
             <Footer/>
         </>

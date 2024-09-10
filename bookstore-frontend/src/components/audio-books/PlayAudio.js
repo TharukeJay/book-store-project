@@ -557,6 +557,7 @@ const AudioPlayer = () => {
                     </Form>
                 </div>
             </div>
+            <div style={{height: "40px"}}></div>
 
             <Modal show={showModal} onHide={closeModal}>
                 <Modal.Header closeButton>
