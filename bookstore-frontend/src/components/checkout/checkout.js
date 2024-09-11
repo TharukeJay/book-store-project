@@ -43,7 +43,7 @@ const Checkout = () => {
 
 
     // console.log("userId=======================>>>", userId);
-    // console.log('Bookid========>>>', bookId);
+    console.log('Bookid type========>>>', type);
     // console.log('BookDataId  ========>>>', BookDataId);
 
     const fetchData = async () => {
@@ -76,6 +76,7 @@ const Checkout = () => {
             console.error('Error:', error);
         }
     }
+
     useEffect(() =>{
         getUserData();
     }, [])
@@ -160,7 +161,7 @@ const Checkout = () => {
 
         // new code ========================
         try {
-            if (type == 'book') {
+            if (type == 'book'){
                 // await API_ENDPOINT.post(ADD_TO_PURCHASE_BOOK, {
                 //     bookid: selectedId,
                 //     userId: userId,
@@ -177,6 +178,7 @@ const Checkout = () => {
                 //     duration: 5000,
                 // });
 
+                console.log('book type execute=========>>>')
                 const price = book.price;
                 const response = await API_ENDPOINT.post(CREATE_PAYMENT, {
                     amount: price,
@@ -185,7 +187,7 @@ const Checkout = () => {
                     email:usersData.email,
                 });
 
-                const { hash, merchantId, orderId ,} = response.data;
+                const { hash, merchantId, orderId } = response.data;
 
                 console.log('response body =============>>>', response.data);
 
@@ -204,11 +206,10 @@ const Checkout = () => {
                     items: 'book',
                     currency: 'LKR',
                     amount: price,
-                    email: 'customer@example.com',
-                    phone: '0771234567',
+                    email: usersData.email,
                     hash: hash,
                 };
-                // console.log('fields =============>>>', fields);
+                console.log('fields pdf =============>>>', fields);
 
                 for (const key in fields) {
                     if (fields.hasOwnProperty(key)) {
@@ -224,35 +225,17 @@ const Checkout = () => {
                 form.submit();
 
             }
-            else {
-                await API_ENDPOINT.post(ADD_TO_PURCHASE_BOOK, {
-                    bookid: selectedAudioId,
+            if(type == 'audio'){
+                console.log('audio book type execute=========>>>', audioBook)
+                const price = audioBook.seriesPrice;
+                const response = await API_ENDPOINT.post(CREATE_PAYMENT, {
+                    amount: price,
                     userId: userId,
-                    type: 'audio'
+                    bookId: audioBook.id,
+                    email:usersData.email,
                 });
-                setShowModal(false);
-                // toast.success(" Welcome ! ...Payment Successful", {
-                //     style: {
-                //         minWidth: '300px',
-                //         height: '50px',
-                //         // marginRight: '200px'
-                //     },
-                //     className: 'toaster',
-                //     duration: 5000,
-                // });
 
-                // const orderId = type === 'book' ? selectedId : selectedAudioId;
-                const orderId = '1235';
-                // const price = type === 'book' ? book.price : audioBook.seriesPrice;
-                const price = '500';
-                // const response = await API_ENDPOINT.post('/payment-create', {
-                //     order_id: orderId,
-                //     amount: price,
-                //     userId,
-                //     currency: 'LKR'
-                // });
-
-                // const { hash, merchant_id, return_url } = response.data;
+                const { hash, merchantId, orderId  } = response.data;
 
                 // Create an HTML form and submit it
                 const form = document.createElement('form');
@@ -260,27 +243,19 @@ const Checkout = () => {
                 form.action = 'https://sandbox.payhere.lk/pay/checkout';
 
                 const fields = {
-                    // merchant_id,
-                    merchant_id: '1228092',
-                    // return_url,
-                    return_url: 'localhost/home',
-                    cancel_url: 'http://yourdomain.com/cancel',
-                    notify_url: 'http://yourdomain.com/notify',
-                    order_id: orderId,
-                    // items: type === 'book' ? book.title : audioBook.seriesTitle,
-                    items: 'book',
+                    merchantId:merchantId,
+                    // return_url: 'http://localhost:3001/payment-success',
+                    return_url: 'https://readlanka.com/payment-success',
+                    // notify_url: 'http://localhost:3001/api/payment/payment-notify',
+                    notify_url: 'https://bookstore-backend-97qw.onrender.com/api/payment/payment-notify',
+                    orderId: orderId,
+                    items: 'audio-book',
                     currency: 'LKR',
                     amount: price,
-                    first_name: 'CustomerFirstName',
-                    last_name: 'CustomerLastName',
-                    email: 'customer@example.com',
-                    phone: '0771234567',
-                    address: 'CustomerAddress',
-                    city: 'CustomerCity',
-                    country: 'Sri Lanka',
-                    // hash,
-                    hash: 'MTc0NTAxNTQzNjEwMjc3MjMzNjkzNDkxODA5MjIzMTIxOTYwNzgwOQ==',
+                    email: usersData.email,
+                    hash: hash,
                 };
+                console.log('fields audio=============>>>', fields);
 
                 for (const key in fields) {
                     if (fields.hasOwnProperty(key)) {
