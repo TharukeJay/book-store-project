@@ -11,6 +11,10 @@
 .nav-container {
     max-width: 100%;
 }
+.nav-header{
+   font-size: 40px;
+    color: black;
+}
 
 .right-outer {
     margin-left: 3% !important;
@@ -70,7 +74,9 @@
     .nav-bar {
         width: 100% !important;
     }
-
+    .nav-header{
+        font-size: 33px;
+    }
     .show-username {
         padding-left: 1px;
     }
