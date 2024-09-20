@@ -176,6 +176,7 @@ const PictureRim =()=>{
                     </div>
                 </div>
             </div>
+            <div style={{height:'30px'}}></div>
             <div className='inner-bottum-outer-picture-rim'
                  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
                 <div className="news-list" style={{userSelect: 'none'}}>

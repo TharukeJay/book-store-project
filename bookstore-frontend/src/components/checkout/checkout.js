@@ -30,7 +30,6 @@ const Checkout = () => {
     const params = new URLSearchParams(location.search);
     const bookId = params.get('id');
     // const AudioBookid = params.get('AudioBookid');
-    const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [showModalBuy, setShowModalBuy] = useState(false);
     const [showModalNavigate, setShowModalNavigate] = useState(false);
@@ -40,6 +39,7 @@ const Checkout = () => {
     const userId = localStorage.getItem('userId');
     const {type} = location.state;
     const {BookDataId} = location.state;
+    const [loading, setLoading] = useState(true)
 
 
     // console.log("userId=======================>>>", userId);
@@ -77,7 +77,7 @@ const Checkout = () => {
         }
     }
 
-    useEffect(() =>{
+    useEffect(() => {
         getUserData();
     }, [])
     // console.log('usersData ===================>>>>>', usersData)
@@ -161,7 +161,7 @@ const Checkout = () => {
 
         // new code ========================
         try {
-            if (type == 'book'){
+            if (type == 'book') {
                 // await API_ENDPOINT.post(ADD_TO_PURCHASE_BOOK, {
                 //     bookid: selectedId,
                 //     userId: userId,
@@ -184,58 +184,65 @@ const Checkout = () => {
                     amount: price,
                     userId: userId,
                     bookId: selectedId,
-                    email:usersData.email,
+                    email: usersData.email,
                 });
 
-                const { hash, merchantId, orderId } = response.data;
-
+                const {hash, merchantId, orderId} = response.data;
                 console.log('response body =============>>>', response.data);
 
-                // Create an HTML form and submit it
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = 'https://sandbox.payhere.lk/pay/checkout';
+                if (!orderId || !merchantId) {
+                    console.error('OrderId or MerchantId is missing from the response.');
+                    setLoading(!loading);
+                } else {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = 'https://sandbox.payhere.lk/pay/checkout';
 
-                const fields = {
-                    merchantId:merchantId,
-                    // return_url: 'http://localhost:3001/payment-success',
-                    return_url: 'https://readlanka.com/payment-success',
-                    // notify_url: 'http://localhost:3001/api/payment/payment-notify',
-                    notify_url: 'https://bookstore-backend-97qw.onrender.com/api/payment/payment-notify',
-                    orderId: orderId,
-                    items: 'book',
-                    currency: 'LKR',
-                    amount: price,
-                    email: usersData.email,
-                    hash: hash,
-                };
-                console.log('fields pdf =============>>>', fields);
+                    const fields = {
+                        merchant_id: merchantId,
+                        return_url: 'https://readlanka.com/payment-success',
+                        notify_url: 'https://bookstore-backend-97qw.onrender.com/api/payment/payment-notify',
+                        orderId: orderId,
+                        items: 'book',
+                        currency: 'LKR',
+                        amount: price,
+                        email: usersData.email,
+                        hash: hash,
+                        first_name: 'ReadLanka',
+                        last_name: 'ReadLanka',
+                        phone: '07601578715',
+                        address: 'monaragala',
+                        city: 'buttala',
+                        country: 'Srilanka'
 
-                for (const key in fields) {
-                    if (fields.hasOwnProperty(key)) {
-                        const input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = key;
-                        input.value = fields[key];
-                        form.appendChild(input);
+                    };
+                    console.log('fields pdf =============>>>', fields);
+
+                    for (const key in fields) {
+                        if (fields.hasOwnProperty(key)) {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = key;
+                            input.value = fields[key];
+                            form.appendChild(input);
+                        }
                     }
+
+                    document.body.appendChild(form);
+                    form.submit();
                 }
-
-                document.body.appendChild(form);
-                form.submit();
-
             }
-            if(type == 'audio'){
+            if (type == 'audio') {
                 console.log('audio book type execute=========>>>', audioBook)
                 const price = audioBook.seriesPrice;
                 const response = await API_ENDPOINT.post(CREATE_PAYMENT, {
                     amount: price,
                     userId: userId,
                     bookId: audioBook.id,
-                    email:usersData.email,
+                    email: usersData.email,
                 });
 
-                const { hash, merchantId, orderId  } = response.data;
+                const {hash, merchantId, orderId} = response.data;
 
                 // Create an HTML form and submit it
                 const form = document.createElement('form');
@@ -243,7 +250,7 @@ const Checkout = () => {
                 form.action = 'https://sandbox.payhere.lk/pay/checkout';
 
                 const fields = {
-                    merchantId:merchantId,
+                    merchantId: merchantId,
                     // return_url: 'http://localhost:3001/payment-success',
                     return_url: 'https://readlanka.com/payment-success',
                     // notify_url: 'http://localhost:3001/api/payment/payment-notify',
@@ -273,6 +280,7 @@ const Checkout = () => {
 
         } catch (error) {
             console.error('Error creating payment:', error);
+            toast.error('Payment could not be processed. Please try again.');
             setShowModalNavigate(true);
         }
     };
