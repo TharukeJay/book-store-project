@@ -7,7 +7,7 @@ import {
     executeUploadContent
 } from "../api/endPoints";
 import ScreenLoading from "./Loading";
-import {Col} from "reactstrap";
+import {Col, Spinner} from "reactstrap";
 import {Button, Card, CardBody, CardHeader, FormLabel, FormSelect, Image, Row} from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Mp3Image from "../assets/mp3-file-format-symbol.png";
@@ -192,15 +192,17 @@ const ContentData = () => {
         setLoading(true)
         if (!categoryName || !authorName || !bookType || !bookName || !thumbnail || (!audioFile && !previewPdfFile && !fullPdfFile)) {
             alert("Please fill all required fields and upload the necessary files.");
+            setLoading(false)
             return;
         }
        if(bookType == 'Audio Book' && !selecteBookSeries){
           alert("Please enter book series");
+           setLoading(false)
           return;
         }
 
 
-        setLoading(true);
+        // setLoading(true);
 
         const formData = new FormData();
         formData.append('categoryName', categoryName);
@@ -507,9 +509,25 @@ const ContentData = () => {
 
 
                 <Col xs={12} className="position-relative">
-                    <Button color="success" type="submit">
+                    {/*<Button color="success" type="submit">*/}
+                    {/*    Upload Now*/}
+                    {/*</Button>*/}
+                    {loading ? (
+                        <>
+                            <Spinner
+                                as="span"
+                                animation="border"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                            />
+                            {" Uploading..."}
+                        </>
+                    ) : (
+                        <Button variant={'success'} type="submit">
                         Upload Now
                     </Button>
+                    )}
                 </Col>
             </Form>
         </>
