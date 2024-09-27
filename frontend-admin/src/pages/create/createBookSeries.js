@@ -74,13 +74,14 @@ const Series = () => {
 
     // firebase - store data into firebase collection
     const uploadMedia = async (e) => {
-
+        setLoading(true)
         setUploadNow(true)
         e.preventDefault();
 
         if (!authorName || !bookSeriesTitle) {
             alert("Author name and series title are required.");
             setUploadNow(false);
+            setLoading(false)
             return;
         }
 
@@ -101,19 +102,22 @@ const Series = () => {
                 getBookSeries()
                 alert('Series created Successfully')
             })
+            setLoading(false)
         } catch (error) {
             console.error("There was an error creating the book series:", error);
+            setLoading(false)
         }
     }
 
     const updateMedia = async (e) => {
-
+        setLoading(true)
         setUploadNow(true)
         e.preventDefault();
 
         if (!authorName || !bookSeriesTitle) {
             alert("Author name and series title are required.");
             setUploadNow(false);
+            setLoading(false)
             return;
         }
         try {
@@ -121,8 +125,10 @@ const Series = () => {
             console.log('Series updated successfully:', data);
             getBookSeries();
             setEditVisible(false)
+            setLoading(false)
         } catch (error) {
             console.error('Error updating series:', error);
+            setLoading(false)
         }
     }
 
@@ -200,13 +206,19 @@ const Series = () => {
 
     return (
         <>
-            <Button sm={8} onClick={handleAddNew}>
+            <Button sm={8}  variant={"success"} onClick={handleAddNew}>
                 Add New
             </Button>
             {/* CREATE */}
             <Modal alignment="center" show={visible} onClose={() => handleClose()}>
-                <ModalHeader closeButton onClick={handleClose}>
-                    <ModalTitle>Create Book Series</ModalTitle>
+                {/*<ModalHeader closeButton onClick={handleClose}>*/}
+                {/*    <ModalTitle>Create Book Series</ModalTitle>*/}
+                {/*</ModalHeader>*/}
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>CREATE BOOK SERIES</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -321,8 +333,14 @@ const Series = () => {
             </Modal>
 
             <Modal alignment="center" show={editVisible} onClose={() => handleClose()}>
-                <ModalHeader closeButton onClick={handleClose}>
-                    <ModalTitle>UPDATE BOOK SERIES</ModalTitle>
+                {/*<ModalHeader closeButton onClick={handleClose}>*/}
+                {/*    <ModalTitle>UPDATE BOOK SERIES</ModalTitle>*/}
+                {/*</ModalHeader>*/}
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>UPDATE BOOK SERIES</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -458,6 +476,12 @@ const Series = () => {
 
                                 <th>
                                     <Button
+                                        style={{
+                                            backgroundColor: '#212529',
+                                            borderColor: '#212529',
+                                            color: 'white',
+                                            outline: 'none'
+                                        }}
                                         color="success"
                                         className="me-md-4"
                                         active

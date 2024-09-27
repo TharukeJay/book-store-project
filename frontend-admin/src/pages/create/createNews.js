@@ -80,11 +80,13 @@ const News = () => {
     const uploadMedia = async (e) => {
 
         setUploadNow(true)
+        setLoading(true)
         e.preventDefault();
 
         if (!description || !newsTitle || !newsCategory) {
             alert("newsTitle and description are required.");
             setUploadNow(false);
+            setLoading(false)
             return;
         }
 
@@ -102,19 +104,22 @@ const News = () => {
                 getNews()
                 alert('News created Successfully')
             })
+            setLoading(false)
         } catch (error) {
             console.error("There was an error creating the News:", error);
+            setLoading(false)
         }
     }
 
     const updateMedia = async (e) => {
-
+        setLoading(true)
         setUploadNow(true)
         e.preventDefault();
 
         if (!description || !newsTitle || !newsCategory) {
             alert("description name and News title are required.");
             setUploadNow(false);
+            setLoading(false)
             return;
         }
         try {
@@ -122,8 +127,10 @@ const News = () => {
             console.log('News updated successfully:', data);
             getNews();
             setEditVisible(false)
+            setLoading(false)
         } catch (error) {
             console.error('Error updating news:', error);
+            setLoading(false)
         }
     }
 
@@ -187,13 +194,19 @@ const News = () => {
 
     return (
         <>
-            <Button sm={8} onClick={handleAddNew}>
+            <Button sm={8}  variant={"success"} onClick={handleAddNew}>
                 Add New
             </Button>
             {/* CREATE */}
             <Modal alignment="center" show={visible} onClose={() => handleClose()}>
-                <ModalHeader closeButton onClick={handleClose}>
-                    <ModalTitle>Create News</ModalTitle>
+                {/*<ModalHeader closeButton onClick={handleClose}>*/}
+                {/*    <ModalTitle>Create News</ModalTitle>*/}
+                {/*</ModalHeader>*/}
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>CREATE NEWS</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -269,7 +282,7 @@ const News = () => {
                         </Row>
 
                         {/*{uploadNow == false ? (*/}
-                        <Button type="submit" accept=".webp" variant="dark" id="inputGroupFileAddon04">
+                        <Button type="submit" accept=".webp" variant="success" id="inputGroupFileAddon04">
                             Upload now
                         </Button>
                         {/*) : null}*/}
@@ -278,8 +291,14 @@ const News = () => {
             </Modal>
 
             <Modal alignment="center" show={editVisible} onClose={() => handleClose()}>
-                <ModalHeader closeButton onClick={handleClose}>
-                    <ModalTitle>UPDATE NEWS</ModalTitle>
+                {/*<ModalHeader closeButton onClick={handleClose}>*/}
+                {/*    <ModalTitle>UPDATE NEWS</ModalTitle>*/}
+                {/*</ModalHeader>*/}
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>UPDATE NEWS</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -347,13 +366,13 @@ const News = () => {
 
                         <div className="row justify-content-md-center">
                             <Col xs lg={9}>
-                                <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">
+                                <Button type="submit" color="primary" variant="success" id="inputGroupFileAddon04">
                                     UPDATE
                                 </Button>
                             </Col>
 
                             <Col>
-                                <Button color="danger" onClick={() => Delete()}>
+                                <Button color="danger" variant={"dark"} onClick={() => Delete()}>
                                     DELETE
                                 </Button>
                             </Col>
@@ -385,6 +404,12 @@ const News = () => {
 
                             <th>
                                 <Button
+                                    style={{
+                                        backgroundColor: '#212529',
+                                        borderColor: '#212529',
+                                        color: 'white',
+                                        outline: 'none'
+                                    }}
                                     color="success"
                                     className="me-md-4"
                                     active

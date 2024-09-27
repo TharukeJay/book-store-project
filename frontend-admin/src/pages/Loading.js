@@ -20,7 +20,7 @@ export default function ScreenLoading() {
             <br/>
             <br/>
             <br/>
-            <p style={styles.text}>Wait, content is uploading...</p>
+            <p style={styles.text}>Wait, processing...</p>
         </div>
     );
 }

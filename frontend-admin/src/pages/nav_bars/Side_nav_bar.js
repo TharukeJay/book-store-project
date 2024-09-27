@@ -168,14 +168,14 @@ const SideNavbar = () => {
                                 </Nav.Link>
                             )}
 
-                            <Nav.Link
-                                onClick={() => {
-                                    localStorage.clear();
-                                    navigate("/");
-                                }}
-                            >
-                                {isOpen && "Sign Out"}
-                            </Nav.Link>
+                            {/*<Nav.Link*/}
+                            {/*    onClick={() => {*/}
+                            {/*        localStorage.clear();*/}
+                            {/*        navigate("/");*/}
+                            {/*    }}*/}
+                            {/*>*/}
+                            {/*    {isOpen && "Sign Out"}*/}
+                            {/*</Nav.Link>*/}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

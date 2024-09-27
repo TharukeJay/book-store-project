@@ -98,11 +98,13 @@ function Categories() {
     }
 
     const updateMedia = async (e) => {
+        setLoading(true)
         // const newsStriptExists = authorData.some(data => data.data.authorName === authorName);
         e.preventDefault();
 
         if (description == '') {
             setError("Please enter a description");
+            setLoading(false)
             return;
         }
         try {
@@ -110,9 +112,11 @@ function Categories() {
             console.log('author updated successfully:', data);
             await getNewsStript();
             setEditVisible(false)
+            setLoading(false)
         } catch (error) {
             console.error('Error updating series:', error);
             setError(error.response.data.error)
+            setLoading(false)
         }
     }
     const Delete = async () => {
@@ -145,13 +149,19 @@ function Categories() {
             {/*>*/}
             {/*    Add New*/}
             {/*</Button>*/}
-            <Button sm={8} onClick={handleVisible}>
+            <Button sm={8} variant={"success"} onClick={handleVisible}>
                 Add New
             </Button>
 
             <Modal alignment="center" show={visible} onClose={() => setVisible(false)}>
-                <ModalHeader>
-                    <ModalTitle>New Stript</ModalTitle>
+                {/*<ModalHeader>*/}
+                {/*    <ModalTitle>New Stript</ModalTitle>*/}
+                {/*</ModalHeader>*/}
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>New Stript</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -177,17 +187,22 @@ function Categories() {
                     </Row>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="secondary" onClick={() => setVisible(false)}>
+                    <Button color="secondary" variant={"dark"} onClick={() => setVisible(false)}>
                         Close
                     </Button>
-                    <Button color="primary" onClick={createNewsStript}>
+                    <Button color="primary" variant={"success"} onClick={createNewsStript}>
                         Save
                     </Button>
                 </ModalFooter>
             </Modal>
             <Modal alignment="center" show={editVisible} onClose={() => handleClose()}>
-                <ModalHeader closeButton onClick={handleClose}>
-                    <ModalTitle>UPDATE NEWS STRIPT</ModalTitle>
+                {/*<ModalHeader closeButton onClick={handleClose}>*/}
+                {/*    <ModalTitle>UPDATE NEWS STRIPT</ModalTitle>*/}
+                {/*</ModalHeader>*/}
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>UPDATE NEWS STRIPT</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -215,13 +230,13 @@ function Categories() {
                     <form onSubmit={updateMedia}>
                         <div className="row justify-content-md-center">
                             <Col xs lg={9}>
-                                <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">
+                                <Button type="submit" color="primary" variant="success" id="inputGroupFileAddon04">
                                     UPDATE
                                 </Button>
                             </Col>
 
                             <Col>
-                                <Button color="danger" onClick={() => Delete()}>
+                                <Button color="danger" variant={"dark"} onClick={() => Delete()}>
                                     DELETE
                                 </Button>
                             </Col>
@@ -248,6 +263,12 @@ function Categories() {
 
                             <td>
                                 <Button
+                                    style={{
+                                        backgroundColor: '#212529',
+                                        borderColor: '#212529',
+                                        color: 'white',
+                                        outline: 'none'
+                                    }}
                                     color="success"
                                     className="me-md-4"
                                     active

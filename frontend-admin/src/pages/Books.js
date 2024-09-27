@@ -19,7 +19,7 @@ import {
     executeGetAuthor,
     executeGetBookSeries, executeGetCategory,
     executeGetContent,
-    executeUpdateBookSeries, executeUpdateContent
+    executeUpdateBookSeries, executeUpdateContent, executeUpdateContentForPDF
 } from "../api/endPoints";
 import ScreenLoading from "./Loading";
 import PDFImage from "../assets/pdf-file.png";
@@ -159,10 +159,22 @@ const Series = () => {
 
         try {
             console.log('form data===>', formData);
-            const response = await executeUpdateContent(formData);
+            const response = await executeUpdateContentForPDF(
+                id,
+                category,
+                authorName,
+                bookType,
+                description,
+                price,
+                title,
+                thumbnail,
+                previewPdfFile,
+                fullPdfFile);
             console.log('Content uploaded successfully:', response.data);
             alert('Content uploaded successfully!')
             setEditVisible(false)
+            setLoading(false)
+            getBookContents()
         } catch (error) {
             console.error('Error uploading content:', error);
         } finally {
@@ -217,8 +229,14 @@ const Series = () => {
     return (
         <>
             <Modal alignment="center" show={editVisible} onClose={() => handleClose()}>
-                <ModalHeader closeButton onClick={handleClose}>
-                    <ModalTitle>UPDATE PDF BOOK</ModalTitle>
+                {/*<ModalHeader closeButton onClick={handleClose}>*/}
+                {/*    <ModalTitle>UPDATE PDF BOOK</ModalTitle>*/}
+                {/*</ModalHeader>*/}
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>UPDATE PDF BOOK</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -330,13 +348,13 @@ const Series = () => {
                         </Row>
                         <div className="row justify-content-md-center">
                             <Col xs lg={9}>
-                                <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">
+                                <Button type="submit" color="primary" variant="success" id="inputGroupFileAddon04">
                                     UPDATE
                                 </Button>
                             </Col>
 
                             <Col>
-                                <Button color="danger" onClick={() => Delete()}>
+                                <Button color="danger" variant={"dark"} onClick={() => Delete()}>
                                     DELETE
                                 </Button>
                             </Col>
@@ -381,6 +399,12 @@ const Series = () => {
 
                             <th>
                                 <Button
+                                    style={{
+                                        backgroundColor: '#212529',
+                                        borderColor: '#212529',
+                                        color: 'white',
+                                        outline: 'none'
+                                    }}
                                     color="success"
                                     className="me-md-4"
                                     active

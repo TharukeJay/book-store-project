@@ -506,6 +506,92 @@ export const executeUpdateContent = async (formData) => {
     }
 };
 
+
+export const executeUpdateContentForPDF = async (
+id,
+categoryName,
+authorName,
+bookType,
+description,
+bookPrice,
+bookName,
+thumbnail,
+previewPdfFile,
+fullPdfFile
+) => {
+    try {
+        // Create a FormData object
+        const formData = new FormData();
+        formData.append('categoryName', categoryName);
+        formData.append('authorName', authorName);
+        formData.append('bookType', bookType);
+        formData.append('description', description);
+        formData.append('bookPrice', bookPrice);
+        formData.append('bookName', bookName);
+        formData.append('id', id);
+
+        if (thumbnail) {
+            formData.append('thumbnail', thumbnail);
+        }
+        if (previewPdfFile) {
+            formData.append('previewPdfFile', previewPdfFile);
+        }
+        if (fullPdfFile) {
+            formData.append('fullPdfFile', fullPdfFile);
+        }
+
+        const response = await API_ENDPOINT.post(UPDATE_CONTENT, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        return response;
+    } catch (error) {
+        console.error("Error updating content:", error);
+        throw error;
+    }
+};
+
+
+
+export const executeUpdateContentForAudio = async (id, categoryName, authorName, chapter, bookType, description, bookPrice, bookName, selecteBookSeries, selecteBookSeriesID, thumbnail, audioFile) => {
+    try {
+        // Create a FormData object
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('categoryName', categoryName);
+        formData.append('authorName', authorName);
+        formData.append('chapter', chapter);
+        formData.append('bookType', bookType);
+        formData.append('description', description);
+        formData.append('bookPrice', bookPrice);
+        formData.append('bookName', bookName);
+        formData.append('selecteBookSeries', selecteBookSeries);
+        formData.append('selecteBookSeriesID', selecteBookSeriesID);
+
+        if (thumbnail) {
+            formData.append('thumbnail', thumbnail);
+        }
+        if (audioFile) {
+            formData.append('audioFile', audioFile);
+        }
+
+        // Send the POST request using Axios
+        const response = await API_ENDPOINT.post(UPDATE_CONTENT, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',  // Axios automatically handles multipart boundaries
+            },
+        });
+
+        return response;
+    } catch (error) {
+        console.error("Error updating content:", error);
+        throw error;
+    }
+};
+
+
 export const executeGetContent = () => {
     return API_ENDPOINT.post(GET_CONTENT, {});
 };
@@ -593,19 +679,48 @@ export const executeCreateNews = async (formData) => {
     }
 };
 
-export const executeUpdateNews = async (formData) => {
+// export const executeUpdateNews = async (formData) => {
+//     try {
+//         const response = await API_ENDPOINT.post(UPDATE_NEWS, formData, {
+//             headers: {
+//                 'Content-Type': 'multipart/form-data',
+//             },
+//         });
+//         return response;
+//     } catch (error) {
+//         console.error("Error updating news:", error);
+//         throw error;
+//     }
+// };
+
+
+
+export const executeUpdateNews = async (newsId, title, newsCategory,description, imageFile) => {
     try {
+        const formData = new FormData();
+        formData.append('newsId', newsId);
+        formData.append('newsTitle', title);
+        formData.append('newsCategory', newsCategory);
+        formData.append('description', description);
+
+        if (imageFile) {
+            formData.append('imageFile', imageFile);
+        }
+
+        // Use Axios to send the request
         const response = await API_ENDPOINT.post(UPDATE_NEWS, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
+
         return response;
     } catch (error) {
         console.error("Error updating news:", error);
         throw error;
     }
 };
+
 
 export const executeGetNews = () => {
     return API_ENDPOINT.get(GET_NEWS, {});
@@ -696,19 +811,46 @@ export const executeCreateNewsCategory = async (formData) => {
     }
 };
 
-export const executeUpdateNewsCategory = async (formData) => {
+// export const executeUpdateNewsCategory = async (formData) => {
+//     try {
+//         const response = await API_ENDPOINT.post(UPDATE_NEWS_CATEGORY, formData, {
+//             headers: {
+//                 'Content-Type': 'multipart/form-data',
+//             },
+//         });
+//         return response;
+//     } catch (error) {
+//         console.error("Error updating news category:", error);
+//         throw error;
+//     }
+// };
+
+
+
+export const executeUpdateNewsCategory = async (categoryId, categoryName, imageFile) => {
     try {
+        // Create a FormData object
+        const formData = new FormData();
+        formData.append('categoryId', categoryId);
+        formData.append('categoryName', categoryName);
+
+        if (imageFile) {
+            formData.append('thumbnail', imageFile);
+        }
+
         const response = await API_ENDPOINT.post(UPDATE_NEWS_CATEGORY, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         });
+
         return response;
     } catch (error) {
         console.error("Error updating news category:", error);
         throw error;
     }
 };
+
 
 export const executeDeleteNewsCategory = (categoryId) => {
     return API_ENDPOINT.post(DELETE_NEWS_CATEGORY, { categoryId });
@@ -740,13 +882,40 @@ export const executeCreatePictureRim = async (formData) => {
     }
 };
 
-export const executeUpdatePictureRim = async (formData) => {
+// export const executeUpdatePictureRim = async (formData) => {
+//     try {
+//         const response = await API_ENDPOINT.post(UPDATE_PICTURE_RIM, formData, {
+//             headers: {
+//                 'Content-Type': 'multipart/form-data',
+//             },
+//         });
+//         return response;
+//     } catch (error) {
+//         console.error("Error updating picture rim:", error);
+//         throw error;
+//     }
+// };
+
+
+export const executeUpdatePictureRim = async (pictureRimID,pictureRimTitle, description, imageFile) => {
     try {
+        // Create a FormData object
+        const formData = new FormData();
+        formData.append('pictureRimId', pictureRimID);
+        formData.append('title', pictureRimTitle);
+        formData.append('description', description);
+
+        if (imageFile) {
+            formData.append('thumbnail', imageFile);
+        }
+
+        // Send the POST request using Axios
         const response = await API_ENDPOINT.post(UPDATE_PICTURE_RIM, formData, {
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': 'multipart/form-data',  // Axios automatically handles the boundary for multipart
             },
         });
+
         return response;
     } catch (error) {
         console.error("Error updating picture rim:", error);
@@ -754,8 +923,9 @@ export const executeUpdatePictureRim = async (formData) => {
     }
 };
 
+
 export const executeDeletePictureRim = (pictureRimID) => {
-    return API_ENDPOINT.post(DELETE_PICTURE_RIM, { pictureRimID });
+    return API_ENDPOINT.post(DELETE_PICTURE_RIM, {pictureRimId: pictureRimID });
 };
 
 export const executeGetNewsStript = () => {

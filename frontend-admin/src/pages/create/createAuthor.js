@@ -142,13 +142,18 @@ function Categories() {
             {/*>*/}
             {/*    Add New*/}
             {/*</Button>*/}
-            <Button sm={8} onClick={handleVisible}>
+            <Button sm={8} variant={"success"} onClick={handleVisible}>
                 Add New
             </Button>
 
             <Modal alignment="center" show={visible} onClose={() => setVisible(false)}>
-                <ModalHeader>
-                    <ModalTitle>New Author</ModalTitle>
+                {/*<ModalHeader>*/}
+                {/*    <ModalTitle>New Author</ModalTitle>*/}
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>ADD NEW AUTHOR</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -166,17 +171,23 @@ function Categories() {
 
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="secondary" onClick={() => setVisible(false)}>
+                    <Button color="secondary" variant={"dark"} onClick={() => setVisible(false)}>
                         Close
                     </Button>
-                    <Button color="primary" onClick={() => createAuthor(authorName)}>
+                    <Button color="primary" variant={"success"} onClick={() => createAuthor(authorName)}>
                         Save
                     </Button>
                 </ModalFooter>
             </Modal>
             <Modal alignment="center" show={editVisible} onClose={() => handleClose()}>
-                <ModalHeader closeButton onClick={handleClose}>
-                    <ModalTitle>UPDATE AUTHOR</ModalTitle>
+                {/*<ModalHeader closeButton onClick={handleClose}>*/}
+                {/*    <ModalTitle>UPDATE AUTHOR</ModalTitle>*/}
+                {/*</ModalHeader>*/}
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>UPDATE AUTHOR</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -194,13 +205,13 @@ function Categories() {
                     <form onSubmit={updateMedia}>
                         <div className="row justify-content-md-center">
                             <Col xs lg={9}>
-                                <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">
+                                <Button type="submit"  variant={"success"} color="primary"  id="inputGroupFileAddon04">
                                     UPDATE
                                 </Button>
                             </Col>
 
                             <Col>
-                                <Button color="danger" onClick={() => Delete()}>
+                                <Button color="danger" variant={"dark"} onClick={() => Delete()}>
                                     DELETE
                                 </Button>
                             </Col>
@@ -226,6 +237,12 @@ function Categories() {
 
                             <td>
                                 <Button
+                                    style={{
+                                        backgroundColor: '#212529',
+                                        borderColor: '#212529',
+                                        color: 'white',
+                                        outline: 'none'
+                                    }}
                                     color="success"
                                     className="me-md-4"
                                     active

@@ -61,10 +61,12 @@ function Categories() {
             alert('Category updated successfully:');
             getNewsCategory();
             setVisible(false)
+            setLoading(false);
         } catch (error) {
             setLoading(false);
             console.error('Error creating category:', error);
             setError(error.response.data.error)
+            setLoading(false);
         }
     };
 
@@ -110,13 +112,16 @@ function Categories() {
     const updateMedia = async (e) => {
         const categoryExists = categoryData.some(data => (data.data.categoryId !== categoryId) && data.data.categoryName === categoryName);
         // setUploadNow(true)
+        setLoading(true)
         e.preventDefault();
         if (categoryName == '') {
             setError("Please enter a category name");
+            setLoading(false);
             return;
         }
         if(categoryExists){
             setError("Category with the same name already exists.");
+            setLoading(false);
             return;
         }
         try {
@@ -125,9 +130,11 @@ function Categories() {
             alert('Category updated successfully:');
             await getNewsCategory();
             setEditVisible(false)
+            setLoading(false);
         } catch (error) {
             console.error('Error updating series:', error);
             setError(error.response.data.error)
+            setLoading(false);
         }
     }
     const Delete = async () => {
@@ -158,13 +165,19 @@ function Categories() {
             {/*>*/}
             {/*    Add New*/}
             {/*</Button>*/}
-            <Button sm={8} onClick={handleVisible}>
+            <Button sm={8}  variant={"success"} onClick={handleVisible}>
                 Add New
             </Button>
 
             <Modal alignment="center" show={visible} onClose={() => setVisible(false)}>
-                <ModalHeader>
-                    <ModalTitle>New News Category</ModalTitle>
+                {/*<ModalHeader>*/}
+                {/*    <ModalTitle>New News Category</ModalTitle>*/}
+                {/*</ModalHeader>*/}
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>New News Category</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -192,18 +205,24 @@ function Categories() {
 
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="secondary" onClick={() => setVisible(false)}>
+                    <Button color="secondary" variant={"dark"} onClick={() => setVisible(false)}>
                         Close
                     </Button>
-                    <Button color="primary" onClick={() => createNewsCategory(categoryName)}>
+                    <Button color="primary" variant={"success"} onClick={() => createNewsCategory(categoryName)}>
                         Save
                     </Button>
                 </ModalFooter>
             </Modal>
 
             <Modal alignment="center" show={editVisible} onClose={() => handleClose()}>
-                <ModalHeader closeButton onClick={handleClose}>
-                    <ModalTitle>UPDATE NEWS CATEGORY</ModalTitle>
+                {/*<ModalHeader closeButton onClick={handleClose}>*/}
+                {/*    <ModalTitle>UPDATE NEWS CATEGORY</ModalTitle>*/}
+                {/*</ModalHeader>*/}
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>UPDATE NEWS CATEGORY</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -236,13 +255,13 @@ function Categories() {
                         </Row>
                         <div className="row justify-content-md-center">
                             <Col xs lg={9}>
-                                <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">
+                                <Button type="submit" variant={"success"} color="primary" id="inputGroupFileAddon04">
                                     UPDATE
                                 </Button>
                             </Col>
 
                             <Col>
-                                <Button color="danger" onClick={() => Delete()}>
+                                <Button color="danger"  variant={"dark"} onClick={() => Delete()}>
                                     DELETE
                                 </Button>
                             </Col>
@@ -272,6 +291,12 @@ function Categories() {
 
                             <td>
                                 <Button
+                                    style={{
+                                        backgroundColor: '#212529',
+                                        borderColor: '#212529',
+                                        color: 'white',
+                                        outline: 'none'
+                                    }}
                                     color="success"
                                     className="me-md-4"
                                     active
