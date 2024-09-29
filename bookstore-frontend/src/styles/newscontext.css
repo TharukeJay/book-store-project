@@ -113,12 +113,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 15px;
 }
 
 .picture-rim {
     border-radius: 15px !important;
-    width: 100%;
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.picture-rim img{
+    border-radius: 15px !important;
 }
 
 .right-add-container {
@@ -293,6 +298,12 @@
         justify-content: center;
     }
     .picture-rim{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .picture-rim img{
         width: 100%;
     }
 
