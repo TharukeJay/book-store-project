@@ -155,13 +155,16 @@ function Categories() {
             {/*>*/}
             {/*    Add New*/}
             {/*</Button>*/}
-            <Button sm={8} onClick={handleVisible}>
+            <Button sm={8} onClick={handleVisible} variant={"success"}>
                 Add New
             </Button>
 
             <Modal alignment="center" show={visible} onClose={() => setVisible(false)}>
-                <ModalHeader>
-                    <ModalTitle>New Category</ModalTitle>
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>ADD NEW CATEGORY</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -188,22 +191,25 @@ function Categories() {
                     </Row>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="secondary" onClick={() => setVisible(false)}>
+                    <Button color="secondary" variant={"dark"} onClick={() => setVisible(false)}>
                         Close
                     </Button>
-                    <Button color="primary" onClick={() => createCategory(categoryName)}>
+                    <Button color="primary" variant={"success"} onClick={() => createCategory(categoryName)}>
                         Save
                     </Button>
                 </ModalFooter>
             </Modal>
 
             <Modal alignment="center" show={editVisible} onClose={() => handleClose()}>
-                <ModalHeader closeButton onClick={handleClose}>
-                    <ModalTitle>UPDATE CATEGORY</ModalTitle>
-                </ModalHeader>
-                <ModalBody>
-                    <Row className="mb-3">
-                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>UPDATE CATEGORY</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
+            </ModalHeader>
+            <ModalBody>
+                <Row className="mb-3">
+                    <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
                             Category Name
                         </FormLabel>
                         <Col sm={8}>
@@ -233,13 +239,13 @@ function Categories() {
                         </Row>
                         <div className="row justify-content-md-center">
                             <Col xs lg={9}>
-                                <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">
+                                <Button type="submit" variant={"success"} id="inputGroupFileAddon04">
                                     UPDATE
                                 </Button>
                             </Col>
 
                             <Col>
-                                <Button color="danger" onClick={() => Delete()}>
+                                <Button variant={"dark"}  onClick={() => Delete()}>
                                     DELETE
                                 </Button>
                             </Col>
@@ -268,7 +274,12 @@ function Categories() {
                                 <td>{data.data.categoryName}</td>
                                 <td>
                                     <Button
-                                        color="success"
+                                        style={{
+                                            backgroundColor: '#212529',
+                                            borderColor: '#212529',
+                                            color: 'white',
+                                            outline: 'none'
+                                        }}
                                         className="me-md-4"
                                         active
                                         tabIndex={-1}

@@ -51,13 +51,14 @@ const PictureRim = () => {
 
     // firebase - store data into firebase collection
     const uploadMedia = async (e) => {
-
+        setLoading(true)
         setUploadNow(true)
         e.preventDefault();
 
         if (!description) {
             alert("description required.");
             setUploadNow(false);
+            setLoading(false)
             return;
         }
 
@@ -71,21 +72,24 @@ const PictureRim = () => {
                 setUploadNow(false)
                 setVisible(false)
                 getPictureRim()
+                setLoading(false)
                 alert('Picture Rim created Successfully')
             })
         } catch (error) {
             console.error("There was an error creating the Picture Rim:", error);
+            setLoading(false)
         }
     }
 
     const updateMedia = async (e) => {
-
+        setLoading(true)
         setUploadNow(true)
         e.preventDefault();
 
         if (!description) {
             alert("Author name and Picture Rim title are required.");
             setUploadNow(false);
+            setLoading(false)
             return;
         }
         try {
@@ -93,8 +97,10 @@ const PictureRim = () => {
             console.log('Picture Rim updated successfully:', data);
             await getPictureRim();
             setEditVisible(false)
+            setLoading(false)
         } catch (error) {
             console.error('Error updating Picture Rim:', error);
+            setLoading(false)
         }
     }
 
@@ -157,13 +163,19 @@ const PictureRim = () => {
 
     return (
         <>
-            <Button sm={8} onClick={handleAddNew}>
+            <Button sm={8} variant={"success"} onClick={handleAddNew}>
                 Add New
             </Button>
             {/* CREATE */}
             <Modal alignment="center" show={visible} onClose={() => handleClose()}>
-                <ModalHeader closeButton onClick={handleClose}>
-                    <ModalTitle>Create Picture Rim </ModalTitle>
+                {/*<ModalHeader closeButton onClick={handleClose}>*/}
+                {/*    <ModalTitle>Create Picture Rim </ModalTitle>*/}
+                {/*</ModalHeader>*/}
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>CREATE PICTURE RIM</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -200,7 +212,7 @@ const PictureRim = () => {
                         </Row>
 
                         {/*{uploadNow == false ? (*/}
-                        <Button type="submit" accept=".webp" variant="dark" id="inputGroupFileAddon04">
+                        <Button type="submit" accept=".webp" variant="success" id="inputGroupFileAddon04">
                             Upload now
                         </Button>
                         {/*) : null}*/}
@@ -209,8 +221,11 @@ const PictureRim = () => {
             </Modal>
 
             <Modal alignment="center" show={editVisible} onClose={() => handleClose()}>
-                <ModalHeader closeButton onClick={handleClose}>
-                    <ModalTitle>UPDATE  PICTURE RIM </ModalTitle>
+                <ModalHeader  onClick={handleClose} style={{backgroundColor: '#212529'}}>
+                    <ModalTitle style={{color: "white"}}>UPDATE PICTURE RIM</ModalTitle>
+                    <button type="button" className="btn-close" style={{filter: 'invert(1)'}}
+                            onClick={handleClose}></button>
+
                 </ModalHeader>
                 <ModalBody>
                     <Row className="mb-3">
@@ -250,13 +265,13 @@ const PictureRim = () => {
 
                         <div className="row justify-content-md-center">
                             <Col xs lg={9}>
-                                <Button type="submit" color="primary" variant="outline" id="inputGroupFileAddon04">
+                                <Button type="submit" color="primary" variant="success" id="inputGroupFileAddon04">
                                     UPDATE
                                 </Button>
                             </Col>
 
                             <Col>
-                                <Button color="danger" onClick={() => Delete()}>
+                                <Button color="danger"  variant={"dark"} onClick={() => Delete()}>
                                     DELETE
                                 </Button>
                             </Col>
@@ -289,6 +304,12 @@ const PictureRim = () => {
 
                             <th>
                                 <Button
+                                    style={{
+                                        backgroundColor: '#212529',
+                                        borderColor: '#212529',
+                                        color: 'white',
+                                        outline: 'none'
+                                    }}
                                     color="success"
                                     className="me-md-4"
                                     active
