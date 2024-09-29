@@ -126,7 +126,7 @@ const PictureRim =()=>{
         <>
             <div className="top__bar" style={{background:'none'}}>
                 <p>
-                    <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize: "45px", margin: '3px', color: "black"}}/>
+                    <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize: "45px", margin: '3px', color: "white"}}/>
                 </p>
             </div>
             <div className='main-outer-picture-rim'>
@@ -177,8 +177,7 @@ const PictureRim =()=>{
                 </div>
             </div>
             <div style={{height:'30px'}}></div>
-            <div className='inner-bottum-outer-picture-rim'
-                 style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+            <div className='inner-bottum-outer-picture-rim'>
                 <div className="news-list" style={{userSelect: 'none'}}>
                     {newsPictureRimData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                         <div className='news-outer'>
@@ -186,24 +185,27 @@ const PictureRim =()=>{
                                  className='left-news-outer-list'>
                                 <img id="image" src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
                             </div>
-                            <div className='right-news-outer'>
+                            <div className='right-news-outer-picture-rim'>
                                 <h2 key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)}>{newsItem.title}</h2>
                                 <br/>
                                 <p>{truncateDescription(newsItem.description)} </p>
-                                <button className='btn btn-default'
-                                        style={{fontSize: '15px', border: '1px solid black', marginTop: '10px'}} key={i}
+                                <button className='btn btn-default right-news-outer-picture-rim-btn'
+                                        key={i}
                                         onClick={() => handleNewsClick(newsItem.id)}>READ MORE
                                 </button>
                             </div>
+                            <div></div>
                         </div>
                     ))}
                 </div>
-                <div className="buttons">
-                    <button onClick={handlePrevious} disabled={index === 0}><MdKeyboardDoubleArrowLeft/></button>
-                    {currentPage}/{totalPages}
-                    <button onClick={handleNext} disabled={index + 4 >= newsPictureRimData.length}>
-                        <MdKeyboardDoubleArrowRight/>
-                    </button>
+                <div className='button-bottom-next'>
+                    <div className="buttons">
+                        <button onClick={handlePrevious} disabled={index === 0}><MdKeyboardDoubleArrowLeft/></button>
+                        {currentPage}/{totalPages}
+                        <button onClick={handleNext} disabled={index + 4 >= newsPictureRimData.length}>
+                            <MdKeyboardDoubleArrowRight/>
+                        </button>
+                    </div>
                 </div>
                 <div style={{height: "50px"}}></div>
             </div>

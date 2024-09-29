@@ -22,6 +22,7 @@ body {
     display: block;
     position: sticky;
     margin-top: 20px;
+    padding: 20px 40px 20px 40px;
 }
 
 .left-audio-outer p {
@@ -45,6 +46,7 @@ body {
 
 .right-desc-outer p {
     text-align: start;
+    color: white;
 }
 
 .right-photo {
@@ -84,7 +86,7 @@ body {
 
 .right-photo p {
     margin: 25px 15px;
-    color: black !important;
+    color: white !important;
 }
 
 .audio-description {
@@ -110,6 +112,9 @@ a {
 
 p {
     color: black;
+}
+.me-auto{
+    font-size: 18px;
 }
 .mirror-wall{
     display: flex;
@@ -218,7 +223,8 @@ p {
         width: 90%;
     }
     .comments-form-outer{
-        margin-left: 10px;
+        max-width: 100%;
+        padding: 2px 10px 2px 10px;
     }
 }
 

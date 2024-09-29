@@ -158,7 +158,7 @@ const AudioBooks = () => {
                           style={{border:'1px solid blue'}}
             />
             <Button variant="secondary" onClick={handleSearchSubmitAudio}
-                    className="btn btn-primary search-button"><IoSearchOutline style={{color:'white'}}/></Button>
+                    className="btn btn-primary search-button" style={{border:'1px solid red', width:'50px'}}><IoSearchOutline style={{color:'white'}}/></Button>
           </Stack>
         </div>
         <br/>

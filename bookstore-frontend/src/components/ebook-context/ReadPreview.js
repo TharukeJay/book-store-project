@@ -92,7 +92,7 @@ const ReadPreview = () =>{
                 reverseOrder={false}
             />
             <div className="bar" onContextMenu={(e) => e.preventDefault()} style={{backgroundColor:'none'}}>
-            <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize:"50px" ,margin:'3px',color: "black"}}/>
+            <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize:"50px" ,margin:'3px',color: "white"}}/>
                 {/* <EbookTopBar/> */}
             </div>
             <div className="wrap" onContextMenu={(e) => e.preventDefault()} ref={containerRef}>

@@ -12,13 +12,14 @@ import {
     FaInstagram,
     FaPinterest, FaFacebook, FaWhatsapp, FaTelegram
 } from "react-icons/fa";
+import {homePageBackgroundColor} from "../../common/commonColors";
 
 const Footer = () => {
     // let circleClasses = "inline-block p-7 rounded-full w-20 mx-auto";
     let iconStyles = {color: "white", fontSize: "1.5em"};
     return (
         <>
-            <div className="footer-top mt-3">
+            <div className="footer-top mt-3" style={{backgroundColor:homePageBackgroundColor}}>
                 <div className="row">
                     <div className="inside-row">
                         <div className=" footer-links-left">

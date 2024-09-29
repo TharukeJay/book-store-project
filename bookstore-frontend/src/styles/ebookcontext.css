@@ -4,12 +4,15 @@
     margin-bottom: 5%;
 }
 .outer p{
-    color: black;
+    color: #f3eded;
 }
 .ebook-search-outer{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.me-auto{
+    height: 35px;
 }
 .book-list{
     width: 100%;
@@ -41,10 +44,17 @@
     height: 30px;
     border-radius: 3px;
 }
-.button{
+.buttons{
     border-radius: 5px;
     margin: 5px;
     font-size:17px ;
+    color: white;
+}
+.buttons button{
+    border-radius: 5px;
+    font-size:17px ;
+    border: 2px solid red;
+    background-color: white;
 }
 
 /* Tablets: from 768px to 1024px */
@@ -207,7 +217,7 @@ span{
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-    background-color: #ffffff;
+    background-color: #090909;
     overflow-y: auto;
     padding: 10px;
     box-sizing: border-box;
@@ -281,7 +291,7 @@ span{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-color: white;
+    /*background-color: white;*/
 }
 
 .comments-form {

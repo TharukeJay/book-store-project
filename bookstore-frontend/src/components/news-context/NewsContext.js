@@ -196,7 +196,7 @@ const NewsContext = () => {
                                       style={{border: '1px solid blue'}}
                         />
                         <Button variant="secondary" onClick={handleSearchSubmitNews}><IoSearchOutline
-                            style={{color: 'white'}}/></Button>
+                            style={{color: 'white', width:'40px'}}/></Button>
                     </Stack>
                 </div>
                 <br/>
@@ -216,29 +216,61 @@ const NewsContext = () => {
                 <br/>
                 <div className='title-outer-news'></div>
 
+                {/*<div className='add-container'>*/}
+                {/*    <div className='left-add-container'>*/}
+                {/*        <div className='news-container'>*/}
+                {/*            {latestNewsScript && (*/}
+                {/*                <div className='news-strip'>*/}
+                {/*                    <p style={{color:'black'}}> {latestNewsScript.description}</p>*/}
+                {/*                </div>*/}
+                {/*            )}*/}
+                {/*        </div>*/}
+                {/*        <div style={{height: '30px'}}></div>*/}
+                {/*        <div className='add-container-picture'>*/}
+                {/*            <div className='picture-rim'>*/}
+                {/*                <Carousel>*/}
+                {/*                    {newsPictureRimData.map((photo, index) => (*/}
+                {/*                        <Carousel.Item>*/}
+                {/*                            <img id="image" src={photo.thumbnail_url} alt="Latest Picture"*/}
+                {/*                                 onClick={() => ClickedPictureRim(photo.pictureRimId)}/>*/}
+                {/*                            <Carousel.Caption>*/}
+                {/*                            </Carousel.Caption>*/}
+                {/*                        </Carousel.Item>*/}
+                {/*                    ))}*/}
+                {/*                </Carousel>*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*    <div className='right-add-container'>*/}
+                {/*        <div className='add-banners'>*/}
+                {/*            <p> This is a Banner box</p>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+
+                <div className='add-container'>
+                    <div className='news-container'>
+                        {latestNewsScript && (
+                            <div className='news-strip'>
+                                <p> {latestNewsScript.description}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+                <div style={{height: '30px'}}></div>
                 <div className='add-container'>
                     <div className='left-add-container'>
-                        <div className='news-container'>
-                            {latestNewsScript && (
-                                <div className='news-strip'>
-                                    <p> {latestNewsScript.description}</p>
-                                </div>
-                            )}
-                        </div>
-                        <div style={{height: '30px'}}></div>
-                        <div className='add-container-picture'>
-                            <div className='picture-rim'>
-                                <Carousel>
-                                    {newsPictureRimData.map((photo, index) => (
-                                        <Carousel.Item>
-                                            <img id="image" src={photo.thumbnail_url} alt="Latest Picture"
-                                                 onClick={() => ClickedPictureRim(photo.pictureRimId)}/>
-                                            <Carousel.Caption>
-                                            </Carousel.Caption>
-                                        </Carousel.Item>
-                                    ))}
-                                </Carousel>
-                            </div>
+                        <div className='picture-rim'>
+                            <Carousel>
+                                {newsPictureRimData.map((photo, index) => (
+                                    <Carousel.Item>
+                                        <img id="image" src={photo.thumbnail_url} alt="Latest Picture"
+                                             onClick={() => ClickedPictureRim(photo.pictureRimId)}/>
+                                        <Carousel.Caption>
+                                        </Carousel.Caption>
+                                    </Carousel.Item>
+                                ))}
+                            </Carousel>
                         </div>
                     </div>
                     <div className='right-add-container'>
@@ -247,7 +279,6 @@ const NewsContext = () => {
                         </div>
                     </div>
                 </div>
-
 
                 <div style={{height: '40px'}}></div>
                 <div className="gallery-container">
@@ -265,7 +296,8 @@ const NewsContext = () => {
                                     <br/>
                                     <p>{truncateDescription(newsItem.description)} </p>
                                     <button className='btn btn-default'
-                                            style={{fontSize: '17px', border: '1px solid black', marginTop:'10px'}} key={i}
+                                            // style={{fontSize: '17px', border: '1px solid red', marginTop: '10px'}}
+                                            key={i}
                                             onClick={() => handleNewsClick(newsItem.newsId)}>READ MORE
                                     </button>
                                 </div>
