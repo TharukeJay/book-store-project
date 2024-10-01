@@ -11,7 +11,7 @@ import API_ENDPOINT from '../../apis/httpAxios';
 import ScreenLoading from '../loading/Loading';
 import {useNavigate, useLocation} from 'react-router-dom';
 // import TopBar from './TopBar';
-import {bgColor} from "../../common/commonColors";
+import {bgColor, bookPageBackgroundColor} from "../../common/commonColors";
 import Footer from "../footer/Footer";
 import '../../styles/audio.css'
 import MyBookDisplayTrack from "./MyBookDisplayTrack";
@@ -292,7 +292,7 @@ const AudioPlayer = () => {
                                        style={{fontSize: "40px", margin: '3px', color: "black"}}/>
                 </p>
             </div>
-            <div className="main-outer-audio" style={{background: bgColor}}>
+            <div className="main-outer-audio" style={{background: bookPageBackgroundColor}}>
                 <div className="left-audio-outer">
                     <div className="audio-player">
                         <div className="inner">

@@ -18,7 +18,7 @@ import {
     FacebookShareButton,
     FacebookIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon,
 } from "react-share";
-import {bgColor, buyNowButton, readButton} from "../../common/commonColors";
+import {bgColor, bookPageBackgroundColor, buyNowButton, readButton} from "../../common/commonColors";
 import Footer from "../footer/Footer";
 import {RiAccountCircleFill} from "react-icons/ri";
 import Form from "react-bootstrap/Form";
@@ -405,7 +405,7 @@ const AudioPlayer = () => {
                                        style={{fontSize: "45px", color: "white", paddingTop: '5px'}}/>
                 </p>
             </div>
-            <div className="main-outer-audio" style={{background: bgColor}}>
+            <div className="main-outer-audio" style={{background: bookPageBackgroundColor}}>
                 <Helmet>
                     <title>{title}</title>
                 </Helmet>
@@ -476,7 +476,7 @@ const AudioPlayer = () => {
 
                     <div style={{height: "10px"}}></div>
                     <div className="Demo__container">
-                        <p style={{fontSize: "25px", marginLeft: "50px"}}> share</p>
+                        <p style={{fontSize: "25px", marginLeft: "50px" ,color:'black'}}> share</p>
                         <div className="Demo__some-network">
                             <FacebookShareButton
                                 url={currentURL}
@@ -503,12 +503,12 @@ const AudioPlayer = () => {
                 </div>
             </div>
             <div style={{height: "40px"}}></div>
-            <div className='mirror-wall' style={{backgroundColor:bgColor}}>
+            <div className='mirror-wall' style={{backgroundColor:bookPageBackgroundColor}}>
                 <img id="image"
                      src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2Fmirror%20wall.jpeg?alt=media&token=5387365f-682b-45e9-a7b6-db017190cf44'
                      alt="Mirror Wall"/>
             </div>
-            <div className="comments-section" style={{backgroundColor:bgColor}}>
+            <div className="comments-section" style={{backgroundColor:bookPageBackgroundColor}}>
                 {comments.map((comment, index) => (
                     <div className="comments-list">
                         <div className="comment">
@@ -546,12 +546,12 @@ const AudioPlayer = () => {
                             />
                             <Button variant="outline-secondary" type="submit" id="button-addon2"
                                     style={{
-                                        border: '1px solid red',
+                                        border: '1px solid blue',
                                         borderRadius: '8px',
                                         marginLeft: '10px',
                                         paddingTop: '-90px',
                                         fontSize:'17px',
-                                        color:"white",
+                                        color:"black",
                                     }}>
                                 Post
                             </Button>
@@ -559,7 +559,7 @@ const AudioPlayer = () => {
                     </Form>
                 </div>
             </div>
-            <div style={{height: "40px"}}></div>
+            <div style={{height: "60px"}}></div>
 
             <Modal show={showModal} onHide={closeModal}>
                 <Modal.Header closeButton>

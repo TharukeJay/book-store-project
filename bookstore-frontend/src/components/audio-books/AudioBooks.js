@@ -8,7 +8,7 @@ import '../../styles/audio.css';
 import { FETCH_ALL_AUDIO_BOOK, FETCH_ALL_BOOK, FETCH_ALL_CATEGORY } from '../../apis/endpoints.js';
 import API_ENDPOINT from '../../apis/httpAxios';
 import ScreenLoading from '../loading/Loading';
-import {bgColor, seeAllBtn} from "../../common/commonColors";
+import {bgColor, bookPageBackgroundColor, seeAllBtn} from "../../common/commonColors";
 import { IoSearchOutline } from "react-icons/io5";
 import {MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight} from "react-icons/md";
 
@@ -146,7 +146,7 @@ const AudioBooks = () => {
   }
 
   return (
-      <div className='outer' style={{background: bgColor}}>
+      <div className='outer' style={{background: bookPageBackgroundColor}}>
         <br/>
         <div className="ebook-search-outer">
           <Stack direction="horizontal" gap={3} className='search-outer'>
@@ -158,7 +158,7 @@ const AudioBooks = () => {
                           style={{border:'1px solid blue'}}
             />
             <Button variant="secondary" onClick={handleSearchSubmitAudio}
-                    className="btn btn-primary search-button" style={{border:'1px solid red', width:'50px'}}><IoSearchOutline style={{color:'white'}}/></Button>
+                    className="btn btn-primary search-button" style={{border:'1px solid blue', width:'50px'}}><IoSearchOutline style={{color:'white'}}/></Button>
           </Stack>
         </div>
         <br/>

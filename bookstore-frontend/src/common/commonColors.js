@@ -6,5 +6,5 @@ export const seeAllBtn= 'blue';
 export const confirmationBtn= 'blue';
 export const readButton= '#109011';
 export const buyNowButton= '#e47911';
-export const homePageBackgroundColor = 'rgb(0, 19, 26)'
+export const bookPageBackgroundColor = 'white'
 export const navigationBarP ='black'

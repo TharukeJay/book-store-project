@@ -32,7 +32,7 @@ const App = () => {
 
 
     return (
-        <div style={{backgroundColor:bgColor}}>
+        <div>
             <HelmetProvider>
                 <BrowserRouter>
                     <Routes>

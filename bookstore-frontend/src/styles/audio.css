@@ -46,7 +46,7 @@ body {
 
 .right-desc-outer p {
     text-align: start;
-    color: white;
+    color: black;
 }
 
 .right-photo {
@@ -86,7 +86,7 @@ body {
 
 .right-photo p {
     margin: 25px 15px;
-    color: white !important;
+    color: black !important;
 }
 
 .audio-description {

@@ -16,7 +16,7 @@ const MyLibraryEBook = () => {
     }
 
     return (
-        <>
+        <div style={{background: bgColor}}>
             <Navbar/>
             <div className='outer' style={{background: bgColor}}>
                 <div className='inner-outer'>
@@ -33,7 +33,7 @@ const MyLibraryEBook = () => {
                 </div>
             </div>
             <Footer/>
-        </>
+        </div>
     )
 }
 

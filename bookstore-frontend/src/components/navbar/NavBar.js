@@ -10,7 +10,7 @@ import {VscSignOut} from "react-icons/vsc";
 import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../apis/endpoints";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import {homePageBackgroundColor, navigationBarP} from "../../common/commonColors";
+import {bgColor, homePageBackgroundColor, navigationBarP} from "../../common/commonColors";
 
 const NavBar = () => {
     const [userData, setUserData] = useState("")
@@ -52,8 +52,8 @@ const NavBar = () => {
     };
     return (
         <>
-            <div className='nav-bar' style={{backgroundColor:homePageBackgroundColor}}>
-                <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer" style={{backgroundColor:homePageBackgroundColor}}>
+            <div className='nav-bar' style={{backgroundColor:bgColor}}>
+                <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer" style={{backgroundColor:bgColor}}>
                     <Container className='nav-container'>
                         <Navbar.Brand href="/home" style={{paddingLeft: "2%"}}>
                             <Nav.Link className='nav-header topic-logo' style={{fontFamily :"Harlow Solid Italic"}}> Read Lanka</Nav.Link>

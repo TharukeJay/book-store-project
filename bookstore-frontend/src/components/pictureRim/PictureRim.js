@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import '../../styles/newscontext.css'
-import {bgColor} from "../../common/commonColors";
+import {bgColor, bookPageBackgroundColor} from "../../common/commonColors";
 import {
     FacebookIcon,
     FacebookShareButton,
@@ -124,7 +124,7 @@ const PictureRim =()=>{
 
     return(
         <>
-            <div className="top__bar" style={{background:'none'}}>
+            <div className="top__bar" style={{background:bgColor}}>
                 <p>
                     <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize: "45px", margin: '3px', color: "white"}}/>
                 </p>
@@ -134,10 +134,11 @@ const PictureRim =()=>{
                     <title>{newsPictureRimIdData.title}</title>
                 </Helmet>
                 <div className='inner-top-outer-picture-rim' style={{display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column'}}>
-                    <div className='view-news-outer' style={{background: bgColor}}>
+                    <div className='view-news-outer' style={{background: bookPageBackgroundColor}}>
+                        <div style={{height: '30px'}}></div>
                         <div className="left-news-outer-pictureRim">
                             <img id="image" src={newsPictureRimIdData.thumbnail_url} alt=''
-                                 // style={{width:'100%', height:'300px'}}
+                                // style={{width:'100%', height:'300px'}}
                             />
                         </div>
                         <div className="right-news-desc-outer">
@@ -145,11 +146,11 @@ const PictureRim =()=>{
                                 <h2 style={{fontSize: '25px'}}>{newsPictureRimIdData.title}</h2>
                             </div>
                             <div className='news-description-body'>
-                                <p >{newsPictureRimIdData.description}</p>
+                                <p>{newsPictureRimIdData.description}</p>
                             </div>
                         </div>
                         <div className="Demo__container">
-                            <p style={{fontSize: '30px', color: 'red'}}>Share</p>
+                            <p style={{fontSize: '30px', color: 'black'}}>share</p>
                             <div className="Demo__some-network">
                                 <FacebookShareButton
                                     url={currentURL}

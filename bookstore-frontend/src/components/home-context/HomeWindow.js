@@ -45,7 +45,7 @@ const HomeWindow = () => {
         navigate('/myBookRack');
     }
     return (
-        <div className='outer' style={{background:homePageBackgroundColor}}>
+        <div className='outer' style={{background:bgColor}}>
                 <div className='inner-outer'>
                     <div className='category-outer' onClick={HandleClickEBook}>
                         <img src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2FE%20book.png?alt=media&token=f988ca3e-472b-4d2f-995c-8c3c16d7ccc8'/>
