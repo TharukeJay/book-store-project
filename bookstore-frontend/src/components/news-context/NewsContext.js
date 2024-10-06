@@ -176,6 +176,16 @@ const NewsContext = () => {
         }
         return description;
     };
+    const truncateDescriptionPictureRim = (description) => {
+        if (!description) {
+            return '';
+        }
+        const words = description.split(' ');
+        if (words.length > 4) {
+            return words.slice(0, 4).join(' ') + '...';
+        }
+        return description;
+    };
 
     const ClickedPictureRim = (id) => {
         Navigate(`/pictureRim/${id}`, {state: {pictureRimId: id}});
@@ -196,7 +206,7 @@ const NewsContext = () => {
                                       style={{border: '1px solid blue'}}
                         />
                         <Button variant="secondary" onClick={handleSearchSubmitNews}><IoSearchOutline
-                            style={{color: 'white'}}/></Button>
+                            style={{color: 'white', width: '40px'}}/></Button>
                     </Stack>
                 </div>
                 <br/>
@@ -217,28 +227,57 @@ const NewsContext = () => {
                 <div className='title-outer-news'></div>
 
                 <div className='add-container'>
-                    <div className='left-add-container'>
-                        <div className='news-container'>
-                            {latestNewsScript && (
-                                <div className='news-strip'>
-                                    <p> {latestNewsScript.description}</p>
-                                </div>
-                            )}
-                        </div>
-                        <div style={{height: '30px'}}></div>
-                        <div className='add-container-picture'>
-                            <div className='picture-rim'>
-                                <Carousel>
-                                    {newsPictureRimData.map((photo, index) => (
-                                        <Carousel.Item>
-                                            <img id="image" src={photo.thumbnail_url} alt="Latest Picture"
-                                                 onClick={() => ClickedPictureRim(photo.pictureRimId)}/>
-                                            <Carousel.Caption>
-                                            </Carousel.Caption>
-                                        </Carousel.Item>
-                                    ))}
-                                </Carousel>
+                    <div className='news-container'>
+                        <p style={{paddingBottom:'10px'}}>NEWS SCRIPT</p>
+                        {latestNewsScript && (
+                            <div className='news-strip'>
+                                <p> {latestNewsScript.description}</p>
                             </div>
+                        )}
+                    </div>
+                </div>
+                <div style={{height: '30px'}}></div>
+                <div className='add-container'>
+                    <div className='left-add-container'>
+                        <div className='picture-rim'>
+                            <p>PICTURE RIM</p>
+                        </div>
+                    </div>
+                </div>
+                <div className='add-container'>
+                    <div className='left-add-container'>
+                        <div className='picture-rim'>
+                            <Carousel indicators={false}>
+                                {newsPictureRimData.map((photo, index) => (
+                                    <Carousel.Item>
+                                        <img id="image" src={photo.thumbnail_url} alt="Latest Picture"
+                                             onClick={() => ClickedPictureRim(photo.pictureRimId)}/>
+                                        <div style={{color: 'red', fontSize: '20px', paddingTop: '10px'}}>
+                                            <p style={{color: 'red', fontSize: '20px', fontWeight:'700'}}>{truncateDescriptionPictureRim(photo.title)}</p>
+                                        </div>
+                                    </Carousel.Item>
+                                ))}
+                            </Carousel>
+
+                            {/*<Carousel>*/}
+                            {/*    {newsPictureRimData.map((photo, index) => (*/}
+                            {/*        <Carousel.Item key={index}>*/}
+                            {/*            <div style={{ position: 'relative', textAlign: 'center' }}>*/}
+                            {/*                <img*/}
+                            {/*                    id="image"*/}
+                            {/*                    src={photo.thumbnail_url}*/}
+                            {/*                    alt="Latest Picture"*/}
+                            {/*                    onClick={() => ClickedPictureRim(photo.pictureRimId)}*/}
+                            {/*                    style={{ width: '100%', height: 'auto' }}*/}
+                            {/*                />*/}
+                            {/*                /!* Title is positioned above/beside the image *!/*/}
+                            {/*                <div style={{ color: 'white', fontSize: '23px', paddingTop: '20px' }}>*/}
+                            {/*                    {photo.title}*/}
+                            {/*                </div>*/}
+                            {/*            </div>*/}
+                            {/*        </Carousel.Item>*/}
+                            {/*    ))}*/}
+                            {/*</Carousel>*/}
                         </div>
                     </div>
                     <div className='right-add-container'>
@@ -247,7 +286,6 @@ const NewsContext = () => {
                         </div>
                     </div>
                 </div>
-
 
                 <div style={{height: '40px'}}></div>
                 <div className="gallery-container">
@@ -265,14 +303,15 @@ const NewsContext = () => {
                                     <br/>
                                     <p>{truncateDescription(newsItem.description)} </p>
                                     <button className='btn btn-default'
-                                            style={{fontSize: '17px', border: '1px solid black', marginTop:'10px'}} key={i}
+                                        // style={{fontSize: '17px', border: '1px solid red', marginTop: '10px'}}
+                                            key={i}
                                             onClick={() => handleNewsClick(newsItem.newsId)}>READ MORE
                                     </button>
                                 </div>
                             </div>
                         ))}
                     </div>
-                    <div className="buttons">
+                    <div className="buttons button-news-bottom">
                         <button onClick={handlePrevious} disabled={index === 0}><MdKeyboardDoubleArrowLeft/></button>
                         {currentPage}/{totalPages}
                         <button onClick={handleNext} disabled={index + 8 >= newsData.length}>

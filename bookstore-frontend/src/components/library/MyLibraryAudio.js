@@ -12,7 +12,7 @@ import Navbar from "../navbar/NavBar";
 import Footer from "../footer/Footer";
 import ScreenLoading from "../loading/Loading";
 import '../../styles/ebookcontext.css';
-import {bgColor} from "../../common/commonColors";
+import {bgColor, bookPageBackgroundColor} from "../../common/commonColors";
 import Stack from "react-bootstrap/Stack";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -159,7 +159,7 @@ const MyLibraryEBook = () => {
         <>
             <Navbar/>
             <div style={{height: '40px'}}></div>
-            <div className='outer' style={{background: bgColor}}>
+            <div className='outer' style={{background: bookPageBackgroundColor}}>
                 <div className="ebook-search-outer">
                     <Stack direction="horizontal" gap={3} className='search-outer'>
                         <Form.Control className="me-auto"

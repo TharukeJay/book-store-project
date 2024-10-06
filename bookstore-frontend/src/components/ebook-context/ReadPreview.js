@@ -11,6 +11,7 @@ import { SlArrowLeftCircle } from "react-icons/sl";
 import EbookTopBar from '../ebook-context/EbbokTopBar'
 import { FaCircleArrowLeft } from "react-icons/fa6";
 import toast, {Toaster} from "react-hot-toast";
+import {bgColor} from "../../common/commonColors";
 
 const url = //cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js
 
@@ -91,8 +92,8 @@ const ReadPreview = () =>{
                 position="top-center"
                 reverseOrder={false}
             />
-            <div className="bar" onContextMenu={(e) => e.preventDefault()} style={{backgroundColor:'none'}}>
-            <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize:"50px" ,margin:'3px',color: "black"}}/>
+            <div className="bar" onContextMenu={(e) => e.preventDefault()} style={{backgroundColor:bgColor}}>
+            <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize:"50px" ,margin:'3px',color: "white"}}/>
                 {/* <EbookTopBar/> */}
             </div>
             <div className="wrap" onContextMenu={(e) => e.preventDefault()} ref={containerRef}>

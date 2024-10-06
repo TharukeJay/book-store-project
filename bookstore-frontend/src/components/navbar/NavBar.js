@@ -10,6 +10,7 @@ import {VscSignOut} from "react-icons/vsc";
 import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../apis/endpoints";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import {bgColor, homePageBackgroundColor, navigationBarP} from "../../common/commonColors";
 
 const NavBar = () => {
     const [userData, setUserData] = useState("")
@@ -40,7 +41,7 @@ const NavBar = () => {
     }, [userId]);
     const handleConfirmOrder = async () => {
         localStorage.clear();
-        window.location.href = '/home';
+        window.location.href = '/login';
     }
     const SignOut = () => {
         setShowModal(!showModal);
@@ -51,17 +52,17 @@ const NavBar = () => {
     };
     return (
         <>
-            <div className='nav-bar'>
-                <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer">
+            <div className='nav-bar' style={{backgroundColor:bgColor}}>
+                <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer" style={{backgroundColor:bgColor}}>
                     <Container className='nav-container'>
                         <Navbar.Brand href="/home" style={{paddingLeft: "2%"}}>
-                            <Nav.Link className='nav-header' style={{fontFamily :"Harlow Solid Italic"}}> Read Lanka</Nav.Link>
+                            <Nav.Link className='nav-header topic-logo' style={{fontFamily :"Harlow Solid Italic"}}> Read Lanka</Nav.Link>
                         </Navbar.Brand>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav togs "/>
                         <Navbar.Collapse id="responsive-navbar-nav tog-border">
                             <div className='right-outer'>
-                                <Nav className='link-page'>
-                                    <Nav.Link href="/home">Home</Nav.Link>
+                                <Nav className='link-page' >
+                                    <Nav.Link href="/">Home</Nav.Link>
                                     <Nav.Link href="/e-books">e-Books</Nav.Link>
                                     <Nav.Link href="/audio-books">Audio-Books</Nav.Link>
                                     <Nav.Link href="/news-papers">News</Nav.Link>
@@ -82,7 +83,7 @@ const NavBar = () => {
                             <div className="last-outer">
                                 <Nav className='link-page-last'>
                                     {userData && (
-                                        <Nav.Link style={{fontSize: "17px", color: "red", flex: 'end'}} className='show-username'>{userData.email}</Nav.Link>
+                                        <Nav className='show-username'>{userData.email}</Nav>
                                     )}
                                 </Nav>
                             </div>

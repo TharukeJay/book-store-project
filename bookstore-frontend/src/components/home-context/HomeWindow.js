@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import NavBar from '../navbar/NavBar';
 import Footer from '../footer/Footer';
-import {bgColor} from "../../common/commonColors";
+import {bgColor, homePageBackgroundColor} from "../../common/commonColors";
 import '../../styles/context.css';
 import {useNavigate} from "react-router-dom";
 import API_ENDPOINT from "../../apis/httpAxios";

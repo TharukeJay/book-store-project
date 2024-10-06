@@ -39,9 +39,9 @@ const LoginPage = () => {
         duration: 5000,
       });
       if (response.status == 200) {
-        window.location.href="/home"
+        window.location.href="/"
       }
-      window.location.href = "/home";
+      window.location.href = "/";
 
     } catch (error) {
       console.error('Error:', error);
@@ -96,6 +96,8 @@ const LoginPage = () => {
           Login
         </Button>
         <p>Don't have an account? <a href="/register" style={{color:'blue'}}> SignUp</a></p>
+        <div style={{height:'10px'}}></div>
+        <p style={{alignItems:'start'}}>If you are a Admin Login  <a href='https://book-store-project-azure.vercel.app/' style={{color:'blue'}}>here</a></p>
       </Form>
     </div>
 

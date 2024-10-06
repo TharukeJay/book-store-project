@@ -26,12 +26,13 @@ import MyBookRead from "./components/library/MyBookRead";
 import MyLibrary from "./components/library/MyLibrary";
 import './App.css';
 import {HelmetProvider} from "react-helmet-async";
+import {bgColor} from "./common/commonColors";
 
 const App = () => {
 
 
     return (
-        <>
+        <div>
             <HelmetProvider>
                 <BrowserRouter>
                     <Routes>
@@ -43,8 +44,8 @@ const App = () => {
                         <Route path="/login" element={<Login/>}/>
 
                         {/* Home page / DashBoard */}
-                        <Route path="/" element={<About/>}/>
-                        <Route path="/home" element={<Home/>}/>
+                        <Route path="/about" element={<About/>}/>
+                        <Route path="/" element={<Home/>}/>
 
                         {/* Purchase library */}
                         <Route path="/myBookRack" element={<MyLibrary/>}/>
@@ -82,7 +83,7 @@ const App = () => {
                     </Routes>
                 </BrowserRouter>
             </HelmetProvider>
-        </>
+        </div>
     );
 }
 

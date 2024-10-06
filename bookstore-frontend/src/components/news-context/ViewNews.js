@@ -12,7 +12,7 @@ import {
     WhatsappIcon,
     WhatsappShareButton
 } from "react-share";
-import {bgColor} from "../../common/commonColors";
+import {bgColor, bookPageBackgroundColor} from "../../common/commonColors";
 import Footer from "../footer/Footer";
 import {Helmet} from "react-helmet-async";
 import {FaCircleArrowLeft} from "react-icons/fa6";
@@ -67,13 +67,13 @@ const ViewNews = () => {
 
   return (
       <>
-          <div className="top__bar" style={{background:'none'}}>
+          <div className="top__bar" style={{background:bgColor}}>
               <p>
-                  <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize: "45px", margin: '3px', color: "black"}}/>
+                  <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize: "45px", margin: '3px', color: "white"}}/>
               </p>
           </div>
 
-          <div className='view-news-outer' style={{background: bgColor, userSelect: 'none'}}>
+          <div className='view-news-outer' style={{background: bookPageBackgroundColor, userSelect: 'none'}}>
               <Helmet>
                   <title>{news.newsTitle}</title>
               </Helmet>
@@ -89,7 +89,7 @@ const ViewNews = () => {
                   </div>
               </div>
               <div className="Demo__container">
-                  <p style={{fontSize: '30px', color: 'red'}}>Share</p>
+                  <p style={{fontSize: '30px', color: 'black'}}>share</p>
                   <div className="Demo__some-network">
                       <FacebookShareButton
                           url={currentURL}
@@ -113,7 +113,7 @@ const ViewNews = () => {
 
                   </div>
               </div>
-              <div style={{height: "50px"}}></div>
+              <div style={{height: "70px"}}></div>
           </div>
           <Footer/>
       </>

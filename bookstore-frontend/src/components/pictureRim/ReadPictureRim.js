@@ -3,7 +3,7 @@ import API_ENDPOINT from "../../apis/httpAxios";
 import '../../styles/newscontext.css'
 import {FETCH_ALL_NEWS_PICTURE_RIM, FETCH_ALL_READ_NEWS_PICTURE_RIM_ID} from "../../apis/endpoints";
 import {useLocation, useNavigate} from "react-router-dom";
-import {bgColor} from "../../common/commonColors";
+import {bgColor, bookPageBackgroundColor} from "../../common/commonColors";
 import {
     FacebookIcon,
     FacebookShareButton,
@@ -64,30 +64,35 @@ const ReadPictureRim=()=> {
     }
     return(
         <>
-            <div className="top__bar" style={{background:'none'}}>
+            <div className="top__bar" style={{background:bgColor}}>
                 <p>
-                    <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize: "45px", margin: '3px', color: "black"}}/>
+                    <FaCircleArrowLeft onClick={RedirectPage} style={{fontSize: "45px", margin: '3px', color: "white"}}/>
                 </p>
             </div>
             <div className='main-outer-picture-rim' style={{userSelect:'none'}}>
                 <div className='inner-top-outer-picture-rim'
                      style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-                    <div className='view-news-outer' style={{background: bgColor, userSelect:'none'}}>
+                    <div className='view-news-outer' style={{background: bookPageBackgroundColor, userSelect: 'none'}}>
+                        <div style={{height: '40px'}}></div>
                         <div className="left-news-outer-view">
                             <img id="image" src={selectedData.thumbnail_url} alt=''
-                                 // style={{width: '100%', height: '300px'}}
+                                 style={{width: '500px', height: '400px'}}
                             />
                         </div>
-                        <div className="right-news-desc-outer" style={{userSelect:'none'}}>
+                        <div className="right-news-desc-outer" style={{userSelect: 'none'}}>
                             <div className='topic'>
-                                <h2 style={{fontSize: '30px', fontWeight:'500', marginBottom:'10px'}}>{selectedData.title}</h2>
+                                <h2 style={{
+                                    fontSize: '30px',
+                                    fontWeight: '500',
+                                    marginBottom: '10px'
+                                }}>{selectedData.title}</h2>
                             </div>
                             <div className='news-description-body'>
                                 <p style={{fontSize: '20px'}}>{selectedData.description}</p>
                             </div>
                         </div>
                         <div className="Demo__container">
-                            <p style={{fontSize: '30px', color: 'red'}}>Share</p>
+                            <p style={{fontSize: '30px', color: 'black'}}>share</p>
                             <div className="Demo__some-network">
                                 <FacebookShareButton
                                     url={shareUrl}
@@ -111,6 +116,7 @@ const ReadPictureRim=()=> {
 
                             </div>
                         </div>
+                        <div style={{height: '40px'}}></div>
                     </div>
                 </div>
             </div>

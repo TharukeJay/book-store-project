@@ -20,7 +20,7 @@ import EbookTopBar from '../ebook-context/EbbokTopBar';
 import {useNavigate, useLocation} from "react-router-dom";
 import {AiFillInstagram} from "react-icons/ai";
 import {BsInstagram} from "react-icons/bs";
-import {bgColor, buyNowButton, readButton} from "../../common/commonColors";
+import {bgColor, bookPageBackgroundColor, buyNowButton, readButton} from "../../common/commonColors";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -160,7 +160,7 @@ const ReadBook = () => {
       <>
         {/* <SlArrowLeftCircle onClick={RedirectPage} style={{fontSize:"50px", margin:'10px'}}/> */}
         <EbookTopBar/>
-          <div style={{background: bgColor, height: 'auto'}}>
+          <div style={{background: bookPageBackgroundColor, height: 'auto'}}>
               <Helmet>
                   <title>{book.title}</title>
               </Helmet>
@@ -170,8 +170,8 @@ const ReadBook = () => {
                   </div>
                   <div className="right-desc-outer-ebook">
                       <br/><br/>
-                      <p style={{color: "blue", fontSize: "40px", paddingBottom: "10px"}}>{book.title}</p>
-                      <p style={{fontSize: "20px", paddingBottom: "1px"}}>{book.description}</p>
+                      <p style={{color: "blue", fontSize: "40px", paddingBottom: "10px", fontWeight:'900'}}>{book.title}</p>
+                      <p style={{fontSize: "20px", paddingBottom: "1px" , color:'black'}}>{book.description}</p>
                       <br/>
 
                       <div className="pricing-card">
@@ -185,7 +185,7 @@ const ReadBook = () => {
                       </div>
                       <div style={{height: "20px"}}></div>
                       <div className="Demo__container">
-                          <p style={{marginLeft: '50px'}}> Share </p>
+                          <p style={{marginLeft: '50px', color:'black'}}> share </p>
                           <div className="Demo__some-network">
                               <FacebookShareButton
                                   url={currentURL}
@@ -218,7 +218,7 @@ const ReadBook = () => {
                        src='https://firebasestorage.googleapis.com/v0/b/readlanka-c7718.appspot.com/o/temp%2Fmirror%20wall.jpeg?alt=media&token=5387365f-682b-45e9-a7b6-db017190cf44'
                        alt="Mirror Wall"/>
               </div>
-              <div className="comments-section">
+              <div className="comments-section" style={{background: bookPageBackgroundColor, height: 'auto'}}>
                   {comments.map((comment, index) => (
                       <div className="comments-list">
                           <div className="comment">
@@ -245,7 +245,7 @@ const ReadBook = () => {
                       </div>
                   ))}
               </div>
-              <div className='comments-form-outer'>
+              <div className='comments-form-outer' style={{backgroundColor:bookPageBackgroundColor}}>
                   <div className="comments-form">
                       <Form onSubmit={handleCommentSubmit}>
                           <InputGroup className="mb-3">
@@ -254,16 +254,18 @@ const ReadBook = () => {
                                   value={formData.comment}
                                   onChange={handleChange}
                                   placeholder="Write a comment..."
-                                  style={{border: '1px solid blue'}}
+                                  style={{border: '1px solid blue', height:'40px', fontSize:'18px'}}
                                   required
                               />
                               <Button variant="outline-secondary" type="submit" id="button-addon2"
                                       style={{
-                                          border: '1px solid black',
+                                          border: '1px solid blue',
                                           borderRadius: '8px',
                                           paddingTop: '-90px',
                                           marginLeft: '10px',
-                                          color: 'black'
+                                          color: 'black',
+                                          fontSize:'16px',
+                                          // backgroundColor:'red'
                                       }}>
                                   Post
                               </Button>
@@ -271,7 +273,7 @@ const ReadBook = () => {
                       </Form>
                   </div>
               </div>
-              <div style={{height: "40px"}}></div>
+              <div style={{height: "60px"}}></div>
           </div>
           <Footer/>
       </>

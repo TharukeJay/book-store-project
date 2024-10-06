@@ -14,13 +14,15 @@
     justify-content: center;
     align-items: center;
     padding: 20px;
-    color: #0c0c0c;
+    /*color: #0c0c0c;*/
+    color: red;
     min-height: 30px;
 
 }
 
 .footer-top p, .footer-bottum p, .footer-top p a {
-    color: black !important;
+    /*color: black !important;*/
+    color: red !important;
 }
 
 .row {
@@ -68,9 +70,12 @@
     flex-direction: row;
     gap: 15px;
 }
+.f-text a{
+    color: white !important;
+}
 
 .f-text {
-    font-weight: bold;
+    /*font-weight: bold;*/
     font-size: 25px;
     margin-bottom: 10px;
 }
