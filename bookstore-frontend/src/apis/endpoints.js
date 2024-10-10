@@ -1,7 +1,7 @@
 // import API_ENDPOINT from "../apis/httpAxios";
 
-export const baseUrl = "https://bookstore-backend-97qw.onrender.com/api/";
-// export const baseUrl = "http://localhost:3001/api/";
+// export const baseUrl = "https://bookstore-backend-97qw.onrender.com/api/";
+export const baseUrl = "http://localhost:3001/api/";
 
 
 // Auth
@@ -39,7 +39,7 @@ export const FETCH_NEWS_CATEGORY= `${baseUrl}books/get-news-category`;
 export const FETCH_PRIVACY= `${baseUrl}privacy/get-privacy`;
 // export const FETCH_PRIVACY= `${baseUrl}books/get-privacy-pdf`;
 
-// Checkout
+// Checkout can after change
 // export const ADD_TO_PURCHASE_BOOK= `${baseUrl}books/purchase-book`;
 
 // NEWS

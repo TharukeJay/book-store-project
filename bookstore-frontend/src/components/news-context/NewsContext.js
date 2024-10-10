@@ -228,7 +228,7 @@ const NewsContext = () => {
 
                 <div className='add-container'>
                     <div className='news-container'>
-                        <p style={{paddingBottom:'10px'}}>NEWS SCRIPT</p>
+                        <p style={{paddingBottom:'10px', fontFamily:'Algerian', fontSize:'25px'}}>NEWS STRIP</p>
                         {latestNewsScript && (
                             <div className='news-strip'>
                                 <p> {latestNewsScript.description}</p>
@@ -236,14 +236,17 @@ const NewsContext = () => {
                         )}
                     </div>
                 </div>
+
                 <div style={{height: '30px'}}></div>
+
                 <div className='add-container'>
                     <div className='left-add-container'>
                         <div className='picture-rim'>
-                            <p>PICTURE RIM</p>
+                            <p style={{fontFamily:'Algerian', fontSize:'25px'}}>PICTURE RIM</p>
                         </div>
                     </div>
                 </div>
+
                 <div className='add-container'>
                     <div className='left-add-container'>
                         <div className='picture-rim'>
@@ -282,12 +285,17 @@ const NewsContext = () => {
                     </div>
                     <div className='right-add-container'>
                         <div className='add-banners'>
-                            <p> This is a Banner box</p>
+                            <Carousel indicators={false}>
+                                    <Carousel.Item>
+                                        <img id="image" src='' alt="banner Picture" className='banner-picture'/>
+                                    </Carousel.Item>
+                            </Carousel>
                         </div>
                     </div>
                 </div>
 
                 <div style={{height: '40px'}}></div>
+
                 <div className="gallery-container">
                     <div className="news-list">
                         {filteredNewsData.slice(index, index + itemsPerPage).map((newsItem, i) => (

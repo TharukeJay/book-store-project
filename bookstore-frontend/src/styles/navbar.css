@@ -12,12 +12,13 @@
 .nav-container {
     max-width: 100%;
 }
-.nav-header{
-   font-size: 40px;
-    color:  #ff0000 !important;
+
+.nav-header {
+    font-size: 40px;
+    color: #ff0000 !important;
 }
 
-.nav-header:hover{
+.nav-header:hover {
     color: white !important;
 }
 
@@ -26,9 +27,9 @@
     flex: 1;
 }
 
-.link-page a {
+.link-page p {
     position: relative;
-    font-size: 18px !important;
+    font-size: 19px !important;
     /*color: rgb(9, 9, 9);*/
     color: #ff0000 !important;
     margin: 0 10px;
@@ -36,7 +37,12 @@
     overflow: hidden;
 }
 
-.link-page a:after {
+.link-page p {
+    color: #ff0000 !important;
+    margin: 10px 20px;
+}
+
+.link-page p:after {
     content: '';
     position: absolute;
     width: 100%;
@@ -49,17 +55,18 @@
     transition: transform 0.25s ease-out;
 }
 
-.link-page a:hover::after {
+.link-page p:hover::after {
     transform: scaleX(1);
     transform-origin: bottom left;
 }
 
-.link-page a:hover {
+.link-page p:hover {
     /*color: #0e0e0e;*/
     color: white;
     text-decoration: none;
 }
-.show-username{
+
+.show-username {
     font-size: 17px;
     color: #ff0000;
 }
@@ -68,11 +75,13 @@
     background-color: rgb(252, 251, 251) !important;
     border: 1px solid rgb(251, 247, 247) !important;
 }
+
 .navbar-toggler {
     border: 1px solid red !important;
     border-radius: 5px !important;
     color: white !important;
 }
+
 .navbar-toggler-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
 }
@@ -93,9 +102,11 @@
     .nav-bar {
         width: 100% !important;
     }
-    .nav-header{
+
+    .nav-header {
         font-size: 30px;
     }
+
     .show-username {
         padding-left: 1px;
     }
