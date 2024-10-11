@@ -25,7 +25,8 @@ const ReadPictureRim=()=> {
     const [newsPictureRimData,setNewsPictureRimData] = useState([])
     const [selectedData, setSelectedData] = useState(null);
     // const { id } = location.state;
-    const { pictureRimId } = location.state;
+    const { id } = location.state;
+    const pictureRimId= id;
 
     // console.log("id=============>>>>>>>>" , id);
     console.log("pictureRimId=============>>>>>>>>" , pictureRimId);
@@ -34,7 +35,7 @@ const ReadPictureRim=()=> {
         try {
             const response = await API_ENDPOINT.get(`${FETCH_ALL_READ_NEWS_PICTURE_RIM_ID}/${pictureRimId}`);
             console.log('Selected News Data:', response);
-            if (response.status == 200) {
+            if (response.status === 200) {
                 const selectedNewsData = response.data.data;
                 setSelectedData(selectedNewsData);
                 setLoading(false);

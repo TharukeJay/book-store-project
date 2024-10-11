@@ -32,17 +32,17 @@ const PictureRim =()=>{
     const [selectedData, setSelectedData] = useState(null);
     const [newsPictureRimIdData, setNewsPictureRimIdData] = useState(null);
     const [index, setIndex] = useState(0);
-    const itemsPerPage = 4;
+    const itemsPerPage = 6;
     const { pictureRimId } = location.state;
 
-    console.log("pictureRimId=============>>>>>>>>" , pictureRimId);
+    console.log("pictureRimId picture page=============>>>>>>>>" , pictureRimId);
 
     const getnNewsPictureRim = async () => {
         try {
             const response = await API_ENDPOINT.get(FETCH_ALL_NEWS_PICTURE_RIM);
             const PictureRimData = response.data.data;
             setNewsPictureRimData(PictureRimData);
-            // console.log('newsPictureRim : =================>>>>', newsPictureRimData);
+            console.log('newsPictureRimData all  : =================>>>>', newsPictureRimData);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -72,12 +72,12 @@ const PictureRim =()=>{
         getnNewsPictureRim();
     }, []);
 
-
     const RedirectPage =() =>{
         Navigate('/news-papers');
     }
 
     const handleNewsClick = (id) => {
+        console.log('selected pic id: ========>>>', id)
         Navigate(`/read-pictureRim/${id}`,{state:{id: id, pictureRimId: pictureRimId}});
     };
 
@@ -112,7 +112,6 @@ const PictureRim =()=>{
 
     const { currentPage, totalPages } =getPageNumbers(index, newsPictureRimData.length)
 
-
     const shareUrl = `https://readlanka.com/pictureRim/${pictureRimId}`;
     const currentURL = "https://readlanka.com" + window.location.pathname;
     // const shareUrl = "http://localhost:3000/read-book";
@@ -146,7 +145,7 @@ const PictureRim =()=>{
                                 <h2 style={{fontSize: '25px'}}>{newsPictureRimIdData.title}</h2>
                             </div>
                             <div className='news-description-body'>
-                                <p>{newsPictureRimIdData.description}</p>
+                                <p style={{textAlign:'start'}}>{newsPictureRimIdData.description}</p>
                             </div>
                         </div>
                         <div className="Demo__container">
@@ -182,17 +181,16 @@ const PictureRim =()=>{
                 <div className="news-list" style={{userSelect: 'none'}}>
                     {newsPictureRimData.slice(index, index + itemsPerPage).map((newsItem, i) => (
                         <div className='news-outer'>
-                            <div key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)}
+                            <div onClick={() => handleNewsClick(newsItem.pictureRimId)}
                                  className='left-news-outer-list'>
                                 <img id="image" src={newsItem.thumbnail_url} alt="News" className="photo-item"/>
                             </div>
                             <div className='right-news-outer-picture-rim'>
-                                <h2 key={i} onClick={() => handleNewsClick(newsItem.pictureRimId)}>{newsItem.title}</h2>
+                                <h2  onClick={() => handleNewsClick(newsItem.pictureRimId)}>{newsItem.title}</h2>
                                 <br/>
                                 <p>{truncateDescription(newsItem.description)} </p>
                                 <button className='btn btn-default right-news-outer-picture-rim-btn'
-                                        key={i}
-                                        onClick={() => handleNewsClick(newsItem.id)}>READ MORE
+                                        onClick={() => handleNewsClick(newsItem.pictureRimId)}>READ MORE
                                 </button>
                             </div>
                             <div></div>
@@ -203,7 +201,7 @@ const PictureRim =()=>{
                     <div className="buttons">
                         <button onClick={handlePrevious} disabled={index === 0}><MdKeyboardDoubleArrowLeft/></button>
                         {currentPage}/{totalPages}
-                        <button onClick={handleNext} disabled={index + 4 >= newsPictureRimData.length}>
+                        <button onClick={handleNext} disabled={index + 6 >= newsPictureRimData.length}>
                             <MdKeyboardDoubleArrowRight/>
                         </button>
                     </div>

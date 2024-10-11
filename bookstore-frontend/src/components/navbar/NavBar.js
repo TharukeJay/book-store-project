@@ -11,6 +11,7 @@ import {FETCH_ALL_AUDIO_BOOK, FETCH_ALL_READ_BOOK, GET_USER_DATA} from "../../ap
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import {bgColor, homePageBackgroundColor, navigationBarP} from "../../common/commonColors";
+import {useNavigate} from "react-router-dom";
 
 const NavBar = () => {
     const [userData, setUserData] = useState("")
@@ -19,6 +20,7 @@ const NavBar = () => {
     const [showLoginSignup, setShowLoginSignup] = useState(true)
     const userId = localStorage.getItem('userId');
     const [showModal, setShowModal] = useState(false);
+    const Navigate = useNavigate();
 
     const fetchUserData = async () => {
         try {
@@ -39,10 +41,12 @@ const NavBar = () => {
     useEffect(() => {
         fetchUserData();
     }, [userId]);
+
     const handleConfirmOrder = async () => {
         localStorage.clear();
         window.location.href = '/login';
     }
+
     const SignOut = () => {
         setShowModal(!showModal);
     }
@@ -50,33 +54,69 @@ const NavBar = () => {
     const closeModal = () => {
         setShowModal(false);
     };
+
+    const homeClick = () =>{
+        Navigate('/')
+    }
+
+    const eBookClick = () =>{
+        Navigate('/e-books')
+    }
+
+    const audioBookClick = () =>{
+        Navigate('/audio-books')
+    }
+
+    const newsClick = () =>{
+        Navigate('/news-papers')
+    }
+
+    const bookRackClick = () =>{
+        Navigate('/myBookRack')
+    }
+
+    const loginClick = () =>{
+        Navigate('/login')
+    }
+
     return (
         <>
             <div className='nav-bar' style={{backgroundColor:bgColor}}>
                 <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary nav-outer" style={{backgroundColor:bgColor}}>
                     <Container className='nav-container'>
-                        <Navbar.Brand href="/home" style={{paddingLeft: "2%"}}>
-                            <Nav.Link className='nav-header topic-logo' style={{fontFamily :"Harlow Solid Italic"}}> Read Lanka</Nav.Link>
+                        <Navbar.Brand>
+                            {/*<Nav.Link className='nav-header topic-logo' style={{fontFamily :"Harlow Solid Italic"}}> Read Lanka</Nav.Link>*/}
+                            <p className='nav-header topic-logo' style={{fontFamily :"Harlow Solid Italic"}}> Read Lanka</p>
                         </Navbar.Brand>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav togs "/>
                         <Navbar.Collapse id="responsive-navbar-nav tog-border">
                             <div className='right-outer'>
                                 <Nav className='link-page' >
-                                    <Nav.Link href="/">Home</Nav.Link>
-                                    <Nav.Link href="/e-books">e-Books</Nav.Link>
-                                    <Nav.Link href="/audio-books">Audio-Books</Nav.Link>
-                                    <Nav.Link href="/news-papers">News</Nav.Link>
+                                    {/*<Nav.Link href='/'>Home</Nav.Link>*/}
+                                    <p onClick={homeClick} style={{cursor: 'pointer', color: 'darkred'}}>Home</p>
+                                    <p onClick={eBookClick} style={{cursor: 'pointer', color: 'darkred'}}>e-Books</p>
+                                    <p onClick={audioBookClick} style={{cursor: 'pointer', color: 'darkred'}}>Audio-Books</p>
+                                    <p onClick={newsClick} style={{cursor: 'pointer', color: 'darkred'}}>News</p>
                                     {showMyRack && (
-                                        <Nav.Link href="/myBookRack">My Book Rack</Nav.Link>
+                                    <p onClick={bookRackClick} style={{cursor: 'pointer', color: 'darkred'}}>My Book Rack</p>
                                     )}
                                     {showSignOut && (
-                                        <Nav.Link><VscSignOut onClick={SignOut} xlinkShow={showSignOut}/></Nav.Link>
+                                    <p onClick={SignOut} style={{cursor: 'pointer', color: 'darkred'}}><VscSignOut onClick={SignOut} xlinkShow={showSignOut}/></p>
                                     )}
                                     {showLoginSignup && (
-                                        <Nav.Link href="/login">Login | Register</Nav.Link>
+                                    <p onClick={loginClick} style={{cursor: 'pointer', color: 'darkred'}}>Login | Register</p>
                                     )}
-                                    {/*{userData && (*/}
-                                    {/*    <Nav.Link style={{fontSize: "17px", color: "red", flex: 'end'}} className='show-username'>{userData.email}</Nav.Link>*/}
+                                    {/*<Nav.Link href="/e-books">e-Books</Nav.Link>*/}
+                                    {/*<Nav.Link href="/audio-books">Audio-Books</Nav.Link>*/}
+                                    {/*<Nav.Link href="/news-papers">News</Nav.Link>*/}
+                                    {/*{showMyRack && (*/}
+                                    {/*    <Nav.Link href="/myBookRack">My Book Rack</Nav.Link>*/}
+                                    {/*)}*/}
+                                    {/*{showSignOut && (*/}
+                                    {/*    <Nav.Link><VscSignOut onClick={SignOut} xlinkShow={showSignOut}/></Nav.Link>*/}
+                                    {/*)}*/}
+                                    {/*{showLoginSignup && (*/}
+                                    {/*    <Nav.Link href="/login">Login | Register</Nav.Link>*/}
                                     {/*)}*/}
                                 </Nav>
                             </div>

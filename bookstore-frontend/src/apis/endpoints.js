@@ -39,7 +39,7 @@ export const FETCH_NEWS_CATEGORY= `${baseUrl}books/get-news-category`;
 export const FETCH_PRIVACY= `${baseUrl}privacy/get-privacy`;
 // export const FETCH_PRIVACY= `${baseUrl}books/get-privacy-pdf`;
 
-// Checkout
+// Checkout can after change
 // export const ADD_TO_PURCHASE_BOOK= `${baseUrl}books/purchase-book`;
 
 // NEWS
@@ -58,3 +58,6 @@ export const FETCH_ALL_NEWS_SCRIPTS = `${baseUrl}books/get-news-script`;
 export const CREATE_PAYMENT = `${baseUrl}payment/payment-create`;
 export const PAYMENT_NOTIFY = `${baseUrl}payment/payment-notify`;
 export const PAYMENT_SUCCESS = `${baseUrl}payment/payment-success`;
+
+//banners
+export  const GET_BANNERS = `${baseUrl}books/get-banners`;

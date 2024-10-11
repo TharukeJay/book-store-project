@@ -20,7 +20,7 @@
 
 }
 
-.footer-top p, .footer-bottum p, .footer-top p a {
+.footer-top p, .footer-bottum p{
     /*color: black !important;*/
     color: red !important;
 }
@@ -70,8 +70,14 @@
     flex-direction: row;
     gap: 15px;
 }
-.f-text a{
-    color: white !important;
+
+.footer-links-left a {
+    color: #f60606 !important;
+    text-decoration: none;
+}
+.footer-links-midle a {
+    color: #f60606 !important;
+    text-decoration: none;
 }
 
 .f-text {
@@ -81,7 +87,6 @@
 }
 
 @media (max-width: 768px) {
-
     .footer-top {
         flex-direction: column !important;
         align-items: center;
