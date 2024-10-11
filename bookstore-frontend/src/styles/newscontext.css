@@ -65,13 +65,17 @@
 .add-banners {
     width: 80%;
     height: 70%;
-    border: 1px solid white;
+    /*border: 1px solid white;*/
     border-radius: 10px;
-    display: flex;
+    display:flex;
     justify-content: center;
     align-items: center;
 }
-
+.banner-picture{
+    width: 1050px;
+    height: 250px;
+    border-radius: 10px !important;
+}
 /*------------------*/
 
 .gallery-container {
@@ -270,7 +274,7 @@
     }
 
     .add-banners {
-        height: 150px;
+        height: 100%;
         width: 100%;
     }
 

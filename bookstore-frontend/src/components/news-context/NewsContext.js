@@ -6,7 +6,8 @@ import {
     FETCH_ALL_CATEGORY,
     FETCH_ALL_NEWS, FETCH_ALL_NEWS_PICTURE_RIM,
     FETCH_ALL_NEWS_SCRIPTS,
-    FETCH_NEWS_CATEGORY
+    FETCH_NEWS_CATEGORY,
+    GET_BANNERS
 } from "../../apis/endpoints";
 import API_ENDPOINT from '../../apis/httpAxios';
 import {FcNext} from "react-icons/fc";
@@ -40,6 +41,7 @@ const NewsContext = () => {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [filteredNewsData, setFilteredNewsData] = useState([]);
     const [searchInput, setSearchInput] = useState('');
+    const [bannersData, setBannersData] = useState([]);
     const itemsPerPage = 8;
 
     const fetchData = async () => {
@@ -90,6 +92,18 @@ const NewsContext = () => {
             console.error('Error:', error);
         }
     };
+
+    const getBanners = async () => {
+        try {
+            const response = await API_ENDPOINT.get(GET_BANNERS);
+            console.log("response bannersData ===================>>>>", response);
+            const bannerData = response.data.data;
+            setBannersData(bannerData);
+            console.log('bannersData ===== ===>>> ', bannersData);
+        } catch (error) {
+            console.error('error:', error)
+        }
+    }
     const latestPicture = newsPictureRimData.length > 0 ? newsPictureRimData[newsPictureRimData.length - 1] : null;
 
     useEffect(() => {
@@ -97,6 +111,7 @@ const NewsContext = () => {
         fetchCategoryData();
         getnNewsScript();
         getnNewsPictureRim();
+        getBanners();
     }, [])
 
     useEffect(() => {
@@ -228,7 +243,7 @@ const NewsContext = () => {
 
                 <div className='add-container'>
                     <div className='news-container'>
-                        <p style={{paddingBottom:'10px', fontFamily:'Algerian', fontSize:'25px'}}>NEWS STRIP</p>
+                        <p style={{paddingBottom: '10px', fontFamily: 'Algerian', fontSize: '25px'}}>NEWS STRIP</p>
                         {latestNewsScript && (
                             <div className='news-strip'>
                                 <p> {latestNewsScript.description}</p>
@@ -242,7 +257,7 @@ const NewsContext = () => {
                 <div className='add-container'>
                     <div className='left-add-container'>
                         <div className='picture-rim'>
-                            <p style={{fontFamily:'Algerian', fontSize:'25px'}}>PICTURE RIM</p>
+                            <p style={{fontFamily: 'Algerian', fontSize: '25px'}}>PICTURE RIM</p>
                         </div>
                     </div>
                 </div>
@@ -256,39 +271,30 @@ const NewsContext = () => {
                                         <img id="image" src={photo.thumbnail_url} alt="Latest Picture"
                                              onClick={() => ClickedPictureRim(photo.pictureRimId)}/>
                                         <div style={{color: 'red', fontSize: '20px', paddingTop: '10px'}}>
-                                            <p style={{color: 'red', fontSize: '20px', fontWeight:'700'}}>{truncateDescriptionPictureRim(photo.title)}</p>
+                                            <p style={{
+                                                color: 'red',
+                                                fontSize: '20px',
+                                                fontWeight: '700'
+                                            }}>{truncateDescriptionPictureRim(photo.title)}</p>
                                         </div>
                                     </Carousel.Item>
                                 ))}
                             </Carousel>
-
-                            {/*<Carousel>*/}
-                            {/*    {newsPictureRimData.map((photo, index) => (*/}
-                            {/*        <Carousel.Item key={index}>*/}
-                            {/*            <div style={{ position: 'relative', textAlign: 'center' }}>*/}
-                            {/*                <img*/}
-                            {/*                    id="image"*/}
-                            {/*                    src={photo.thumbnail_url}*/}
-                            {/*                    alt="Latest Picture"*/}
-                            {/*                    onClick={() => ClickedPictureRim(photo.pictureRimId)}*/}
-                            {/*                    style={{ width: '100%', height: 'auto' }}*/}
-                            {/*                />*/}
-                            {/*                /!* Title is positioned above/beside the image *!/*/}
-                            {/*                <div style={{ color: 'white', fontSize: '23px', paddingTop: '20px' }}>*/}
-                            {/*                    {photo.title}*/}
-                            {/*                </div>*/}
-                            {/*            </div>*/}
-                            {/*        </Carousel.Item>*/}
-                            {/*    ))}*/}
-                            {/*</Carousel>*/}
                         </div>
                     </div>
                     <div className='right-add-container'>
                         <div className='add-banners'>
                             <Carousel indicators={false}>
-                                    <Carousel.Item>
-                                        <img id="image" src='' alt="banner Picture" className='banner-picture'/>
+                                {bannersData.map((photo, index) => (
+                                    <Carousel.Item key={index}>
+                                        <img
+                                            id="image"
+                                            src={photo.thumbnail_url}
+                                            alt="banner Picture"
+                                            className='banner-picture'
+                                        />
                                     </Carousel.Item>
+                                ))}
                             </Carousel>
                         </div>
                     </div>
