@@ -43,7 +43,7 @@ const Series = () => {
     const [category, setCategory] = useState('')
     const [seriesTitle, setSeriesTitle] = useState('')
     const [title, setTitle] = useState('')
-    const [price, setPrice] = useState('')
+    const [price, setPrice] = useState(0)
     const [editVisible, setEditVisible] = useState(false)
     const [categoryData, setCategoryData] = useState([]);
     const [selectedFileImage, setSelectedFileImage] = useState('')
@@ -126,7 +126,7 @@ const Series = () => {
             formData.append('chapter', chapter);
             formData.append('bookType', bookType);
             formData.append('description', description);
-            formData.append('bookPrice', price);
+            formData.append('bookPrice', Number(price));
             formData.append('bookName', title);
             formData.append('selecteBookSeries', seriesTitle);
             formData.append('selecteBookSeriesID', seriesTitle);

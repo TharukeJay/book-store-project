@@ -40,7 +40,7 @@ const Series = () => {
     const [loading, setLoading] = useState(true)
     const [visible, setVisible] = useState(false)
     const [seriesID, setSeriesID] = useState('')
-    const [price, setPrice] = useState('')
+    const [price, setPrice] = useState(0)
     const [previewPdfFile, setPreviewPdfFile] = useState(null)
     const [previewPdfFileName, setPreviewPdfFileName] = useState('')
     const [fullPdfFile, setFullPdfFile] = useState(null)
@@ -150,7 +150,7 @@ const Series = () => {
         formData.append('authorName', authorName);
         formData.append('bookType', bookType);
         formData.append('description', description);
-        formData.append('bookPrice', price);
+        formData.append('bookPrice', Number(price));
         formData.append('bookName', title);
         formData.append('thumbnail', thumbnail);
         formData.append('previewPdfFile', previewPdfFile);
@@ -298,6 +298,16 @@ const Series = () => {
                                     })}
                                 </FormSelect>
                             </InputGroup>
+                        </Col>
+                    </Row>
+                    <Row className="mb-3">
+                        <FormLabel htmlFor="inputPassword" className="col-sm-4 col-form-label">
+                            Book Price
+                        </FormLabel>
+                        <Col sm={8}>
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Control type="name" placeholder="Enter name" value={price} onChange={(e) => setPrice(e.target.value)}  />
+                            </Form.Group>
                         </Col>
                     </Row>
                     <Row className="mb-3">
