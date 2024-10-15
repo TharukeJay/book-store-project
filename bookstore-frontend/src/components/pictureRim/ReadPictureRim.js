@@ -78,6 +78,7 @@ const ReadPictureRim=()=> {
                         <div className="left-news-outer-view">
                             <img id="image" src={selectedData.thumbnail_url} alt=''
                                  style={{width: '500px', height: '400px'}}
+                                 className="read-picture-rim-outer"
                             />
                         </div>
                         <div className="right-news-desc-outer" style={{userSelect: 'none'}}>

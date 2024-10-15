@@ -56,7 +56,8 @@ const MyLibraryEBook = () => {
             const response=await API_ENDPOINT.get(FETCH_ALL_AUDIO_BOOK);
             const allAudioBookData = response.data.data;
             const audioBookIds = ABookData.map(book => book.bookId);
-            const PurchaseBook = allAudioBookData.filter(book => audioBookIds.includes(book.id));
+
+            const PurchaseBook = allAudioBookData.filter(book => audioBookIds.includes(book.seriesId));
             setBookData(PurchaseBook);
             setFilteredAudioBookData(PurchaseBook);
             setLoading(false);
@@ -128,6 +129,7 @@ const MyLibraryEBook = () => {
 
     const handlePhotoClick = (id) => {
         // localStorage.setItem('selectedSeriesAudioId', id);
+        console.log("selected Id ===================>>>>",id )
         Navigate(`/my-audio-play/${id}`, {state:{selectedSeriesAudioId: id}});
     };
 
