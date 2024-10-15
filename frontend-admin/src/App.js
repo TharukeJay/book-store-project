@@ -21,6 +21,7 @@ import ForgotPassword from "./pages/Authentication/ForgotPassword";
 import ResetPassword from "./pages/Authentication/ResetPassword";
 import LoginError from "./pages/Authentication/loginError";
 import {useEffect} from "react";
+import NewsViews from "./pages/newsViews";
 //
 //
 // const App = () => {
@@ -149,6 +150,7 @@ const App = () => {
                     <Route path="/createNewsCategory" element={<CreateNewsCategory />} />
                     <Route path="/createNewsStript" element={<CreateNewsStript />} />
                     <Route path="/createPictureRim" element={<CreatePictureRim  />} />
+                    <Route path="/newsViews" element={<NewsViews  />} />
                 </Routes>
             </Col>
         </Row>

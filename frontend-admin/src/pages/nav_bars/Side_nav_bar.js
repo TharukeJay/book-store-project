@@ -161,6 +161,9 @@ const SideNavbar = () => {
                             <Nav.Link as={Link} to="/audioBooks">
                                 {!isOpen && 'AB'}{isOpen && "Audio Books"}
                             </Nav.Link>
+                            <Nav.Link as={Link} to="/newsViews">
+                                {!isOpen && 'NV'}{isOpen && "News Views"}
+                            </Nav.Link>
 
                             {isAdmin && (
                                 <Nav.Link as={Link} to="/adminUsers">

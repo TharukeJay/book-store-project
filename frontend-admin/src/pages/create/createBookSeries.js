@@ -37,7 +37,7 @@ const Series = () => {
     const [loading, setLoading] = useState(true)
     const [visible, setVisible] = useState(false)
     const [seriesID, setSeriesID] = useState('')
-    const [seriesPrice, setSeriesPrice] = useState('')
+    const [seriesPrice, setSeriesPrice] = useState(0)
     const [audioFile, setAudioFile] = useState(null)
     const [chapterLimit, setChapterLimit] = useState(0)
     const [audioFileName, setAudioFileName] = useState(null)
@@ -90,7 +90,7 @@ const Series = () => {
         formData.append('seriesTitle', bookSeriesTitle);
         formData.append('description', description);
         formData.append('thumbnail', thumbnail);
-        formData.append('seriesPrice', seriesPrice);
+        formData.append('seriesPrice', Number(seriesPrice));
         formData.append('chapterLimit', chapterLimit);
         formData.append('audioFile', audioFile);
 
@@ -314,12 +314,12 @@ const Series = () => {
                                 <input type="file" onChange={imageChange} required />
                             </Col>
                         </Row>
-                        <br/>
-                        <Col style={{backgroundColor:"grey" ,padding:10}}>
-                        <Row><FormLabel>Upload Audio</FormLabel></Row>
-                        <Row className="position-relative">
-                            <input type="file" accept=".mp3" onChange={mp3Change} required />
-                        </Row></Col>
+                        {/*<br/>*/}
+                        {/*<Col style={{backgroundColor:"grey" ,padding:10}}>*/}
+                        {/*<Row><FormLabel>Upload Audio</FormLabel></Row>*/}
+                        {/*<Row className="position-relative">*/}
+                        {/*    <input type="file" accept=".mp3" onChange={mp3Change} required />*/}
+                        {/*</Row></Col>*/}
                         <br/>
                         <Col  style={{margin:10}}>
                             <Row>
@@ -424,18 +424,18 @@ const Series = () => {
                                 <input type="file" onChange={imageChangeUpdate}  />
                             </Col>
                         </Row>
-<br/>
-                        <Row>
-                            <Col style={{backgroundColor:"grey",padding:10}}>
-                                <Row><FormLabel>Upload Audio</FormLabel></Row>
-                                {audioFileName ? audioFileName : ''}
-                                <Form.Control
-                                    type="file"
-                                    accept="audio/*"
-                                    onChange={mp3Change}
-                                />
-                            </Col>
-                        </Row>
+{/*<br/>*/}
+{/*                        <Row>*/}
+{/*                            <Col style={{backgroundColor:"grey",padding:10}}>*/}
+{/*                                <Row><FormLabel>Upload Audio</FormLabel></Row>*/}
+{/*                                {audioFileName ? audioFileName : ''}*/}
+{/*                                <Form.Control*/}
+{/*                                    type="file"*/}
+{/*                                    accept="audio/*"*/}
+{/*                                    onChange={mp3Change}*/}
+{/*                                />*/}
+{/*                            </Col>*/}
+{/*                        </Row>*/}
 <br/>
                         <div className="row justify-content-md-center">
                             <Col xs lg={9}>
