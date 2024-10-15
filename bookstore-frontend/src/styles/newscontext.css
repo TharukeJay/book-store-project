@@ -426,6 +426,13 @@
     user-select: none;
 }
 
+.read-picture-rim-outer:hover{
+    border: 2px solid red;
+}
+.read-picture-rim-outer{
+    border: 2px solid black !important;
+}
+
 .left-news-outer-view {
     width: 100%;
     height: auto;

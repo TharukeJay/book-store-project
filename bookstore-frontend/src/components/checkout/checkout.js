@@ -107,7 +107,7 @@ const Checkout = () => {
     };
 
     // console.log('selectedId=======>>>>>', selectedId)
-    // console.log('selectedAudioId=======>>>>>', selectedAudioId)
+    console.log('selectedAudioId=======>>>>>', selectedAudioId)
 
     const handleConfirmOrder = async () => {
         // if (!userId) {
@@ -201,21 +201,20 @@ const Checkout = () => {
                     const fields = {
                         merchant_id: merchantId,
                         return_url: 'https://readlanka.com/payment-success',
+                        cancel_url: 'https://readlanka.com',
                         notify_url: 'https://bookstore-backend-97qw.onrender.com/api/payment/payment-notify',
-                        cancel_url :'https://readlanka.com',
-                        orderId: orderId,
+                        order_id: orderId,
                         items: 'book',
                         currency: 'LKR',
                         amount: price,
-                        email: usersData.email,
-                        hash: hash,
                         first_name: 'ReadLanka',
                         last_name: 'ReadLanka',
+                        email: usersData.email,
                         phone: '07601578715',
                         address: 'monaragala',
                         city: 'buttala',
-                        country: 'Srilanka'
-
+                        country: 'Srilanka',
+                        hash: hash
                     };
                     console.log('fields pdf =============>>>', fields);
 
@@ -239,49 +238,54 @@ const Checkout = () => {
                 const response = await API_ENDPOINT.post(CREATE_PAYMENT, {
                     amount: price,
                     userId: userId,
-                    bookId: audioBook.id,
+                    bookId: selectedAudioId,
                     email: usersData.email,
                 });
-
                 const {hash, merchantId, orderId} = response.data;
+                console.log('audio book type response =========>>>', response.data);
 
-                // Create an HTML form and submit it
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = 'https://sandbox.payhere.lk/pay/checkout';
+                if (!orderId || !merchantId) {
+                    console.error('OrderId or MerchantId is missing from the response.');
+                    setLoading(!loading);
+                } else {
+                    // Create an HTML form and submit it
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = 'https://sandbox.payhere.lk/pay/checkout';
 
-                const fields = {
-                    merchantId: merchantId,
-                    return_url: 'https://readlanka.com/payment-success',
-                    notify_url: 'https://bookstore-backend-97qw.onrender.com/api/payment/payment-notify',
-                    cancel_url :'https://readlanka.com',
-                    orderId: orderId,
-                    items: 'audio-book',
-                    currency: 'LKR',
-                    amount: price,
-                    email: usersData.email,
-                    hash: hash,
-                    first_name: 'ReadLanka',
-                    last_name: 'ReadLanka',
-                    phone: '07601578715',
-                    address: 'monaragala',
-                    city: 'buttala',
-                    country: 'Srilanka'
-                };
-                console.log('fields audio=============>>>', fields);
+                    const fields = {
+                        merchant_id: merchantId,
+                        return_url: 'https://readlanka.com/payment-success',
+                        cancel_url: 'https://readlanka.com',
+                        notify_url: 'https://bookstore-backend-97qw.onrender.com/api/payment/payment-notify',
+                        order_id: orderId,
+                        items: 'audio',
+                        currency: 'LKR',
+                        amount: price,
+                        first_name: 'ReadLanka',
+                        last_name: 'ReadLanka',
+                        email: usersData.email,
+                        phone: '07601578715',
+                        address: 'monaragala',
+                        city: 'buttala',
+                        country: 'Srilanka',
+                        hash: hash
+                    };
+                    console.log('fields audio=============>>>', fields);
 
-                for (const key in fields) {
-                    if (fields.hasOwnProperty(key)) {
-                        const input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = key;
-                        input.value = fields[key];
-                        form.appendChild(input);
+                    for (const key in fields) {
+                        if (fields.hasOwnProperty(key)) {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = key;
+                            input.value = fields[key];
+                            form.appendChild(input);
+                        }
                     }
-                }
 
-                document.body.appendChild(form);
-                form.submit();
+                    document.body.appendChild(form);
+                    form.submit();
+                }
             }
 
         } catch (error) {

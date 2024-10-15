@@ -43,10 +43,11 @@ const AudioPlayer = () => {
     const [playRelaxMusic, setPlayRelaxMusic] = useState(true);
     const [relaxMusic, setRelaxMusic] = useState('');
 
-    console.log("relaxMusic =============>>>",relaxMusic);
 
     const {selectedSeriesAudioId} = location.state;
     const selectedBookId = selectedSeriesAudioId;
+    // console.log("selectedSeriesAudioId =============>>>",selectedSeriesAudioId);
+
     const userId = localStorage.getItem('userId');
 
     const fetchLastPlayedTrackIndex = async () => {
@@ -69,7 +70,7 @@ const AudioPlayer = () => {
                 selectedBookData.sort((a, b) => a.chapter - b.chapter);
                 // console.log('Selected Book Data for Id new:', selectedBookData);
                 setBookData(selectedBookData);
-                setRelaxMusic(selectedBookData.audio_url);
+                // setRelaxMusic(selectedBookData.audio_url);
                 console.log("selectedBookData =============>>>",selectedBookData);
                 setLoading(false)
 
@@ -82,6 +83,7 @@ const AudioPlayer = () => {
                     description: book.description,
                 }));
                 setTracks(updatedTracks);
+                console.log('tracks data=======>>>', tracks)
 
                 const lastPlayedData = await fetchLastPlayedTrackIndex();
                 const lastPlayedTrackIndex = lastPlayedData.lastPlayedTrackIndex;
@@ -115,25 +117,26 @@ const AudioPlayer = () => {
                 // }
 
                 //  start
-                const relaxMusicTrack = {
-                    id: 'relaxMusic',
-                    title: 'Relax Music',
-                    src: relaxMusic
-                };
+                // const relaxMusicTrack = {
+                //     id: 'relaxMusic',
+                //     title: 'Relax Music',
+                //     src: relaxMusic
+                // };
 
-                const audioElement = new Audio(relaxMusicTrack.src);
-
-                audioElement.onended = () => {
-                    if (lastPlayedTrackIndex > 0) {
-                        setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
-                    } else {
-                        setCurrentTrack(updatedTracks[0]);
-                    }
-                };
-
-                setCurrentTrack(relaxMusicTrack);
-                audioElement.play();
+                // const audioElement = new Audio(relaxMusicTrack.src);
+                //
+                // audioElement.onended = () => {
+                //     if (lastPlayedTrackIndex > 0) {
+                //         setCurrentTrack(updatedTracks[lastPlayedTrackIndex]);
+                //     } else {
+                //         setCurrentTrack(updatedTracks[0]);
+                //     }
+                // };
+                //
+                // setCurrentTrack(relaxMusicTrack);
+                // audioElement.play();
                 //  End
+                setCurrentTrack(updatedTracks[lastPlayedTrackIndex > 0 ? lastPlayedTrackIndex : 0]);
             } else {
                 window.location.href = "/login"
             }

@@ -39,9 +39,6 @@ export const FETCH_NEWS_CATEGORY= `${baseUrl}books/get-news-category`;
 export const FETCH_PRIVACY= `${baseUrl}privacy/get-privacy`;
 // export const FETCH_PRIVACY= `${baseUrl}books/get-privacy-pdf`;
 
-// Checkout can after change
-// export const ADD_TO_PURCHASE_BOOK= `${baseUrl}books/purchase-book`;
-
 // NEWS
 export const FETCH_ALL_NEWS = `${baseUrl}books/get-news`;
 export const FETCH_ALL_READ_NEWS = `${baseUrl}books/read-news`;

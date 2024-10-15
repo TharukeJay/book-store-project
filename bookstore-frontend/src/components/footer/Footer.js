@@ -46,7 +46,7 @@ const Footer = () => {
                             <p className="f-text"></p>
                             {/*<p className="f-text"><a href='/about'> Contact us </a></p>*/}
                             <p onClick={aboutUs} style={{cursor: 'pointer', color: 'darkred'}}>
-                                Contact us
+                                About Us
                             </p>
                             <p></p>
                             <p></p>

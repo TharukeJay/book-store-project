@@ -328,62 +328,80 @@ span{
 }
 
 /* ---------------Read Preview---------------- */
-.bar{
-    max-width: 100%;
-    height: auto;
-    flex-direction: column;
-    display: flex;
-    align-items: flex-start;
-    padding-left: 20px;
-    margin-bottom: 30px;
-    margin-top: 5px;
-}
-
-.wrap{
-    width: 100%;
-    user-select: none;
-    display: flex;
-    justify-content:center;
-    align-items: center;
-    flex-direction: column;
-}
-
+/*new code */
 .pdf-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column; /* Ensure vertical stacking */
+    align-items: center; /* Center the pages horizontally */
     width: 100%;
-    height: 100%;
-    overflow: auto;
-    padding: 10px;
 }
 
 .pdf-page {
-    height: auto;
-    display: block;
-    margin: auto;
-    width: auto;
-}
-.controls {
-    display: flex;
-    justify-content:center;
-    align-items: center;
-    max-width: 100%;
-    margin: 10px auto;
+    margin-bottom: 20px; /* Space between pages */
 }
 
-.controls button {
-    padding: 10px 20px;
-    font-size: 20px;
-    cursor: pointer;
+.wrap {
+    overflow-y: auto; /* Enable vertical scrolling */
+    height: 92vh; /* Occupy the full viewport height */
 }
 
-@media (max-width: 1200px) {
-    .controls button {
-        padding: 8px 16px;
-        font-size: 14px;
-    }
-}
+/*new code end*/
+/*.bar{*/
+/*    max-width: 100%;*/
+/*    height: 90vh;*/
+/*    flex-direction: column;*/
+/*    display: flex;*/
+/*    align-items: flex-start;*/
+/*    padding-left: 20px;*/
+/*    margin-bottom: 30px;*/
+/*    margin-top: 5px;*/
+/*}*/
+
+/*.wrap{*/
+/*    width: 100%;*/
+/*    user-select: none;*/
+/*    display: flex;*/
+/*    justify-content:center;*/
+/*    align-items: center;*/
+/*    flex-direction: column;*/
+/*}*/
+
+/*.pdf-container {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    overflow: auto;*/
+/*    padding: 10px;*/
+/*}*/
+
+/*.pdf-page {*/
+/*    height: auto;*/
+/*    display: block;*/
+/*    margin: auto;*/
+/*    width: auto;*/
+/*}*/
+/*.controls {*/
+/*    display: flex;*/
+/*    justify-content:center;*/
+/*    align-items: center;*/
+/*    max-width: 100%;*/
+/*    margin: 10px auto;*/
+/*}*/
+
+/*.controls button {*/
+/*    padding: 10px 20px;*/
+/*    font-size: 20px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*@media (max-width: 1200px) {*/
+/*    .controls button {*/
+/*        padding: 8px 16px;*/
+/*        font-size: 14px;*/
+/*    }*/
+/*}*/
 
 /* Phones: less than 768px */
 @media (max-width: 768px) {
