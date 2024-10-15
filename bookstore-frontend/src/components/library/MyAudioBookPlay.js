@@ -170,7 +170,6 @@ const AudioPlayer = () => {
     //     setCurrentTrack({ id: 'relaxMusic', title: 'Relax Music', src: relaxMusic });
     //   }
     // };
-
     const handleNext = () => {
         if (playRelaxMusic) {
             setCurrentTrack({id: 'relaxMusic', title: 'Relax Music', src: relaxMusic});
